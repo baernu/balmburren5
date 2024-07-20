@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  database:
+    image: mysql
+    container_name: taskdb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: secret
+    ports:
+      - 3307:3306
+
+
+  backend:
+    #image: openjdk:22
+    container_name: balmburren_backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8005:8080
+
+  angular:
+    #image: nginx:alpine
+    container_name: balmburren_frontend
+    build:
+      context: ./frontend/src/main/angularclient
+      dockerfile: angular.dockerfile
+    ports:
+      - 4200:4200
+
+

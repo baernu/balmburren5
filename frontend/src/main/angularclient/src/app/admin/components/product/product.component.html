@@ -1,0 +1,75 @@
+<app-admin-header></app-admin-header>
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <span style="display:block; height:50px;"></span>
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Product Number</th>
+        <th scope="col">Product Name</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.id }}</td>
+        <td (click)="holdProduct(product)" title="Set Product">{{ product.name }}</td>
+      </tr>
+      </tbody>
+    </table>
+    <button type="button" (click)='addProduct()' class="btn-dark">add Product</button>
+  </div>
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Category</th>
+        <th scope="col">Price</th>
+        <th scope="col">Size</th>
+        <th scope="col">Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let  productDetail of productDetails">
+        <td (click)="createProductBindDetail(productDetail)" title="Create Product Info">{{ productDetail.category}}</td>
+        <td>{{ productDetail.price}}</td>
+        <td>{{ productDetail.size}}</td>
+        <td>{{ productDetail.description}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <button type="button" (click)='addDetails()' class="btn-dark">add Details</button>
+  </div>
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Product Name</th>
+        <th scope="col">Category</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">Size</th>
+        <th scope="col">Start-Date</th>
+        <th scope="col">End-Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let  productBindInfo of productBindInfos">
+        <td>{{ productBindInfo.product.name}}</td>
+        <td>{{ productBindInfo.productDetails.category}}</td>
+        <td>{{ productBindInfo.productDetails.description}}</td>
+        <td>{{ productBindInfo.productDetails.price}}</td>
+        <td>{{ productBindInfo.productDetails.size}}</td>
+        <td><input type="date"  [(ngModel)]="productBindInfo.startDate.date"></td>
+        <td><input type="date"  [(ngModel)]="productBindInfo.endDate.date"></td>
+        <button type="button" (click)='delete(productBindInfo)' class="btn-dark">delete</button>
+      </tr>
+      <button type="button" (click)='save()' class="btn-dark">save</button>
+      </tbody>
+    </table>
+  </div>
+</div>

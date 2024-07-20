@@ -1,0 +1,55 @@
+<app-header></app-header>
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <span style="display:block; height:50px;"></span>
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Tour</th>
+        <th scope="col">Product</th>
+        <th scope="col">Category</th>
+        <th scope="col">Number First</th>
+        <th scope="col">Number Second</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let userProfileOrder of userProfileOrders">
+        <td>{{ userProfileOrder.tour.number}}</td>
+        <td>{{ userProfileOrder.productBindProductDetails.product.name }}</td>
+        <td>{{ userProfileOrder.productBindProductDetails.productDetails.category }}</td>
+        <td><input type="number"  min="0" [(ngModel)]="userProfileOrder.firstWeekOrder"></td>
+        <td><input type="number"  min="0" [(ngModel)]="userProfileOrder.secondWeekOrder"></td>
+      </tr>
+      <button type="button" (click)='save()' class="btn-dark">save</button>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <div> <h4>Username: {{user.username}} </h4></div>
+    <div> <h4>ID: {{user.id}} </h4></div>
+    <div class="input-group mb-3 was-validated w-100 h-25">
+      <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input [type]=" showPassword ? 'text' : 'password' " [(ngModel)]="user.password"
+                 class="form-control"
+                 id="password"
+                 name="password"
+                 placeholder="New Password"
+                 required #password="ngModel">
+          <button type="button" (click)='showHidePassword()' class="btn-dark"> {{ showPassword ? 'Hide' : 'Show' }} Password</button>
+          <span class="help-block">Password with 8 or more Characters</span>
+        </div>
+        <div *ngIf="bool2" class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>Sorry</strong> The Password is too short, try another.
+        </div>
+        <div [hidden]="user.password !=''" class="alert alert-warning">Password is required</div>
+        <button type="submit" [disabled]="!userForm.form.valid" class="btn btn-info">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+

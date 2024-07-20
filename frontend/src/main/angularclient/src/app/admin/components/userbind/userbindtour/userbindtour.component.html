@@ -1,0 +1,80 @@
+<app-admin-header></app-admin-header>
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <span style="display:block; height:50px;"></span>
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Username</th>
+        <th scope="col">Name</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td (click)="addPersonBindTour(user.username)" title="Add User to Tour">{{ user.username }}</td>
+        <td>{{user.firstname}}  {{user.lastname}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Tour Nummer</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let tour of tours">
+        <td (click)="goTo(tour)">{{ tour.number }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Tour Number: {{actualTour.number}}</th>
+        <th scope="col">Tour-Position</th>
+        <th scope="col">Active</th>
+        <th scope="col">Inactive</th>
+        <th scope="col">Start-Date</th>
+        <th scope="col">End-Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let userBindTour of userBindToursAdapt">
+        <td>{{ userBindTour.person.id }}</td>
+        <td>{{ userBindTour.person.username }}</td>
+        <td>{{userBindTour.tour.number}}</td>
+        <td><input type="number" step="0.01" [(ngModel)]="userBindTour.position"></td>
+        <td><div *ngIf="compareDate(userBindTour)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+          <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path>
+        </svg></div>
+        </td>
+        <td><div *ngIf="!compareDate(userBindTour)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-square-fill" viewBox="0 0 16 16">
+          <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm2.5 7.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1z"></path>
+        </svg></div>
+        </td>
+        <td><input type="date" [(ngModel)]="userBindTour.startDate"></td>
+        <td><input type="date" [(ngModel)]="userBindTour.endDate"></td>
+        <button type="button" (click)='delete(userBindTour)' class="btn-dark">Delete</button>
+      </tr>
+      <button type="button" (click)='apply()' class="btn-dark">Apply</button>
+      <button type="button" (click)='save()' class="btn-dark">Save</button>
+      </tbody>
+    </table>
+  </div>
+</div>

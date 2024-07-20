@@ -1,0 +1,86 @@
+<app-admin-header></app-admin-header>
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <span style="display:block; height:50px;"></span>
+    <table class="table table-bordered table-striped  table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">All</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{all}}" [(ngModel)]="all" (change)="check()" >
+        </div></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Check</th>
+        <th scope="col">Username</th>
+        <th scope="col">Firstname</th>
+        <th scope="col">Lastname</th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let emailUser of emailUsers">
+        <td><div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{emailUser.isChecked}}" [(ngModel)]="emailUser.isChecked">
+        </div></td>
+        <td>{{ emailUser.person.username }}</td>
+        <td>{{ emailUser.person.firstname }}</td>
+        <td>{{ emailUser.person.lastname}}</td>
+        <td>{{ emailUser.email}}</td>
+        <td>{{ emailUser.phone}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <div class="input-group mb-3 w-100 h-25">
+      <form (ngSubmit)="email()" #tourForm="ngForm">
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text"  [(ngModel)]="emailData.subject"
+                 class="form-control"
+                 id="subject"
+                 name="subject"
+                 placeholder="Enter the Subject"
+                 required #subject="ngModel">
+        </div>
+        <div [hidden]="!subject.pristine" class="alert alert-danger">Subject is required</div>
+        <div class="form-group">
+          <label for="body">Body</label>
+          <input type="text" [(ngModel)]="emailData.body"
+                 class="form-control"
+                 id="body"
+                 name="body"
+                 placeholder="Enter the Body"
+                 required #body="ngModel">
+        </div>
+        <div [hidden]="!body.pristine" class="alert alert-danger">Body is required</div>
+        <div class="form-group">
+          <label for="file">File</label>
+          <input type="file" [(ngModel)]="emailData.file"
+                 class="form-control"
+                 id="file"
+                 name="file" (change)="uploadFile($event)">
+        </div>
+        <button type="submit" [disabled]="!tourForm.form.valid"
+                class="btn btn-info">Send all Email</button>
+      </form>
+    </div>
+  </div>
+</div>

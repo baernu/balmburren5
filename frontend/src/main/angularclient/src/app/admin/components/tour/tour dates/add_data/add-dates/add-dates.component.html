@@ -1,0 +1,21 @@
+<app-admin-header></app-admin-header>
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <span style="display:block; height:50px;"></span>
+    <div class="input-group mb-3 w-100 h-25">
+    <form (ngSubmit)="onSubmit()" #dataForm="ngForm">
+      <div *ngFor="let index of [0,1,2,3,4,5,6,7,8,9,10,11]" class="form-group">
+        <label for="dates">Date{{index}}</label>
+        <input type="date"  [(ngModel)]="dates[index]"
+               class="form-control"
+               id="dates"
+               name="dates"
+               required #Date="ngModel">
+      </div>
+      <button type="submit" [disabled]="!dataForm.form.valid"
+              class="btn btn-info">Submit</button>
+    </form>
+    </div>
+  </div>
+</div>

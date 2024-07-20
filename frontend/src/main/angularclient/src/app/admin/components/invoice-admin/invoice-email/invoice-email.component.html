@@ -1,0 +1,73 @@
+<app-admin-header></app-admin-header>
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <span style="display:block; height:50px;"></span>
+    <table class="table table-bordered table-striped  table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Date From</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><input type="date" [(ngModel)]="dateFrom.date"></td>
+        <button type="button" (click)='apply()' class="btn-dark">apply</button>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped  table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">All</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{all}}" [(ngModel)]="all" (change)="check()" >
+        </div></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <span style="display:block; height:50px;"></span>
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Checked</th>
+        <th scope="col">Username Deliver</th>
+        <th scope="col">Firstname Deliver</th>
+        <th scope="col">Lastname Deliver</th>
+        <th scope="col">Username Invoice</th>
+        <th scope="col">Invoice Amount</th>
+        <th scope="col">Date From</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let userBindInvoice of userBindInvoices">
+        <td><div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{userBindInvoice.isChecked}}" [(ngModel)]="userBindInvoice.isChecked">
+        </div></td>
+        <td>{{ userBindInvoice.personDeliver.username }}</td>
+        <td>{{ userBindInvoice.personDeliver.firstname}}</td>
+        <td>{{ userBindInvoice.personDeliver.lastname }}</td>
+        <td>{{ userBindInvoice.personInvoice.username }}</td>
+        <td>{{ userBindInvoice.invoice.amount | number : '1.2-2' }}</td>
+        <td>{{ userBindInvoice.dateFrom.date | date:'fullDate'}}</td>
+      </tr>
+      <button type="button" (click)='email()' class="btn-dark">Email preview</button>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+

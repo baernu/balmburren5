@@ -1,0 +1,93 @@
+<app-admin-header></app-admin-header>
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <span style="display:block; height:50px;"></span>
+    <table class="table table-bordered table-striped  table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">All</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{all}}" [(ngModel)]="all" (change)="check()" >
+        </div></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Check</th>
+        <th scope="col">ID</th>
+        <th scope="col">Username</th>
+        <th scope="col">Firstname</th>
+        <th scope="col">Lastname</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let invoice of invoices">
+        <td><div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{invoice.isChecked}}" [(ngModel)]="invoice.isChecked">
+        </div></td>
+        <td>{{ invoice.id }}</td>
+        <td (click)="showInvoices(invoice)" title="Show all Invoices for User">{{ invoice.username }}</td>
+        <td>{{invoice.firstname}}</td>
+        <td>{{ invoice.lastname }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped  table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Date From</th>
+        <th scope="col">Date To</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><input type="date" [(ngModel)]="dateFrom.date"></td>
+        <td><input type="date" [(ngModel)]="dateTo.date"></td>
+        <button type="button" (click)='apply()' class="btn-dark">apply</button>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped  table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Username Invoice</th>
+        <th scope="col">Username Deliver</th>
+        <th scope="col">Invoice Amount</th>
+        <th scope="col">Invoice Paid</th>
+        <th scope="col">Date From</th>
+        <th scope="col">Date To</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let userBindInvoice of userBindInvoices">
+        <td>{{userBindInvoice.personInvoice.username}}</td>
+        <td>{{userBindInvoice.personDeliver.username}}</td>
+        <td>{{userBindInvoice.invoice.amount| number : '1.2-2'}}</td>
+        <td>{{userBindInvoice.invoice.paid| number : '1.2-2'}}</td>
+        <td>{{userBindInvoice.dateFrom.date| date:'fullDate' }}</td>
+        <td>{{userBindInvoice.dateTo.date| date:'fullDate' }}</td>
+        <button type="button" (click)='delete(userBindInvoice)' class="btn-dark">delete</button>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<app-admin-header></app-admin-header>
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <span style="display:block; height:50px;"></span>
+    <div class="input-group mb-3 w-100 h-25">
+    <form (ngSubmit)="onSubmit()" #tourForm="ngForm">
+      <div class="form-group">
+        <label for="nameProduct">Name</label>
+        <input type="text" [(ngModel)]="product.name"
+               class="form-control"
+               id="nameProduct"
+               name="nameProduct"
+               placeholder="Enter the name"
+               required #name="ngModel">
+      </div>
+      <div [hidden]="!name.pristine" class="alert alert-danger">Name is required</div>
+      <button type="submit" [disabled]="!tourForm.form.valid"
+              class="btn btn-info">Submit</button>
+    </form>
+    </div>
+  </div>
+</div>
