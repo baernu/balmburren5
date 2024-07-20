@@ -1,14 +1,36 @@
 version: '3'
 
+
 services:
-  database:
-    image: mysql
-    container_name: taskdb
+#  db:
+#    image: mysql:5.7
+#    ports:
+#      - 3307:3306
+#    command: --init-file /data/application/init.sql
+#    volumes:
+#      - ./init.sql:/data/application/init.sql
+#      - db:/var/lib/mysql
+#    environment:
+#      MYSQL_ROOT_USER: root
+#      MYSQL_ROOT_PASSWORD: secret
+#      MYSQL_DATABASE: balmburren_db
+#      MYSQL_USER: testuser
+#      MYSQL_PASSWORD: testuser
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-5.7
+    restart: always                       # always restart
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: secret
+      MYSQL_DATABASE: 'balmburren_db'              # name of database
+      MYSQL_USER: 'sample'                # sample is the name of user
+      MYSQL_PASSWORD: 'secret'          # password for sample user
+      MYSQL_ROOT_PASSWORD: 'secret'     # password for root user
     ports:
-      - 3307:3306
+      - '3307:3306'                       # host port 3306 is mapper to docker port 3306
+    expose:
+      - '3307'
+    volumes:
+      - mysql-db:/var/lib/mysql
 
 
   backend:
@@ -20,13 +42,19 @@ services:
     ports:
       - 8005:8080
 
+
   angular:
     #image: nginx:alpine
     container_name: balmburren_frontend
     build:
       context: ./frontend/src/main/angularclient
-      dockerfile: angular.dockerfile
+      dockerfile: Dockerfile
     ports:
       - 4200:4200
+
+
+volumes:
+  mysql-db:
+
 
 
