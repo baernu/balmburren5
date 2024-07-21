@@ -28,4 +28,3 @@ FROM nginx:latest
 
 COPY --from=build app/dist/angularclient /usr/share/nginx/html
 
-EXPOSE 4200

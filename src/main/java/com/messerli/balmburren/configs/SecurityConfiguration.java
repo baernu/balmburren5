@@ -23,7 +23,7 @@ import java.util.List;
 public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final DelegatedAuthenticationEntryPoint authenticationEntryPoint;
+//    private final DelegatedAuthenticationEntryPoint authenticationEntryPoint;
 
     public SecurityConfiguration(
         JwtAuthenticationFilter jwtAuthenticationFilter,
@@ -31,7 +31,7 @@ public class SecurityConfiguration {
         DelegatedAuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.authenticationEntryPoint = authenticationEntryPoint;
+//        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
 //    @Bean
