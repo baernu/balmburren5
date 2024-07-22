@@ -1,24 +1,13 @@
-
-
-
-FROM node:latest AS build
-
+#FROM node:latest as build
 #WORKDIR /app
-#
 #COPY ../../.. .
-#
 #RUN npm install
-#
-#RUN npm install -g @angular/cli
-#
-#COPY . .
-#
-#RUN ng build --configuration=production
-#
+#RUN npm run build --prod
+
 #FROM nginx:latest
-#
-#COPY --from=build app/dist/angularclient /usr/share/nginx/html
-#EXPOSE 80
+#COPY --from=build /app/dist/frontend /usr/share/nginx/html
+#COPY nginx.conf /etc/nginx/nginx.conf
+#EXPOSE 4200
 
 
 # Stage 0, "build-stage", based on Node.js, to build and compile the frontend
