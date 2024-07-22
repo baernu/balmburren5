@@ -53,6 +53,7 @@ services:
 #      - spring.datasource.url=jdbc:mysql://mysqldb:3307/balmburren_db?allowPublicKeyRetrieval=true&useSSL=false
     depends_on:
       - mysqldb
+
 #    volumes:
 #        - .m2:/root/.m2
 
