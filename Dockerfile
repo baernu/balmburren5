@@ -22,7 +22,7 @@ CMD ["./mvnw", "spring-boot:run"]
 
 
 
-EXPOSE 8082
+EXPOSE 8005
 
 
 
