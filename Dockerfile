@@ -8,39 +8,30 @@
 #CMD mvn spring-boot:run
 
 
-FROM eclipse-temurin:17-jdk-focal
-
-WORKDIR /balmburren
-
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
-
-COPY src ./src
-
-CMD ["./mvnw", "spring-boot:run"]
 
 
 
-EXPOSE 8005
 
 
-
-# The base image on which we would build our image
-
-
-#FROM openjdk:11-jdk-slim as build
-#WORKDIR /workspace/app
+#FROM eclipse-temurin:17-jdk-focal
 #
-#COPY mvnw .
-#COPY .mvn .mvn
-#COPY pom.xml .
-#COPY src src
+#WORKDIR /balmburren
 #
-#RUN ./mvnw install -DskipTests
+#COPY .mvn/ .mvn
+#COPY mvnw pom.xml ./
+#RUN ./mvnw dependency:go-offline
 #
-#FROM openjdk:11-jdk-slim
-#VOLUME /tmp
-#ARG JAR_FILE=/workspace/app/target/*.jar
-#COPY --from=build ${JAR_FILE} app.jar
-#ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+#COPY src ./src
+#
+#CMD ["./mvnw", "spring-boot:run"]
+
+
+
+#EXPOSE 8005
+
+
+
+FROM eclipse-temurin:17-jdk-alpine
+COPY target/*.jar my-app.jar
+ENTRYPOINT ["java","-jar","my-app.jar"]
+#EXPOSE 8005
