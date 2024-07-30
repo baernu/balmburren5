@@ -2,26 +2,23 @@ package com.messerli.balmburren.entities;
 
 import jakarta.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.swing.*;
+
 import java.util.Date;
 
 @Table(name = "roles")
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Integer id;
+    @Version @GeneratedValue(strategy = GenerationType.AUTO)
+    private long version;
 
-    @Getter
+//    @Getter
     @Column(unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleEnum name;
@@ -44,6 +41,8 @@ public class Role {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public RoleEnum getName() { return this.name;}
 
 
     // Getters and setters here....

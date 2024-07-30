@@ -1,5 +1,6 @@
 package com.messerli.balmburren.dtos;
 
+
 public class LoginUserDto {
     private String email;
     private String password;
