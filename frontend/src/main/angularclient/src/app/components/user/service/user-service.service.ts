@@ -24,7 +24,7 @@ import {ReferenceDTO} from "./ReferenceDTO";
 
 @Injectable()
 export class UserService {
-  private readonly loginUrl: string;
+  private readonly authUrl: string;
   private readonly usersUrl: string;
   private readonly getUserUrl: string;
   private readonly authenticateUrl: string;
@@ -47,8 +47,9 @@ export class UserService {
   private readonly isDriverUrl: string;
   private readonly isKathyUrl: string;
   private readonly isUserKathyUrl: string;
-  // private readonly baseUrl: string = 'http://localhost:8080/api/';
-  private readonly baseUrl: string = 'api/';
+  private readonly baseUrl: string = 'http://localhost:8006/api/';
+
+  // private readonly baseUrl: string = 'api/';
 
 
   constructor(private http: HttpClient) {
@@ -57,7 +58,7 @@ export class UserService {
     this.setCookieUrl =  this.baseUrl + 'set-cookie/';
     this.deleteCookieUrl = this.baseUrl + 'delete-cookie';
     this.getUserUrl = this.baseUrl + 'users/';
-    this.loginUrl = this.baseUrl + 'login';
+    this.authUrl = this.baseUrl + 'auth/';
     this.readCookieUrl = this.baseUrl + 'read-cookie';
     this.isAdminUrl =  this.baseUrl + 'is_admin/';
     this.isBasicUrl =  this.baseUrl + 'is_basic/';
@@ -76,6 +77,7 @@ export class UserService {
     this.addressUrl = this.baseUrl + 'address';
 
 
+
   }
 
   public findUser(username: string):Observable<UserDTO> {
@@ -85,19 +87,19 @@ export class UserService {
     return this.http.get<UserDTO>(this.usersUrl + 'byid/' +id, {withCredentials : true});}
 
   public existUser(username: string):Observable<UserDTO> {
-    return this.http.get<UserDTO>(this.usersUrl + 'exist/' + username, {withCredentials : true});}
+    return this.http.get<UserDTO>(this.authUrl + 'exist/' + username, {withCredentials : true});}
 
   public findAll(): Observable<UserDTO[]> {
     return this.http.get<UserDTO[]>(this.usersUrl,{withCredentials : true});}
 
   public save(user: UserDTO): Observable<UserDTO>{
-    return this.http.post<UserDTO>(this.usersUrl, user, {withCredentials : true});}
+    return this.http.post<UserDTO>(this.authUrl + '/register', user, {withCredentials : true});}
 
   public putUser(user: UserDTO): Observable<UserDTO>{
     return this.http.put<UserDTO>(this.usersUrl, user, {withCredentials : true});}
 
   public login(user: UserDTO):Observable<UserDTO> {
-    return this.http.post<UserDTO>(this.loginUrl , user, {withCredentials : true});}
+    return this.http.post<UserDTO>(this.authUrl + '/login', user, {withCredentials : true});}
 
   public authenticate(authenticate: AuthenticateDTO): Observable<string> {
     return this.http.post<string>(this.authenticateUrl, authenticate,{withCredentials : true});}

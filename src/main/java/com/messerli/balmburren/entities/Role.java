@@ -15,8 +15,8 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Integer id;
-    @Version @GeneratedValue(strategy = GenerationType.AUTO)
-    private long version;
+//    @Version @GeneratedValue(strategy = GenerationType.AUTO)
+//    private long version;
 
 //    @Getter
     @Column(unique = true, nullable = false)

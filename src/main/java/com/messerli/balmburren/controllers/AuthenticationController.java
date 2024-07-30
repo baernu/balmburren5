@@ -6,30 +6,33 @@ import com.messerli.balmburren.entities.User;
 import com.messerli.balmburren.responses.LoginResponse;
 import com.messerli.balmburren.services.AuthenticationService;
 import com.messerli.balmburren.services.JwtService;
+import com.messerli.balmburren.services.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/auth")
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006"}, allowedHeaders = "*",
+        exposedHeaders = {"Access-Control-Allow-Origin","Access-Control-Allow-Credentials"})
+@RequestMapping("/api/auth")
 @RestController
 public class AuthenticationController {
     private final JwtService jwtService;
     private final AuthenticationService authenticationService;
 
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
+    private final UserService userService;
+
+    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, UserService userService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
+        this.userService = userService;
     }
-
-    @PostMapping("/signup")
+    @CrossOrigin( allowCredentials = "true")
+    @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
         User registeredUser = authenticationService.signup(registerUserDto);
 
         return ResponseEntity.ok(registeredUser);
     }
-
+    @CrossOrigin( allowCredentials = "true")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
         User authenticatedUser = authenticationService.authenticate(loginUserDto);
@@ -40,4 +43,9 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(loginResponse);
     }
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping ("/exist/{username}")
+    ResponseEntity<Boolean> existUser(@PathVariable("username") String username) {
+        boolean bool = userService.existUser(username);
+        return ResponseEntity.ok().body(bool);}
 }

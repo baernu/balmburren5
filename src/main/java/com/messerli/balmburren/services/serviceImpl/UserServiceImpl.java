@@ -51,7 +51,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public boolean existUser(String username) {
+        Optional<User> optionalUser = userRepository.findByEmail(username);
 
+        return optionalUser.isEmpty();
+    }
 
 
 }

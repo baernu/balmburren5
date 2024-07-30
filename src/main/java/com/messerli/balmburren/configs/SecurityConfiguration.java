@@ -87,9 +87,9 @@ public class SecurityConfiguration {
 
 
         configuration.setAllowedOrigins(List.of("http://localhost:8006"));
-        configuration.setAllowedOrigins(List.of("http://localhost:8005"));
-        configuration.setAllowedOrigins(List.of("http://localhost:3307"));
-        configuration.setAllowedOrigins(List.of("http://localhost:8081"));
+//        configuration.setAllowedOrigins(List.of("http://localhost:8080"));
+//        configuration.setAllowedOrigins(List.of("http://localhost:3307"));
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
         configuration.setAllowedMethods(List.of("GET","POST"));
         configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
 

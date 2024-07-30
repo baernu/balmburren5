@@ -21,8 +21,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Integer id;
-    @Version @GeneratedValue(strategy = GenerationType.AUTO)
-    private long version;
+//    @Version @GeneratedValue(strategy = GenerationType.AUTO)
+//    private long version;
 
     @Column(nullable = false)
     private String firstName;
