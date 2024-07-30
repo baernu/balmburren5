@@ -44,9 +44,9 @@ public class AuthenticationService {
         }
 
         var user = new User()
-                .setFirstName(input.getFirstName())
-                .setLastName(input.getLastName())
-                .setEmail(input.getEmail())
+                .setFirstname(input.getFirstname())
+                .setLastname(input.getLastname())
+                .setUsername(input.getUsername())
                 .setPassword(passwordEncoder.encode(input.getPassword()))
                 .setRole(optionalRole.get());
 
@@ -56,12 +56,12 @@ public class AuthenticationService {
     public User authenticate(LoginUserDto input) {
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
-                input.getEmail(),
+                input.getUsername(),
                 input.getPassword()
             )
         );
 
-        return userRepository.findByEmail(input.getEmail()).orElseThrow();
+        return userRepository.findByUsername(input.getUsername()).orElseThrow();
     }
 
     public List<User> allUsers() {

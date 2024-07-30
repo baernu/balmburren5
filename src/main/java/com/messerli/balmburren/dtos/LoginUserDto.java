@@ -2,15 +2,15 @@ package com.messerli.balmburren.dtos;
 
 
 public class LoginUserDto {
-    private String email;
+    private String username;
     private String password;
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public LoginUserDto setEmail(String email) {
-        this.email = email;
+    public LoginUserDto setUsername(String username) {
+        this.username = username;
         return this;
     }
 
@@ -26,7 +26,7 @@ public class LoginUserDto {
     @Override
     public String toString() {
         return "LoginUserDto{" +
-                "email='" + email + '\'' +
+                "email='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

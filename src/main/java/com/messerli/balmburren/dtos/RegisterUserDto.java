@@ -1,17 +1,17 @@
 package com.messerli.balmburren.dtos;
 
 public class RegisterUserDto {
-    private String email;
+    private String username;
     private String password;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public RegisterUserDto setEmail(String email) {
-        this.email = email;
+    public RegisterUserDto setUsername(String username) {
+        this.username = username;
         return this;
     }
 
@@ -24,21 +24,21 @@ public class RegisterUserDto {
         return this;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public RegisterUserDto setFirstName(String firstName) {
-        this.firstName = firstName;
+    public RegisterUserDto setFirstname(String firstname) {
+        this.firstname = firstname;
         return this;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
     public RegisterUserDto setLastname(String lastName) {
-        this.lastName = lastName;
+        this.lastname = lastName;
         return this;
     }
 
@@ -46,10 +46,10 @@ public class RegisterUserDto {
     @Override
     public String toString() {
         return "RegisterUserDto{" +
-                "email='" + email + '\'' +
+                "email='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
                 '}';
     }
 

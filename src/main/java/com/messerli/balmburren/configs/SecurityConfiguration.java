@@ -90,8 +90,8 @@ public class SecurityConfiguration {
 //        configuration.setAllowedOrigins(List.of("http://localhost:8080"));
 //        configuration.setAllowedOrigins(List.of("http://localhost:3307"));
         configuration.setAllowedOrigins(List.of("http://localhost:4200"));
-        configuration.setAllowedMethods(List.of("GET","POST"));
-        configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
+        configuration.setAllowedMethods(List.of("GET","POST", "PUT"));
+        configuration.setAllowedHeaders(List.of("Authorization","Content-Type", "Access-Control-Allow-Origin"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 

@@ -42,9 +42,9 @@ public class UserServiceImpl implements UserService {
         }
 
         var user = new User()
-                .setFirstName(input.getFirstName())
-                .setLastName(input.getLastName())
-                .setEmail(input.getEmail())
+                .setFirstname(input.getFirstname())
+                .setLastname(input.getLastname())
+                .setUsername(input.getUsername())
                 .setPassword(passwordEncoder.encode(input.getPassword()))
                 .setRole(optionalRole.get());
 
@@ -53,9 +53,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean existUser(String username) {
-        Optional<User> optionalUser = userRepository.findByEmail(username);
+        Optional<User> optionalUser = userRepository.findByUsername(username);
 
-        return optionalUser.isEmpty();
+        return optionalUser.isPresent();
     }
 
 

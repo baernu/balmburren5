@@ -25,13 +25,13 @@ public class User implements UserDetails {
 //    private long version;
 
     @Column(nullable = false)
-    private String firstName;
+    private String firstname;
 
     @Column(nullable = false)
-    private String lastName;
+    private String lastname;
 
     @Column(unique = true, length = 100, nullable = false)
-    private String email;
+    private String username;
 
     @Column(nullable = false)
     private String password;
@@ -51,7 +51,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override
@@ -83,30 +83,30 @@ public class User implements UserDetails {
         return this;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public User setFirstName(String firstName) {
-        this.firstName = firstName;
+    public User setFirstname(String firstname) {
+        this.firstname = firstname;
         return this;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public User setLastName(String lastName) {
-        this.lastName = lastName;
+    public User setLastname(String lastname) {
+        this.lastname = lastname;
         return this;
     }
 
-    public String getEmail() {
-        return email;
-    }
+//    public String getUsername() {
+//        return username;
+//    }
 
-    public User setEmail(String email) {
-        this.email = email;
+    public User setUsername(String username) {
+        this.username = username;
         return this;
     }
 
@@ -137,9 +137,9 @@ public class User implements UserDetails {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +

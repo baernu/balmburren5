@@ -93,7 +93,7 @@ export class UserService {
     return this.http.get<UserDTO[]>(this.usersUrl,{withCredentials : true});}
 
   public save(user: UserDTO): Observable<UserDTO>{
-    return this.http.post<UserDTO>(this.authUrl + '/register', user, {withCredentials : true});}
+    return this.http.post<UserDTO>(this.authUrl + 'register', user, {withCredentials : true});}
 
   public putUser(user: UserDTO): Observable<UserDTO>{
     return this.http.put<UserDTO>(this.usersUrl, user, {withCredentials : true});}

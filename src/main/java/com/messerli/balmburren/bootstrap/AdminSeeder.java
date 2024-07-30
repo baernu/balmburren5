@@ -38,19 +38,19 @@ public class AdminSeeder implements ApplicationListener<ContextRefreshedEvent> {
 
     private void createSuperAdministrator() {
         RegisterUserDto userDto = new RegisterUserDto();
-        userDto.setFirstName("Super").setLastname( "Admin").setEmail("super.admin@email.com").setPassword("123456");
+        userDto.setFirstname("Super").setLastname( "Admin").setUsername("super.admin@email.com").setPassword("123456");
 
         Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.SUPER_ADMIN);
-        Optional<User> optionalUser = userRepository.findByEmail(userDto.getEmail());
+        Optional<User> optionalUser = userRepository.findByUsername(userDto.getUsername());
 
         if (optionalRole.isEmpty() || optionalUser.isPresent()) {
             return;
         }
 
         var user = new User()
-                .setFirstName(userDto.getFirstName())
-                .setFirstName(userDto.getLastName())
-                .setEmail(userDto.getEmail())
+                .setFirstname(userDto.getFirstname())
+                .setFirstname(userDto.getLastname())
+                .setUsername(userDto.getUsername())
                 .setPassword(passwordEncoder.encode(userDto.getPassword()))
                 .setRole(optionalRole.get());
 

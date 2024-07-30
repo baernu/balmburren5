@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006"}, allowedHeaders = "*",
         exposedHeaders = {"Access-Control-Allow-Origin","Access-Control-Allow-Credentials"})
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
     private final JwtService jwtService;
