@@ -10,8 +10,7 @@ import com.messerli.balmburren.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006"}, allowedHeaders = "*",
-        exposedHeaders = {"Access-Control-Allow-Origin","Access-Control-Allow-Credentials"})
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006"}, allowedHeaders = "*")
 @RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
