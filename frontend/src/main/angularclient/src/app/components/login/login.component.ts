@@ -31,25 +31,25 @@ export class LoginComponent {
     };
   }
 
-  async ngOnInit(): Promise<void> {
-    let bool: Boolean = await firstValueFrom(this.errorHandlingService.getBoolLogin());
-    this.bool = bool.valueOf();
-  }
+  // async ngOnInit(): Promise<void> {
+  //   let bool: Boolean = await firstValueFrom(this.errorHandlingService.getBoolLogin());
+  //   this.bool = bool.valueOf();
+  // }
 
   async onSubmit() {
     try{
-        await firstValueFrom(this.userService.login(this.user));
+        this.token = await firstValueFrom(this.userService.login(this.user));
     }catch(error){
-        await firstValueFrom(this.errorHandlingService.putBoolLogin(true));
+        // await firstValueFrom(this.errorHandlingService.putBoolLogin(true));
         await this.router.navigate(['login']);
         return;
     }
-    this.authenticate.username = this.user.username;
-    this.authenticate.password = this.user.password;
-    localStorage.setItem("username", this.user.username);
-    await firstValueFrom(this.userService.authenticate(this.authenticate));
-    await firstValueFrom(this.userService.setTokenCookie(this.user.username));
-    await firstValueFrom(this.errorHandlingService.putBoolLogin(false));
+    // this.authenticate.username = this.user.username;
+    // this.authenticate.password = this.user.password;
+    // localStorage.setItem("username", this.user.username);
+    // await firstValueFrom(this.userService.authenticate(this.authenticate));
+    await firstValueFrom(this.userService.setTokenCookie(this.token));
+    // await firstValueFrom(this.errorHandlingService.putBoolLogin(false));
     await this.router.navigate(['home']);
   }
 

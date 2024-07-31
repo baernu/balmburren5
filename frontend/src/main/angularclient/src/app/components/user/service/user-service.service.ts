@@ -98,8 +98,8 @@ export class UserService {
   public putUser(user: UserDTO): Observable<UserDTO>{
     return this.http.put<UserDTO>(this.usersUrl, user, {withCredentials : true});}
 
-  public login(user: UserDTO):Observable<UserDTO> {
-    return this.http.post<UserDTO>(this.authUrl + '/login', user, {withCredentials : true});}
+  public login(user: UserDTO):Observable<string>  {
+    return this.http.post<string>(this.authUrl + 'login', user, {withCredentials : true});}
 
   public authenticate(authenticate: AuthenticateDTO): Observable<string> {
     return this.http.post<string>(this.authenticateUrl, authenticate,{withCredentials : true});}
