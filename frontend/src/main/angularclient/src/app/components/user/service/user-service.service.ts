@@ -55,8 +55,8 @@ export class UserService {
   constructor(private http: HttpClient) {
     this.usersUrl = this.baseUrl + 'users/';
     this.authenticateUrl = this.baseUrl +'authenticate';
-    this.setCookieUrl =  this.baseUrl + 'set-cookie/';
-    this.deleteCookieUrl = this.baseUrl + 'delete-cookie';
+    this.setCookieUrl =  this.baseUrl + 'auth/set-cookie';
+    this.deleteCookieUrl = this.baseUrl + 'auth/delete-cookie';
     this.getUserUrl = this.baseUrl + 'users/';
     this.authUrl = this.baseUrl + 'auth/';
     this.readCookieUrl = this.baseUrl + 'read-cookie';
@@ -104,9 +104,9 @@ export class UserService {
   public authenticate(authenticate: AuthenticateDTO): Observable<string> {
     return this.http.post<string>(this.authenticateUrl, authenticate,{withCredentials : true});}
 
-  public setTokenCookie(username: string): Observable<string> {
+  public setTokenCookie(token: string): Observable<string> {
     console.log("in the function of setTokenCookie...");
-    return this.http.get<string>(this.setCookieUrl + username,{withCredentials : true});}
+    return this.http.post<string>(this.setCookieUrl, token,{withCredentials : true});}
 
   public deleteTokenCookie(): Observable<string> {
     return this.http.get<string>(this.deleteCookieUrl ,{withCredentials : true} );}

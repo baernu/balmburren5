@@ -3,14 +3,23 @@ package com.messerli.balmburren.controllers;
 import com.messerli.balmburren.dtos.LoginUserDto;
 import com.messerli.balmburren.dtos.RegisterUserDto;
 import com.messerli.balmburren.entities.User;
+import com.messerli.balmburren.responses.CookieResponse;
 import com.messerli.balmburren.responses.LoginResponse;
 import com.messerli.balmburren.services.AuthenticationService;
 import com.messerli.balmburren.services.JwtService;
 import com.messerli.balmburren.services.UserService;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006"}, allowedHeaders = "*")
+import java.util.Base64;
+
+@Slf4j
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006"}, exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
 @RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
@@ -47,4 +56,42 @@ public class AuthenticationController {
     ResponseEntity<Boolean> existUser(@PathVariable("username") String username) {
         boolean bool = userService.existUser(username);
         return ResponseEntity.ok().body(bool);}
+
+    @CrossOrigin(allowCredentials = "true")
+    @PostMapping("/set-cookie")
+    public ResponseEntity<?> setCookie(HttpServletResponse response, @RequestBody String tok) {
+
+        log.info("token is: {}", tok);
+//        String originalInput = tok;
+//        String encodedString = Base64.getEncoder().encodeToString(originalInput.getBytes());
+        Cookie cookie = new Cookie("jwt", tok);
+        cookie.setMaxAge(60 * 60);
+        ///////////////////////////////////////////////////
+        cookie.setSecure(false);
+        ////////////////////////////////////////////////////7
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        CookieResponse cookieResponse = new CookieResponse("Cookie: " + cookie.toString() + "HTTP: ", 200);
+
+        return ResponseEntity.ok(cookieResponse);
+    }
+
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping("/delete-cookie")
+    public ResponseEntity<?> deleteCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("jwt", null);
+        cookie.setMaxAge(0);
+        ///////////////////////////////////////////////////
+        cookie.setSecure(true);
+        ///////////////////////////////////////////////////
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        CookieResponse cookieResponse = new CookieResponse("Cookie: " + cookie.toString() + "HTTP: ", 200);
+
+        return ResponseEntity.ok(cookieResponse);
+
+    }
 }
