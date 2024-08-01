@@ -16,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Base64;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 
 @Slf4j
 @CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006"}, exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
@@ -59,12 +61,10 @@ public class AuthenticationController {
 
     @CrossOrigin(allowCredentials = "true")
     @PostMapping("/set-cookie")
-    public ResponseEntity<?> setCookie(HttpServletResponse response, @RequestBody String tok) {
+    public ResponseEntity<?> setCookie(HttpServletResponse response, @RequestBody String tok) throws UnsupportedEncodingException {
 
         log.info("token is: {}", tok);
-//        String originalInput = tok;
-//        String encodedString = Base64.getEncoder().encodeToString(originalInput.getBytes());
-        Cookie cookie = new Cookie("jwt", tok);
+        Cookie cookie = new Cookie("jwt", URLEncoder.encode(tok, "UTF-8"));
         cookie.setMaxAge(60 * 60);
         ///////////////////////////////////////////////////
         cookie.setSecure(false);
@@ -72,15 +72,16 @@ public class AuthenticationController {
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);
-        CookieResponse cookieResponse = new CookieResponse("Cookie: " + cookie.toString() + "HTTP: ", 200);
+        CookieResponse cookieResponse = new CookieResponse("Cookie is set: " + "HTTP: ", 200);
 
         return ResponseEntity.ok(cookieResponse);
     }
 
+
     @CrossOrigin( allowCredentials = "true")
     @GetMapping("/delete-cookie")
-    public ResponseEntity<?> deleteCookie(HttpServletResponse response) {
-        Cookie cookie = new Cookie("jwt", null);
+    public ResponseEntity<?> deleteCookie(HttpServletResponse response) throws UnsupportedEncodingException {
+        Cookie cookie = new Cookie("jwt", URLEncoder.encode(null, "UTF-8"));
         cookie.setMaxAge(0);
         ///////////////////////////////////////////////////
         cookie.setSecure(true);
@@ -88,8 +89,8 @@ public class AuthenticationController {
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);
-
-        CookieResponse cookieResponse = new CookieResponse("Cookie: " + cookie.toString() + "HTTP: ", 200);
+//        addCookie("jwt", null, 0,response );
+        CookieResponse cookieResponse = new CookieResponse("Cookie is deleted: "  + "HTTP: ", 200);
 
         return ResponseEntity.ok(cookieResponse);
 

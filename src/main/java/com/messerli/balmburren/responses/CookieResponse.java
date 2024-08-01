@@ -1,10 +1,11 @@
 package com.messerli.balmburren.responses;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
+
 import jakarta.servlet.http.Cookie;
+
 
 public class CookieResponse extends ResponseEntity<String> {
     private Cookie cookie;

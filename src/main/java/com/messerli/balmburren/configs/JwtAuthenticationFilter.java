@@ -19,6 +19,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 @Component
 @Slf4j
@@ -136,14 +138,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
 
-    private String checkForCookie(HttpServletRequest httpServletRequest) {
+    private String checkForCookie(HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
         Cookie[] cookies = httpServletRequest.getCookies();
 
         if (cookies != null && cookies.length > 0) {
             for (Cookie cookie : cookies) {
-                log.info(cookie.getName() + " : " + cookie.getValue());
+                log.info("Cookie with name: " + cookie.getName());
                 if (cookie.getName().equalsIgnoreCase("jwt")) {
-                    return cookie.getValue();
+                    return URLDecoder.decode(cookie.getValue(), "UTF-8");
+//                    return cookie.getValue();
                 }
             }
         }
