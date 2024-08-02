@@ -18,6 +18,6 @@ export class LogoutComponent {
   }
   async ngOnInit() {
       await firstValueFrom(this.userService.deleteTokenCookie());
-      localStorage.setItem('username', "");
+      // localStorage.setItem('username', "");
   }
 }

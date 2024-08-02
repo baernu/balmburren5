@@ -83,6 +83,9 @@ export class UserService {
   public findUser(username: string):Observable<UserDTO> {
     return this.http.get<UserDTO>(this.usersUrl + username, {withCredentials : true});}
 
+  public currentUser():Observable<UserDTO> {
+    return this.http.get<UserDTO>(this.usersUrl + "me", {withCredentials : true});}
+
   public findUserById(id: number):Observable<UserDTO> {
     return this.http.get<UserDTO>(this.usersUrl + 'byid/' +id, {withCredentials : true});}
 

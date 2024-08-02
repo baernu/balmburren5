@@ -19,9 +19,9 @@ export class HeaderComponent {
     private router: Router){}
 
   async ngOnInit(): Promise<void> {
-    let username = localStorage.getItem('username');
-    if (username)
-      this.user = await firstValueFrom(this.userService.findUser(username));
+    // let username = localStorage.getItem('username');
+    // if (username)
+      this.user = await firstValueFrom(this.userService.currentUser());
   }
 
   change() {
