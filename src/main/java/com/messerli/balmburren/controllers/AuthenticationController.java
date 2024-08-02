@@ -64,7 +64,7 @@ public class AuthenticationController {
     public ResponseEntity<?> setCookie(HttpServletResponse response, @RequestBody String tok) throws UnsupportedEncodingException {
 
         log.info("token is: {}", tok);
-        Cookie cookie = new Cookie("jwt", URLEncoder.encode(tok, "UTF-8"));
+        Cookie cookie = new Cookie("jwt", URLEncoder.encode(tok));
         cookie.setMaxAge(60 * 60);
         ///////////////////////////////////////////////////
         cookie.setSecure(false);
@@ -81,7 +81,7 @@ public class AuthenticationController {
     @CrossOrigin( allowCredentials = "true")
     @GetMapping("/delete-cookie")
     public ResponseEntity<?> deleteCookie(HttpServletResponse response) throws UnsupportedEncodingException {
-        Cookie cookie = new Cookie("jwt", URLEncoder.encode(null, "UTF-8"));
+        Cookie cookie = new Cookie("jwt", URLEncoder.encode(null));
         cookie.setMaxAge(0);
         ///////////////////////////////////////////////////
         cookie.setSecure(true);

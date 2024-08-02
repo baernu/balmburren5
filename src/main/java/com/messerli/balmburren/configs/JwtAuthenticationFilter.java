@@ -54,6 +54,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (checkForCookie(request) != null) {
             log.info("The JwtRequestfilter with cookie is in process ...");
             jwt = checkForCookie(request);
+            assert jwt != null;
+            if (jwt.isEmpty()) {
+                filterChain.doFilter(request, response);
+                return;
+            }
 
         } else {
 
@@ -141,11 +146,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String checkForCookie(HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
         Cookie[] cookies = httpServletRequest.getCookies();
 
-        if (cookies != null && cookies.length > 0) {
+        if (cookies != null) {
             for (Cookie cookie : cookies) {
                 log.info("Cookie with name: " + cookie.getName());
                 if (cookie.getName().equalsIgnoreCase("jwt")) {
-                    return URLDecoder.decode(cookie.getValue(), "UTF-8");
+                    return URLDecoder.decode(cookie.getValue());
 //                    return cookie.getValue();
                 }
             }
