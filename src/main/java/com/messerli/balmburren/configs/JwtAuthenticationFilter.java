@@ -54,8 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (checkForCookie(request) != null) {
             log.info("The JwtRequestfilter with cookie is in process ...");
             jwt = checkForCookie(request);
-            assert jwt != null;
-            if (jwt.isEmpty()) {
+            if (jwt == null) {
                 filterChain.doFilter(request, response);
                 return;
             }
