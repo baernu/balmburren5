@@ -7,6 +7,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -51,9 +52,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
 
-        if (checkForCookie(request) != null) {
-            log.info("The JwtRequestfilter with cookie is in process ...");
+        if (request.getCookies()!= null) {
+
             jwt = checkForCookie(request);
+            log.info("The JwtRequestfilter with cookie is in process with token: " + jwt);
+
+
             if (jwt == null) {
                 filterChain.doFilter(request, response);
                 return;
@@ -144,17 +148,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String checkForCookie(HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
         Cookie[] cookies = httpServletRequest.getCookies();
-
+        String name = "";
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 log.info("Cookie with name: " + cookie.getName());
                 if (cookie.getName().equalsIgnoreCase("jwt")) {
-                    return URLDecoder.decode(cookie.getValue());
-//                    return cookie.getValue();
+                    if (cookie.getValue() != null) {
+                        String jwt1 = URLDecoder.decode(cookie.getValue());
+                        JSONObject jsonObj = new JSONObject(jwt1);
+                        name = jsonObj.getString("token");
+                    }
                 }
+
             }
         }
-        return null;
+        return name;
     }
 
 

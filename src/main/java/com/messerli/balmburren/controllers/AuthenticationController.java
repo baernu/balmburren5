@@ -81,7 +81,7 @@ public class AuthenticationController {
     @CrossOrigin( allowCredentials = "true")
     @GetMapping("/delete-cookie")
     public ResponseEntity<?> deleteCookie(HttpServletResponse response) throws UnsupportedEncodingException {
-        Cookie cookie = new Cookie("jwt", URLEncoder.encode(null));
+        Cookie cookie = new Cookie("jwt", null);
         cookie.setMaxAge(0);
         ///////////////////////////////////////////////////
         cookie.setSecure(true);

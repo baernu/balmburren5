@@ -113,8 +113,17 @@
 			<version>3.0-alpha-1</version>
 			<scope>provided</scope>
 		</dependency>
-
-
+		<!-- https://mvnrepository.com/artifact/org.commonjava.web/json-serialization -->
+		<dependency>
+			<groupId>org.commonjava.web</groupId>
+			<artifactId>json-serialization</artifactId>
+			<version>0.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20230618</version>
+		</dependency>
 
 
 	</dependencies>
