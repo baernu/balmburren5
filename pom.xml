@@ -113,17 +113,34 @@
 			<version>3.0-alpha-1</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.commonjava.web/json-serialization -->
-		<dependency>
-			<groupId>org.commonjava.web</groupId>
-			<artifactId>json-serialization</artifactId>
-			<version>0.5</version>
-		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20230618</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<!--			<scope>provided</scope>-->
+			<version>3.1.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+<!--		<dependency>-->
+<!--			<groupId>com.fasterxml.jackson.core</groupId>-->
+<!--			<artifactId>jackson-databind</artifactId>-->
+<!--			<version>2.17.2</version>-->
+<!--		</dependency>-->
+<!--		&lt;!&ndash; https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>jakarta.servlet</groupId>-->
+<!--			<artifactId>jakarta.servlet-api</artifactId>-->
+<!--			<version>6.1.0</version>-->
+<!--			<scope>provided</scope>-->
+<!--		</dependency>-->
+
+
+
+
 
 
 	</dependencies>

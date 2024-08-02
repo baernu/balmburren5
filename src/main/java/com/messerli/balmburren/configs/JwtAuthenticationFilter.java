@@ -1,13 +1,15 @@
 package com.messerli.balmburren.configs;
 
-import com.messerli.balmburren.services.JwtService;
+import com.messerli.balmburren.services.serviceImpl.JwtService;
+import io.jsonwebtoken.io.Encoders;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
+import io.jsonwebtoken.io.Decoders;
+
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,10 +20,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-
+import java.util.Base64;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 @Component
 @Slf4j
@@ -54,19 +55,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (request.getCookies()!= null) {
 
-            jwt = checkForCookie(request);
+            checkForCookie(request);
             log.info("The JwtRequestfilter with cookie is in process with token: " + jwt);
 
 
-            if (jwt == null) {
-                filterChain.doFilter(request, response);
-                return;
-            }
+//            if (token2 == null) {
+//                filterChain.doFilter(request, response);
+//                return;
+//            }
 
         } else {
 
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
+//                String jwt1 = authHeader.substring(7);
                 jwt = authHeader.substring(7);
+//                jwt = jwtService.extractUsername(jwt1);
             }
             else {
                 filterChain.doFilter(request, response);
@@ -75,8 +78,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         try {
+
             final String userEmail = jwtService.extractUsername(jwt);
 
+//            final String userEmail = jwt;
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             if (userEmail != null && authentication == null) {
@@ -146,7 +151,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
 
-    private String checkForCookie(HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
+    private void checkForCookie(HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
         Cookie[] cookies = httpServletRequest.getCookies();
         String name = "";
         if (cookies != null) {
@@ -154,15 +159,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 log.info("Cookie with name: " + cookie.getName());
                 if (cookie.getName().equalsIgnoreCase("jwt")) {
                     if (cookie.getValue() != null) {
-                        String jwt1 = URLDecoder.decode(cookie.getValue());
-                        JSONObject jsonObj = new JSONObject(jwt1);
-                        name = jsonObj.getString("token");
+//                        jwt = URLDecoder.decode(cookie.getValue()).trim();
+                        jwt = cookie.getValue();
+//                        JSONObject jsonObj = new JSONObject(jwt);
+//                        name = jsonObj.getString("token");
                     }
                 }
 
             }
         }
-        return name;
+//        return name;
     }
 
 

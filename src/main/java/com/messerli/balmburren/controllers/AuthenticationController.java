@@ -6,18 +6,21 @@ import com.messerli.balmburren.entities.User;
 import com.messerli.balmburren.responses.CookieResponse;
 import com.messerli.balmburren.responses.LoginResponse;
 import com.messerli.balmburren.services.AuthenticationService;
-import com.messerli.balmburren.services.JwtService;
+import com.messerli.balmburren.services.serviceImpl.JwtService;
 import com.messerli.balmburren.services.UserService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
+import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.Base64;
 
 
 @Slf4j
@@ -62,9 +65,16 @@ public class AuthenticationController {
     @CrossOrigin(allowCredentials = "true")
     @PostMapping("/set-cookie")
     public ResponseEntity<?> setCookie(HttpServletResponse response, @RequestBody String tok) throws UnsupportedEncodingException {
-
-        log.info("token is: {}", tok);
-        Cookie cookie = new Cookie("jwt", URLEncoder.encode(tok));
+//        tok = tok.replaceAll(",", " ");
+//        log.info("token is: {}", tok);
+//        Base64.Encoder encURL = Base64.getUrlEncoder();
+//        byte[] bytesURL = encURL.encode(tok.getBytes());
+//
+//        Cookie cookie = new Cookie("jwt", Arrays.toString(bytesURL));
+//        Cookie cookie = new Cookie("jwt", URLEncoder.encode(tok, "UTF8"));
+        JSONObject jsonObj = new JSONObject(tok);
+        tok = jsonObj.getString("token");
+        Cookie cookie = new Cookie("jwt", tok);
         cookie.setMaxAge(60 * 60);
         ///////////////////////////////////////////////////
         cookie.setSecure(false);
@@ -81,6 +91,8 @@ public class AuthenticationController {
     @CrossOrigin( allowCredentials = "true")
     @GetMapping("/delete-cookie")
     public ResponseEntity<?> deleteCookie(HttpServletResponse response) throws UnsupportedEncodingException {
+//        Cookie cookie = new Cookie("jwt", null);
+
         Cookie cookie = new Cookie("jwt", null);
         cookie.setMaxAge(0);
         ///////////////////////////////////////////////////
