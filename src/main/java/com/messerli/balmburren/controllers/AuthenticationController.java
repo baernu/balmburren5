@@ -96,7 +96,7 @@ public class AuthenticationController {
         Cookie cookie = new Cookie("jwt", null);
         cookie.setMaxAge(0);
         ///////////////////////////////////////////////////
-        cookie.setSecure(true);
+        cookie.setSecure(false);
         ///////////////////////////////////////////////////
         cookie.setHttpOnly(true);
         cookie.setPath("/");

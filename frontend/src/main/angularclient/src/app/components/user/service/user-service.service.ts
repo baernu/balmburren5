@@ -84,7 +84,7 @@ export class UserService {
     return this.http.get<UserDTO>(this.usersUrl + username, {withCredentials : true});}
 
   public currentUser():Observable<UserDTO> {
-    return this.http.get<UserDTO>(this.usersUrl + "me");}
+    return this.http.get<UserDTO>(this.usersUrl + "me", {withCredentials : true});}
 
   public findUserById(id: number):Observable<UserDTO> {
     return this.http.get<UserDTO>(this.usersUrl + 'byid/' +id, {withCredentials : true});}
@@ -112,7 +112,7 @@ export class UserService {
     return this.http.post<string>(this.setCookieUrl, token,{withCredentials : true});}
 
   public deleteTokenCookie(): Observable<string> {
-    return this.http.get<string>(this.deleteCookieUrl );}
+    return this.http.get<string>(this.deleteCookieUrl , {withCredentials : true});}
 
   public isAdmin(username: string | null): Observable<Boolean>{
     return this.http.get<Boolean>(this.isAdminUrl + username, {withCredentials: true});}
