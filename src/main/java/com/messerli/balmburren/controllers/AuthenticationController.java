@@ -6,7 +6,7 @@ import com.messerli.balmburren.entities.User;
 import com.messerli.balmburren.responses.CookieResponse;
 import com.messerli.balmburren.responses.LoginResponse;
 import com.messerli.balmburren.services.AuthenticationService;
-import com.messerli.balmburren.services.serviceImpl.JwtService;
+import com.messerli.balmburren.services.JwtService;
 import com.messerli.balmburren.services.UserService;
 
 import jakarta.servlet.http.Cookie;
@@ -18,9 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.Base64;
 
 
 @Slf4j

@@ -1,4 +1,4 @@
-package com.messerli.balmburren.services.serviceImpl;
+package com.messerli.balmburren.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

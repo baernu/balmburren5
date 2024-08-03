@@ -11,4 +11,5 @@ public interface UserService {
     public User createAdministrator(RegisterUserDto input);
 
     public boolean existUser(String username);
+    public User createDriver(RegisterUserDto input);
 }

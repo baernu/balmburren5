@@ -25,4 +25,13 @@ public class AdminController {
 
         return ResponseEntity.ok(createdAdmin);
     }
+
+    @CrossOrigin( allowCredentials = "true")
+    @PostMapping
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    public ResponseEntity<User> createDriver(@RequestBody RegisterUserDto registerUserDto) {
+        User createdDriver = userService.createDriver(registerUserDto);
+
+        return ResponseEntity.ok(createdDriver);
+    }
 }

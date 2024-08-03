@@ -58,5 +58,23 @@ public class UserServiceImpl implements UserService {
         return optionalUser.isPresent();
     }
 
+    @Override
+    public User createDriver(RegisterUserDto input) {
+        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.DRIVER);
+
+        if (optionalRole.isEmpty()) {
+            return null;
+        }
+
+        var user = new User()
+                .setFirstname(input.getFirstname())
+                .setLastname(input.getLastname())
+                .setUsername(input.getUsername())
+                .setPassword(passwordEncoder.encode(input.getPassword()))
+                .setRole(optionalRole.get());
+
+        return userRepository.save(user);
+    }
+
 
 }

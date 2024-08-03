@@ -1,14 +1,12 @@
 package com.messerli.balmburren.configs;
 
-import com.messerli.balmburren.services.serviceImpl.JwtService;
-import io.jsonwebtoken.io.Encoders;
+import com.messerli.balmburren.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import io.jsonwebtoken.io.Decoders;
 
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +18,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import java.util.Base64;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
