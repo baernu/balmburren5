@@ -49,6 +49,8 @@ export class LoginComponent {
     // localStorage.setItem("username", this.user.username);
     // await firstValueFrom(this.userService.authenticate(this.authenticate));
     await firstValueFrom(this.userService.setTokenCookie(this.token));
+    let msg = await firstValueFrom(this.userService.createUser(this.user.username));
+    console.log("Boolean add Role user: " + msg);
     // await firstValueFrom(this.errorHandlingService.putBoolLogin(false));
     await this.router.navigate(['home']);
   }

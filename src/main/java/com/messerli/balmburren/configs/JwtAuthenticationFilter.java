@@ -1,6 +1,9 @@
 package com.messerli.balmburren.configs;
 
+import com.messerli.balmburren.entities.Role;
+import com.messerli.balmburren.entities.User;
 import com.messerli.balmburren.services.JwtService;
+import com.messerli.balmburren.services.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -11,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +25,8 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
+import java.util.Optional;
 
 @Component
 @Slf4j
@@ -29,16 +35,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+
+    private final UserService userService;
     private String jwt;
 
     public JwtAuthenticationFilter(
         JwtService jwtService,
         UserDetailsService userDetailsService,
-        HandlerExceptionResolver handlerExceptionResolver
-    ) {
+        HandlerExceptionResolver handlerExceptionResolver,
+        UserService userService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
         this.handlerExceptionResolver = handlerExceptionResolver;
+        this.userService = userService;
     }
 
     @Override
@@ -78,6 +87,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
 
             final String userEmail = jwtService.extractUsername(jwt);
+            Optional<User> user1 = userService.findUser(userEmail);
+            Collection<? extends GrantedAuthority> roles = user1.get().getAuthorities();
+            log.info("Roles: " + roles);
 
 //            final String userEmail = jwt;
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -88,7 +100,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 if (jwtService.isTokenValid(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
-                            null,
+//                            null,
+                            roles,
                             userDetails.getAuthorities()
                     );
 

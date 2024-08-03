@@ -26,6 +26,7 @@ import {ReferenceDTO} from "./ReferenceDTO";
 export class UserService {
   private readonly authUrl: string;
   private readonly usersUrl: string;
+  private readonly adminUrl: string;
   private readonly getUserUrl: string;
   private readonly authenticateUrl: string;
   private readonly setCookieUrl: string;
@@ -54,6 +55,7 @@ export class UserService {
 
   constructor(private http: HttpClient) {
     this.usersUrl = this.baseUrl + 'users/';
+    this.adminUrl = this.baseUrl + 'admins/';
     this.authenticateUrl = this.baseUrl +'authenticate';
     this.setCookieUrl =  this.baseUrl + 'auth/set-cookie';
     this.deleteCookieUrl = this.baseUrl + 'auth/delete-cookie';
@@ -85,6 +87,12 @@ export class UserService {
 
   public currentUser():Observable<UserDTO> {
     return this.http.get<UserDTO>(this.usersUrl + "me", {withCredentials : true});}
+
+  public createDriver(username: string):Observable<Boolean> {
+    return this.http.put<Boolean>(this.adminUrl + "create/driver", username, {withCredentials : true});}
+  public createUser(username: string):Observable<Boolean> {
+    return this.http.put<Boolean>(this.adminUrl + "create/user", username, {withCredentials : true});}
+
 
   public findUserById(id: number):Observable<UserDTO> {
     return this.http.get<UserDTO>(this.usersUrl + 'byid/' +id, {withCredentials : true});}

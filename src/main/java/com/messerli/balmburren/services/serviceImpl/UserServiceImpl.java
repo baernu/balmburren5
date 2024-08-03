@@ -59,21 +59,58 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createDriver(RegisterUserDto input) {
+    public Optional<User> findUser(String username) {
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        return optionalUser;
+    }
+
+    @Override
+    public boolean createDriver(String username) {
         Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.DRIVER);
 
         if (optionalRole.isEmpty()) {
-            return null;
+            return false;
         }
 
-        var user = new User()
-                .setFirstname(input.getFirstname())
-                .setLastname(input.getLastname())
-                .setUsername(input.getUsername())
-                .setPassword(passwordEncoder.encode(input.getPassword()))
-                .setRole(optionalRole.get());
+        Optional<User> user = findUser(username);
+        user.ifPresent(value -> value
+//                .setFirstname(input.getFirstname())
+//                .setLastname(input.getLastname())
+//                .setUsername(input.getUsername())
+//                .setPassword(passwordEncoder.encode(input.getPassword()))
+                .setRole(optionalRole.get()));
 
-        return userRepository.save(user);
+        if (user.isPresent()) {
+            userRepository.save(user.get());
+            return true;
+        }
+        else
+            return false;
+
+    }
+
+    @Override
+    public boolean createUser(String username) {
+        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.USER);
+
+        if (optionalRole.isEmpty()) {
+            return false;
+        }
+
+        Optional<User> user = findUser(username);
+        user.ifPresent(value -> value
+//                .setFirstname(input.getFirstname())
+//                .setLastname(input.getLastname())
+//                .setUsername(input.getUsername())
+//                .setPassword(passwordEncoder.encode(input.getPassword()))
+                .setRole(optionalRole.get()));
+
+        if (user.isPresent()) {
+            userRepository.save(user.get());
+            return true;
+        }
+        else
+            return false;
     }
 
 

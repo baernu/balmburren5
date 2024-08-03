@@ -18,7 +18,7 @@ public class AdminController {
         this.userService = userService;
     }
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping
+    @PostMapping("/create_s_admin")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ResponseEntity<User> createAdministrator(@RequestBody RegisterUserDto registerUserDto) {
         User createdAdmin = userService.createAdministrator(registerUserDto);
@@ -27,11 +27,20 @@ public class AdminController {
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
-    public ResponseEntity<User> createDriver(@RequestBody RegisterUserDto registerUserDto) {
-        User createdDriver = userService.createDriver(registerUserDto);
+    @PutMapping("/create/driver")
+    @PreAuthorize("hasRole('DRIVER')")
+    public ResponseEntity<?> createDriver(@RequestBody String username) {
+        boolean var = userService.createDriver(username);
 
-        return ResponseEntity.ok(createdDriver);
+        return ResponseEntity.ok(var);
+    }
+
+    @CrossOrigin( allowCredentials = "true")
+    @PutMapping("/create/user")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> createUser(@RequestBody String username) {
+        boolean var = userService.createUser(username);
+
+        return ResponseEntity.ok(var);
     }
 }

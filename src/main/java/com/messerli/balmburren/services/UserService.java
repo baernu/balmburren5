@@ -4,6 +4,7 @@ import com.messerli.balmburren.dtos.RegisterUserDto;
 import com.messerli.balmburren.entities.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
@@ -11,5 +12,8 @@ public interface UserService {
     public User createAdministrator(RegisterUserDto input);
 
     public boolean existUser(String username);
-    public User createDriver(RegisterUserDto input);
+
+    public Optional<User> findUser(String username);
+    public boolean createDriver(String username);
+    public boolean createUser(String username);
 }

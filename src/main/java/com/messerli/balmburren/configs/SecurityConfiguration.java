@@ -63,7 +63,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/**",
-//                                "/set-cookie/**",
+                                "/admins/**",
                                 "/swagger-ui/**"
                         ).permitAll()
                         .anyRequest().authenticated()
