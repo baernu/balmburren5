@@ -60,8 +60,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findUser(String username) {
-        Optional<User> optionalUser = userRepository.findByUsername(username);
-        return optionalUser;
+        return userRepository.findByUsername(username);
     }
 
     @Override
@@ -74,10 +73,6 @@ public class UserServiceImpl implements UserService {
 
         Optional<User> user = findUser(username);
         user.ifPresent(value -> value
-//                .setFirstname(input.getFirstname())
-//                .setLastname(input.getLastname())
-//                .setUsername(input.getUsername())
-//                .setPassword(passwordEncoder.encode(input.getPassword()))
                 .setRole(optionalRole.get()));
 
         if (user.isPresent()) {
@@ -99,10 +94,6 @@ public class UserServiceImpl implements UserService {
 
         Optional<User> user = findUser(username);
         user.ifPresent(value -> value
-//                .setFirstname(input.getFirstname())
-//                .setLastname(input.getLastname())
-//                .setUsername(input.getUsername())
-//                .setPassword(passwordEncoder.encode(input.getPassword()))
                 .setRole(optionalRole.get()));
 
         if (user.isPresent()) {
@@ -111,6 +102,35 @@ public class UserServiceImpl implements UserService {
         }
         else
             return false;
+    }
+
+    public boolean isAdmin(String username) {
+        Optional<User> optionalUser = findUser(username);
+        return optionalUser.map(user -> user.getRole().getName().equals(RoleEnum.ADMIN)).orElse(false);
+    }
+
+    @Override
+    public boolean isBasic(String username) {
+        Optional<User> optionalUser = findUser(username);
+        return optionalUser.map(user -> user.getRole().getName().equals(RoleEnum.USER)).orElse(false);
+    }
+
+    @Override
+    public boolean isDriver(String username) {
+        Optional<User> optionalUser = findUser(username);
+        return optionalUser.map(user -> user.getRole().getName().equals(RoleEnum.DRIVER)).orElse(false);
+    }
+
+    @Override
+    public boolean isKathy(String username) {
+        Optional<User> optionalUser = findUser(username);
+        return optionalUser.map(user -> user.getRole().getName().equals(RoleEnum.KATHY)).orElse(false);
+    }
+
+    @Override
+    public boolean isUserKathy(String username) {
+        Optional<User> optionalUser = findUser(username);
+        return optionalUser.map(user -> user.getRole().getName().equals(RoleEnum.USER_KATHY)).orElse(false);
     }
 
 

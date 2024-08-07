@@ -26,6 +26,7 @@ public class RoleSeeder implements ApplicationListener<ContextRefreshedEvent> {
                 RoleEnum.USER, "Default user role",
                 RoleEnum.DRIVER, "Driver role",
                 RoleEnum.KATHY, "Helper role",
+                RoleEnum.USER_KATHY, "User administrated by Kathy",
                 RoleEnum.ADMIN, "Administrator role",
                 RoleEnum.SUPER_ADMIN, "Super Administrator role"
         );

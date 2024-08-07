@@ -123,19 +123,19 @@ export class UserService {
     return this.http.get<string>(this.deleteCookieUrl , {withCredentials : true});}
 
   public isAdmin(username: string | null): Observable<Boolean>{
-    return this.http.get<Boolean>(this.isAdminUrl + username, {withCredentials: true});}
+    return this.http.get<Boolean>(this.adminUrl + 'is_admin/'+ username, {withCredentials: true});}
 
   public isBasic(username: string | null): Observable<Boolean>{
-    return this.http.get<Boolean>(this.isBasicUrl + username, {withCredentials: true});}
+    return this.http.get<Boolean>(this.adminUrl + 'is_basic' + username, {withCredentials: true});}
 
   public isUserKathy(username: string | null): Observable<Boolean>{
-    return this.http.get<Boolean>(this.isUserKathyUrl + username, {withCredentials: true});}
+    return this.http.get<Boolean>(this.adminUrl + 'is_user_kathy/' + username, {withCredentials: true});}
 
   public isDriver(username: string | null): Observable<Boolean>{
-    return this.http.get<Boolean>(this.isDriverUrl + username, {withCredentials: true});}
+    return this.http.get<Boolean>(this.adminUrl + 'is_driver/ '+ username, {withCredentials: true});}
 
   public isKathy(username: string | null): Observable<Boolean>{
-    return this.http.get<Boolean>(this.isKathyUrl + username, {withCredentials: true});}
+    return this.http.get<Boolean>(this.adminUrl + 'is_kathy/' + username, {withCredentials: true});}
 
   public findAllRolesForPerson(username: string): Observable<UserBindRoleDTO[]> {
     return this.http.get<UserBindRoleDTO[]>(this.getRolesForPersonUrl + username,{withCredentials : true});}

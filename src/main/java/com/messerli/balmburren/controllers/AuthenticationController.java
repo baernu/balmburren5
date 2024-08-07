@@ -62,13 +62,6 @@ public class AuthenticationController {
     @CrossOrigin(allowCredentials = "true")
     @PostMapping("/set-cookie")
     public ResponseEntity<?> setCookie(HttpServletResponse response, @RequestBody String tok) throws UnsupportedEncodingException {
-//        tok = tok.replaceAll(",", " ");
-//        log.info("token is: {}", tok);
-//        Base64.Encoder encURL = Base64.getUrlEncoder();
-//        byte[] bytesURL = encURL.encode(tok.getBytes());
-//
-//        Cookie cookie = new Cookie("jwt", Arrays.toString(bytesURL));
-//        Cookie cookie = new Cookie("jwt", URLEncoder.encode(tok, "UTF8"));
         JSONObject jsonObj = new JSONObject(tok);
         tok = jsonObj.getString("token");
         Cookie cookie = new Cookie("jwt", tok);
@@ -88,8 +81,6 @@ public class AuthenticationController {
     @CrossOrigin( allowCredentials = "true")
     @GetMapping("/delete-cookie")
     public ResponseEntity<?> deleteCookie(HttpServletResponse response) throws UnsupportedEncodingException {
-//        Cookie cookie = new Cookie("jwt", null);
-
         Cookie cookie = new Cookie("jwt", null);
         cookie.setMaxAge(0);
         ///////////////////////////////////////////////////
@@ -98,7 +89,6 @@ public class AuthenticationController {
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);
-//        addCookie("jwt", null, 0,response );
         CookieResponse cookieResponse = new CookieResponse("Cookie is deleted: "  + "HTTP: ", 200);
 
         return ResponseEntity.ok(cookieResponse);

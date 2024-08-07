@@ -18,8 +18,8 @@ public class AdminController {
         this.userService = userService;
     }
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("/create_s_admin")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PostMapping("/create_admin")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> createAdministrator(@RequestBody RegisterUserDto registerUserDto) {
         User createdAdmin = userService.createAdministrator(registerUserDto);
 
@@ -42,5 +42,35 @@ public class AdminController {
         boolean var = userService.createUser(username);
 
         return ResponseEntity.ok(var);
+    }
+
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping("/is_admin/{username}")
+    public ResponseEntity<Boolean> isAdmin(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(userService.isAdmin(username));
+    }
+
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping("/is_basic/{username}")
+    public ResponseEntity<Boolean> isBasic(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(userService.isBasic(username));
+    }
+
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping("/is_user_kathy/{username}")
+    public ResponseEntity<Boolean> isUserKathy(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(userService.isUserKathy(username));
+    }
+
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping("/is_driver/{username}")
+    public ResponseEntity<Boolean> isDriver(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(userService.isDriver(username));
+    }
+
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping("is_kathy/{username}")
+    public ResponseEntity<Boolean> isKathy(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(userService.isKathy(username));
     }
 }

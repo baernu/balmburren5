@@ -16,4 +16,9 @@ public interface UserService {
     public Optional<User> findUser(String username);
     public boolean createDriver(String username);
     public boolean createUser(String username);
-}
+
+    boolean isAdmin(String username);
+    boolean isBasic(String username);
+    boolean isDriver(String username);
+    boolean isKathy(String username);
+    boolean isUserKathy(String username);}

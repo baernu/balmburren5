@@ -66,17 +66,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.info("The JwtRequestfilter with cookie is in process with token: " + jwt);
 
 
-//            if (token2 == null) {
-//                filterChain.doFilter(request, response);
-//                return;
-//            }
-
         } else {
 
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
-//                String jwt1 = authHeader.substring(7);
                 jwt = authHeader.substring(7);
-//                jwt = jwtService.extractUsername(jwt1);
             }
             else {
                 filterChain.doFilter(request, response);
@@ -91,7 +84,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Collection<? extends GrantedAuthority> roles = user1.get().getAuthorities();
             log.info("Roles: " + roles);
 
-//            final String userEmail = jwt;
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             if (userEmail != null && authentication == null) {
@@ -170,16 +162,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 log.info("Cookie with name: " + cookie.getName());
                 if (cookie.getName().equalsIgnoreCase("jwt")) {
                     if (cookie.getValue() != null) {
-//                        jwt = URLDecoder.decode(cookie.getValue()).trim();
                         jwt = cookie.getValue();
-//                        JSONObject jsonObj = new JSONObject(jwt);
-//                        name = jsonObj.getString("token");
                     }
                 }
 
             }
         }
-//        return name;
     }
 
 
