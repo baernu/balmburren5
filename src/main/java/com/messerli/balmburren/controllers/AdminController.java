@@ -20,10 +20,10 @@ public class AdminController {
     @CrossOrigin( allowCredentials = "true")
     @PostMapping("/create_admin")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> createAdministrator(@RequestBody RegisterUserDto registerUserDto) {
-        User createdAdmin = userService.createAdministrator(registerUserDto);
+    public ResponseEntity<?> createAdministrator(@RequestBody String username) {
+        boolean var = userService.createAdministrator(username);
 
-        return ResponseEntity.ok(createdAdmin);
+        return ResponseEntity.ok(var);
     }
 
     @CrossOrigin( allowCredentials = "true")

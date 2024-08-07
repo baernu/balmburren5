@@ -34,21 +34,23 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
-    public User createAdministrator(RegisterUserDto input) {
+    public boolean createAdministrator(String username) {
         Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
 
         if (optionalRole.isEmpty()) {
-            return null;
+            return false;
         }
 
-        var user = new User()
-                .setFirstname(input.getFirstname())
-                .setLastname(input.getLastname())
-                .setUsername(input.getUsername())
-                .setPassword(passwordEncoder.encode(input.getPassword()))
-                .setRole(optionalRole.get());
+        Optional<User> user = findUser(username);
+        user.ifPresent(value -> value
+                .setRole(optionalRole.get()));
 
-        return userRepository.save(user);
+        if (user.isPresent()) {
+            userRepository.save(user.get());
+            return true;
+        }
+        else
+            return false;
     }
 
     @Override

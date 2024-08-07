@@ -32,7 +32,6 @@ export class UserService {
   private readonly setCookieUrl: string;
   private readonly deleteCookieUrl: string;
   private readonly readCookieUrl: string;
-  private readonly isAdminUrl: string;
   private readonly username: string = "";
   private readonly getRolesForPersonUrl: string;
   private readonly getAllRoles: string;
@@ -44,10 +43,6 @@ export class UserService {
   private readonly userBindPhoneUrl: string;
   private readonly addressUrl: string;
   private readonly userBindAddress: string;
-  private readonly isBasicUrl: string;
-  private readonly isDriverUrl: string;
-  private readonly isKathyUrl: string;
-  private readonly isUserKathyUrl: string;
   private readonly baseUrl: string = 'http://localhost:8006/api/';
 
   // private readonly baseUrl: string = 'api/';
@@ -62,11 +57,6 @@ export class UserService {
     this.getUserUrl = this.baseUrl + 'users/';
     this.authUrl = this.baseUrl + 'auth/';
     this.readCookieUrl = this.baseUrl + 'read-cookie';
-    this.isAdminUrl =  this.baseUrl + 'is_admin/';
-    this.isBasicUrl =  this.baseUrl + 'is_basic/';
-    this.isDriverUrl = this.baseUrl + 'is_driver/';
-    this.isKathyUrl = this.baseUrl + 'is_kathy/';
-    this.isUserKathyUrl = this.baseUrl + 'is_user_kathy/';
     this.getRolesForPersonUrl = this.baseUrl + 'person/bind/role/';
     this.getAllRoles = this.baseUrl + 'role';
     this.bindUserTourUrl = this.baseUrl + 'person/bind/tour/';
@@ -122,11 +112,11 @@ export class UserService {
   public deleteTokenCookie(): Observable<string> {
     return this.http.get<string>(this.deleteCookieUrl , {withCredentials : true});}
 
-  public isAdmin(username: string | null): Observable<Boolean>{
+  public isAdmin(username: string): Observable<Boolean>{
     return this.http.get<Boolean>(this.adminUrl + 'is_admin/'+ username, {withCredentials: true});}
 
   public isBasic(username: string | null): Observable<Boolean>{
-    return this.http.get<Boolean>(this.adminUrl + 'is_basic' + username, {withCredentials: true});}
+    return this.http.get<Boolean>(this.adminUrl + 'is_basic/' + username, {withCredentials: true});}
 
   public isUserKathy(username: string | null): Observable<Boolean>{
     return this.http.get<Boolean>(this.adminUrl + 'is_user_kathy/' + username, {withCredentials: true});}
