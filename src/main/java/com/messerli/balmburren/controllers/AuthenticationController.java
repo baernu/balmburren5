@@ -7,6 +7,7 @@ import com.messerli.balmburren.responses.CookieResponse;
 import com.messerli.balmburren.responses.LoginResponse;
 import com.messerli.balmburren.services.AuthenticationService;
 import com.messerli.balmburren.services.JwtService;
+import com.messerli.balmburren.services.MyUserDetails;
 import com.messerli.balmburren.services.UserService;
 
 import jakarta.servlet.http.Cookie;
@@ -45,7 +46,7 @@ public class AuthenticationController {
     @CrossOrigin( allowCredentials = "true")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
-        User authenticatedUser = authenticationService.authenticate(loginUserDto);
+        MyUserDetails authenticatedUser = authenticationService.authenticate(loginUserDto);
 
         String jwtToken = jwtService.generateToken(authenticatedUser);
 

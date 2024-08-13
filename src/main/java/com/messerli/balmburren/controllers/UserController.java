@@ -1,6 +1,7 @@
 package com.messerli.balmburren.controllers;
 
 import com.messerli.balmburren.entities.User;
+import com.messerli.balmburren.services.MyUserDetails;
 import com.messerli.balmburren.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +27,10 @@ public class UserController {
     @CrossOrigin( allowCredentials = "true")
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<User> authenticatedUser() {
+    public ResponseEntity<?> authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        User currentUser = (User) authentication.getPrincipal();
+        MyUserDetails currentUser = (MyUserDetails) authentication.getPrincipal();
 
         return ResponseEntity.ok(currentUser);
     }

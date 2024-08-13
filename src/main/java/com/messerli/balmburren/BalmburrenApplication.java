@@ -13,7 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+
 @Slf4j
 @SpringBootApplication
 public class BalmburrenApplication {
@@ -33,19 +36,27 @@ public class BalmburrenApplication {
 //        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.SUPER_ADMIN);
 //        Optional<User> optionalUser = userRepository.findByUsername(userDto.getUsername());
 			Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
+			Optional<Role> optionalRole1 = roleRepository.findByName(RoleEnum.USER);
 			Optional<User> optionalUser = userRepository.findByUsername(userDto.getUsername());
 			if (optionalRole.isEmpty() || optionalUser.isPresent()) {
 				return;
 			}
+
+			Set<Role> roles = new HashSet<>();
+			roles.add(optionalRole.get());
+			roles.add(optionalRole1.get());
 //
-			var user = new User()
-					.setFirstname(userDto.getFirstname())
-					.setLastname(userDto.getLastname())
-					.setUsername(userDto.getUsername())
-					.setPassword(passwordEncoder.encode(userDto.getPassword()))
-					.setRole(optionalRole.get());
+			var user = new User();
+			user.setFirstname(userDto.getFirstname());
+			user.setLastname(userDto.getLastname());
+			user.setUsername(userDto.getUsername());
+			user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+			user.setEnabled(true);
+//					user.setRoles(roles);
 
 			User user1 = userRepository.save(user);
+			user1.setRoles(roles);
+			user1 = userRepository.save(user1);
 //        User registeredUser = authenticationService.signup(userDto);
 //        log.info("AuthenticationService is over..");
 //        boolean message = userService.createAdministrator(registeredUser.getUsername());

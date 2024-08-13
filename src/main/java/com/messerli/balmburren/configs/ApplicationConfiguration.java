@@ -1,6 +1,7 @@
 package com.messerli.balmburren.configs;
 
 import com.messerli.balmburren.repositories.UserRepository;
+import com.messerli.balmburren.services.MyUserDetails;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,8 +22,8 @@ public class ApplicationConfiguration {
 
     @Bean
     UserDetailsService userDetailsService() {
-        return username -> userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return username -> new MyUserDetails(userRepository.findByUsername(username).get());
+
     }
 
     @Bean
@@ -45,4 +46,3 @@ public class ApplicationConfiguration {
         return authProvider;
     }
 }
-

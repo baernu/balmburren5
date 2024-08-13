@@ -13,9 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AuthenticationService {
@@ -26,10 +24,10 @@ public class AuthenticationService {
     private final RoleRepository roleRepository;
 
     public AuthenticationService(
-        UserRepository userRepository,
-        AuthenticationManager authenticationManager,
-        PasswordEncoder passwordEncoder,
-        RoleRepository roleRepository) {
+            UserRepository userRepository,
+            AuthenticationManager authenticationManager,
+            PasswordEncoder passwordEncoder,
+            RoleRepository roleRepository) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -43,32 +41,39 @@ public class AuthenticationService {
             return null;
         }
 
-        var user = new User()
-                .setFirstname(input.getFirstname())
-                .setLastname(input.getLastname())
-                .setUsername(input.getUsername())
-                .setPassword(passwordEncoder.encode(input.getPassword()))
-                .setRole(optionalRole.get());
+        Set<Role> roles = new HashSet<>();
+        roles.add(optionalRole.get());
+        var user = new User();
+        user.setFirstname(input.getFirstname());
+        user.setLastname(input.getLastname());
+        user.setUsername(input.getUsername());
+        user.setPassword(passwordEncoder.encode(input.getPassword()));
+        user.setEnabled(true);
+
+        userRepository.save(user);
+        user.setRoles(roles);
 
         return userRepository.save(user);
     }
 
-    public User authenticate(LoginUserDto input) {
+    public MyUserDetails authenticate(LoginUserDto input) {
         authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                input.getUsername(),
-                input.getPassword()
-            )
+                new UsernamePasswordAuthenticationToken(
+                        input.getUsername(),
+                        input.getPassword()
+                )
         );
+        MyUserDetails myUserDetails = new MyUserDetails(userRepository.findByUsername(input.getUsername()).orElseThrow());
 
-        return userRepository.findByUsername(input.getUsername()).orElseThrow();
+//        return userRepository.findByUsername(input.getUsername()).orElseThrow();
+        return myUserDetails;
     }
 
-    public List<User> allUsers() {
-        List<User> users = new ArrayList<>();
-
-        userRepository.findAll().forEach(users::add);
-
-        return users;
-    }
+//    public List<User> allUsers() {
+//        List<User> users = new ArrayList<>();
+//
+//        userRepository.findAll().forEach(users::add);
+//
+//        return users;
+//    }
 }

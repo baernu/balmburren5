@@ -3,6 +3,7 @@ package com.messerli.balmburren.configs;
 import com.messerli.balmburren.entities.Role;
 import com.messerli.balmburren.entities.User;
 import com.messerli.balmburren.services.JwtService;
+import com.messerli.balmburren.services.MyUserDetails;
 import com.messerli.balmburren.services.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -35,26 +36,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final MyUserDetails myUserDetails;
 
     private final UserService userService;
     private String jwt;
 
     public JwtAuthenticationFilter(
-        JwtService jwtService,
-        UserDetailsService userDetailsService,
-        HandlerExceptionResolver handlerExceptionResolver,
-        UserService userService) {
+            JwtService jwtService,
+            UserDetailsService userDetailsService,
+            HandlerExceptionResolver handlerExceptionResolver,
+            MyUserDetails myUserDetails, UserService userService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
         this.handlerExceptionResolver = handlerExceptionResolver;
+        this.myUserDetails = myUserDetails;
         this.userService = userService;
     }
 
     @Override
     protected void doFilterInternal(
-        @NonNull HttpServletRequest request,
-        @NonNull HttpServletResponse response,
-        @NonNull FilterChain filterChain
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
 
@@ -80,8 +83,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
 
             final String userEmail = jwtService.extractUsername(jwt);
-            Optional<User> user1 = userService.findUser(userEmail);
-            Collection<? extends GrantedAuthority> roles = user1.get().getAuthorities();
+//            Optional<User> user1 = userService.findUser(userEmail);
+            Collection<? extends GrantedAuthority> roles = myUserDetails.getAuthorities();
             log.info("Roles: " + roles);
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
