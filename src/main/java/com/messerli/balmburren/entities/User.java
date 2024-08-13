@@ -28,8 +28,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Long id;
-//    @Version @GeneratedValue(strategy = GenerationType.AUTO)
-//    private long version;
+    @Version
+    private Long version;
 
     @Column(nullable = false)
     private String firstname;
