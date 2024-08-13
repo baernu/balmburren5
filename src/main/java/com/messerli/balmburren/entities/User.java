@@ -26,31 +26,31 @@ import java.util.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private Long id;
 //    @Version @GeneratedValue(strategy = GenerationType.AUTO)
 //    private long version;
 
-    //    @Column(nullable = false)
+    @Column(nullable = false)
     private String firstname;
 
-    //    @Column(nullable = false)
+    @Column(nullable = false)
     private String lastname;
 
-    //    @Column(unique = true, length = 100, nullable = false)
+    @Column(unique = true, length = 100, nullable = false)
     private String username;
 
-    //    @Column(nullable = false)
+    @Column(nullable = false)
     private String password;
 
     private boolean enabled;
 
     @CreationTimestamp
-//    @Column(updatable = false, name = "created_at")
+    @Column(updatable = false, name = "created_at")
     private Date createdAt;
 
     @UpdateTimestamp
-//    @Column(name = "updated_at")
+    @Column(name = "updated_at")
     private Date updatedAt;
 
 

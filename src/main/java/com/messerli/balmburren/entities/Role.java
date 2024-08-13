@@ -19,25 +19,25 @@ import java.util.Date;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private Long id;
 //    @Version @GeneratedValue(strategy = GenerationType.AUTO)
 //    private long version;
 
     //    @Getter
-//    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleEnum name;
 
-    //    @Column(nullable = false)
+    @Column(nullable = false)
     private String description;
 
     @CreationTimestamp
-//    @Column(updatable = false, name = "created_at")
+    @Column(updatable = false, name = "created_at")
     private Date createdAt;
 
     @UpdateTimestamp
-//    @Column(name = "updated_at")
+    @Column(name = "updated_at")
     private Date updatedAt;
 
 //    public String getName() { return this.name.name();}
