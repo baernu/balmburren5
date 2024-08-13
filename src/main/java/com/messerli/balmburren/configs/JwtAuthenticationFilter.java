@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private final MyUserDetails myUserDetails;
+//    private final MyUserDetails myUserDetails;
 
     private final UserService userService;
     private String jwt;
@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
         this.handlerExceptionResolver = handlerExceptionResolver;
-        this.myUserDetails = myUserDetails;
+//        this.myUserDetails = myUserDetails;
         this.userService = userService;
     }
 
@@ -83,8 +83,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
 
             final String userEmail = jwtService.extractUsername(jwt);
-//            Optional<User> user1 = userService.findUser(userEmail);
-            Collection<? extends GrantedAuthority> roles = myUserDetails.getAuthorities();
+            Optional<User> user1 = userService.findUser(userEmail);
+            MyUserDetails myUserDetails1 = new MyUserDetails(user1.get());
+
+            Collection<? extends GrantedAuthority> roles = myUserDetails1.getAuthorities();
+//            Collection<? extends GrantedAuthority> roles = myUserDetails.getAuthorities();
             log.info("Roles: " + roles);
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

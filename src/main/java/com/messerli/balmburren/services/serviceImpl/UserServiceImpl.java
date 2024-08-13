@@ -170,5 +170,13 @@ public class UserServiceImpl implements UserService {
         return !roles.isEmpty();
     }
 
+    @Override
+    public List<Role> getAllRoles() {
+        List<Role> roles = new ArrayList<>();
+         roles = (List<Role>) roleRepository.findAll();
+
+        return roles;
+    }
+
 
 }

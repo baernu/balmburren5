@@ -1,6 +1,8 @@
 package com.messerli.balmburren.services;
 
 import com.messerli.balmburren.dtos.RegisterUserDto;
+import com.messerli.balmburren.entities.Role;
+import com.messerli.balmburren.entities.RoleEnum;
 import com.messerli.balmburren.entities.User;
 
 import java.util.List;
@@ -17,8 +19,11 @@ public interface UserService {
     public boolean createDriver(String username);
     public boolean createUser(String username);
 
-    boolean isAdmin(String username);
-    boolean isBasic(String username);
-    boolean isDriver(String username);
-    boolean isKathy(String username);
-    boolean isUserKathy(String username);}
+    public boolean isAdmin(String username);
+    public boolean isBasic(String username);
+    public boolean isDriver(String username);
+    public boolean isKathy(String username);
+    public boolean isUserKathy(String username);
+
+    public List<Role> getAllRoles();
+}

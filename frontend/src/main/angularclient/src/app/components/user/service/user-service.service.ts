@@ -58,7 +58,7 @@ export class UserService {
     this.authUrl = this.baseUrl + 'auth/';
     this.readCookieUrl = this.baseUrl + 'read-cookie';
     this.getRolesForPersonUrl = this.baseUrl + 'person/bind/role/';
-    this.getAllRoles = this.baseUrl + 'role';
+    this.getAllRoles = this.usersUrl + 'role';
     this.bindUserTourUrl = this.baseUrl + 'person/bind/tour/';
     this.orderUrl = this.baseUrl + 'order/';
     this.userProfileOrderUrl = this.baseUrl + 'order/person/profile/';

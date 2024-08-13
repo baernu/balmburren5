@@ -15,8 +15,8 @@ export class AddRoleComponent implements OnInit{
 
   users: UserDTO[] =[];
   user: UserDTO = new UserDTO();
-  userBindRoles: UserBindRoleDTO[] = [];
-  userBindRole: UserBindRoleDTO = new UserBindRoleDTO();
+  // userBindRoles: UserBindRoleDTO[] = [];
+  // userBindRole: UserBindRoleDTO = new UserBindRoleDTO();
   roles: RoleDTO[] = [];
   username:string = "";
   newRoles: RoleDTO[] =[];
@@ -40,8 +40,8 @@ export class AddRoleComponent implements OnInit{
     console.log("User is: {}", user);
     this.roles = [];
     this.username = user.username;
-    this.userBindRoles = await firstValueFrom(this.userService.findAllRolesForPerson(this.username));
-    this.userBindRoles.forEach(userBindRole => this.roles.push(userBindRole.role));
+    // this.userBindRoles = await firstValueFrom(this.userService.findAllRolesForPerson(this.username));
+    // this.userBindRoles.forEach(userBindRole => this.roles.push(userBindRole.role));
   }
 
   async addRoles() {
@@ -49,19 +49,30 @@ export class AddRoleComponent implements OnInit{
   }
 
   async addRole(role: RoleDTO) {
-    let userBindRole1: UserBindRoleDTO = new UserBindRoleDTO();
-    userBindRole1.role = role;
+    // let userBindRole1: UserBindRoleDTO = new UserBindRoleDTO();
+    // userBindRole1.role = role;
     let user1: UserDTO = await firstValueFrom(this.userService.findUser(this.username));
-    userBindRole1.person = user1;
-    userBindRole1 = await firstValueFrom(this.userService.createPersonBindRole(userBindRole1));
-    this.userBindRoles = await firstValueFrom(this.userService.findAllRolesForPerson(this.username));
-    if(this.roles.find(role => role.name == userBindRole1.role.name) == null) this.roles.push(userBindRole1.role);
+    let roles: RoleDTO[] = user1.roles;
+    if (roles.some(e => e.name != role.name)) return;
+    else {
+      user1.roles.push(role);
+      let user2 = await firstValueFrom(this.userService.save(user1));
+      console.log("user with new roles is: " + user2);
+    }
+    // userBindRole1.person = user1;
+    // userBindRole1 = await firstValueFrom(this.userService.createPersonBindRole(userBindRole1));
+    // this.userBindRoles = await firstValueFrom(this.userService.findAllRolesForPerson(this.username));
+    // if(this.roles.find(role => role.name == userBindRole1.role.name) == null) this.roles.push(userBindRole1.role);
   }
 
   async delete(role: RoleDTO) {
-    let userBindRole1: UserBindRoleDTO = new UserBindRoleDTO();
-    userBindRole1 = await firstValueFrom(this.userService.deletePersonBindRole(this.username, role.name));
-    this.roles.splice(this.roles.findIndex(r => r.name === userBindRole1.role.name), 1);
+    // let userBindRole1: UserBindRoleDTO = new UserBindRoleDTO();
+    // userBindRole1 = await firstValueFrom(this.userService.deletePersonBindRole(this.username, role.name));
+    // this.roles.splice(this.roles.findIndex(r => r.name === userBindRole1.role.name), 1);
+    let user1: UserDTO = await firstValueFrom(this.userService.findUser(this.username));
+    user1.roles = user1.roles.filter(r => r.name != role.name);
+    let user2 = await firstValueFrom(this.userService.save(user1));
+    console.log("user with deleted roles is: " + user2);
   }
 }
 

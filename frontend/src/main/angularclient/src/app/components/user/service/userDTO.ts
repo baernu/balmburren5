@@ -1,3 +1,5 @@
+import {RoleDTO} from "./roleDTO";
+
 export class UserDTO {
   id: string = "" ;
   version: string = "";
@@ -5,5 +7,9 @@ export class UserDTO {
   password: string = "" ;
   firstname: string = "";
   lastname: string = "";
+  roles: RoleDTO[]= [];
+  updatedat: string = "";
+  createdat: string = "";
+  enabled: Boolean = false;
 
 }
