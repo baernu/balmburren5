@@ -70,7 +70,7 @@ public class UserBindController {
     @CrossOrigin( allowCredentials = "true")
     @PutMapping("/person/bind/deliveraddress")
     ResponseEntity<Optional<PersonBindDeliverAddress>> putPersonBindDeliverAddress(@RequestBody PersonBindDeliverAddress personBindDeliverAddress) {
-        Optional<PersonBindDeliverAddress> personBindDeliverAddress1 = userBindService.getPersonBindDeliverAddress(personBindDeliverAddress.getPerson());
+        Optional<PersonBindDeliverAddress> personBindDeliverAddress1 = userBindService.getPersonBindDeliverAddress(personBindDeliverAddress.getUser());
         if (personBindDeliverAddress1.isEmpty()) throw new NoSuchElementFoundException("PersonBindDeliverAddress not found");
         return ResponseEntity.ok().body(userBindService.putPersonBindDeliverAddress(personBindDeliverAddress));}
 
@@ -92,7 +92,7 @@ public class UserBindController {
     ResponseEntity<Optional<PersonBindDeliverAddress>> deletePersonBindDeliverAddress(@PathVariable("username") String username) {
         Optional<PersonBindDeliverAddress> personBindDeliverAddress1 = userBindService.getPersonBindDeliverAddress(getPeople(username).get());
         if (personBindDeliverAddress1.isEmpty()) throw new NoSuchElementFoundException("PersonBindDeliverAddress not found");
-        return ResponseEntity.ok().body(userBindService.deletePersonBindDeliverAddress(personBindDeliverAddress1.get().getPerson()));}
+        return ResponseEntity.ok().body(userBindService.deletePersonBindDeliverAddress(personBindDeliverAddress1.get().getUser()));}
 
     @CrossOrigin( allowCredentials = "true")
     @PostMapping("/person/bind/invoice")

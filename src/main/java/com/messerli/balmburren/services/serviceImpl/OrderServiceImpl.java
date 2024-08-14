@@ -89,14 +89,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Optional<PersonProfileOrder> getPersonProfileOrder(User user, ProductBindProductDetails productBindProductDetails, Tour tour) {
-        Optional<PersonProfileOrder> personProfileOrder = personProfileOrderRepo.findByPersonAndProductBindProductDetailsAndTour(user, productBindProductDetails, tour);
+        Optional<PersonProfileOrder> personProfileOrder = personProfileOrderRepo.findByUserAndProductBindProductDetailsAndTour(user, productBindProductDetails, tour);
         log.info("Get PersonProfileOrder: {}", personProfileOrder.get());
         return personProfileOrder;
     }
 
     @Override
     public Optional<PersonProfileOrder> deletePersonProfileOrder(User user, ProductBindProductDetails productBindProductDetails, Tour tour) {
-        Optional<PersonProfileOrder> personProfileOrder = personProfileOrderRepo.findByPersonAndProductBindProductDetailsAndTour(user, productBindProductDetails, tour);
+        Optional<PersonProfileOrder> personProfileOrder = personProfileOrderRepo.findByUserAndProductBindProductDetailsAndTour(user, productBindProductDetails, tour);
         log.info("Delete PersonProfileOrder: {}", personProfileOrder.get());
         personProfileOrderRepo.delete(personProfileOrder.get());
         return personProfileOrder;
@@ -104,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean existPersonProfileOrder(User user, ProductBindProductDetails productBindProductDetails, Tour tour) {
-        boolean bool = personProfileOrderRepo.existsByPersonAndProductBindProductDetailsAndTour(user, productBindProductDetails, tour);
+        boolean bool = personProfileOrderRepo.existsByUserAndProductBindProductDetailsAndTour(user, productBindProductDetails, tour);
         log.info("PersonProfileOrder exist: {}", bool);
         return bool;
     }

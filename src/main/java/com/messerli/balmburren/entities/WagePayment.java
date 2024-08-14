@@ -18,7 +18,7 @@ public class WagePayment {
     @Version
     private Long version;
     @ManyToOne
-    private User person;
+    private User user;
     @ManyToOne
     private Invoice invoice;
     @ManyToOne

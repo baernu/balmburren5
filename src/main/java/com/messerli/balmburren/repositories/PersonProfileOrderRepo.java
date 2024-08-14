@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PersonProfileOrderRepo extends JpaRepository<PersonProfileOrder, Long> {
-    Optional<PersonProfileOrder> findByPersonAndProductBindProductDetailsAndTour(User user, ProductBindProductDetails productBindProductDetails, Tour tour);
-    boolean existsByPersonAndProductBindProductDetailsAndTour(User user, ProductBindProductDetails productBindProductDetails, Tour tour);
+    Optional<PersonProfileOrder> findByUserAndProductBindProductDetailsAndTour(User user, ProductBindProductDetails productBindProductDetails, Tour tour);
+    boolean existsByUserAndProductBindProductDetailsAndTour(User user, ProductBindProductDetails productBindProductDetails, Tour tour);
     Optional<List<PersonProfileOrder>> findAllByUser(User user);
 
 //    void delete(PersonProfileOrder personProfileOrder);

@@ -19,7 +19,7 @@ public class Work {
     @Version
     private Long version;
     @ManyToOne
-    private User people;
+    private User user;
     @ManyToOne
     private Dates date;
     private LocalTime startTime;

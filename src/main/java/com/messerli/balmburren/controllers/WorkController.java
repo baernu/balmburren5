@@ -45,7 +45,7 @@ public class WorkController {
     @CrossOrigin( allowCredentials = "true")
     @PutMapping("/work")
     ResponseEntity<Optional<Work>> putWork(@RequestBody Work work) {
-        Optional<Work> work1 = workService.getWork(work.getPeople(), work.getDate());
+        Optional<Work> work1 = workService.getWork(work.getUser(), work.getDate());
         if (work1.isEmpty()) throw new NoSuchElementFoundException("Work not found");
         return ResponseEntity.ok().body(workService.putWork(work));}
 
@@ -77,7 +77,7 @@ public class WorkController {
     @CrossOrigin( allowCredentials = "true")
     @PutMapping("/wage/payment")
     ResponseEntity<Optional<WagePayment>> putWagePayment(@RequestBody WagePayment wagePayment) {
-        Optional<WagePayment> wagePayment1 = workService.getWagePayment(wagePayment.getPerson(), wagePayment.getDateTo());
+        Optional<WagePayment> wagePayment1 = workService.getWagePayment(wagePayment.getUser(), wagePayment.getDateTo());
         if (wagePayment1.isEmpty()) throw new NoSuchElementFoundException("WagePayment not found");
         return ResponseEntity.ok().body(workService.putWagePayment(wagePayment));}
 

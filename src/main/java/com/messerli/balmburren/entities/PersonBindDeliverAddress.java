@@ -18,7 +18,7 @@ public class PersonBindDeliverAddress {
     @Version
     private Long version;
     @ManyToOne
-    private User person;
+    private User user;
     @ManyToOne
     private Address address;
 
