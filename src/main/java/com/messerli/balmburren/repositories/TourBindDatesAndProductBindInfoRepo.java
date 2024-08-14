@@ -15,5 +15,4 @@ public interface TourBindDatesAndProductBindInfoRepo extends JpaRepository<TourB
     Optional<List<TourBindDatesAndProductBindInfo>> findAllByTourAndDates_DateBetween(Tour tour, String startDate, String endDate);
     Optional<List<TourBindDatesAndProductBindInfo>> findAllByTour(Tour tour);
 
-    void delete(Optional<TourBindDatesAndProductBindInfo> tourBindDatesAndProductBindInfo);
 }

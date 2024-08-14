@@ -9,5 +9,4 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     Optional<Product> findByName(String name);
     boolean existsByName(String name);
 
-    void delete(Optional<Product> product);
 }

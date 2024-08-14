@@ -15,5 +15,4 @@ public interface TourBindDatesRepo extends JpaRepository<TourBindDates, Long> {
     Optional<List<TourBindDates>> findByTour(Tour tour, Sort orders);
 
 
-    void delete(Optional<TourBindDates> tourBindDates);
 }

@@ -14,5 +14,4 @@ public interface ProductBindInfosRepo extends JpaRepository<ProductBindProductDe
     Optional<List<ProductBindProductDetails>> findAllByProduct(Product product);
     Optional<ProductBindProductDetails> findById(Long id);
 
-    void delete(Optional<ProductBindProductDetails> productBindInfos);
 }

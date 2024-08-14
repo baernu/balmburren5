@@ -40,7 +40,7 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public Optional<Work> getWork(User user, Dates date) {
-        Optional<Work> work = workRepo.findByPeopleAndDate_Date(user, date.getDate());
+        Optional<Work> work = workRepo.findByUserAndDate_Date(user, date.getDate());
         log.info("Get Work: {}", work.get());
         return work;
     }
@@ -49,13 +49,13 @@ public class WorkServiceImpl implements WorkService {
     public Optional<Work> deleteWork(User user, Dates date) {
         Optional<Work> work = getWork(user, date);
         log.info("Deleting Work: {}", work.get());
-        workRepo.delete(work);
+        workRepo.delete(work.get());
         return work;
     }
 
     @Override
     public Optional<List<Work>> getAllWorksForPeople(User user) {
-        Optional<List<Work>> list = workRepo.findAllByPeople(user);
+        Optional<List<Work>> list = workRepo.findAllByUser(user);
         log.info("Get all Works: {} for Person: {} and startDate: {} and endDate: {}",list.get(), user);
         return list;
     }
@@ -74,7 +74,7 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public Optional<WagePayment> getWagePayment(User user, Dates date) {
-        Optional<WagePayment> wagePayment = wagePaymentRepo.findByPersonAndDateTo_Date(user, date.getDate());
+        Optional<WagePayment> wagePayment = wagePaymentRepo.findByUserAndDateTo_Date(user, date.getDate());
         log.info("Get WagePayment: {}", wagePayment.get());
         return wagePayment;
     }
@@ -83,13 +83,13 @@ public class WorkServiceImpl implements WorkService {
     public Optional<WagePayment> deleteWagePayment(User user, Dates date) {
         Optional<WagePayment> wagePayment = getWagePayment(user, date);
         log.info("Deleted WagePayment: {}", wagePayment.get());
-        wagePaymentRepo.delete(wagePayment);
+        wagePaymentRepo.delete(wagePayment.get());
         return wagePayment;
     }
 
     @Override
     public Optional<List<WagePayment>> getAllWagePaymentsForPeople(User user) {
-        Optional<List<WagePayment>> list = wagePaymentRepo.findAllByPerson(user);
+        Optional<List<WagePayment>> list = wagePaymentRepo.findAllByUser(user);
         log.info("Get all WagePayments: {} for people: {}", list.get(), user);
         return list;
     }

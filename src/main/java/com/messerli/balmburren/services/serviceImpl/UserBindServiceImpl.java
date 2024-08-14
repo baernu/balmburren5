@@ -70,20 +70,20 @@ public class UserBindServiceImpl implements UserBindService {
     public Optional<PersonBindDeliverAddress> deletePersonBindDeliverAddress(User user) {
         Optional<PersonBindDeliverAddress> personBindDeliverAddress = getPersonBindDeliverAddress(user);
         log.info("Deleted PersonBindDeliverAddress: {}", personBindDeliverAddress);
-        personBindDeliverAddressRepo.delete(personBindDeliverAddress);
+        personBindDeliverAddressRepo.delete(personBindDeliverAddress.get());
         return personBindDeliverAddress;
     }
 
     @Override
     public Optional<PersonBindDeliverAddress> getPersonBindDeliverAddress(User user) {
-        Optional<PersonBindDeliverAddress> personBindDeliverAddress = personBindDeliverAddressRepo.findByPerson(user);
+        Optional<PersonBindDeliverAddress> personBindDeliverAddress = personBindDeliverAddressRepo.findByUser(user);
         log.info("Get PersonBindDeliverAddress: {}", personBindDeliverAddress.get());
         return personBindDeliverAddress;
     }
 
     @Override
     public boolean existPersonBindDeliverAddress(User user) {
-        boolean bool = personBindDeliverAddressRepo.existsByPerson(user);
+        boolean bool = personBindDeliverAddressRepo.existsByUser(user);
         log.info("PersonBindDeliverAddress for Person: {} exist: {}", user, bool);
         return bool;
     }
@@ -146,7 +146,7 @@ public class UserBindServiceImpl implements UserBindService {
     public Optional<PersonBindInvoice> deletePersonBindInvoice(String dateFrom, String dateTo, User peopleInvoice, User peopleDeliver) {
         Optional<PersonBindInvoice> personBindInvoice = getPersonBindInvoice(dateFrom, dateTo, peopleInvoice, peopleDeliver);
         log.info("Deleted PersonBindInvoice: {}", personBindInvoice);
-        personBindInvoiceRepo.delete(personBindInvoice);
+        personBindInvoiceRepo.delete(personBindInvoice.get());
         return personBindInvoice;
     }
 
@@ -164,7 +164,7 @@ public class UserBindServiceImpl implements UserBindService {
 
     @Override
     public Optional<PersonBindPhone> getPersonBindPhone(User user) {
-        Optional<PersonBindPhone> personBindPhone = personBindPhoneRepo.findByPerson(user);
+        Optional<PersonBindPhone> personBindPhone = personBindPhoneRepo.findByUser(user);
         log.info("Get PersonBindPhone: {}", personBindPhone.get());
         return personBindPhone;
     }
@@ -173,13 +173,13 @@ public class UserBindServiceImpl implements UserBindService {
     public Optional<PersonBindPhone> deletePersonBindPhone(User user) {
         Optional<PersonBindPhone> personBindPhone = getPersonBindPhone(user);
         log.info("Deleted PersonBindPhone: {}", personBindPhone.get());
-        personBindPhoneRepo.delete(personBindPhone);
+        personBindPhoneRepo.delete(personBindPhone.get());
         return personBindPhone;
     }
 
     @Override
     public boolean existPersonBindPhone(User user) {
-        boolean bool = personBindPhoneRepo.existsByPerson(user);
+        boolean bool = personBindPhoneRepo.existsByUser(user);
         log.info("PersonBindPhone for Person: {} exist: {}", user, bool);
         return bool;
     }
@@ -213,7 +213,7 @@ public class UserBindServiceImpl implements UserBindService {
     @Override
     public void deletePersonBindTour(Optional<PersonBindTour> personBindTour) {
         log.info("Deleting PersonBindTour: {}", personBindTour);
-        personBindTourRepo.delete(personBindTour);
+        personBindTourRepo.delete(personBindTour.get());
     }
 
 

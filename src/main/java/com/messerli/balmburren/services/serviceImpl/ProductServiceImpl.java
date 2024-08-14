@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
     public Optional<Product> deleteProduct(String name) {
         Optional<Product> product = getProduct(name);
         log.info("Deleted Product with name: {}", product.get().getName());
-        productRepo.delete(product);
+        productRepo.delete(product.get());
         return product;
     }
 
@@ -140,7 +140,7 @@ public class ProductServiceImpl implements ProductService {
     public Optional<ProductBindProductDetails> deleteProductBindInfos(Product product, ProductDetails productDetails) {
         Optional<ProductBindProductDetails> productBindInfos = getProductBindInfos(product, productDetails);
         log.info("Deleted ProductInfos for Product: {} ", productBindInfos);
-        productBindInfosRepo.delete(productBindInfos);
+        productBindInfosRepo.delete(productBindInfos.get());
         return productBindInfos;
     }
 

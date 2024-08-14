@@ -16,8 +16,8 @@ public class Work {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Version @GeneratedValue(strategy = GenerationType.AUTO)
-    private long version;
+    @Version
+    private Long version;
     @ManyToOne
     private User people;
     @ManyToOne

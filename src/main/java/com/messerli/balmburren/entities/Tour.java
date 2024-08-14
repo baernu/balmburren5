@@ -16,6 +16,6 @@ public class Tour {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String number;
-    @Version @GeneratedValue(strategy = GenerationType.AUTO)
-    private long version;
+    @Version
+    private Long version;
 }

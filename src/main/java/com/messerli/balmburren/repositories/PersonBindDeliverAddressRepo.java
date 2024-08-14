@@ -8,8 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface PersonBindDeliverAddressRepo extends JpaRepository<PersonBindDeliverAddress, Long> {
-    Optional<PersonBindDeliverAddress> findByPerson(User user);
-    boolean existsByPerson(User user);
+    Optional<PersonBindDeliverAddress> findByUser(User user);
+    boolean existsByUser(User user);
 
-    void delete(Optional<PersonBindDeliverAddress> personBindDeliverAddress);
 }

@@ -10,9 +10,8 @@ import java.util.Optional;
 
 
 public interface WorkRepo extends JpaRepository<Work, Long> {
-    Optional<Work> findByPeopleAndDate_Date(User user, String date);
+    Optional<Work> findByUserAndDate_Date(User user, String date);
 
-    Optional<List<Work>> findAllByPeople(User user);
+    Optional<List<Work>> findAllByUser(User user);
 
-    void delete(Optional<Work> work);
 }

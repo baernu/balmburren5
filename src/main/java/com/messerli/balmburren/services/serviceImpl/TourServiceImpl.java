@@ -79,7 +79,7 @@ public class TourServiceImpl implements TourService {
     public void deleteTourBindDates(Tour tour, Dates dates) {
         Optional<TourBindDates> tourBindDates = tourBindDatesRepo.findByTourAndDates_Date(tour, dates.getDate());
         log.info("Delete TourBindDates: {}", tourBindDates.get());
-        tourBindDatesRepo.delete(tourBindDates);
+        tourBindDatesRepo.delete(tourBindDates.get());
 //        return tourBindDates;
     }
 
@@ -114,7 +114,7 @@ public class TourServiceImpl implements TourService {
         Optional<ProductBindProductDetails> productBindInfos = productService.getProductBindInfos(product, productDetails);
         Optional<TourBindDatesAndProductBindInfo> tourBindDatesAndProductBindInfo = tourBindDatesAndProductBindInfoRepo.findByTourAndDates_DateAndProductBindInfos(tour, date.getDate(), productBindInfos);
         log.info("Deleting TourBindDatesAndProductBindInfo: {}", tourBindDatesAndProductBindInfo);
-        tourBindDatesAndProductBindInfoRepo.delete(tourBindDatesAndProductBindInfo);;
+        tourBindDatesAndProductBindInfoRepo.delete(tourBindDatesAndProductBindInfo.get());;
     }
 
     @Override

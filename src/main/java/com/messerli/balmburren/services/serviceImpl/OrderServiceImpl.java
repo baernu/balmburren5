@@ -98,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
     public Optional<PersonProfileOrder> deletePersonProfileOrder(User user, ProductBindProductDetails productBindProductDetails, Tour tour) {
         Optional<PersonProfileOrder> personProfileOrder = personProfileOrderRepo.findByPersonAndProductBindProductDetailsAndTour(user, productBindProductDetails, tour);
         log.info("Delete PersonProfileOrder: {}", personProfileOrder.get());
-        personProfileOrderRepo.delete(personProfileOrder);
+        personProfileOrderRepo.delete(personProfileOrder.get());
         return personProfileOrder;
     }
 
@@ -111,7 +111,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Optional<List<PersonProfileOrder>> getAllPersonProfileOrderForPerson(User user) {
-        Optional<List<PersonProfileOrder>> list = personProfileOrderRepo.findAllByPerson(user);
+        Optional<List<PersonProfileOrder>> list = personProfileOrderRepo.findAllByUser(user);
         log.info("Get all PersonProfileOrder: {} for Person: {}", list.get(), user);
         return list;
     }

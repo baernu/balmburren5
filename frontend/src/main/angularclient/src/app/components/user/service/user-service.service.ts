@@ -60,7 +60,7 @@ export class UserService {
     this.getRolesForPersonUrl = this.baseUrl + 'person/bind/role/';
     this.getAllRoles = this.usersUrl + 'role';
     this.bindUserTourUrl = this.baseUrl + 'bd/person/bind/tour/';
-    this.orderUrl = this.baseUrl + 'order/';
+    this.orderUrl = this.baseUrl + 'or/order/';
     this.userProfileOrderUrl = this.baseUrl + 'order/person/profile/';
     this.invoiceUrl = this.baseUrl + 'ic/invoice/';
     this.userBindInvoiceUrl = this.baseUrl + 'bd/person/bind/invoice/';

@@ -18,8 +18,7 @@ public class Reference {
     @GeneratedValue(strategy = AUTO)
     private Long id;
     @Version
-    @GeneratedValue(strategy = AUTO)
-    private long version;
+    private Long version;
     private String name;
     private Long value = 0L;
 }

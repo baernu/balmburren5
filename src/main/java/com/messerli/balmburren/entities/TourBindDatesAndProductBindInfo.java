@@ -16,8 +16,7 @@ public class TourBindDatesAndProductBindInfo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Version
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long version;
+    private Long version;
     @ManyToOne
     private Tour tour;
     @ManyToOne

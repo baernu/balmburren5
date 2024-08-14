@@ -15,8 +15,8 @@ public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Version @GeneratedValue(strategy = GenerationType.AUTO)
-    private long version;
+    @Version
+    private Long version;
     private double amount;
     private double paid;
     private Boolean isPaid = false;

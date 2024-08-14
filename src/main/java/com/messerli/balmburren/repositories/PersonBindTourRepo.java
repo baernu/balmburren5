@@ -13,5 +13,4 @@ public interface PersonBindTourRepo extends JpaRepository<PersonBindTour, Long> 
     Optional<List<PersonBindTour>> findAllByTour(Tour tour);
     boolean existsByUserAndTour(User user, Tour tour);
 
-    void delete(Optional<PersonBindTour> personBindTour);
 }
