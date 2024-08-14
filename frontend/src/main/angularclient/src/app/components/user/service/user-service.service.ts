@@ -125,7 +125,7 @@ export class UserService {
     return this.http.get<Boolean>(this.adminUrl + 'is_user_kathy/' + username, {withCredentials: true});}
 
   public isDriver(username: string | null): Observable<Boolean>{
-    return this.http.get<Boolean>(this.adminUrl + 'is_driver/ '+ username, {withCredentials: true});}
+    return this.http.get<Boolean>(this.adminUrl + 'is_driver/'+ username, {withCredentials: true});}
 
   public isKathy(username: string | null): Observable<Boolean>{
     return this.http.get<Boolean>(this.adminUrl + 'is_kathy/' + username, {withCredentials: true});}

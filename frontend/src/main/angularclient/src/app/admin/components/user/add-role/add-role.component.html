@@ -31,7 +31,7 @@
       <tbody>
       <tr *ngFor="let role of roles">
         <td>{{ role.name }}</td>
-        <button type="button" (click)='delete(role)' class="btn-dark">Delete Role</button>
+        <button type="button" (click)='delete(role)' class="btn-light">Delete Role</button>
       </tr>
       </tbody>
     </table>
@@ -47,6 +47,6 @@
       </tr>
       </tbody>
     </table>
-    <button type="button" (click)='addRoles()' class="btn-dark">new Roles</button>
+    <button type="button" (click)='addRoles()' class="btn-light">new Roles</button>
   </div>
 </div>

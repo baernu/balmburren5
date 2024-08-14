@@ -19,17 +19,17 @@ export class KathyGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Promise<boolean> {
     let user: UserDTO = new UserDTO();
-    let username = localStorage.getItem('username');
-    if (username && username != "")
-      user = await firstValueFrom(this.userService.findUser(username));
-    if ( username == "") {
+    // let username = localStorage.getItem('username');
+    // if (username && username != "") {
+    user = await firstValueFrom(this.userService.currentUser());
+    // }
+    if ( user.username == "") {
       await this.router.navigate(['home']);
       return false;
     }
     this.people = user;
     this.message = await firstValueFrom(this.userService.isKathy(this.people.username));
     this.bool = this.message.valueOf();
-    console.log("User: {} is a Driver: {}", this.people, this.bool);
     if (!this.bool) {
       await this.router.navigate(['home']);
       return this.bool;
@@ -37,6 +37,4 @@ export class KathyGuard implements CanActivate {
     return true;
 
   }
-
-
 }
