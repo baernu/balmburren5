@@ -131,10 +131,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) {
+    public Optional<User> updateUser(User user) {
         Optional<User> user1 = findUser(user.getUsername());
         user.setVersion(user1.get().getVersion());
-            return userRepository.save(user);
+            return Optional.of(userRepository.save(user));
     }
 
     public boolean isAdmin(String username) {
