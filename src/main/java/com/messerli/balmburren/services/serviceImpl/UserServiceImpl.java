@@ -1,6 +1,5 @@
 package com.messerli.balmburren.services.serviceImpl;
 
-import com.messerli.balmburren.dtos.RegisterUserDto;
 import com.messerli.balmburren.entities.RoleEnum;
 import com.messerli.balmburren.entities.User;
 import com.messerli.balmburren.repositories.RoleRepository;
@@ -129,6 +128,13 @@ public class UserServiceImpl implements UserService {
         }
         else
             return false;
+    }
+
+    @Override
+    public User updateUser(User user) {
+        Optional<User> user1 = findUser(user.getUsername());
+        user.setVersion(user1.get().getVersion());
+            return userRepository.save(user);
     }
 
     public boolean isAdmin(String username) {

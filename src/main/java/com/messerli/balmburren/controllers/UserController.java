@@ -39,7 +39,7 @@ public class UserController {
 
     @CrossOrigin( allowCredentials = "true")
     @GetMapping("{username}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> findUser(@PathVariable("username") String username) {
 
         return ResponseEntity.ok(userService.findUser(username));

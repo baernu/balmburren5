@@ -28,6 +28,8 @@ export class AddRoleComponent implements OnInit{
     private route: ActivatedRoute,
     private router: Router,
   ){
+    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+      return false;};
   }
 
 
@@ -40,6 +42,8 @@ export class AddRoleComponent implements OnInit{
     console.log("User is: {}", user);
     this.roles = [];
     this.username = user.username;
+    this.user = await firstValueFrom(this.userService.findUser(this.username));
+    this.roles = this.user.roles;
     // this.userBindRoles = await firstValueFrom(this.userService.findAllRolesForPerson(this.username));
     // this.userBindRoles.forEach(userBindRole => this.roles.push(userBindRole.role));
   }
@@ -51,13 +55,14 @@ export class AddRoleComponent implements OnInit{
   async addRole(role: RoleDTO) {
     // let userBindRole1: UserBindRoleDTO = new UserBindRoleDTO();
     // userBindRole1.role = role;
-    let user1: UserDTO = await firstValueFrom(this.userService.findUser(this.username));
-    let roles: RoleDTO[] = user1.roles;
-    if (roles.some(e => e.name != role.name)) return;
+    // let user1: UserDTO = await firstValueFrom(this.userService.findUser(this.username));
+    let roles: RoleDTO[] = this.user.roles;
+    if (roles.some(e => e.name == role.name)) return;
     else {
-      user1.roles.push(role);
-      let user2 = await firstValueFrom(this.userService.save(user1));
-      console.log("user with new roles is: " + user2);
+      this.user.roles.push(role);
+      let user1 = await firstValueFrom(this.userService.updateUser(this.user));
+      console.log("user with new roles is: " + user1);
+      await this.router.navigate(['/admin_users_role']);
     }
     // userBindRole1.person = user1;
     // userBindRole1 = await firstValueFrom(this.userService.createPersonBindRole(userBindRole1));
@@ -69,10 +74,11 @@ export class AddRoleComponent implements OnInit{
     // let userBindRole1: UserBindRoleDTO = new UserBindRoleDTO();
     // userBindRole1 = await firstValueFrom(this.userService.deletePersonBindRole(this.username, role.name));
     // this.roles.splice(this.roles.findIndex(r => r.name === userBindRole1.role.name), 1);
-    let user1: UserDTO = await firstValueFrom(this.userService.findUser(this.username));
-    user1.roles = user1.roles.filter(r => r.name != role.name);
-    let user2 = await firstValueFrom(this.userService.save(user1));
-    console.log("user with deleted roles is: " + user2);
+    // let user1: UserDTO = await firstValueFrom(this.userService.findUser(this.username));
+    this.user.roles = this.roles.filter(r => r.name != role.name);
+    let user1 = await firstValueFrom(this.userService.updateUser(this.user));
+    console.log("user with deleted roles is: " + user1);
+    await this.router.navigate(['/admin_users_role']);
   }
 }
 
