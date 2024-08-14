@@ -37,63 +37,63 @@ public class TourController {
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("/tour")
+    @PostMapping("tour")
     ResponseEntity<Optional<Tour>> createTour(@RequestBody Tour tour) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/tour").toUriString());
         return ResponseEntity.created(uri).body(tourService.saveTour(tour));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("/tour")
+    @PutMapping("tour")
     ResponseEntity<Optional<Tour>> putTour(@RequestBody Tour tour) {
         Optional<Tour> tour1 = tourService.getTour(tour.getNumber());
         if (tour1.isEmpty()) throw new NoSuchElementFoundException("Tour not found");
         return ResponseEntity.ok().body(tourService.putTour(tour));}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping ("/tour/{number}")
+    @GetMapping ("tour/{number}")
     ResponseEntity<Optional<Tour>> getTour(@PathVariable("number") String number) {
         Optional<Tour> tour = tourService.getTour(number);
         if (tour.isEmpty()) throw new NoSuchElementFoundException("Tour not found");
         return ResponseEntity.ok().body(tour);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping ("/tour")
+    @GetMapping ("tour")
     ResponseEntity<Optional<List<Tour>>> getTours() {
         return ResponseEntity.ok().body(tourService.getTours());
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("/dates")
+    @PostMapping("dates")
     ResponseEntity<Optional<Dates>> createDates(@RequestBody Dates dates) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/dates").toUriString());
         return ResponseEntity.created(uri).body(datesService.saveDate(dates));}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping ("/dates/{date}")
+    @GetMapping ("dates/{date}")
     ResponseEntity<Optional<Dates>> getDates(@PathVariable("date") Long id) {
         Optional<Dates> dates = datesService.getDate(id);
         if (dates.isEmpty()) throw new NoSuchElementFoundException("Dates not found");
         return ResponseEntity.ok().body(dates);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping ("/dates/exist/{date}")
+    @GetMapping ("dates/exist/{date}")
     ResponseEntity<Boolean> existDates(@PathVariable("date") String date) {
         boolean bool = datesService.existDate(date);
         return ResponseEntity.ok().body(bool);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("/tour/bind/dates")
+    @PostMapping("tour/bind/dates")
     ResponseEntity<Optional<TourBindDates>> createTourBindDates(@RequestBody TourBindDates tourBindDates) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/tour/bind/dates").toUriString());
         return ResponseEntity.created(uri).body(tourService.saveTourBindDates(tourBindDates));}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping ("/tour/bind/dates/{number}/{date}")
+    @GetMapping ("tour/bind/dates/{number}/{date}")
     ResponseEntity<Optional<TourBindDates>> getTourBindDates(@PathVariable("number") String number, @PathVariable("date") Long date) {
         return ResponseEntity.ok().body(getTourBindDates1(number, date));}
 
     @CrossOrigin( allowCredentials = "true")
-    @DeleteMapping ("/tour/bind/dates/{number}/{date}")
+    @DeleteMapping ("tour/bind/dates/{number}/{date}")
     ResponseEntity<?> deleteTourBindDates(@PathVariable("number") String number, @PathVariable("date") Long date) {
         Optional<Tour> tour = tourService.getTour(number);
         if (tour.isEmpty()) throw new NoSuchElementFoundException("Tour not found");
@@ -103,7 +103,7 @@ public class TourController {
         return ResponseEntity.ok().body(new StringResponse("Deleted TourBindDates", 200));}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping ("/tour/bind/dates/{number}")
+    @GetMapping ("tour/bind/dates/{number}")
     ResponseEntity<Optional<List<TourBindDates>>> getAllTourBindDatesForTour(@PathVariable("number") String number) {
         Optional<Tour> tour = tourService.getTour(number);
         if (tour.isEmpty()) throw new NoSuchElementFoundException("Tour not found");
@@ -111,18 +111,18 @@ public class TourController {
 
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("/tour/bind/dates/product/infos")
+    @PostMapping("tour/bind/dates/product/infos")
     ResponseEntity<Optional<TourBindDatesAndProductBindInfo>> createTourBindDatesAndProductBindInfo(@RequestBody TourBindDatesAndProductBindInfo tourBindDatesAndProductBindInfo) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/tour/bind/dates/product/infos").toUriString());
         return ResponseEntity.created(uri).body(tourService.saveTourBindDatesAndProductBindInfos(tourBindDatesAndProductBindInfo));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("/tour/bind/dates/product/infos")
+    @PutMapping("tour/bind/dates/product/infos")
     ResponseEntity<Optional<TourBindDatesAndProductBindInfo>> putTourBindDatesAndProductBindInfo(@RequestBody TourBindDatesAndProductBindInfo tourBindDatesAndProductBindInfo) {
         return ResponseEntity.ok().body(tourService.putTourBindDatesAndProductBindInfos(tourBindDatesAndProductBindInfo));}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping ("/tour/bind/dates/product/infos/{tour}/{date}/{product}/{productdetail}")
+    @GetMapping ("tour/bind/dates/product/infos/{tour}/{date}/{product}/{productdetail}")
     ResponseEntity<Optional<TourBindDatesAndProductBindInfo>> getTourBindDatesAndProductInfo(@PathVariable("tour") String number,
                                                                                    @PathVariable("date") Long date,
                                                                                    @PathVariable("product") String name,
@@ -132,7 +132,7 @@ public class TourController {
         return ResponseEntity.ok().body(tourBindDatesAndProductBindInfo);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping ("/tour/bind/dates/product/infos/{tour}/{date}")
+    @GetMapping ("tour/bind/dates/product/infos/{tour}/{date}")
     ResponseEntity<Optional<List<TourBindDatesAndProductBindInfo>>> getAllTourBindDatesAndProductInfoForTourAndDate(@PathVariable("tour") String number,
                                                                                    @PathVariable("date") Long date) {
         Optional<List<TourBindDatesAndProductBindInfo>> list = tourService.getAllTourBindDatesAndProductInfosForTourAndDate(
@@ -140,7 +140,7 @@ public class TourController {
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping ("/tour/bind/dates/product/infos/between/{tour}/{startDate}/{endDate}")
+    @GetMapping ("tour/bind/dates/product/infos/between/{tour}/{startDate}/{endDate}")
     ResponseEntity<Optional<List<TourBindDatesAndProductBindInfo>>> getAllTourBindDatesAndProductInfoForTourAndDateBetween(@PathVariable("tour") String number,
                                                                                                           @PathVariable("startDate") Long startDate, @PathVariable("endDate") Long endDate) {
         Optional<List<TourBindDatesAndProductBindInfo>> list = tourService.getAllTourBindDatesAndProductInfosForTourAndDateBetween(
@@ -148,19 +148,19 @@ public class TourController {
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping ("/tour/bind/dates/product/infos/{tour}")
+    @GetMapping ("tour/bind/dates/product/infos/{tour}")
     ResponseEntity<Optional<List<TourBindDatesAndProductBindInfo>>> getAllTourBindDatesAndProductInfoForTour(@PathVariable("tour") String number) {
         Optional<List<TourBindDatesAndProductBindInfo>> list = tourService.getAllTourBindDatesAndProductInfosForTour(tourService.getTour(number).get());
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping ("/tour/bind/dates/product/infos")
+    @GetMapping ("tour/bind/dates/product/infos")
     ResponseEntity<Optional<List<TourBindDatesAndProductBindInfo>>> getAllTourBindDatesAndProductInfos() {
         Optional<List<TourBindDatesAndProductBindInfo>> list = tourService.getAllTourBindDatesAndProductInfos();
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @DeleteMapping ("/tour/bind/dates/product/infos/{tour}/{date}/{product}/{productdetail}")
+    @DeleteMapping ("tour/bind/dates/product/infos/{tour}/{date}/{product}/{productdetail}")
     ResponseEntity<Optional<TourBindDatesAndProductBindInfo>> deleteTourBindDatesAndProductInfo(@PathVariable("tour") String number,
                                                                                    @PathVariable("date") Long date,
                                                                                    @PathVariable("product") String name,
@@ -172,7 +172,7 @@ public class TourController {
         return ResponseEntity.ok().body(tourBindDatesAndProductBindInfo);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping ("/tour/bind/dates/product/infos/exist/{tour}/{date}/{product}/{productdetail}")
+    @GetMapping ("tour/bind/dates/product/infos/exist/{tour}/{date}/{product}/{productdetail}")
     ResponseEntity<Boolean> existTourBindDatesAndProductInfo(@PathVariable("tour") String number,
                                                              @PathVariable("date") Long date,
                                                              @PathVariable("product") String name,

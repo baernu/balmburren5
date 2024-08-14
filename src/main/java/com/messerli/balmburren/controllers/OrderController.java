@@ -39,32 +39,32 @@ public class OrderController {
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("/order")
+    @PostMapping("order")
     ResponseEntity<Optional<Ordered>> createOrder(@RequestBody Ordered ordered) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/order").toUriString());
         return ResponseEntity.created(uri).body(orderService.saveOrder(ordered));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("/order")
+    @PutMapping("order")
     ResponseEntity<Optional<Ordered>> putOrder(@RequestBody Ordered ordered) {
         return ResponseEntity.ok().body(orderService.putOrder(ordered));}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("/order/{people}/{product}/{productdetails}/{date}/{tour}")
+    @GetMapping("order/{people}/{product}/{productdetails}/{date}/{tour}")
     ResponseEntity<Optional<Ordered>> getOrder(@PathVariable("people") String username,
                                      @PathVariable("product") String product, @PathVariable("productdetails") Long id,
                                      @PathVariable("date") Long date, @PathVariable("tour") String tour) {
         return ResponseEntity.ok().body(getOrdered(username, product, id, date, tour, 1));}
 
     @CrossOrigin( allowCredentials = "true")
-    @DeleteMapping("/order/{people}/{product}/{productdetails}/{date}/{tour}")
+    @DeleteMapping("order/{people}/{product}/{productdetails}/{date}/{tour}")
     ResponseEntity<Optional<Ordered>> deleteOrder(@PathVariable("people") String username,
                                      @PathVariable("product") String product, @PathVariable("productdetails") Long id,
                                         @PathVariable("date") Long date, @PathVariable("tour") String tour) {
         return ResponseEntity.ok().body(getOrdered(username, product, id, date, tour,0));}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("/order/exist/{people}/{product}/{productdetails}/{date}/{tour}")
+    @GetMapping("order/exist/{people}/{product}/{productdetails}/{date}/{tour}")
     ResponseEntity<Boolean> existOrder(@PathVariable("people") String username,
                                      @PathVariable("product") String product, @PathVariable("productdetails") Long id,
                                        @PathVariable("date") Long date, @PathVariable("tour") String tour) {
@@ -76,7 +76,7 @@ public class OrderController {
         return ResponseEntity.ok().body(orderService.existOrderForDatePeopleAndProductBindInfosAndTour(dates.get().getDate(),user.get(),productBindProductDetails.get(), getTour(tour).get()));}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("/order/{people}")
+    @GetMapping("order/{people}")
     ResponseEntity<Optional<List<Ordered>>> getAllOrderForPerson(@PathVariable("people") String username) {
         Optional<User> user = userService.findUser(username);
         if (user.isEmpty()) throw new NoSuchElementFoundException("Person not found");
@@ -84,7 +84,7 @@ public class OrderController {
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("/order/between/{startDate}/{endDate}/{people}")
+    @GetMapping("order/between/{startDate}/{endDate}/{people}")
     ResponseEntity<Optional<List<Ordered>>> getAllOrderForPersonBetween(@PathVariable("startDate") Long startDate, @PathVariable("endDate") Long endDate,
                                                               @PathVariable("people") String username) {
         Optional<User> user = userService.findUser(username);
@@ -93,25 +93,25 @@ public class OrderController {
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("/order/{tour}/{date}")
+    @GetMapping("order/{tour}/{date}")
     ResponseEntity<Optional<List<Ordered>>> getAllOrderForTourAndDate(@PathVariable("tour") String tour, @PathVariable("date") Long date) {
         Optional<List<Ordered>> list = orderService.getAllOrderForTourAndDate(getTour(tour).get(), getDates(date).get().getDate());
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("/order/person/profile")
+    @PostMapping("order/person/profile")
     ResponseEntity<Optional<PersonProfileOrder>> createPersonProfileOrder(@RequestBody PersonProfileOrder personProfileOrder) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/order/person/profile").toUriString());
         return ResponseEntity.created(uri).body(orderService.savePersonProfileOrder(personProfileOrder));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("/order/person/profile")
+    @PutMapping("order/person/profile")
     ResponseEntity<Optional<PersonProfileOrder>> putPersonProfileOrder(@RequestBody PersonProfileOrder personProfileOrder) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/order/person/profile").toUriString());
         return ResponseEntity.created(uri).body(orderService.putPersonProfileOrder(personProfileOrder));}
 
     @CrossOrigin( allowCredentials = "true")
-    @DeleteMapping("/order/person/profile/{people}/{product}/{productdetails}/{tour}")
+    @DeleteMapping("order/person/profile/{people}/{product}/{productdetails}/{tour}")
     ResponseEntity<Optional<PersonProfileOrder>> deletePersonProfileOrder(@PathVariable("people") String username,
                                      @PathVariable("product") String product, @PathVariable("productdetails") Long id, @PathVariable("tour") String tour) {
         Optional<PersonProfileOrder> personProfileOrder = orderService.getPersonProfileOrder(getPerson(username).get(), getProductBindInfo(product, id).get(), getTour(tour).get());
@@ -119,27 +119,27 @@ public class OrderController {
         return ResponseEntity.ok().body(personProfileOrder);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("/order/person/profile/{people}/{product}/{productdetails}/{tour}")
+    @GetMapping("order/person/profile/{people}/{product}/{productdetails}/{tour}")
     ResponseEntity<Optional<PersonProfileOrder>> getPersonProfileOrder(@PathVariable("people") String username,
                                                              @PathVariable("product") String product, @PathVariable("productdetails") Long id, @PathVariable("tour") String tour) {
         Optional<PersonProfileOrder> personProfileOrder = orderService.getPersonProfileOrder(getPerson(username).get(), getProductBindInfo(product, id).get(), getTour(tour).get());
         return ResponseEntity.ok().body(personProfileOrder);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("/order/person/profile/exist/{people}/{product}/{productdetails}/{tour}")
+    @GetMapping("order/person/profile/exist/{people}/{product}/{productdetails}/{tour}")
     ResponseEntity<Boolean> existPersonProfileOrder(@PathVariable("people") String username,
                                                              @PathVariable("product") String product, @PathVariable("productdetails") Long id, @PathVariable("tour") String tour) {
         Boolean bool = orderService.existPersonProfileOrder(getPerson(username).get(), getProductBindInfo(product, id).get(), getTour(tour).get());
         return ResponseEntity.ok().body(bool);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("/order/person/profile/{people}")
+    @GetMapping("order/person/profile/{people}")
     ResponseEntity<Optional<List<PersonProfileOrder>>> getAllPersonProfileOrderForPerson(@PathVariable("people") String username) {
         Optional<List<PersonProfileOrder>> list = orderService.getAllPersonProfileOrderForPerson(getPerson(username).get());
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("/order/person/profile")
+    @GetMapping("order/person/profile")
     ResponseEntity<Optional<List<PersonProfileOrder>>> getAllPersonProfileOrder() {
         Optional<List<PersonProfileOrder>> list = orderService.getAllPersonProfileOrder();
         return ResponseEntity.ok().body(list);}
