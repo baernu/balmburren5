@@ -19,7 +19,7 @@ export class ProductService {
   constructor(private http: HttpClient) {
     this.productUrl = this.baseUrl + 'pr/product/';
     this.productDetailsUrl = this.baseUrl + 'pr/product/details/';
-    this.productBindDetailsUrl = this.baseUrl + '/pr/product/bind/infos/';
+    this.productBindDetailsUrl = this.baseUrl + 'pr/product/bind/infos/';
 
 
   }

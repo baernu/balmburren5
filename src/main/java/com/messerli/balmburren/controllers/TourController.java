@@ -37,13 +37,13 @@ public class TourController {
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("tour")
+    @PostMapping("tour/")
     ResponseEntity<Optional<Tour>> createTour(@RequestBody Tour tour) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/tour").toUriString());
         return ResponseEntity.created(uri).body(tourService.saveTour(tour));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("tour")
+    @PutMapping("tour/")
     ResponseEntity<Optional<Tour>> putTour(@RequestBody Tour tour) {
         Optional<Tour> tour1 = tourService.getTour(tour.getNumber());
         if (tour1.isEmpty()) throw new NoSuchElementFoundException("Tour not found");
@@ -57,13 +57,13 @@ public class TourController {
         return ResponseEntity.ok().body(tour);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping ("tour")
+    @GetMapping ("tour/")
     ResponseEntity<Optional<List<Tour>>> getTours() {
         return ResponseEntity.ok().body(tourService.getTours());
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("dates")
+    @PostMapping("dates/")
     ResponseEntity<Optional<Dates>> createDates(@RequestBody Dates dates) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/dates").toUriString());
         return ResponseEntity.created(uri).body(datesService.saveDate(dates));}
@@ -82,7 +82,7 @@ public class TourController {
         return ResponseEntity.ok().body(bool);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("tour/bind/dates")
+    @PostMapping("tour/bind/dates/")
     ResponseEntity<Optional<TourBindDates>> createTourBindDates(@RequestBody TourBindDates tourBindDates) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/tour/bind/dates").toUriString());
         return ResponseEntity.created(uri).body(tourService.saveTourBindDates(tourBindDates));}

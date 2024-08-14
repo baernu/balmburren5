@@ -139,7 +139,7 @@ public class UserBindController {
         return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoiceForInvoice(getPeople(username).get()));}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("person/bind/invoice")
+    @GetMapping("person/bind/invoice/")
     ResponseEntity<Optional<List<PersonBindInvoice>>> getAllPersonBindInvoice() {
         return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoice());}
 
@@ -149,13 +149,13 @@ public class UserBindController {
         return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoiceForDateFrom(dateFrom));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("person/bind/phone")
+    @PostMapping("person/bind/phone/")
     ResponseEntity<Optional<PersonBindPhone>> createPersonBindPhone(@RequestBody PersonBindPhone personBindPhone) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/person/bind/phone").toUriString());
         return ResponseEntity.created(uri).body(userBindService.savePersonBindPhone(personBindPhone));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("person/bind/phone")
+    @PutMapping("person/bind/phone/")
     ResponseEntity<Optional<PersonBindPhone>> putPersonBindPhone(@RequestBody PersonBindPhone personBindPhone) {
         Optional<PersonBindPhone> personBindPhone1 = userBindService.getPersonBindPhone(personBindPhone.getUser());
         if (personBindPhone1.isEmpty()) throw new NoSuchElementFoundException("PersonBindPhone not found");
@@ -208,13 +208,13 @@ public class UserBindController {
         return ResponseEntity.ok().body(personBindTour);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("person/bind/tour")
+    @PostMapping("person/bind/tour/")
     ResponseEntity<Optional<PersonBindTour>> createPersonBindTour(@RequestBody PersonBindTour personBindTour) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/person/bind/tour").toUriString());
         return ResponseEntity.created(uri).body(userBindService.savePersonBindTour(personBindTour));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("person/bind/tour")
+    @PutMapping("person/bind/tour/")
     ResponseEntity<Optional<PersonBindTour>> updatePersonBindTour(@RequestBody PersonBindTour personBindTour) {
         return ResponseEntity.ok().body(userBindService.savePersonBindTour(personBindTour));}
 

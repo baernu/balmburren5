@@ -30,7 +30,7 @@ public class ProductController {
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("product")
+    @PostMapping("product/")
     ResponseEntity<Optional<Product>> createProduct(@RequestBody Product product) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/product").toUriString());
         return ResponseEntity.created(uri).body(productService.saveProduct(product));}
@@ -54,7 +54,7 @@ public class ProductController {
         return ResponseEntity.ok().body(product);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("product")
+    @GetMapping("product/")
     ResponseEntity<Optional<List<Product>>> getProducts() {
         return ResponseEntity.ok().body(productService.getProducts());}
 
@@ -65,7 +65,7 @@ public class ProductController {
         return ResponseEntity.ok().body(bool);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("product/details")
+    @PostMapping("product/details/")
     ResponseEntity<Optional<ProductDetails>> createProductDetails(@RequestBody ProductDetails productDetails) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/product/details").toUriString());
         return ResponseEntity.created(uri).body(productService.saveProductDetails(productDetails));}
@@ -91,7 +91,7 @@ public class ProductController {
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("product/details")
+    @GetMapping("product/details/")
     ResponseEntity<Optional<List<ProductDetails>>> getAllProductDetails() {
         Optional<List<ProductDetails>> list = productService.getAllProductDetails();
         return ResponseEntity.ok().body(list);}
@@ -104,13 +104,13 @@ public class ProductController {
         return ResponseEntity.ok().body(productDetails);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("product/bind/infos")
+    @PostMapping("product/bind/infos/")
     ResponseEntity<Optional<ProductBindProductDetails>> createProductDetails(@RequestBody ProductBindProductDetails productBindInfos) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/product/bind/infos").toUriString());
         return ResponseEntity.created(uri).body(productService.saveProductBindInfos(productBindInfos));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("product/bind/infos")
+    @PutMapping("product/bind/infos/")
     ResponseEntity<Optional<ProductBindProductDetails>> putProductDetails(@RequestBody ProductBindProductDetails productBindInfos) {
         return ResponseEntity.ok().body(productService.putProductBindInfos(productBindInfos));}
 
@@ -148,7 +148,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.getAllProductBindInfosForProduct(product.get()));}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("product/bind/infos")
+    @GetMapping("product/bind/infos/")
     ResponseEntity<Optional<List<ProductBindProductDetails>>> getAllProductBindInfos() {
         return ResponseEntity.ok().body(productService.getAllProductBindInfos());}
 

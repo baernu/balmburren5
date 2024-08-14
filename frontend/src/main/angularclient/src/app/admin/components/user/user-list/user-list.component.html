@@ -1,35 +1,35 @@
 <app-admin-header></app-admin-header>
 <router-outlet></router-outlet>
-<!--<div class="card my-5">-->
-<!--  <div class="card-body">-->
-<!--    <span style="display:block; height:50px;"></span>-->
-<!--    <table class="table table-bordered table-striped table-hover table-responsive table-sm">-->
-<!--      <thead class="thead-dark">-->
-<!--      <tr>-->
-<!--        <th scope="col">Username</th>-->
-<!--        <th scope="col">Firstname</th>-->
-<!--        <th scope="col">Lastname</th>-->
-<!--        <th scope="col">Admin</th>-->
-<!--        <th scope="col">Driver</th>-->
-<!--        <th scope="col">User</th>-->
-<!--      </tr>-->
-<!--      </thead>-->
-<!--      <tbody>-->
-<!--      <tr *ngFor="let user of usersWithRole">-->
-<!--        <td (click)="userSettings(user)" title="User Settings">{{ user.username }}</td>-->
-<!--        <td (click)="userOrdered(user)" title="User Ordered">{{user.firstname}}</td>-->
-<!--        <td (click)="userOrder(user)" title="User Order">{{ user.lastname }}</td>-->
-<!--        <td><div class="form-check">-->
-<!--          <input class="form-check-input" type="checkbox" value="{{user.driverIsChecked}}" onclick="return false" [ngModel]="user.adminIsChecked">-->
-<!--        </div></td>-->
-<!--        <td><div class="form-check">-->
-<!--          <input class="form-check-input" type="checkbox" value="{{user.driverIsChecked}}" onclick="return false" [(ngModel)]="user.driverIsChecked">-->
-<!--        </div></td>-->
-<!--        <td><div class="form-check">-->
-<!--          <input class="form-check-input" type="checkbox" value="{{user.userIsChecked}}" onclick="return false" [(ngModel)]="user.userIsChecked">-->
-<!--        </div></td>-->
-<!--      </tr>-->
-<!--      </tbody>-->
-<!--    </table>-->
-<!--  </div>-->
-<!--</div>-->
+<div class="card my-5">
+  <div class="card-body">
+    <span style="display:block; height:50px;"></span>
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Username</th>
+        <th scope="col">Firstname</th>
+        <th scope="col">Lastname</th>
+        <th scope="col">Admin</th>
+        <th scope="col">Driver</th>
+        <th scope="col">User</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of usersWithRole">
+        <td (click)="userSettings(user)" title="User Settings">{{ user.username }}</td>
+        <td (click)="userOrdered(user)" title="User Ordered">{{user.firstname}}</td>
+        <td (click)="userOrder(user)" title="User Order">{{ user.lastname }}</td>
+        <td><div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{user.driverIsChecked}}" onclick="return false" [ngModel]="user.adminIsChecked">
+        </div></td>
+        <td><div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{user.driverIsChecked}}" onclick="return false" [(ngModel)]="user.driverIsChecked">
+        </div></td>
+        <td><div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{user.userIsChecked}}" onclick="return false" [(ngModel)]="user.userIsChecked">
+        </div></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

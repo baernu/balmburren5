@@ -1,3 +1,5 @@
+import {RoleDTO} from "./roleDTO";
+
 export class UserWithRoleDTO {
   id: string = "" ;
   version: string = "";
@@ -8,4 +10,8 @@ export class UserWithRoleDTO {
   adminIsChecked: boolean = false;
   driverIsChecked: boolean = false;
   userIsChecked: boolean = false;
+  roles: RoleDTO[]= [];
+  updatedat: string = "";
+  createdat: string = "";
+  enabled: Boolean = false;
 }
