@@ -40,9 +40,9 @@ export class UserListComponent implements OnInit {
         })
 
         userBindRoles.forEach(userBindRole => {
-          if (userBindRole.role.name === "SUPER_ADMIN") userWithRole.adminIsChecked = true;
-          if (userBindRole.role.name === "DRIVER") userWithRole.driverIsChecked = true;
-          if (userBindRole.role.name === "USER") userWithRole.userIsChecked = true;
+          if (userBindRole.role.name == "ADMIN") userWithRole.adminIsChecked = true;
+          if (userBindRole.role.name == "DRIVER") userWithRole.driverIsChecked = true;
+          if (userBindRole.role.name == "USER") userWithRole.userIsChecked = true;
         });
         userWithRole.username = user.username;
         userWithRole.firstname = user.firstname;
