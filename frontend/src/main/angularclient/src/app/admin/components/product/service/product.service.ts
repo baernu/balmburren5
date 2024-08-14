@@ -10,16 +10,16 @@ import {ProductBindInfosDTO} from "./ProductBindInfosDTO";
   providedIn: 'root'
 })
 export class ProductService {
-  // private readonly baseUrl: string = 'http://localhost:8080/api/';
-  private readonly baseUrl: string = 'api/';
+  private readonly baseUrl: string = 'http://localhost:8006/api/';
+  // private readonly baseUrl: string = 'api/';
   private readonly productUrl: string;
   private readonly productDetailsUrl: string;
   private readonly productBindDetailsUrl: string;
 
   constructor(private http: HttpClient) {
-    this.productUrl = this.baseUrl + 'product/';
-    this.productDetailsUrl = this.baseUrl + 'product/details/';
-    this.productBindDetailsUrl = this.baseUrl + 'product/bind/infos/';
+    this.productUrl = this.baseUrl + 'pr/product/';
+    this.productDetailsUrl = this.baseUrl + 'pr/product/details/';
+    this.productBindDetailsUrl = this.baseUrl + '/pr/product/bind/infos/';
 
 
   }

@@ -67,6 +67,7 @@ public class SecurityConfiguration {
                                 "/bd/**",
                                 "/tr/**",
                                 "/pr/**",
+                                "/ic/**",
                                 "/swagger-ui/**"
                         ).permitAll()
                         .anyRequest().authenticated()

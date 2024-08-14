@@ -62,7 +62,7 @@ export class UserService {
     this.bindUserTourUrl = this.baseUrl + 'bd/person/bind/tour/';
     this.orderUrl = this.baseUrl + 'order/';
     this.userProfileOrderUrl = this.baseUrl + 'order/person/profile/';
-    this.invoiceUrl = this.baseUrl + 'invoice/';
+    this.invoiceUrl = this.baseUrl + 'ic/invoice/';
     this.userBindInvoiceUrl = this.baseUrl + 'bd/person/bind/invoice/';
     this.userBindPhoneUrl = this.baseUrl + 'bd/person/bind/phone/';
     this.userBindAddress = this.baseUrl + 'bd/person/bind/deliveraddress';
