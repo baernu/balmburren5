@@ -197,10 +197,10 @@ public class UserBindServiceImpl implements UserBindService {
     }
 
     @Override
-    public Optional<Optional<PersonBindTour>> getPersonBindTour(User user, Tour tour) {
+    public Optional<PersonBindTour> getPersonBindTour(User user, Tour tour) {
         Optional<PersonBindTour> personBindTour = personBindTourRepo.findByUserAndTour(user, tour);
         log.info("Get PersonBindTour: {}", personBindTour.get() );
-        return Optional.of(personBindTour);
+        return personBindTour;
     }
 
     @Override
@@ -211,7 +211,7 @@ public class UserBindServiceImpl implements UserBindService {
     }
 
     @Override
-    public void deletePersonBindTour(PersonBindTour personBindTour) {
+    public void deletePersonBindTour(Optional<PersonBindTour> personBindTour) {
         log.info("Deleting PersonBindTour: {}", personBindTour);
         personBindTourRepo.delete(personBindTour);
     }

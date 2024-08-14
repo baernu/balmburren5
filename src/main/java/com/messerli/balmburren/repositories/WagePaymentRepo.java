@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface WagePaymentRepo extends JpaRepository<WagePayment, Long> {
     Optional<WagePayment> findByPersonAndDateTo_Date(User user, String date);
     Optional<List<WagePayment>> findAllByPerson(User user);
+
+    void delete(Optional<WagePayment> wagePayment);
 }

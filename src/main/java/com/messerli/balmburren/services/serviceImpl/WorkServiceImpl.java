@@ -1,90 +1,96 @@
 package com.messerli.balmburren.services.serviceImpl;
 
-import com.messerli.burren.domain.Dates;
-import com.messerli.burren.domain.People;
-import com.messerli.burren.domain.WagePayment;
-import com.messerli.burren.domain.Work;
-import com.messerli.burren.repos.WagePaymentRepo;
-import com.messerli.burren.repos.WorkRepo;
-import lombok.RequiredArgsConstructor;
+
+import com.messerli.balmburren.entities.Dates;
+import com.messerli.balmburren.entities.User;
+import com.messerli.balmburren.entities.WagePayment;
+import com.messerli.balmburren.entities.Work;
+import com.messerli.balmburren.repositories.WagePaymentRepo;
+import com.messerli.balmburren.repositories.WorkRepo;
+import com.messerli.balmburren.services.WorkService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
+
 
 @Service
-@RequiredArgsConstructor
-@Transactional
 @Slf4j
-public class WorkServiceImpl implements WorkService{
+public class WorkServiceImpl implements WorkService {
     private final WorkRepo workRepo;
     private final WagePaymentRepo wagePaymentRepo;
+
+    public WorkServiceImpl(WorkRepo workRepo, WagePaymentRepo wagePaymentRepo) {
+        this.workRepo = workRepo;
+        this.wagePaymentRepo = wagePaymentRepo;
+    }
+
     @Override
-    public Work saveWork(Work work) {
+    public Optional<Work> saveWork(Work work) {
         log.info("Saving new Work: {}", work);
-        return workRepo.save(work);
+        return Optional.of(workRepo.save(work));
     }
 
     @Override
-    public Work putWork(Work work) {
+    public Optional<Work> putWork(Work work) {
         log.info("Updating Work: {}", work);
-        return workRepo.save(work);
+        return Optional.of(workRepo.save(work));
     }
 
     @Override
-    public Work getWork(People people, Dates date) {
-        Work work = workRepo.findByPeopleAndDate_Date(people, date.getDate());
-        log.info("Get Work: {}", work);
+    public Optional<Work> getWork(User user, Dates date) {
+        Optional<Work> work = workRepo.findByPeopleAndDate_Date(user, date.getDate());
+        log.info("Get Work: {}", work.get());
         return work;
     }
 
     @Override
-    public Work deleteWork(People people, Dates date) {
-        Work work = getWork(people, date);
-        log.info("Deleting Work: {}", work);
+    public Optional<Work> deleteWork(User user, Dates date) {
+        Optional<Work> work = getWork(user, date);
+        log.info("Deleting Work: {}", work.get());
         workRepo.delete(work);
         return work;
     }
 
     @Override
-    public List<Work> getAllWorksForPeople(People people) {
-        List<Work> list = workRepo.findAllByPeople(people);
-        log.info("Get all Works: {} for Person: {} and startDate: {} and endDate: {}",list, people);
+    public Optional<List<Work>> getAllWorksForPeople(User user) {
+        Optional<List<Work>> list = workRepo.findAllByPeople(user);
+        log.info("Get all Works: {} for Person: {} and startDate: {} and endDate: {}",list.get(), user);
         return list;
     }
 
     @Override
-    public WagePayment saveWagePayment(WagePayment wagePayment) {
+    public Optional<WagePayment> saveWagePayment(WagePayment wagePayment) {
         log.info("Saving WagePayment: {}", wagePayment);
-        return wagePaymentRepo.save(wagePayment);
+        return Optional.of(wagePaymentRepo.save(wagePayment));
     }
 
     @Override
-    public WagePayment putWagePayment(WagePayment wagePayment) {
+    public Optional<WagePayment> putWagePayment(WagePayment wagePayment) {
         log.info("Updating WagePayment: {}", wagePayment);
-        return wagePaymentRepo.save(wagePayment);
+        return Optional.of(wagePaymentRepo.save(wagePayment));
     }
 
     @Override
-    public WagePayment getWagePayment(People people, Dates date) {
-        WagePayment wagePayment = wagePaymentRepo.findByPersonAndDateTo_Date(people, date.getDate());
-        log.info("Get WagePayment: {}", wagePayment);
+    public Optional<WagePayment> getWagePayment(User user, Dates date) {
+        Optional<WagePayment> wagePayment = wagePaymentRepo.findByPersonAndDateTo_Date(user, date.getDate());
+        log.info("Get WagePayment: {}", wagePayment.get());
         return wagePayment;
     }
 
     @Override
-    public WagePayment deleteWagePayment(People people, Dates date) {
-        WagePayment wagePayment = getWagePayment(people, date);
-        log.info("Deleted WagePayment: {}", wagePayment);
+    public Optional<WagePayment> deleteWagePayment(User user, Dates date) {
+        Optional<WagePayment> wagePayment = getWagePayment(user, date);
+        log.info("Deleted WagePayment: {}", wagePayment.get());
         wagePaymentRepo.delete(wagePayment);
         return wagePayment;
     }
 
     @Override
-    public List<WagePayment> getAllWagePaymentsForPeople(People people) {
-        List<WagePayment> list = wagePaymentRepo.findAllByPerson(people);
-        log.info("Get all WagePayments: {} for people: {}", list, people);
+    public Optional<List<WagePayment>> getAllWagePaymentsForPeople(User user) {
+        Optional<List<WagePayment>> list = wagePaymentRepo.findAllByPerson(user);
+        log.info("Get all WagePayments: {} for people: {}", list.get(), user);
         return list;
     }
 }

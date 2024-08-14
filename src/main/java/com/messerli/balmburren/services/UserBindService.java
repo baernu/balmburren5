@@ -32,9 +32,9 @@ public interface UserBindService {
     boolean existPersonBindPhone(User user);
     Optional<PersonBindTour> savePersonBindTour(PersonBindTour personBindTour);
     Optional<PersonBindTour> putPersonBindTour(PersonBindTour personBindTour);
-    Optional<Optional<PersonBindTour>> getPersonBindTour(User user, Tour tour);
+    Optional<PersonBindTour> getPersonBindTour(User user, Tour tour);
     boolean existPersonAndTour(User user, Tour tour);
-    void deletePersonBindTour(PersonBindTour personBindTour);
+    void deletePersonBindTour(Optional<PersonBindTour> personBindTour);
     Optional<List<PersonBindTour>> getAllPersonsForTour(Tour tour);
 
 
