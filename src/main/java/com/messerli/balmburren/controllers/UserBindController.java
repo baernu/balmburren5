@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Slf4j
 @CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006"}, exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
-@RequestMapping("/users/bind/")
+@RequestMapping("/bd/")
 @RestController
 public class UserBindController {
     @Autowired
