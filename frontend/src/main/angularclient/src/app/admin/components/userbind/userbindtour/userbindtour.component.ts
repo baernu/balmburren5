@@ -64,12 +64,17 @@ export class UserbindtourComponent implements OnInit{
   }
 
   async addPersonBindTour(username: string) {
-    this.user = await firstValueFrom(this.userService.findUser(username));
+    let user1 = await firstValueFrom(this.userService.findUser(username));
     this.tour = await firstValueFrom(this.tourService.getTour(this.actualTour.number));
     this.userBindTour.tour = this.tour;
-    this.userBindTour.person = this.user;
-    if (!await firstValueFrom(this.userService.existPersonBindTour(this.userBindTour.person.username, this.userBindTour.tour.number)))
+    this.userBindTour.person = user1;
+    console.log("User: " + user1);
+    console.log("userBindTour: " + this.userBindTour.person.username);
+    if (!await firstValueFrom(this.userService.existPersonBindTour(this.userBindTour.person.username, this.userBindTour.tour.number))){
+      console.log("existPersonBindTour: false");
       await firstValueFrom(this.userService.addPersonBindTour(this.userBindTour));
+    }
+
     await this.goTo(this.actualTour);
   }
 
