@@ -18,7 +18,8 @@ public class Reference {
     @GeneratedValue(strategy = AUTO)
     private Long id;
     @Version
-    private Long version;
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private long version = 0L;
     private String name;
     private Long value = 0L;
 }

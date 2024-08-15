@@ -17,5 +17,6 @@ public class Tour {
     private Long id;
     private String number;
     @Version
-    private Long version;
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private long version = 0L;
 }

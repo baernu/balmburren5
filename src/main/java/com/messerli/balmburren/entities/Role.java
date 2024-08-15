@@ -22,7 +22,8 @@ public class Role {
     @Column(nullable = false)
     private Long id;
     @Version
-    private Long version;
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private long version = 0L;
 
     //    @Getter
     @Column(unique = true, nullable = false)

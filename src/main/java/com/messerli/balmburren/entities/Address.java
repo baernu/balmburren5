@@ -16,7 +16,8 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Version
-    private Long version;
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private long version = 0L;
     private String street;
     private String number;
     private int plz;

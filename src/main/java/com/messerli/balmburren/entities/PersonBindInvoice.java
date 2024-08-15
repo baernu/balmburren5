@@ -16,7 +16,8 @@ public class PersonBindInvoice {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Version
-    private Long version;
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private long version = 0L;
     @ManyToOne
     private User personDeliver;
     @ManyToOne

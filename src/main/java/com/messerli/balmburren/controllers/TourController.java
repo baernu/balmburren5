@@ -111,13 +111,13 @@ public class TourController {
 
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("tour/bind/dates/product/infos")
+    @PostMapping("tour/bind/dates/product/infos/")
     ResponseEntity<Optional<TourBindDatesAndProductBindInfo>> createTourBindDatesAndProductBindInfo(@RequestBody TourBindDatesAndProductBindInfo tourBindDatesAndProductBindInfo) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/tour/bind/dates/product/infos").toUriString());
         return ResponseEntity.created(uri).body(tourService.saveTourBindDatesAndProductBindInfos(tourBindDatesAndProductBindInfo));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("tour/bind/dates/product/infos")
+    @PutMapping("tour/bind/dates/product/infos/")
     ResponseEntity<Optional<TourBindDatesAndProductBindInfo>> putTourBindDatesAndProductBindInfo(@RequestBody TourBindDatesAndProductBindInfo tourBindDatesAndProductBindInfo) {
         return ResponseEntity.ok().body(tourService.putTourBindDatesAndProductBindInfos(tourBindDatesAndProductBindInfo));}
 
@@ -154,7 +154,7 @@ public class TourController {
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping ("tour/bind/dates/product/infos")
+    @GetMapping ("tour/bind/dates/product/infos/")
     ResponseEntity<Optional<List<TourBindDatesAndProductBindInfo>>> getAllTourBindDatesAndProductInfos() {
         Optional<List<TourBindDatesAndProductBindInfo>> list = tourService.getAllTourBindDatesAndProductInfos();
         return ResponseEntity.ok().body(list);}
