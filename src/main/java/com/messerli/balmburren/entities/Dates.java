@@ -19,7 +19,7 @@ public class Dates {
     private Long id;
     @Version
     @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
-    private long version = 0L;
+    private Long version = 0L;
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss a z")
     private String date;
 }

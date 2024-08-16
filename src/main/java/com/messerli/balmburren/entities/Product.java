@@ -16,6 +16,6 @@ public class Product {
     private Long id;
     @Version
     @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
-    private long version = 0L;
+    private Long version = 0L;
     private String name;
 }

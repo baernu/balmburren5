@@ -11,6 +11,7 @@ import com.messerli.balmburren.services.UserService;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -19,8 +20,7 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 
 @SpringBootTest
-//@ActiveProfiles("test")
-@Transactional
+@ActiveProfiles("test")
 public class UserServiceTest {
 
 
@@ -57,6 +57,9 @@ public class UserServiceTest {
 //        assertEquals(userService.getPersonBindRole(people, superAdmin).getRole(), superAdmin);
 //        assertEquals(userService.(people).get(0).getRole(), superAdmin);
 //        assertEquals(people, people1);
+
+
+
         Optional<Tour> tour = Optional.of(new Tour());
         tour.get().setNumber("1");
         tour = tourService.saveTour(tour.get());

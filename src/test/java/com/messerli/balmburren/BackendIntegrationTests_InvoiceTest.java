@@ -22,7 +22,7 @@ import java.util.List;
 @AutoConfigureWebTestClient
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class BackendIntegrationTests_InvoiceTest {
-    @Autowired
+
     private WebTestClient webClient;
     private String token;
     private User people;
