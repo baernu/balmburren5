@@ -3,6 +3,7 @@ package com.messerli.balmburren;
 
 
 import com.messerli.balmburren.entities.*;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +22,7 @@ import java.util.List;
 
 //@ActiveProfiles("test")
 //@RunWith(SpringRunner.class)
+@Transactional
 @ActiveProfiles("test")
 @AutoConfigureWebTestClient
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
