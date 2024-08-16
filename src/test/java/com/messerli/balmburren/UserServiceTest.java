@@ -3,16 +3,17 @@ package com.messerli.balmburren;
 import com.messerli.balmburren.dtos.LoginUserDto;
 import com.messerli.balmburren.dtos.RegisterUserDto;
 import com.messerli.balmburren.entities.*;
-import com.messerli.balmburren.repositories.UserRepository;
 import com.messerli.balmburren.services.AuthenticationService;
 import com.messerli.balmburren.services.DatesService;
 import com.messerli.balmburren.services.TourService;
 import com.messerli.balmburren.services.UserService;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 import java.util.Optional;
@@ -23,12 +24,16 @@ import static org.junit.Assert.assertEquals;
 @ActiveProfiles("test")
 public class UserServiceTest {
 
-
+    @Autowired
     private UserService userService;
+    @Autowired
     private TourService tourService;
+    @Autowired
     private DatesService datesService;
 //    private UserRepository userRepository;
+    @Autowired
     private AuthenticationService authenticationService;
+
 
 
     @Before
@@ -41,8 +46,8 @@ public class UserServiceTest {
         registerUserDto.setFirstname("Bernhard");
         registerUserDto.setLastname("Messerli");
         registerUserDto.setPassword("123");
-        registerUserDto.setUsername("@baernu");
-        User people = authenticationService.signup(registerUserDto);
+        registerUserDto.setUsername("baernu");
+        authenticationService.signup(registerUserDto);
         LoginUserDto loginUserDto = new LoginUserDto();
         loginUserDto.setPassword("123");
         loginUserDto.setUsername("baernu");

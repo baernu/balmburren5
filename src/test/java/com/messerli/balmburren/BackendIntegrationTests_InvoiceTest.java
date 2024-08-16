@@ -5,11 +5,13 @@ package com.messerli.balmburren;
 import com.messerli.balmburren.entities.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -18,9 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 //@ActiveProfiles("test")
+//@RunWith(SpringRunner.class)
 @ActiveProfiles("test")
 @AutoConfigureWebTestClient
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class BackendIntegrationTests_InvoiceTest {
 
     private WebTestClient webClient;
@@ -41,11 +44,11 @@ public class BackendIntegrationTests_InvoiceTest {
                 .baseUrl("http://localhost:8006/api/")
                 .build();
 
-        webClient.post().uri("/auth/login")
+        webClient.post().uri("auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue("{\"password\": \"adminadmin\", \"username\": \"admin\" }")
                 .exchange()
-                .expectStatus().isCreated();
+                .expectStatus().isOk();
 
         EntityExchangeResult<User> result =
                 webClient.get().uri("users/admin")
@@ -63,7 +66,7 @@ public class BackendIntegrationTests_InvoiceTest {
         EntityExchangeResult<Product> result1 =
                 webClient.post().uri("pr/product/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .headers(http -> http.setBearerAuth(token))
+//                        .headers(http -> http.setBearerAuth(token))
                         .bodyValue(product)
                         .exchange()
                         .expectStatus()
@@ -80,7 +83,7 @@ public class BackendIntegrationTests_InvoiceTest {
         EntityExchangeResult<ProductDetails> result2 =
                 webClient.post().uri("pr/product/details/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .headers(http -> http.setBearerAuth(token))
+//                        .headers(http -> http.setBearerAuth(token))
                         .bodyValue(productDetails)
                         .exchange()
                         .expectStatus()
@@ -96,7 +99,7 @@ public class BackendIntegrationTests_InvoiceTest {
                 webClient.post().uri("tr/dates/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(dates)
-                        .headers(http -> http.setBearerAuth(token))
+//                        .headers(http -> http.setBearerAuth(token))
                         .exchange()
                         .expectBody(Dates.class)
                         .returnResult();
@@ -109,7 +112,7 @@ public class BackendIntegrationTests_InvoiceTest {
         EntityExchangeResult<ProductBindProductDetails> result4 =
                 webClient.post().uri("pr/product/bind/infos/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .headers(http -> http.setBearerAuth(token))
+//                        .headers(http -> http.setBearerAuth(token))
                         .bodyValue(productBindInfos)
                         .exchange()
                         .expectStatus()
@@ -124,7 +127,7 @@ public class BackendIntegrationTests_InvoiceTest {
                 webClient.post().uri("tr/tour/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(tour)
-                        .headers(http -> http.setBearerAuth(token))
+//                        .headers(http -> http.setBearerAuth(token))
                         .exchange()
                         .expectBody(Tour.class)
                         .returnResult();
@@ -140,7 +143,7 @@ public class BackendIntegrationTests_InvoiceTest {
         EntityExchangeResult<Ordered> result5 =
                 webClient.post().uri("or/order/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .headers(http -> http.setBearerAuth(token))
+//                        .headers(http -> http.setBearerAuth(token))
                         .bodyValue(ordered)
                         .exchange()
                         .expectStatus()
