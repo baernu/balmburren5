@@ -8,6 +8,7 @@ import com.messerli.balmburren.repositories.ProductRepo;
 import com.messerli.balmburren.services.ProductService;
 import com.messerli.balmburren.entities.ProductDetails;
 import com.messerli.balmburren.entities.ProductBindProductDetails;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 @Slf4j
 public class ProductServiceImpl implements ProductService {
     private final ProductRepo productRepo;

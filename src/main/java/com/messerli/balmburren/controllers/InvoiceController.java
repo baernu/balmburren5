@@ -26,13 +26,13 @@ public class InvoiceController {
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("invoice")
+    @PostMapping("invoice/")
     ResponseEntity<Optional<Invoice>> createInvoice(@RequestBody Invoice invoice) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/invoice").toUriString());
         return ResponseEntity.created(uri).body(invoiceService.saveInvoice(invoice));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("invoice")
+    @PutMapping("invoice/")
     ResponseEntity<Optional<Invoice>> putInvoice(@RequestBody Invoice invoice) {
         Optional<Invoice> invoice1 = invoiceService.getInvoice(invoice.getId());
         if (invoice1.isEmpty()) throw new NoSuchElementFoundException("Invoice not found");
@@ -65,14 +65,14 @@ public class InvoiceController {
         return ResponseEntity.ok().body(reference);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("invoice/reference")
+    @PostMapping("invoice/reference/")
     ResponseEntity<Optional<Reference>> postInvoiceReference(@RequestBody Reference reference ) {
         Optional<Reference> reference1 = invoiceService.createReference(reference);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/invoice/reference").toUriString());
         return ResponseEntity.created(uri).body(reference1);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("invoice/reference")
+    @PutMapping("invoice/reference/")
     ResponseEntity<Optional<Reference>> putInvoiceReference(@RequestBody Reference reference ) {
         Optional<Reference> reference1 = invoiceService.createReference(reference);
         return ResponseEntity.ok().body(reference1);}

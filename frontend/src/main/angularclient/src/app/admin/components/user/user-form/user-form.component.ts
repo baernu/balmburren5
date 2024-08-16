@@ -40,7 +40,7 @@ export class UserFormComponent {
   async onSubmit() {
     if (!await firstValueFrom(this.userService.existUser(this.user.username))
       && this.user.password.length > 7) {
-      this.user = await firstValueFrom(this.userService.save(this.user));
+      this.user = await firstValueFrom(this.userService.register(this.user));
       await firstValueFrom(this.errorHandlingService.putBoolRegister1(false));
       await firstValueFrom(this.errorHandlingService.putBoolRegister2(false));
       await this.router.navigate(['admin']);

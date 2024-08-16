@@ -12,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import java.util.Set;
 
 @Slf4j
 @SpringBootApplication
+@EnableTransactionManagement
 public class BalmburrenApplication {
 
 	public static void main(String[] args) {

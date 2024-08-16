@@ -6,6 +6,7 @@ import com.messerli.balmburren.repositories.TourBindDatesRepo;
 import com.messerli.balmburren.repositories.TourRepo;
 import com.messerli.balmburren.services.ProductService;
 import com.messerli.balmburren.services.TourService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 @Slf4j
 public class TourServiceImpl implements TourService {
     private final TourRepo tourRepo;

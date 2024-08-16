@@ -39,13 +39,13 @@ public class OrderController {
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("order")
+    @PostMapping("order/")
     ResponseEntity<Optional<Ordered>> createOrder(@RequestBody Ordered ordered) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/order").toUriString());
         return ResponseEntity.created(uri).body(orderService.saveOrder(ordered));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("order")
+    @PutMapping("order/")
     ResponseEntity<Optional<Ordered>> putOrder(@RequestBody Ordered ordered) {
         return ResponseEntity.ok().body(orderService.putOrder(ordered));}
 
@@ -99,13 +99,13 @@ public class OrderController {
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("order/person/profile")
+    @PostMapping("order/person/profile/")
     ResponseEntity<Optional<PersonProfileOrder>> createPersonProfileOrder(@RequestBody PersonProfileOrder personProfileOrder) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/order/person/profile").toUriString());
         return ResponseEntity.created(uri).body(orderService.savePersonProfileOrder(personProfileOrder));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("order/person/profile")
+    @PutMapping("order/person/profile/")
     ResponseEntity<Optional<PersonProfileOrder>> putPersonProfileOrder(@RequestBody PersonProfileOrder personProfileOrder) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/order/person/profile").toUriString());
         return ResponseEntity.created(uri).body(orderService.putPersonProfileOrder(personProfileOrder));}
@@ -139,7 +139,7 @@ public class OrderController {
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("order/person/profile")
+    @GetMapping("order/person/profile/")
     ResponseEntity<Optional<List<PersonProfileOrder>>> getAllPersonProfileOrder() {
         Optional<List<PersonProfileOrder>> list = orderService.getAllPersonProfileOrder();
         return ResponseEntity.ok().body(list);}

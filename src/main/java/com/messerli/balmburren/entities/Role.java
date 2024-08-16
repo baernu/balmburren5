@@ -11,7 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
-@Table(name = "roles")
+@Table(name = "role")
 @Entity
 @Data
 @AllArgsConstructor

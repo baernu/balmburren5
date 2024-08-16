@@ -62,13 +62,13 @@ public class UserBindController {
 
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("person/bind/deliveraddress")
+    @PostMapping("person/bind/deliveraddress/")
     ResponseEntity<Optional<PersonBindDeliverAddress>> createPersonBindDeliverAddress(@RequestBody PersonBindDeliverAddress personBindDeliverAddress) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/person/bind/deliveraddress").toUriString());
         return ResponseEntity.created(uri).body(userBindService.savePersonBindDeliverAddress(personBindDeliverAddress));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("person/bind/deliveraddress")
+    @PutMapping("person/bind/deliveraddress/")
     ResponseEntity<Optional<PersonBindDeliverAddress>> putPersonBindDeliverAddress(@RequestBody PersonBindDeliverAddress personBindDeliverAddress) {
         Optional<PersonBindDeliverAddress> personBindDeliverAddress1 = userBindService.getPersonBindDeliverAddress(personBindDeliverAddress.getUser());
         if (personBindDeliverAddress1.isEmpty()) throw new NoSuchElementFoundException("PersonBindDeliverAddress not found");
@@ -95,13 +95,13 @@ public class UserBindController {
         return ResponseEntity.ok().body(userBindService.deletePersonBindDeliverAddress(personBindDeliverAddress1.get().getUser()));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("person/bind/invoice")
+    @PostMapping("person/bind/invoice/")
     ResponseEntity<Optional<PersonBindInvoice>> createPersonBindInvoice(@RequestBody PersonBindInvoice personBindInvoice) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/person/bind/invoice").toUriString());
         return ResponseEntity.created(uri).body(userBindService.savePersonBindInvoice(personBindInvoice));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("person/bind/invoice")
+    @PutMapping("person/bind/invoice/")
     ResponseEntity<Optional<PersonBindInvoice>> putPersonBindInvoice(@RequestBody PersonBindInvoice personBindInvoice) {
         return ResponseEntity.ok().body(userBindService.putPersonBindInvoice(personBindInvoice));}
 

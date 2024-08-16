@@ -3,6 +3,7 @@ package com.messerli.balmburren.services.serviceImpl;
 import com.messerli.balmburren.entities.Dates;
 import com.messerli.balmburren.repositories.DatesRepo;
 import com.messerli.balmburren.services.DatesService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 @Slf4j
 public class DatesServiceImpl implements DatesService {
     private final DatesRepo datesRepo;

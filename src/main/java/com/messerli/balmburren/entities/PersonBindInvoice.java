@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="person_and_invoice")
+@Table(name="user_and_invoice")
 public class PersonBindInvoice {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

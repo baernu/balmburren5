@@ -7,6 +7,7 @@ import com.messerli.balmburren.entities.User;
 import com.messerli.balmburren.repositories.BackRepo;
 import com.messerli.balmburren.services.BackService;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 
 @Service
+@Transactional
 @Slf4j
 public class BackServiceImpl implements BackService {
     private final BackRepo backRepo;

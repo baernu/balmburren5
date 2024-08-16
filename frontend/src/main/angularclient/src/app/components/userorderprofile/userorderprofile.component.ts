@@ -41,9 +41,9 @@ export class UserorderprofileComponent {
     let bool2: Boolean = await firstValueFrom(this.errorHandlingService.getBoolRegister2());
     this.bool2 = bool2.valueOf();
     let tours : TourDTO[] = [];
-    let username = localStorage.getItem('username');
-    if (username)
-      this.user = await firstValueFrom(this.userService.findUser(username));
+    // let username = localStorage.getItem('username');
+    // if (username)
+    this.user = await firstValueFrom(this.userService.currentUser());
     this.user.password = "";
     this.tours = await firstValueFrom(this.tourService.getTours());
     for (const tour of this.tours) {
@@ -86,7 +86,7 @@ export class UserorderprofileComponent {
   async onSubmit() {
     if (this.user.password.length > 7){
       await firstValueFrom(this.errorHandlingService.putBoolRegister2(false));
-      await firstValueFrom(this.userService.save(this.user));
+      await firstValueFrom(this.userService.updateUser(this.user));
       await this.router.navigate(['login']);
     } else {
       await firstValueFrom(this.errorHandlingService.putBoolRegister2(true));

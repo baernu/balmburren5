@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="person_and_phone")
+@Table(name="user_and_phone")
 public class PersonBindPhone {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

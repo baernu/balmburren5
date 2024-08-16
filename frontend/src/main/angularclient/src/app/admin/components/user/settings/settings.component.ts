@@ -44,7 +44,7 @@ export class SettingsComponent {
 
   async onSubmit() {
     this.user.password = this.hash;
-    this.user = await firstValueFrom(this.userService.putUser(this.user));
+    this.user = await firstValueFrom(this.userService.updateUser(this.user));
     this.user.password = "";
     this.userBindPhone.person = await firstValueFrom(this.userService.findUser(this.user.username));
     this.userBindAddress.person = this.userBindPhone.person;
@@ -74,6 +74,6 @@ export class SettingsComponent {
   }
 
   async savePassword() {
-    this.user = await firstValueFrom(this.userService.save(this.user));
+    this.user = await firstValueFrom(this.userService.updateUser(this.user));
   }
 }

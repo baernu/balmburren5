@@ -6,12 +6,14 @@ import com.messerli.balmburren.entities.Reference;
 import com.messerli.balmburren.repositories.InvoiceRepo;
 import com.messerli.balmburren.repositories.ReferenceRepo;
 import com.messerli.balmburren.services.InvoiceService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 @Slf4j
 public class InvoiceServiceImpl implements InvoiceService {
     private final InvoiceRepo invoiceRepo;

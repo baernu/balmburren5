@@ -61,12 +61,12 @@ export class UserService {
     this.getAllRoles = this.usersUrl + 'role';
     this.bindUserTourUrl = this.baseUrl + 'bd/person/bind/tour/';
     this.orderUrl = this.baseUrl + 'or/order/';
-    this.userProfileOrderUrl = this.baseUrl + 'order/person/profile/';
+    this.userProfileOrderUrl = this.baseUrl + 'or/order/person/profile/';
     this.invoiceUrl = this.baseUrl + 'ic/invoice/';
     this.userBindInvoiceUrl = this.baseUrl + 'bd/person/bind/invoice/';
     this.userBindPhoneUrl = this.baseUrl + 'bd/person/bind/phone/';
-    this.userBindAddress = this.baseUrl + 'bd/person/bind/deliveraddress';
-    this.addressUrl = this.baseUrl + 'bd/address';
+    this.userBindAddress = this.baseUrl + 'bd/person/bind/deliveraddress/';
+    this.addressUrl = this.baseUrl + 'bd/address/';
 
 
 
@@ -96,11 +96,11 @@ export class UserService {
   public findAll(): Observable<UserDTO[]> {
     return this.http.get<UserDTO[]>(this.usersUrl,{withCredentials : true});}
 
-  public save(user: UserDTO): Observable<UserDTO>{
+  public register(user: UserDTO): Observable<UserDTO>{
     return this.http.post<UserDTO>(this.authUrl + 'register', user, {withCredentials : true});}
 
-  public putUser(user: UserDTO): Observable<UserDTO>{
-    return this.http.put<UserDTO>(this.usersUrl, user, {withCredentials : true});}
+  // public putUser(user: UserDTO): Observable<UserDTO>{
+  //   return this.http.put<UserDTO>(this.usersUrl, user, {withCredentials : true});}
 
   public login(user: UserDTO):Observable<string>  {
     return this.http.post<string>(this.authUrl + 'login', user, {withCredentials : true});}
@@ -294,22 +294,22 @@ export class UserService {
     return this.http.put<UserBindDeliverAddressDTO>(this.userBindAddress, userBindAddress,{withCredentials : true});}
 
   public getUserBindAddress(user: UserDTO): Observable<UserBindDeliverAddressDTO>{
-    return this.http.get<UserBindDeliverAddressDTO>(this.userBindAddress + '/' + user.username, {withCredentials : true});}
+    return this.http.get<UserBindDeliverAddressDTO>(this.userBindAddress + user.username, {withCredentials : true});}
 
   public existUserBindAddress(user: UserDTO): Observable<Boolean>{
-    return this.http.get<Boolean>(this.userBindAddress + '/exist/' + user.username, {withCredentials : true});}
+    return this.http.get<Boolean>(this.userBindAddress + 'exist/' + user.username, {withCredentials : true});}
 
   public deleteUserBindAddress(user: UserDTO): Observable<UserBindDeliverAddressDTO>{
-    return this.http.delete<UserBindDeliverAddressDTO>(this.userBindAddress + '/' + user.username, {withCredentials : true});}
+    return this.http.delete<UserBindDeliverAddressDTO>(this.userBindAddress + user.username, {withCredentials : true});}
 
   public getReference(name: String): Observable<ReferenceDTO>{
     return this.http.get<ReferenceDTO>(this.invoiceUrl + 'reference/' + name, {withCredentials : true});}
 
   public postReference(reference: ReferenceDTO): Observable<ReferenceDTO>{
-    return this.http.post<ReferenceDTO>(this.invoiceUrl + 'reference', reference, {withCredentials : true});}
+    return this.http.post<ReferenceDTO>(this.invoiceUrl + 'reference/', reference, {withCredentials : true});}
 
   public putReference(reference: ReferenceDTO): Observable<ReferenceDTO>{
-    return this.http.put<ReferenceDTO>(this.invoiceUrl + 'reference', reference, {withCredentials : true});}
+    return this.http.put<ReferenceDTO>(this.invoiceUrl + 'reference/', reference, {withCredentials : true});}
 
 }
 

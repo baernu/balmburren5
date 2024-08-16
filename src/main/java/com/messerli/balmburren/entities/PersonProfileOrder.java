@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="person_profile_order")
+@Table(name="user_profile_order")
 public class PersonProfileOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

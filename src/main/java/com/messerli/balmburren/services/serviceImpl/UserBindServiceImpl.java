@@ -3,6 +3,7 @@ package com.messerli.balmburren.services.serviceImpl;
 import com.messerli.balmburren.entities.*;
 import com.messerli.balmburren.repositories.*;
 import com.messerli.balmburren.services.UserBindService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 @Slf4j
 public class UserBindServiceImpl implements UserBindService {
     private final PersonBindTourRepo personBindTourRepo;

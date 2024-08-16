@@ -7,6 +7,7 @@ import com.messerli.balmburren.repositories.UserRepository;
 import com.messerli.balmburren.services.MyUserDetails;
 import com.messerli.balmburren.services.UserService;
 import com.messerli.balmburren.entities.Role;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +16,18 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final MyUserDetails myUserDetails;
-    private final PasswordEncoder passwordEncoder;
+//    private final MyUserDetails myUserDetails;
+//    private final PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, MyUserDetails myUserDetails, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.myUserDetails = myUserDetails;
-        this.passwordEncoder = passwordEncoder;
+//        this.myUserDetails = myUserDetails;
+//        this.passwordEncoder = passwordEncoder;
     }
     @Override
     public List<User> allUsers() {

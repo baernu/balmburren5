@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="person_and_tour")
+@Table(name="user_and_tour")
 public class PersonBindTour {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

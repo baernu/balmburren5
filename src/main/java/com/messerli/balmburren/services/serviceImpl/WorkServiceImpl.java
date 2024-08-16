@@ -8,6 +8,7 @@ import com.messerli.balmburren.entities.Work;
 import com.messerli.balmburren.repositories.WagePaymentRepo;
 import com.messerli.balmburren.repositories.WorkRepo;
 import com.messerli.balmburren.services.WorkService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 @Slf4j
 public class WorkServiceImpl implements WorkService {
     private final WorkRepo workRepo;

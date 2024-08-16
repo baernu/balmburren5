@@ -30,9 +30,10 @@ export class UserbindtourComponent implements OnInit{
   }
 
   async ngOnInit() {
-    await this.userService.findAll().subscribe((data: UserDTO[] | undefined) => {
-      this.users = data;
-    });
+    this.users = await firstValueFrom(this.userService.findAll());
+    // await this.userService.findAll().subscribe((data: UserDTO[] | undefined) => {
+    //   this.users = data;
+    // });
     this.tours = await firstValueFrom(this.tourService.getTours());
   }
 
@@ -68,8 +69,8 @@ export class UserbindtourComponent implements OnInit{
     this.tour = await firstValueFrom(this.tourService.getTour(this.actualTour.number));
     this.userBindTour.tour = this.tour;
     this.userBindTour.person = user1;
-    console.log("User: " + user1);
-    console.log("userBindTour: " + this.userBindTour.person.username);
+    console.log("UserID: " + user1.id);
+    console.log("userBindTourUserID: " + this.userBindTour.person.id);
     if (!await firstValueFrom(this.userService.existPersonBindTour(this.userBindTour.person.username, this.userBindTour.tour.number))){
       console.log("existPersonBindTour: false");
       await firstValueFrom(this.userService.addPersonBindTour(this.userBindTour));

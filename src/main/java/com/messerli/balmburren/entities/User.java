@@ -18,7 +18,7 @@ import java.util.*;
 
 
 @Entity
-@Table(name = "person")
+@Table(name = "user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

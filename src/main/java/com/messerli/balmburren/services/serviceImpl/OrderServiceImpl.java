@@ -5,6 +5,7 @@ import com.messerli.balmburren.entities.*;
 import com.messerli.balmburren.repositories.OrderedRepo;
 import com.messerli.balmburren.repositories.PersonProfileOrderRepo;
 import com.messerli.balmburren.services.OrderService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 @Slf4j
 public class OrderServiceImpl implements OrderService {
     private final OrderedRepo orderedRepo;

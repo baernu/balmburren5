@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="person_and_deliver_address")
+@Table(name="user_and_deliver_address")
 public class PersonBindDeliverAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
