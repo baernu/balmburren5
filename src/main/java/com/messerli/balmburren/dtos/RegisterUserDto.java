@@ -1,5 +1,8 @@
 package com.messerli.balmburren.dtos;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class RegisterUserDto {
     private String username;
     private String password;

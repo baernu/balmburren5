@@ -16,6 +16,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
+
 @Slf4j
 @CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006"}, exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
 @RequestMapping("/users/")
@@ -40,7 +42,7 @@ public class UserController {
     @CrossOrigin( allowCredentials = "true")
     @GetMapping("{username}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
-    public ResponseEntity<?> findUser(@PathVariable("username") String username) {
+    public ResponseEntity<Optional<User>> findUser(@PathVariable("username") String username) {
 
         return ResponseEntity.ok(userService.findUser(username));
     }
