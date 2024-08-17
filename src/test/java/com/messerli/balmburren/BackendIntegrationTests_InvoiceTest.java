@@ -33,8 +33,6 @@ public class BackendIntegrationTests_InvoiceTest {
     @Autowired
     private WebTestClient webClient;
     @Autowired
-    private Optional<User> people;
-    @Autowired
     private Optional<Product> product;
     @Autowired
     private Optional<ProductDetails> productDetails;
@@ -57,7 +55,7 @@ public class BackendIntegrationTests_InvoiceTest {
 
 
 
-    @BeforeEach
+    @Test
     public void setup() {
 
         userDto = new RegisterUserDto();
@@ -96,14 +94,6 @@ public class BackendIntegrationTests_InvoiceTest {
                 .exchange()
                 .expectStatus().isOk();
 
-//        EntityExchangeResult<User> result =
-//                webClient.get().uri("users/admin")
-//                        .exchange()
-//                        .expectBody(User.class)
-//                        .returnResult();
-//        User people1 = result.getResponseBody();
-//        assert people1 != null;
-//        Assertions.assertEquals(people1.getUsername(), "admin");
         EntityExchangeResult<Optional<User>> result =
                 webClient.get().uri("/users/admin")
                         .exchange()
@@ -191,7 +181,7 @@ public class BackendIntegrationTests_InvoiceTest {
         Assertions.assertTrue(tour.isPresent(), "Tour should be present");
 
         ordered = Optional.of(new Ordered());
-        ordered.get().setDeliverPeople(people.get());
+        ordered.get().setDeliverPeople(optionalUser.get());
         ordered.get().setProductBindInfos(productBindInfos.get());
         ordered.get().setQuantityOrdered(2);
         ordered.get().setDate(dates.get());
@@ -211,47 +201,102 @@ public class BackendIntegrationTests_InvoiceTest {
 
     @Test
     void postInvoice() {
-//        Optional<Invoice> invoice = Optional.of(new Invoice());
-//        invoice.get().setAmount(1000.02);
-//        invoice.get().setIsPaid(false);
-//        EntityExchangeResult<Optional<Invoice>> result1 =
-//                webClient.post().uri("/ic/invoice/")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .bodyValue(invoice)
-//                        .exchange()
-//                        .expectStatus()
-//                        .isCreated()
-//                        .expectBody(new ParameterizedTypeReference<Optional<Invoice>>() {})
-//                        .returnResult();
-//        invoice = result1.getResponseBody();
-//        Assertions.assertTrue(invoice.isPresent(), "Invoice should be present");
-//
-//        Optional<PersonBindInvoice> personBindInvoice = Optional.of(new PersonBindInvoice());
-//        personBindInvoice.get().setInvoice(invoice.get());
-//        personBindInvoice.get().setPersonInvoice(people.get());
-//        personBindInvoice.get().setPersonDeliver(people.get());
-//        personBindInvoice.get().setDateFrom(dates.get());
-//        personBindInvoice.get().setDateTo(dates.get());
-//        EntityExchangeResult<Optional<PersonBindInvoice>> result2 =
-//                webClient.post().uri("bd/person/bind/invoice/")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .bodyValue(personBindInvoice)
-//                        .exchange()
-//                        .expectStatus()
-//                        .isCreated()
-//                        .expectBody(new ParameterizedTypeReference<Optional<PersonBindInvoice>>() {})
-//                        .returnResult();
-//        personBindInvoice = result2.getResponseBody();
-//        Assertions.assertTrue(personBindInvoice.isPresent(), "PersonBindInvoice should be present");
 
-//        List<PersonBindInvoice> list = new ArrayList<>();
-//        list.add(personBindInvoice);
-//        webClient.get().uri("bd/person/bind/invoice/")
-//                .exchange()
-//                .expectStatus()
-//                .isOk()
-//                .expectBodyList(PersonBindInvoice.class)
-//                .isEqualTo(list);
+        userDto = new RegisterUserDto();
+        userDto.setFirstname("Normal").setLastname("Admin").setUsername("admin").setPassword("adminadmin");
+        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
+        Optional<Role> optionalRole1 = roleRepository.findByName(RoleEnum.USER);
+        Optional<User> optionalUser = userRepository.findByUsername(userDto.getUsername());
+        if (optionalRole.isEmpty() || optionalUser.isPresent()) {
+            return;
+        }
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(optionalRole.get());
+        roles.add(optionalRole1.get());
+//
+        var user = new User();
+        user.setFirstname(userDto.getFirstname());
+        user.setLastname(userDto.getLastname());
+        user.setUsername(userDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setEnabled(true);
+//					user.setRoles(roles);
+
+        User user1 = userRepository.save(user);
+        user1.setRoles(roles);
+        user1 = userRepository.save(user1);
+
+        webClient = WebTestClient
+                .bindToServer()
+                .baseUrl("http://localhost:8006/api/")
+                .build();
+
+        webClient.post().uri("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue("{\"password\": \"adminadmin\", \"username\": \"admin\" }")
+                .exchange()
+                .expectStatus().isOk();
+
+        EntityExchangeResult<Optional<User>> result =
+                webClient.get().uri("/users/admin")
+                        .exchange()
+                        .expectBody(new ParameterizedTypeReference<Optional<User>>() {})
+                        .returnResult();
+
+        Optional<User> userOptional = result.getResponseBody();
+        Assertions.assertTrue(userOptional.isPresent(), "User should be present");
+        Assertions.assertEquals("admin", userOptional.get().getUsername());
+
+        Optional<Invoice> invoice = Optional.of(new Invoice());
+        invoice.get().setAmount(1000.02);
+        invoice.get().setIsPaid(false);
+        EntityExchangeResult<Optional<Invoice>> result1 =
+                webClient.post().uri("/ic/invoice/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(invoice)
+                        .exchange()
+                        .expectStatus()
+                        .isCreated()
+                        .expectBody(new ParameterizedTypeReference<Optional<Invoice>>() {})
+                        .returnResult();
+        invoice = result1.getResponseBody();
+        Assertions.assertTrue(invoice.isPresent(), "Invoice should be present");
+
+        Optional<PersonBindInvoice> personBindInvoice = Optional.of(new PersonBindInvoice());
+        personBindInvoice.get().setInvoice(invoice.get());
+        personBindInvoice.get().setPersonInvoice(userOptional.get());
+        personBindInvoice.get().setPersonDeliver(userOptional.get());
+        personBindInvoice.get().setDateFrom(dates.get());
+        personBindInvoice.get().setDateTo(dates.get());
+        EntityExchangeResult<Optional<PersonBindInvoice>> result2 =
+                webClient.post().uri("bd/person/bind/invoice/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(personBindInvoice)
+                        .exchange()
+                        .expectStatus()
+                        .isCreated()
+                        .expectBody(new ParameterizedTypeReference<Optional<PersonBindInvoice>>() {})
+                        .returnResult();
+        personBindInvoice = result2.getResponseBody();
+        Assertions.assertTrue(personBindInvoice.isPresent(), "PersonBindInvoice should be present");
+
+        Optional<List<PersonBindInvoice>> list = Optional.of(new ArrayList<>());
+        list.get().add(personBindInvoice.get());
+
+        EntityExchangeResult<Optional<List<PersonBindInvoice>>> result3 =
+                webClient.get().uri("/bd/person/bind/invoice/")
+                        .exchange()
+                        .expectStatus().isOk()
+                        .expectBody(new ParameterizedTypeReference<Optional<List<PersonBindInvoice>>>() {})
+                        .returnResult();
+
+
+        Optional<List<PersonBindInvoice>> list1 = result3.getResponseBody();
+        Assertions.assertTrue(list1.isPresent(), "PersonBindInvoice should be present");
+        Assertions.assertEquals(list.get(), list1.get(), "The list of PersonBindInvoice should match");
+
+
 //        webClient.get().uri("bd/person/bind/invoice/invoice/" + people.get().getUsername())
 //                .exchange()
 //                .expectStatus()
