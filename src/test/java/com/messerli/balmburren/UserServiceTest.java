@@ -3,6 +3,8 @@ package com.messerli.balmburren;
 import com.messerli.balmburren.dtos.LoginUserDto;
 import com.messerli.balmburren.dtos.RegisterUserDto;
 import com.messerli.balmburren.entities.*;
+import com.messerli.balmburren.repositories.RoleRepository;
+import com.messerli.balmburren.repositories.UserRepository;
 import com.messerli.balmburren.services.AuthenticationService;
 import com.messerli.balmburren.services.DatesService;
 import com.messerli.balmburren.services.TourService;
@@ -11,14 +13,14 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Date;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 @Transactional
@@ -26,51 +28,56 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 @ActiveProfiles("test")
 public class UserServiceTest {
-
     @Autowired
     private UserService userService;
-    @Autowired
     private TourService tourService;
-    @Autowired
     private DatesService datesService;
-//    private UserRepository userRepository;
-    @Autowired
     private AuthenticationService authenticationService;
-    private RegisterUserDto registerUserDto;
+    private RegisterUserDto userDto;
     private LoginUserDto loginUserDto;
+    @Autowired
+    private RoleRepository roleRepository;
+    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
 
     @Before
     public void setUp()
     {
-        registerUserDto = new RegisterUserDto();
-        registerUserDto.setFirstname("Bernhard");
-        registerUserDto.setLastname("Messerli");
-        registerUserDto.setPassword("123");
-        registerUserDto.setUsername("baernu2");
-        authenticationService.signup(registerUserDto);
-        loginUserDto = new LoginUserDto();
-        loginUserDto.setPassword("adminadmin").setUsername("admin");
-//        loginUserDto.setUsername("admin");
-        authenticationService.authenticate(loginUserDto);
 
+        userDto = new RegisterUserDto();
+        userDto.setFirstname("Normal").setLastname("Admin").setUsername("admin").setPassword("adminadmin");
+        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
+        Optional<Role> optionalRole1 = roleRepository.findByName(RoleEnum.USER);
+        Optional<User> optionalUser = userRepository.findByUsername(userDto.getUsername());
+        if (optionalRole.isEmpty() || optionalUser.isPresent()) {
+            return;
+        }
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(optionalRole.get());
+        roles.add(optionalRole1.get());
+//
+        var user = new User();
+        user.setFirstname(userDto.getFirstname());
+        user.setLastname(userDto.getLastname());
+        user.setUsername(userDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setEnabled(true);
+//					user.setRoles(roles);
+
+        User user1 = userRepository.save(user);
+        user1.setRoles(roles);
+        user1 = userRepository.save(user1);
     }
     @Test
     public void persistUser() {
         
-        
-//        authenticationService.authenticate(loginUserDto);
-//        userService.createAdministrator("baernu");
 
-//        Role superAdmin = userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
-//        User people = new User(null,0, "Bernhard", "Messerli", "@baernu", "123", null);
-//        userService.saveUser(people);
-//        People people1 = userService.getUser(people.getUsername());
-//        PersonBindRole personBindRole = new PersonBindRole(null, 0, people, superAdmin);
-//        userService.savePersonBindRole(personBindRole);
-//        assertEquals(userService.getPersonBindRole(people, superAdmin).getRole(), superAdmin);
-//        assertEquals(userService.(people).get(0).getRole(), superAdmin);
-//        assertEquals(people, people1);
+        Optional<User> user = userService.findUser("admin");
+
+        assertEquals(roleRepository.findByName(RoleEnum.ADMIN), user.get().getRoles().stream().filter(e -> e.getName().equals(RoleEnum.ADMIN)).findFirst());
+       
 
 
 
