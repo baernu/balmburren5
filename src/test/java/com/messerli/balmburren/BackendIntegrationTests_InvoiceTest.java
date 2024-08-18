@@ -224,25 +224,26 @@ public class BackendIntegrationTests_InvoiceTest {
                         .expectBody(Product.class)
                         .returnResult();
         Assertions.assertEquals("milk", result.getResponseBody().getName());
-//
-////        Assertions.assertTrue(product.isPresent(), "Product should be present");
-//        Assertions.assertEquals("admin", Objects.requireNonNull(result1.getResponseBody()).getName());
-//        productDetails = Optional.of(new ProductDetails());
-//        productDetails.get().setDescription("Normale Milch");
-//        productDetails.get().setCategory("milk");
-//        productDetails.get().setPrice(2.05);
-//        productDetails.get().setSize(1.5);
-//        EntityExchangeResult<Optional<ProductDetails>> result2 =
-//                webClient.post().uri("/pr/product/details/")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .bodyValue(productDetails)
-//                        .exchange()
-//                        .expectStatus()
-//                        .isCreated()
-//                        .expectBody(new ParameterizedTypeReference<Optional<ProductDetails>>() {})
-//                        .returnResult();
-//        productDetails = result2.getResponseBody();
-//        Assertions.assertTrue(productDetails.isPresent(), "ProductDetails should be present");
+
+        productDetails = Optional.of(new ProductDetails());
+        productDetails.get().setDescription("Normale Milch");
+        productDetails.get().setCategory("milk");
+        productDetails.get().setPrice(2.05);
+        productDetails.get().setSize(1.5);
+        EntityExchangeResult<Optional<ProductDetails>> resultProductDetails =
+                webClient.post().uri("/pr/product/details/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .headers(http -> http.setBearerAuth(finalToken))
+                        .bodyValue(productDetails)
+                        .exchange()
+                        .expectStatus()
+                        .isCreated()
+                        .expectBody(new ParameterizedTypeReference<Optional<ProductDetails>>() {})
+                        .returnResult();
+        productDetails = resultProductDetails.getResponseBody();
+        Assertions.assertTrue(productDetails.isPresent(), "ProductDetails should be present");
+        Assertions.assertEquals("milk", resultProductDetails.getResponseBody().get().getCategory());
+
 
 //        dates = Optional.of(new Dates());
 //        dates.get().setDate("20-08-2023");
