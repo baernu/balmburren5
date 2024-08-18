@@ -245,17 +245,18 @@ public class BackendIntegrationTests_InvoiceTest {
         Assertions.assertEquals("milk", resultProductDetails.getResponseBody().get().getCategory());
 
 
-//        dates = Optional.of(new Dates());
-//        dates.get().setDate("20-08-2023");
-//        EntityExchangeResult<Optional<Dates>> result3 =
-//                webClient.post().uri("/tr/dates/")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .bodyValue(dates)
-//                        .exchange()
-//                        .expectBody(new ParameterizedTypeReference<Optional<Dates>>() {})
-//                        .returnResult();
-//        dates = result3.getResponseBody();
-//        Assertions.assertTrue(dates.isPresent(), "Dates should be present");
+        dates = Optional.of(new Dates());
+        dates.get().setDate("20-08-2023");
+        EntityExchangeResult<Optional<Dates>> resultDates =
+                webClient.post().uri("/tr/dates/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(dates)
+                        .exchange()
+                        .expectBody(new ParameterizedTypeReference<Optional<Dates>>() {})
+                        .returnResult();
+        dates = resultDates.getResponseBody();
+        Assertions.assertTrue(dates.isPresent(), "Dates should be present");
+        Assertions.assertEquals("20-08-2023", resultDates.getResponseBody().get().getDate());
 //
 //        productBindInfos = Optional.of(new ProductBindProductDetails());
 //        productBindInfos.get().setProduct(product.get());
