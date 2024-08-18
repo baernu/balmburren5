@@ -61,6 +61,7 @@ public class UserController {
 
     @CrossOrigin( allowCredentials = "true")
     @GetMapping("role")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     ResponseEntity<List<Role>> getAllRoles() {
         return ResponseEntity.ok().body(userService.getAllRoles());}
 

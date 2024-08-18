@@ -107,14 +107,14 @@ public class BackendIntegrationTests_InvoiceTest {
         userDto.setFirstname("Bernhard").setLastname("Messerli").setUsername("baernu").setPassword("123");
 
         EntityExchangeResult<User> result0 =
-        webClient.post().uri("/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(userDto)
-                .exchange()
-                .expectStatus()
-                .isOk()
-                .expectBody(User.class)
-                .returnResult();
+                webClient.post().uri("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(userDto)
+                        .exchange()
+                        .expectStatus()
+                        .isOk()
+                        .expectBody(User.class)
+                        .returnResult();
 
         User userRegistered = result0.getResponseBody();
         Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
@@ -128,14 +128,12 @@ public class BackendIntegrationTests_InvoiceTest {
 
         EntityExchangeResult<LoginResponse> loginResponse =
                 webClient.post().uri("/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(loginUserDto)
-                .exchange()
-                .expectStatus().isOk().expectBody(LoginResponse.class).returnResult();
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(loginUserDto)
+                        .exchange()
+                        .expectStatus().isOk().expectBody(LoginResponse.class).returnResult();
 
         String token = loginResponse.getResponseBody().getToken();
-
-
         String finalToken = token;
         EntityExchangeResult<User> result1 =
                 webClient.put().uri("/admins/update/user")
@@ -172,18 +170,60 @@ public class BackendIntegrationTests_InvoiceTest {
 
         Assertions.assertEquals("Bernhard", resultUser.getResponseBody().getFirstname());
 
-//        Product product1 = new Product();
-//        product1.setName("milk");
-//        EntityExchangeResult<Product> result1 =
-//                webClient.post().uri("/pr/product/")
-//                        .contentType(MediaType.APPLICATION_JSON)
-////                        .headers(http -> http.setBearerAuth(token))
-//                        .bodyValue(product)
-//                        .exchange()
-//                        .expectStatus()
-//                        .isCreated()
-//                        .expectBody(Product.class)
-//                        .returnResult();
+
+        EntityExchangeResult<List<Role>> resultRoles =
+                webClient.get().uri("/users/role")
+                        .headers(http -> http.setBearerAuth(finalToken))
+                        .exchange()
+                        .expectStatus()
+                        .isOk()
+                        .expectBodyList(Role.class)
+                        .returnResult();
+
+        Assertions.assertEquals(RoleEnum.ADMIN, resultRoles.getResponseBody().get(1).getName());
+
+        EntityExchangeResult<Boolean> existUser =
+                webClient.get().uri("/auth/exist/baernu")
+                        .headers(http -> http.setBearerAuth(finalToken))
+                        .exchange()
+                        .expectStatus()
+                        .isOk()
+                        .expectBody(Boolean.class)
+                        .returnResult();
+
+        Assertions.assertEquals(true, existUser.getResponseBody());
+
+    }
+
+    @Test
+    public void TestDeliver() {
+        EntityExchangeResult<LoginResponse> loginResponse =
+        webClient.post().uri("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue("{\"password\": \"adminadmin\", \"username\": \"admin\" }")
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(LoginResponse.class)
+                .returnResult();
+
+        String token = loginResponse.getResponseBody().getToken();
+        String finalToken = token;
+
+        Product product = new Product();
+        product.setName("milk");
+        product.setId(1L);
+        EntityExchangeResult<Product> result =
+                webClient.post().uri("/pr/product/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .headers(http -> http.setBearerAuth(finalToken))
+                        .bodyValue(product)
+                        .exchange()
+                        .expectStatus()
+                        .isCreated()
+                        .expectBody(Product.class)
+                        .returnResult();
+        Assertions.assertEquals("milk", result.getResponseBody().getName());
 //
 ////        Assertions.assertTrue(product.isPresent(), "Product should be present");
 //        Assertions.assertEquals("admin", Objects.requireNonNull(result1.getResponseBody()).getName());
