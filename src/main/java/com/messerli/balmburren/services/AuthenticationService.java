@@ -50,7 +50,7 @@ public class AuthenticationService {
         user.setPassword(passwordEncoder.encode(input.getPassword()));
         user.setEnabled(true);
 
-        userRepository.save(user);
+        user = userRepository.save(user);
         user.setRoles(roles);
 
         return userRepository.save(user);

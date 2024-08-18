@@ -1,8 +1,10 @@
 package com.messerli.balmburren.controllers;
 
+import com.messerli.balmburren.entities.Address;
 import com.messerli.balmburren.entities.Role;
 import com.messerli.balmburren.entities.RoleEnum;
 import com.messerli.balmburren.entities.User;
+import com.messerli.balmburren.exceptions.NoSuchElementFoundException;
 import com.messerli.balmburren.services.MyUserDetails;
 import com.messerli.balmburren.services.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +45,9 @@ public class UserController {
     @GetMapping("{username}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<Optional<User>> findUser(@PathVariable("username") String username) {
-
-        return ResponseEntity.ok(userService.findUser(username));
+        Optional<User> optionalUser = userService.findUser(username);
+        if (optionalUser.isEmpty()) throw new NoSuchElementFoundException("User not found");
+        return ResponseEntity.ok(optionalUser);
     }
     @CrossOrigin( allowCredentials = "true")
     @GetMapping
@@ -60,6 +63,5 @@ public class UserController {
     @GetMapping("role")
     ResponseEntity<List<Role>> getAllRoles() {
         return ResponseEntity.ok().body(userService.getAllRoles());}
-
 
 }
