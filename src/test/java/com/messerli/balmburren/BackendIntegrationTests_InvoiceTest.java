@@ -66,16 +66,16 @@ public class BackendIntegrationTests_InvoiceTest {
 
 
 
-    @BeforeEach
-    public void setup(){
-        webClient.post().uri("/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue("{\"password\": \"adminadmin\", \"username\": \"admin\" }")
-                .exchange()
-                .expectStatus().isOk();
-
-
-    }
+//    @BeforeEach
+//    public void setup(){
+//        webClient.post().uri("/auth/login")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .bodyValue("{\"password\": \"adminadmin\", \"username\": \"admin\" }")
+//                .exchange()
+//                .expectStatus().isOk();
+//
+//
+//    }
 
 
 
@@ -99,43 +99,16 @@ public class BackendIntegrationTests_InvoiceTest {
 
     }
     @Test
-    public void User() {
+    public void TestUser() {
 
-        RoleSeeder roleSeeder = new RoleSeeder(roleRepository);
-        roleSeeder.loadRoles();
 
         RegisterUserDto userDto = new RegisterUserDto();
-//        userDto.setFirstname("Super").setLastname( "Admin").setUsername("super.admin@email.com").setPassword("123456");
+
         userDto.setFirstname("Bernhard").setLastname("Messerli").setUsername("baernu").setPassword("123");
-////        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.SUPER_ADMIN);
-////        Optional<User> optionalUser = userRepository.findByUsername(userDto.getUsername());
-//        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
-//        Optional<Role> optionalRole1 = roleRepository.findByName(RoleEnum.USER);
-//        Optional<User> optionalUser = userRepository.findByUsername(userDto.getUsername());
-//        if (optionalRole.isEmpty() || optionalUser.isPresent()) {
-//            return;
-//        }
-//
-//        Set<Role> roles = new HashSet<>();
-//        roles.add(optionalRole.get());
-//        roles.add(optionalRole1.get());
-////
-//        var user = new User();
-//        user.setFirstname(userDto.getFirstname());
-//        user.setLastname(userDto.getLastname());
-//        user.setUsername(userDto.getUsername());
-//        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-//        user.setEnabled(true);
-////					user.setRoles(roles);
-//
-//        User user1 = userRepository.save(user);
-//        user1.setRoles(roles);
-//        user1 = userRepository.save(user1);
-//        User user2 = new User();
+
         EntityExchangeResult<User> result0 =
         webClient.post().uri("/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
-//                        .headers(http -> http.setBearerAuth(token))
                 .bodyValue(userDto)
                 .exchange()
                 .expectStatus()
@@ -175,15 +148,29 @@ public class BackendIntegrationTests_InvoiceTest {
                         .expectBody(User.class)
                         .returnResult();
 
-//        EntityExchangeResult<User> result =
-//        webClient.get().uri("/users/admin")
-//                .exchange()
-//                .expectBody(User.class)
-//                .returnResult();
-//
-//        Assertions.assertEquals("admi", result.getResponseBody().getUsername());
+        Assertions.assertEquals("Bernhard", result1.getResponseBody().getFirstname());
 
+        EntityExchangeResult<List<User>> resultUsers =
+                webClient.get().uri("/users/")
+                        .headers(http -> http.setBearerAuth(finalToken))
+                        .exchange()
+                        .expectStatus()
+                        .isOk()
+                        .expectBodyList(User.class)
+                        .returnResult();
 
+        Assertions.assertEquals("Bernhard", resultUsers.getResponseBody().get(1).getFirstname());
+
+        EntityExchangeResult<User> resultUser =
+                webClient.get().uri("/users/baernu")
+                        .headers(http -> http.setBearerAuth(finalToken))
+                        .exchange()
+                        .expectStatus()
+                        .isOk()
+                        .expectBody(User.class)
+                        .returnResult();
+
+        Assertions.assertEquals("Bernhard", resultUser.getResponseBody().getFirstname());
 
 //        Product product1 = new Product();
 //        product1.setName("milk");
