@@ -257,6 +257,7 @@ public class BackendIntegrationTests_InvoiceTest {
         dates = resultDates.getResponseBody();
         Assertions.assertTrue(dates.isPresent(), "Dates should be present");
         Assertions.assertEquals("20-08-2023", resultDates.getResponseBody().get().getDate());
+
 //
 //        productBindInfos = Optional.of(new ProductBindProductDetails());
 //        productBindInfos.get().setProduct(product.get());
