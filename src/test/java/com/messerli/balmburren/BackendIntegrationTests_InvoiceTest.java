@@ -6,17 +6,23 @@ import com.messerli.balmburren.dtos.RegisterUserDto;
 import com.messerli.balmburren.entities.*;
 import com.messerli.balmburren.repositories.RoleRepository;
 import com.messerli.balmburren.repositories.UserRepository;
+import com.messerli.balmburren.responses.LoginResponse;
+import com.messerli.balmburren.responses.StringResponse;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -24,7 +30,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import java.util.*;
 
 //@ActiveProfiles("test")
-//@RunWith(SpringRunner.class)
 @Transactional
 @ActiveProfiles("test")
 @AutoConfigureWebTestClient
@@ -52,47 +57,39 @@ public class BackendIntegrationTests_InvoiceTest {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    private String token;
 
 
 
-    @Test
-    public void setup() {
-
-        userDto = new RegisterUserDto();
-        userDto.setFirstname("Normal").setLastname("Admin").setUsername("admin").setPassword("adminadmin");
-        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
-        Optional<Role> optionalRole1 = roleRepository.findByName(RoleEnum.USER);
-        Optional<User> optionalUser = userRepository.findByUsername(userDto.getUsername());
-        if (optionalRole.isEmpty() || optionalUser.isPresent()) {
-            return;
-        }
-
-        Set<Role> roles = new HashSet<>();
-        roles.add(optionalRole.get());
-        roles.add(optionalRole1.get());
-//
-        var user = new User();
-        user.setFirstname(userDto.getFirstname());
-        user.setLastname(userDto.getLastname());
-        user.setUsername(userDto.getUsername());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setEnabled(true);
-//					user.setRoles(roles);
-
-        User user1 = userRepository.save(user);
-        user1.setRoles(roles);
-        user1 = userRepository.save(user1);
-
-        webClient = WebTestClient
-                .bindToServer()
-                .baseUrl("http://localhost:8006/api/")
-                .build();
-
+    @BeforeEach
+    public void setup(){
         webClient.post().uri("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue("{\"password\": \"adminadmin\", \"username\": \"admin\" }")
                 .exchange()
                 .expectStatus().isOk();
+    }
+
+
+
+    @Test
+    public void TestProduct() {
+        Product product = new Product();
+        product.setName("milk");
+        product.setId(1L);
+
+        webClient.post().uri("/pr/product/")
+                .contentType(MediaType.APPLICATION_JSON)
+//                        .headers(http -> http.setBearerAuth(token))
+                .bodyValue(product)
+                .exchange()
+                .expectStatus()
+                .isCreated()
+                .expectBody(new ParameterizedTypeReference<Optional<Product>>() {})
+                .isEqualTo(Optional.of(product));
+    }
+    @Test
+    public void first() {
 
         EntityExchangeResult<Optional<User>> result =
                 webClient.get().uri("/users/admin")
@@ -104,7 +101,6 @@ public class BackendIntegrationTests_InvoiceTest {
         Assertions.assertTrue(userOptional.isPresent(), "User should be present");
         Assertions.assertEquals("admin", userOptional.get().getUsername());
 
-//        this.token = this.people.getToken();
 
 
         product = Optional.of(new Product());
@@ -180,23 +176,23 @@ public class BackendIntegrationTests_InvoiceTest {
         tour = result6.getResponseBody();
         Assertions.assertTrue(tour.isPresent(), "Tour should be present");
 
-        ordered = Optional.of(new Ordered());
-        ordered.get().setDeliverPeople(optionalUser.get());
-        ordered.get().setProductBindInfos(productBindInfos.get());
-        ordered.get().setQuantityOrdered(2);
-        ordered.get().setDate(dates.get());
-        ordered.get().setTour(tour.get());
-        EntityExchangeResult<Optional<Ordered>> result5 =
-                webClient.post().uri("/or/order/")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .bodyValue(ordered)
-                        .exchange()
-                        .expectStatus()
-                        .isCreated()
-                        .expectBody(new ParameterizedTypeReference<Optional<Ordered>>() {})
-                        .returnResult();
-        ordered = result5.getResponseBody();
-        Assertions.assertTrue(ordered.isPresent(), "Ordered should be present");
+//        ordered = Optional.of(new Ordered());
+//        ordered.get().setDeliverPeople(userOptional.get());
+//        ordered.get().setProductBindInfos(productBindInfos.get());
+//        ordered.get().setQuantityOrdered(2);
+//        ordered.get().setDate(dates.get());
+//        ordered.get().setTour(tour.get());
+//        EntityExchangeResult<Optional<Ordered>> result5 =
+//                webClient.post().uri("/or/order/")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .bodyValue(ordered)
+//                        .exchange()
+//                        .expectStatus()
+//                        .isCreated()
+//                        .expectBody(new ParameterizedTypeReference<Optional<Ordered>>() {})
+//                        .returnResult();
+//        ordered = result5.getResponseBody();
+//        Assertions.assertTrue(ordered.isPresent(), "Ordered should be present");
     }
 
     @Test
@@ -297,50 +293,56 @@ public class BackendIntegrationTests_InvoiceTest {
         Assertions.assertEquals(list.get(), list1.get(), "The list of PersonBindInvoice should match");
 
 
-//        webClient.get().uri("bd/person/bind/invoice/invoice/" + people.get().getUsername())
-//                .exchange()
-//                .expectStatus()
-//                .isOk()
-//                .expectBodyList(PersonBindInvoice.class)
-//                .isEqualTo(list);
-//        webClient.get().uri("bd/person/bind/invoice/" + dates.getDate())
-//                .exchange()
-//                .expectStatus()
-//                .isOk()
-//                .expectBodyList(PersonBindInvoice.class)
-//                .isEqualTo(list);
-//        webClient.get().uri("bd/person/bind/invoice/deliver/" + people.getUsername())
-//                .exchange()
-//                .expectStatus()
-//                .isOk()
-//                .expectBodyList(PersonBindInvoice.class)
-//                .isEqualTo(list);
-//        webClient.get().uri("bd/person/bind/invoice/exist/" + dates.getId() + '/' + dates.getId() + '/' +
-//                        people.getUsername() + '/' + people.getUsername())
-//                .exchange()
-//                .expectStatus()
-//                .isOk()
-//                .expectBody(Boolean.class)
-//                .isEqualTo(true);
-//        webClient.get().uri("bd/person/bind/invoice/" + dates.getId() + '/' + dates.getId() + '/' +
-//                        people.getUsername() + '/' + people.getUsername())
-//                .exchange()
-//                .expectStatus()
-//                .isOk()
-//                .expectBody(PersonBindInvoice.class)
-//                .isEqualTo(personBindInvoice);
-//        webClient.delete().uri("bd/person/bind/invoice/" + dates.getId() + '/' + dates.getId() + '/' +
-//                        people.getUsername() + '/' + people.getUsername())
-//                .exchange()
-//                .expectStatus()
-//                .isOk();
-//        webClient.get().uri("bd/person/bind/invoice/exist/" + dates.getId() + '/' + dates.getId() + '/' +
-//                        people.getUsername() + '/' + people.getUsername())
-//                .exchange()
-//                .expectStatus()
-//                .isOk()
-//                .expectBody(Boolean.class)
-//                .isEqualTo(false);
+        webClient.get().uri("/bd/person/bind/invoice/invoice/" + userOptional.get().getUsername())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(new ParameterizedTypeReference<Optional<List<PersonBindInvoice>>>() {})
+                .isEqualTo(list1);
+
+        webClient.get().uri("/bd/person/bind/invoice/" + dates.get().getDate())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(new ParameterizedTypeReference<Optional<List<PersonBindInvoice>>>() {})
+                .isEqualTo(list1);
+
+        webClient.get().uri("/bd/person/bind/invoice/deliver/" + userOptional.get().getUsername())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(new ParameterizedTypeReference<Optional<List<PersonBindInvoice>>>() {})
+                .isEqualTo(list1);
+
+        webClient.get().uri("/bd/person/bind/invoice/exist/" + dates.get().getId() + '/' + dates.get().getId() + '/' +
+                        userOptional.get().getUsername() + '/' + userOptional.get().getUsername())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(Boolean.class)
+                .isEqualTo(true);
+
+        webClient.get().uri("/bd/person/bind/invoice/" + dates.get().getId() + '/' + dates.get().getId() + '/' +
+                        userOptional.get().getUsername() + '/' + userOptional.get().getUsername())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(new ParameterizedTypeReference<Optional<PersonBindInvoice>>() {})
+                .isEqualTo(personBindInvoice);
+
+        webClient.delete().uri("/bd/person/bind/invoice/" + dates.get().getId() + '/' + dates.get().getId() + '/' +
+                        userOptional.get().getUsername() + '/' + userOptional.get().getUsername())
+                .exchange()
+                .expectStatus()
+                .isOk();
+
+        webClient.get().uri("/bd/person/bind/invoice/exist/" + dates.get().getId() + '/' + dates.get().getId() + '/' +
+                        userOptional.get().getUsername() + '/' + userOptional.get().getUsername())
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(Boolean.class)
+                .isEqualTo(false);
 
 
     }
