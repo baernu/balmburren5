@@ -258,35 +258,37 @@ public class BackendIntegrationTests_InvoiceTest {
         Assertions.assertTrue(dates.isPresent(), "Dates should be present");
         Assertions.assertEquals("20-08-2023", resultDates.getResponseBody().get().getDate());
 
-//
-//        productBindInfos = Optional.of(new ProductBindProductDetails());
-//        productBindInfos.get().setProduct(product.get());
-//        productBindInfos.get().setProductDetails(productDetails.get());
-//        productBindInfos.get().setStartDate(dates.get());
-//        EntityExchangeResult<Optional<ProductBindProductDetails>> result4 =
-//                webClient.post().uri("/pr/product/bind/infos/")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .bodyValue(productBindInfos)
-//                        .exchange()
-//                        .expectStatus()
-//                        .isCreated()
-//                        .expectBody(new ParameterizedTypeReference<Optional<ProductBindProductDetails>>() {})
-//                        .returnResult();
-//        productBindInfos = result4.getResponseBody();
-//        Assertions.assertTrue(productBindInfos.isPresent(), "ProductBindInfos should be present");
-//
-//        tour = Optional.of(new Tour());
-//        tour.get().setNumber("1");
-//        EntityExchangeResult<Optional<Tour>> result6 =
-//                webClient.post().uri("/tr/tour/")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .bodyValue(tour)
-//                        .exchange()
-//                        .expectBody(new ParameterizedTypeReference<Optional<Tour>>() {})
-//                        .returnResult();
-//
-//        tour = result6.getResponseBody();
-//        Assertions.assertTrue(tour.isPresent(), "Tour should be present");
+
+        productBindInfos = Optional.of(new ProductBindProductDetails());
+        productBindInfos.get().setProduct(product);
+        productBindInfos.get().setProductDetails(productDetails.get());
+        productBindInfos.get().setStartDate(dates.get());
+        EntityExchangeResult<Optional<ProductBindProductDetails>> resultProductBindProductDetails =
+                webClient.post().uri("/pr/product/bind/infos/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(productBindInfos)
+                        .exchange()
+                        .expectStatus()
+                        .isCreated()
+                        .expectBody(new ParameterizedTypeReference<Optional<ProductBindProductDetails>>() {})
+                        .returnResult();
+        Optional<ProductBindProductDetails> productBindProductDetails = resultProductBindProductDetails.getResponseBody();
+        Assertions.assertTrue(productBindInfos.isPresent(), "ProductBindInfos should be present");
+        Assertions.assertEquals("milk", productBindProductDetails.get().getProduct().getName());
+
+        tour = Optional.of(new Tour());
+        tour.get().setNumber("1");
+        EntityExchangeResult<Optional<Tour>> resultTour =
+                webClient.post().uri("/tr/tour/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(tour)
+                        .exchange()
+                        .expectBody(new ParameterizedTypeReference<Optional<Tour>>() {})
+                        .returnResult();
+
+        Optional<Tour> tour1 = resultTour.getResponseBody();
+        Assertions.assertTrue(tour1.isPresent(), "Tour should be present");
+        Assertions.assertEquals("1", tour1.get().getNumber());
 
 //        ordered = Optional.of(new Ordered());
 //        ordered.get().setDeliverPeople(userOptional.get());
