@@ -396,7 +396,7 @@ public class BackendIntegrationTests_InvoiceTest {
         personBindInvoice.get().setDateFrom(dates.get());
         personBindInvoice.get().setDateTo(dates.get());
         EntityExchangeResult<Optional<PersonBindInvoice>> result2 =
-                webClient.post().uri("bd/person/bind/invoice/")
+                webClient.post().uri("/bd/person/bind/invoice/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(personBindInvoice)
                         .exchange()
