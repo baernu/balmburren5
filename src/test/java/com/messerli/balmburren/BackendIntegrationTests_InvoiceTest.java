@@ -168,6 +168,7 @@ public class BackendIntegrationTests_InvoiceTest {
                         .expectBody(User.class)
                         .returnResult();
 
+
         Assertions.assertEquals("Bernhard", resultUser.getResponseBody().getFirstname());
 
 
@@ -197,6 +198,8 @@ public class BackendIntegrationTests_InvoiceTest {
 
     @Test
     public void TestDeliver() {
+
+
         EntityExchangeResult<LoginResponse> loginResponse =
         webClient.post().uri("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -209,6 +212,18 @@ public class BackendIntegrationTests_InvoiceTest {
 
         String token = loginResponse.getResponseBody().getToken();
         String finalToken = token;
+
+        EntityExchangeResult<User> resultUser =
+                webClient.get().uri("/users/admin")
+                        .headers(http -> http.setBearerAuth(finalToken))
+                        .exchange()
+                        .expectStatus()
+                        .isOk()
+                        .expectBody(User.class)
+                        .returnResult();
+
+
+        Assertions.assertEquals("Normal", resultUser.getResponseBody().getFirstname());
 
         Product product = new Product();
         product.setName("milk");
@@ -275,6 +290,7 @@ public class BackendIntegrationTests_InvoiceTest {
         Optional<ProductBindProductDetails> productBindProductDetails = resultProductBindProductDetails.getResponseBody();
         Assertions.assertTrue(productBindInfos.isPresent(), "ProductBindInfos should be present");
         Assertions.assertEquals("milk", productBindProductDetails.get().getProduct().getName());
+        productBindInfos = productBindProductDetails;
 
         tour = Optional.of(new Tour());
         tour.get().setNumber("1");
@@ -289,25 +305,29 @@ public class BackendIntegrationTests_InvoiceTest {
         Optional<Tour> tour1 = resultTour.getResponseBody();
         Assertions.assertTrue(tour1.isPresent(), "Tour should be present");
         Assertions.assertEquals("1", tour1.get().getNumber());
+        tour = tour1;
 
 
-//        ordered = Optional.of(new Ordered());
-//        ordered.get().setDeliverPeople(userOptional.get());
-//        ordered.get().setProductBindInfos(productBindInfos.get());
-//        ordered.get().setQuantityOrdered(2);
-//        ordered.get().setDate(dates.get());
-//        ordered.get().setTour(tour.get());
-//        EntityExchangeResult<Optional<Ordered>> result5 =
-//                webClient.post().uri("/or/order/")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .bodyValue(ordered)
-//                        .exchange()
-//                        .expectStatus()
-//                        .isCreated()
-//                        .expectBody(new ParameterizedTypeReference<Optional<Ordered>>() {})
-//                        .returnResult();
-//        ordered = result5.getResponseBody();
-//        Assertions.assertTrue(ordered.isPresent(), "Ordered should be present");
+
+        ordered = Optional.of(new Ordered());
+        ordered.get().setDeliverPeople(resultUser.getResponseBody());
+        ordered.get().setProductBindInfos(productBindInfos.get());
+        ordered.get().setQuantityOrdered(2);
+        ordered.get().setDate(dates.get());
+        ordered.get().setTour(tour.get());
+
+
+        EntityExchangeResult<Optional<Ordered>> result5 =
+                webClient.post().uri("/or/order/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(ordered)
+                        .exchange()
+                        .expectStatus()
+                        .isCreated()
+                        .expectBody(new ParameterizedTypeReference<Optional<Ordered>>() {})
+                        .returnResult();
+        ordered = result5.getResponseBody();
+        Assertions.assertTrue(ordered.isPresent(), "Ordered should be present");
 
     }
 
