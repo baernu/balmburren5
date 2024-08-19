@@ -2,6 +2,7 @@ package com.messerli.balmburren;
 
 
 
+import com.fasterxml.jackson.databind.util.Annotations;
 import com.messerli.balmburren.dtos.LoginUserDto;
 import com.messerli.balmburren.dtos.RegisterUserDto;
 import com.messerli.balmburren.entities.*;
@@ -334,41 +335,44 @@ public class BackendIntegrationTests_InvoiceTest {
     @Test
     void postInvoice() {
 
-        userDto = new RegisterUserDto();
-        userDto.setFirstname("Normal").setLastname("Admin").setUsername("admin").setPassword("adminadmin");
-        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
-        Optional<Role> optionalRole1 = roleRepository.findByName(RoleEnum.USER);
-        Optional<User> optionalUser = userRepository.findByUsername(userDto.getUsername());
-        if (optionalRole.isEmpty() || optionalUser.isPresent()) {
-            return;
-        }
-
-        Set<Role> roles = new HashSet<>();
-        roles.add(optionalRole.get());
-        roles.add(optionalRole1.get());
-//
-        var user = new User();
-        user.setFirstname(userDto.getFirstname());
-        user.setLastname(userDto.getLastname());
-        user.setUsername(userDto.getUsername());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setEnabled(true);
-//					user.setRoles(roles);
-
-        User user1 = userRepository.save(user);
-        user1.setRoles(roles);
-        user1 = userRepository.save(user1);
-
-
-        EntityExchangeResult<Optional<User>> result =
-                webClient.get().uri("/users/admin")
+        EntityExchangeResult<LoginResponse> loginResponse =
+                webClient.post().uri("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue("{\"password\": \"adminadmin\", \"username\": \"admin\" }")
                         .exchange()
-                        .expectBody(new ParameterizedTypeReference<Optional<User>>() {})
+                        .expectStatus()
+                        .isOk()
+                        .expectBody(LoginResponse.class)
                         .returnResult();
 
-        Optional<User> userOptional = result.getResponseBody();
-        Assertions.assertTrue(userOptional.isPresent(), "User should be present");
-        Assertions.assertEquals("admin", userOptional.get().getUsername());
+        String token = loginResponse.getResponseBody().getToken();
+        String finalToken = token;
+
+        dates = Optional.of(new Dates());
+        dates.get().setDate("21-08-2023");
+        EntityExchangeResult<Optional<Dates>> resultDates =
+                webClient.post().uri("/tr/dates/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(dates)
+                        .exchange()
+                        .expectBody(new ParameterizedTypeReference<Optional<Dates>>() {})
+                        .returnResult();
+        dates = resultDates.getResponseBody();
+        Assertions.assertTrue(dates.isPresent(), "Dates should be present");
+        Assertions.assertEquals("21-08-2023", resultDates.getResponseBody().get().getDate());
+
+        EntityExchangeResult<User> resultUser =
+                webClient.get().uri("/users/admin")
+                        .headers(http -> http.setBearerAuth(finalToken))
+                        .exchange()
+                        .expectStatus()
+                        .isOk()
+                        .expectBody(User.class)
+                        .returnResult();
+
+
+        Assertions.assertEquals("Normal", resultUser.getResponseBody().getFirstname());
+        Optional<User> userOptional = Optional.ofNullable(resultUser.getResponseBody());
 
         Optional<Invoice> invoice = Optional.of(new Invoice());
         invoice.get().setAmount(1000.02);
@@ -383,7 +387,6 @@ public class BackendIntegrationTests_InvoiceTest {
                         .expectBody(new ParameterizedTypeReference<Optional<Invoice>>() {})
                         .returnResult();
         invoice = result1.getResponseBody();
-        invoice = null;
         Assertions.assertTrue(invoice.isPresent(), "Invoice should be present");
 
         Optional<PersonBindInvoice> personBindInvoice = Optional.of(new PersonBindInvoice());
