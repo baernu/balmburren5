@@ -32,13 +32,13 @@ public class UserBindController {
     private DatesService datesService;
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("address")
+    @PostMapping("address/")
     ResponseEntity<Optional<Address>> createAddress(@RequestBody Address address) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/address").toUriString());
         return ResponseEntity.created(uri).body(userBindService.saveAddress(address));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PutMapping("address")
+    @PutMapping("address/")
     ResponseEntity<Optional<Address>> putAddress(@RequestBody Address address) {
         Optional<Address> address1 = userBindService.getAddress(address.getId());
         if (!address1.isPresent()) throw new NoSuchElementFoundException("Address not found");

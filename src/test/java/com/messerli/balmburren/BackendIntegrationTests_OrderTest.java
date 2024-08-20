@@ -26,32 +26,6 @@ import java.util.List;
 public class BackendIntegrationTests_OrderTest {
     @Autowired
     private WebTestClient webClient;
-    private String token;
-
-//    @BeforeEach
-//    public void setup() {
-//        webClient = WebTestClient
-//                .bindToServer()
-//                .baseUrl("http://localhost:8080/api/")
-//                .build();
-//
-//        webClient.post().uri("/authenticate")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .bodyValue("{\"password\": \"John\", \"username\": \"john@domain.com\" }")
-//                .exchange()
-//                .expectStatus().isCreated();
-//
-//        EntityExchangeResult<People> result =
-//                webClient.get().uri("/users/john@domain.com")
-//                        .exchange()
-//                        .expectBody(People.class)
-//                        .returnResult();
-//        this.people = result.getResponseBody();
-//
-//
-//        this.token = this.people.getToken();
-//    }
-
 
     @Test
     void postOrder() {
