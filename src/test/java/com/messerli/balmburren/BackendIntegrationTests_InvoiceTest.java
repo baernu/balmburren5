@@ -422,13 +422,15 @@ public class BackendIntegrationTests_InvoiceTest {
         Assertions.assertTrue(list1.isPresent(), "PersonBindInvoice should be present");
         Assertions.assertEquals(list.get(), list1.get(), "The list of PersonBindInvoice should match");
 
-
+        EntityExchangeResult<Optional<List<PersonBindInvoice>>> pbi1=
         webClient.get().uri("/bd/person/bind/invoice/invoice/" + userOptional.get().getUsername())
                 .exchange()
                 .expectStatus()
                 .isOk()
                 .expectBody(new ParameterizedTypeReference<Optional<List<PersonBindInvoice>>>() {})
-                .isEqualTo(list1);
+                .returnResult();
+
+        Assertions.assertEquals(list.get(), pbi1.getResponseBody().get());
 
         webClient.get().uri("/bd/person/bind/invoice/" + dates.get().getDate())
                 .exchange()
