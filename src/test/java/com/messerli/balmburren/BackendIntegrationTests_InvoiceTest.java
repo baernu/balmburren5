@@ -27,6 +27,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
@@ -36,6 +37,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import java.util.*;
 
 //@ActiveProfiles("test")
+
 @Transactional
 @ActiveProfiles("test")
 @AutoConfigureWebTestClient
@@ -43,8 +45,6 @@ import java.util.*;
 public class BackendIntegrationTests_InvoiceTest {
     @Autowired
     private WebTestClient webClient;
-    @Autowired
-    private Optional<Product> product;
     @Autowired
     private Optional<ProductDetails> productDetails;
     @Autowired
@@ -55,15 +55,10 @@ public class BackendIntegrationTests_InvoiceTest {
     private Optional<Tour> tour;
     @Autowired
     private Optional<Ordered> ordered;
-    @Autowired
-    private RegisterUserDto userDto;
+
     @Autowired
     private RoleRepository roleRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    private String token;
+
 
 
 
@@ -262,7 +257,7 @@ public class BackendIntegrationTests_InvoiceTest {
 
 
         dates = Optional.of(new Dates());
-        dates.get().setDate("20-08-2023");
+        dates.get().setDate("21-08-2023");
         EntityExchangeResult<Optional<Dates>> resultDates =
                 webClient.post().uri("/tr/dates/")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -272,7 +267,7 @@ public class BackendIntegrationTests_InvoiceTest {
                         .returnResult();
         dates = resultDates.getResponseBody();
         Assertions.assertTrue(dates.isPresent(), "Dates should be present");
-        Assertions.assertEquals("20-08-2023", resultDates.getResponseBody().get().getDate());
+        Assertions.assertEquals("21-08-2023", resultDates.getResponseBody().get().getDate());
 
 
         productBindInfos = Optional.of(new ProductBindProductDetails());
@@ -349,7 +344,7 @@ public class BackendIntegrationTests_InvoiceTest {
         String finalToken = token;
 
         dates = Optional.of(new Dates());
-        dates.get().setDate("21-08-2023");
+        dates.get().setDate("22-08-2023");
         EntityExchangeResult<Optional<Dates>> resultDates =
                 webClient.post().uri("/tr/dates/")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -359,7 +354,7 @@ public class BackendIntegrationTests_InvoiceTest {
                         .returnResult();
         dates = resultDates.getResponseBody();
         Assertions.assertTrue(dates.isPresent(), "Dates should be present");
-        Assertions.assertEquals("21-08-2023", resultDates.getResponseBody().get().getDate());
+        Assertions.assertEquals("22-08-2023", resultDates.getResponseBody().get().getDate());
 
         EntityExchangeResult<User> resultUser =
                 webClient.get().uri("/users/admin")
