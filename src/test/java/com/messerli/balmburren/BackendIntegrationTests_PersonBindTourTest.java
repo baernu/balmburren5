@@ -5,7 +5,6 @@ import com.messerli.balmburren.entities.*;
 import com.messerli.balmburren.responses.LoginResponse;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -30,7 +29,6 @@ public class BackendIntegrationTests_PersonBindTourTest {
     private WebTestClient webClient;
 
     @Test
-    @CrossOrigin(allowCredentials = "true")
     void ecreateUserAndSoOn() {
 
         EntityExchangeResult<LoginResponse> loginResponse =
