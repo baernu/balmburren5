@@ -46,14 +46,16 @@ export class SettingsComponent {
     this.user.password = this.hash;
     this.user = await firstValueFrom(this.userService.updateUser(this.user));
     this.user.password = "";
-    this.userBindPhone.person = await firstValueFrom(this.userService.findUser(this.user.username));
-    this.userBindAddress.person = this.userBindPhone.person;
+    this.userBindPhone.user= await firstValueFrom(this.userService.findUser(this.user.username));
+    this.userBindAddress.user = this.userBindPhone.user;
+
     if (!await firstValueFrom(this.userService.existUserBindAddress(this.user))) {
       this.userBindAddress.address = await firstValueFrom(this.userService.createAddress(this.userBindAddress.address));
       this.userBindAddress = await firstValueFrom(this.userService.createUserBindAddress(this.userBindAddress));
     } else {
       this.userBindAddress.address = await firstValueFrom(this.userService.putAddress(this.userBindAddress.address));
       this.userBindAddress = await firstValueFrom(this.userService.putUserBindAddress(this.userBindAddress));
+
     }
     if (!await firstValueFrom(this.userService.existUserBindPhone(this.user))) {
       this.userBindPhone.invoicePerson = await firstValueFrom(this.userService.findUser(this.userBindPhone.invoicePerson.username));

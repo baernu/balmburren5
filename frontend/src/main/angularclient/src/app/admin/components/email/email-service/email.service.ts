@@ -9,8 +9,8 @@ import {AndroidClientDTO} from "../../tour/service/androidClientDTO";
   providedIn: 'root'
 })
 export class EmailService {
-  // private readonly baseUrl: string = 'http://localhost:8080/api/';
-  private readonly baseUrl: string = 'api/';
+  private readonly baseUrl: string = 'http://localhost:8006/api/';
+  // private readonly baseUrl: string = 'api/';
   private readonly emailNormalUrl: string;
   private readonly emailAttachmentUrl: string;
   private readonly getQRCodeUrl: string;

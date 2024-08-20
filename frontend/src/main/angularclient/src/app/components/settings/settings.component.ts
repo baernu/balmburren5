@@ -50,7 +50,7 @@ export class SettingsComponent {
   async onSubmit() {
     if(!await firstValueFrom(this.userService.existUserBindAddress(this.people))) {
       this.userBindAddress.address = await firstValueFrom(this.userService.createAddress(this.address));
-      this.userBindAddress.person = this.people;
+      this.userBindAddress.user = this.people;
       this.userBindAddress = await firstValueFrom(this.userService.createUserBindAddress(this.userBindAddress));
     } else {
       this.userBindAddress.address = await firstValueFrom(this.userService.putAddress(this.address));
@@ -58,7 +58,7 @@ export class SettingsComponent {
       this.userBindAddress = await firstValueFrom(this.userService.putUserBindAddress(this.userBindAddress));
     }
     if(!await firstValueFrom(this.userService.existUserBindPhone(this.people))) {
-      this.userBindPhone.person = this.people;
+      this.userBindPhone.user = this.people;
       this.userBindPhone.invoicePerson = this.people;
       this.userBindPhone = await firstValueFrom(this.userService.createUserBindPhone(this.userBindPhone));
     } else {
@@ -66,7 +66,7 @@ export class SettingsComponent {
     }
     this.setEmailData(this.userBindPhone.email, "");
     await firstValueFrom(this.emailService.sendEmailNormal(this.emailData));
-    this.setEmailData("admin@balmburren.net", this.userBindPhone.person.firstname + ' ' + this.userBindPhone.person.lastname);
+    this.setEmailData("admin@balmburren.net", this.userBindPhone.user.firstname + ' ' + this.userBindPhone.user.lastname);
     await firstValueFrom(this.emailService.sendEmailNormal(this.emailData));
     await this.router.navigate(['home']);
   }
