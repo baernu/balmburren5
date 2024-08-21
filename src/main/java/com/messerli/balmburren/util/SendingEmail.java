@@ -1,7 +1,5 @@
 package com.messerli.balmburren.util;
 
-import org.springframework.core.io.ClassPathResource;
-
 import javax.mail.*;
 import java.io.*;
 import java.util.Base64;
@@ -12,22 +10,25 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
-/**
- Outgoing Mail (SMTP) Server
- requires TLS or SSL: smtp.gmail.com (use authentication)
- Use Authentication: Yes
- Port for TLS/STARTTLS: 587
- */
+@Service
 public class SendingEmail {
+    @Value("${my.name}")
+    private String name;
+
+    @Value("${my.cred}")
+    private String cred;
 
 
-    final String username = System.getenv("GMAIL");
-    final String password = System.getenv("CREDENTIALS");
+    final String username = name;
+    final String password = cred;
 
 
 
-//    final String username = "admin@balmburren.net";
+    //    final String username = "admin@balmburren.net";
 //final String username = "admin";
 //    final String password1 = "123456";
 //    public SendingEmail() {

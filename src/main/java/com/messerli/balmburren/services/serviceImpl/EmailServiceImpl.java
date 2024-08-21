@@ -9,6 +9,7 @@ import com.messerli.balmburren.util.QRInvoice;
 import com.messerli.balmburren.util.SendingEmail;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,12 @@ import java.util.List;
 @Transactional
 @Slf4j
 public class EmailServiceImpl implements EmailService {
-    private final SendingEmail sendingEmail = new SendingEmail();
+
+    private final SendingEmail sendingEmail;
+
+    public EmailServiceImpl(SendingEmail sendingEmail) {
+        this.sendingEmail = sendingEmail;
+    }
 
     @Override
     public void sendEmailAttachment(String type, String toEmail, String subject, String body, byte[] byteArray, String base64String, String filename) {
