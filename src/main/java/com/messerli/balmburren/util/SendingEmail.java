@@ -94,14 +94,14 @@ public class SendingEmail {
 
             // Send the complete message parts
             message.setContent(multipart);
-
+            Transport.send(message);
             // Send message
-            Transport tr = session.getTransport("smtp");
-
-            tr.connect();
-            message.saveChanges();
-            tr.sendMessage(message, message.getAllRecipients());
-            tr.close();
+//            Transport tr = session.getTransport("smtp");
+//
+//            tr.connect();
+//            message.saveChanges();
+//            tr.sendMessage(message, message.getAllRecipients());
+//            tr.close();
             System.out.println("EMail Sent Successfully with attachment!!");
 
 
