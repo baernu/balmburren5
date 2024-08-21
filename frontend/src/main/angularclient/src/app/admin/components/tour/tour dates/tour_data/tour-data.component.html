@@ -29,11 +29,11 @@
       <tbody>
       <tr *ngFor="let date of (dates)">
         <td (click)="addInfos(date)">{{ date | date:'fullDate' }}</td>
-        <button type="button" (click)='delete(date)' class="btn-dark">Delete Date</button>
+        <button type="button" (click)='delete(date)' class="btn-light">Delete Date</button>
       </tr>
       </tbody>
     </table>
-    <button type="button" (click)='addDates(tour)' class="btn-dark">new Dates</button>
+    <button type="button" (click)='addDates(tour)' class="btn-light">new Dates</button>
   </div>
 </div>
 <div class="card my-5">
@@ -51,7 +51,7 @@
           <td>{{tourDateBindInfo.tour.number}}</td>
           <td>{{tourDateBindInfo.dates.date | date:'fullDate'}}</td>
           <td>{{tourDateBindInfo.productBindInfos.productDetails.category}}</td>
-          <button type="button" (click)='del(tourDateBindInfo )' class="btn-dark">Delete PDBI</button>
+          <button type="button" (click)='del(tourDateBindInfo )' class="btn-light">Delete PDBI</button>
         </tr>
       </tbody>
     </table>
@@ -81,7 +81,7 @@
         <td>{{ productBindInfo.productDetails.price}}</td>
         <td>{{ productBindInfo.productDetails.size}}</td>
       </tr>
-      <button type="button" (click)='apply()' class="btn-dark">Apply</button>
+      <button type="button" (click)='apply()' class="btn-light">Apply</button>
       </tbody>
     </table>
   </div>

@@ -19,7 +19,7 @@ export class SettingsComponent {
   userBindPhone: UserBindPhoneDTO = new UserBindPhoneDTO();
   userBindAddress: UserBindDeliverAddressDTO = new UserBindDeliverAddressDTO();
   address: AddressDTO = new AddressDTO();
-  people: UserDTO = new UserDTO();
+  user: UserDTO = new UserDTO();
   emailData: EmailDataDTO = new EmailDataDTO();
 
   constructor(
@@ -35,31 +35,31 @@ export class SettingsComponent {
   }
 
   async ngOnInit(): Promise<void> {
-    let username = localStorage.getItem('username');
-    if (username)
-      this.people = await firstValueFrom(this.userService.findUser(username));
-    if(await firstValueFrom(this.userService.existUserBindPhone(this.people)))
-      this.userBindPhone = await firstValueFrom(this.userService.getUserBindPhone(this.people));
-    if(await firstValueFrom(this.userService.existUserBindAddress(this.people))) {
-      this.userBindAddress = await firstValueFrom(this.userService.getUserBindAddress(this.people));
+
+      this.user = await firstValueFrom(this.userService.currentUser());
+      this.user = await firstValueFrom(this.userService.findUser(this.user.username));
+    if(await firstValueFrom(this.userService.existUserBindPhone(this.user)))
+      this.userBindPhone = await firstValueFrom(this.userService.getUserBindPhone(this.user));
+    if(await firstValueFrom(this.userService.existUserBindAddress(this.user))) {
+      this.userBindAddress = await firstValueFrom(this.userService.getUserBindAddress(this.user));
       this.address = this.userBindAddress.address;
     }
 
   }
 
   async onSubmit() {
-    if(!await firstValueFrom(this.userService.existUserBindAddress(this.people))) {
+    if(!await firstValueFrom(this.userService.existUserBindAddress(this.user))) {
       this.userBindAddress.address = await firstValueFrom(this.userService.createAddress(this.address));
-      this.userBindAddress.user = this.people;
+      this.userBindAddress.user = this.user;
       this.userBindAddress = await firstValueFrom(this.userService.createUserBindAddress(this.userBindAddress));
     } else {
       this.userBindAddress.address = await firstValueFrom(this.userService.putAddress(this.address));
 
       this.userBindAddress = await firstValueFrom(this.userService.putUserBindAddress(this.userBindAddress));
     }
-    if(!await firstValueFrom(this.userService.existUserBindPhone(this.people))) {
-      this.userBindPhone.user = this.people;
-      this.userBindPhone.invoicePerson = this.people;
+    if(!await firstValueFrom(this.userService.existUserBindPhone(this.user))) {
+      this.userBindPhone.user = this.user;
+      this.userBindPhone.invoicePerson = this.user;
       this.userBindPhone = await firstValueFrom(this.userService.createUserBindPhone(this.userBindPhone));
     } else {
       this.userBindPhone = await firstValueFrom(this.userService.putUserBindPhone(this.userBindPhone));

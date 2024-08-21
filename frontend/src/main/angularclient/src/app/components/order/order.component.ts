@@ -36,6 +36,7 @@ export class OrderComponent {
   async ngOnInit(): Promise<void> {
 
     this.user= await firstValueFrom(this.userService.currentUser());
+    this.user = await firstValueFrom(this.userService.findUser(this.user.username));
 
     if (this.user.username)
       await this.getAllUserProfileOrders();
