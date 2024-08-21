@@ -11,22 +11,20 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SendingEmail {
-    @Value("${my.name}")
-    private String name;
 
-    @Value("${my.cred}")
-    private String cred;
-
-
-    final String username = name;
-    final String password = cred;
-
-
+    @Autowired
+    private JavaMailSender mailSender;
+//    final String username = "balmburren@gmail.com";
+//    final String password = "anrq bwbp mxhq igzr";
+//
+//    @Autowired
+//    private JavaMailSender mailSender;
 
     //    final String username = "admin@balmburren.net";
 //final String username = "admin";
@@ -36,87 +34,98 @@ public class SendingEmail {
 //
     public void send(String type, String toEmail, String subject, String body, byte[] byteArray, String base64String, String filename) {
 
-        Properties prop = new Properties();
-        prop.put("mail.smtp.host", "smtp.gmail.com");
-        prop.put("mail.smtp.port", "587");
-        prop.put("mail.smtp.auth", "true");
-        prop.put("mail.smtp.starttls.enable", "true"); //TLS
+//        Properties prop = new Properties();
+//        prop.put("mail.smtp.host", "smtp.gmail.com");
+//        prop.put("mail.smtp.port", "587");
+//
+////        prop.put("mail.transport.protocol", "smtps");
+////        prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+//        prop.put("mail.smtp.socketFactory.port", "587");
+//        prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+//
+//        prop.put("mail.smtp.auth", "true");
+//        prop.put("mail.smtp.starttls.enable", "true"); //TLS
 
-        Session session = Session.getInstance(prop,
-                new Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
+//        Session session = Session.getInstance(prop,
+//                new Authenticator() {
+//                    protected PasswordAuthentication getPasswordAuthentication() {
+//                        return new PasswordAuthentication(username, password);
+//                    }
+//                });
 
-        try {
-
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("balmburren@gmail.com"));
-            message.addRecipient(Message.RecipientType.TO,new InternetAddress(toEmail));
+//        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(toEmail);
+            message.setSubject(subject);
+            message.setText(body);
+            mailSender.send(message);
+//            Message message = new MimeMessage();
+//            message.setFrom(new InternetAddress("balmburren@gmail.com"));
+//            message.addRecipient(Message.RecipientType.TO,new InternetAddress(toEmail));
 //            message.setRecipients(
 //                    Message.RecipientType.TO,
 //                    InternetAddress.parse(toEmail)
 ////                    InternetAddress.parse("to_username_a@gmail.com, to_username_b@yahoo.com")
 //            );
-            message.setSubject(subject);
-            message.setText(body);
+//            message.setSubject(subject);
+//            message.setText(body);
 
 
             if(Objects.equals(type, "normal"))
             {
-                Transport.send(message);
-                System.out.println("EMail Sent Successfully!!");
+                mailSender.send(message);
+//                Transport.send(message);
+//                System.out.println("EMail Sent Successfully!!");
                 return;
             }
-            BodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText(body);
-            MimeBodyPart attachmentPart = new MimeBodyPart();
-
-            if(Objects.equals(type, "attachment"))
-            {
-
-                if(filename.endsWith(".txt")) {
-                    makeFile(byteArray);
-                    attachmentPart.attachFile("/tmp/burren/file.txt");
-                }
-                if(filename.endsWith(".pdf")) {
-                    makePDf(base64String);
-                    attachmentPart.attachFile("/tmp/burren/Balmburren.pdf");
-                }
-            }
-
-            // Create a multipart message for attachment
-            Multipart multipart = new MimeMultipart();
-
-            // Set text message part
-            multipart.addBodyPart(messageBodyPart);
-            multipart.addBodyPart(attachmentPart);
-
-
-            // Send the complete message parts
-            message.setContent(multipart);
-            Transport.send(message);
-            // Send message
-//            Transport tr = session.getTransport("smtp");
+//            BodyPart messageBodyPart = new MimeBodyPart();
+//            messageBodyPart.setText(body);
+//            MimeBodyPart attachmentPart = new MimeBodyPart();
 //
-//            tr.connect();
-//            message.saveChanges();
-//            tr.sendMessage(message, message.getAllRecipients());
-//            tr.close();
-            System.out.println("EMail Sent Successfully with attachment!!");
-
-
-
-
+//            if(Objects.equals(type, "attachment"))
+//            {
+//
+//                if(filename.endsWith(".txt")) {
+//                    makeFile(byteArray);
+//                    attachmentPart.attachFile("/tmp/burren/file.txt");
+//                }
+//                if(filename.endsWith(".pdf")) {
+//                    makePDf(base64String);
+//                    attachmentPart.attachFile("/tmp/burren/Balmburren.pdf");
+//                }
+//            }
+//
+//            // Create a multipart message for attachment
+//            Multipart multipart = new MimeMultipart();
+//
+//            // Set text message part
+//            multipart.addBodyPart(messageBodyPart);
+//            multipart.addBodyPart(attachmentPart);
+//
+//
+//            // Send the complete message parts
+//            message.setContent(multipart);
 //            Transport.send(message);
-
-
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//            // Send message
+////            Transport tr = session.getTransport("smtp");
+////
+////            tr.connect();
+////            message.saveChanges();
+////            tr.sendMessage(message, message.getAllRecipients());
+////            tr.close();
+//            System.out.println("EMail Sent Successfully with attachment!!");
+//
+//
+//
+//
+////            Transport.send(message);
+//
+//
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
 //        System.out.println("TLSEmail Start");
 //        Properties props = new Properties();
