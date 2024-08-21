@@ -19,4 +19,5 @@ public class EmailData {
     private String filename;
     private byte[] byteArray;
     private String base64String;
+    private String type;
 }

@@ -8,4 +8,5 @@ export class EmailDataDTO {
   file: File | undefined;
   byteArray: any[] | undefined;
   base64String: unknown;
+  type: string = "";
 }

@@ -11,27 +11,22 @@ import {AndroidClientDTO} from "../../tour/service/androidClientDTO";
 export class EmailService {
   private readonly baseUrl: string = 'http://localhost:8006/api/';
   // private readonly baseUrl: string = 'api/';
-  private readonly emailNormalUrl: string;
-  private readonly emailAttachmentUrl: string;
+  private readonly emailUrl: string;
   private readonly getQRCodeUrl: string;
   private readonly sendTourDataUrl: string;
   private readonly retourTourDataUrl: string;
 
 
   constructor(private http: HttpClient) {
-    this.emailNormalUrl = this.baseUrl + 'em/send/email/normal';
-    this.emailAttachmentUrl = this.baseUrl + 'em/send/email/attachment';
+    this.emailUrl = this.baseUrl + 'em/send/email/';
     this.getQRCodeUrl = this.baseUrl + 'em/qrcode';
     this.sendTourDataUrl = this.baseUrl + 'em/send/email/tourdata';
     this.retourTourDataUrl = this.baseUrl + 'em/send/retour/tourdata';
 
   }
 
-  public sendEmailNormal(email: EmailDataDTO):Observable<EmailDataDTO> {
-    return this.http.post<EmailDataDTO>(this.emailNormalUrl, email,{withCredentials: true});}
-
-  public sendEmailAttachment(email: EmailDataDTO):Observable<EmailDataDTO> {
-    return this.http.post<EmailDataDTO>(this.emailAttachmentUrl, email,{withCredentials: true});}
+  public sendEmail(email: EmailDataDTO):Observable<EmailDataDTO> {
+    return this.http.post<EmailDataDTO>(this.emailUrl, email,{withCredentials: true});}
 
   public createInvoiceQR(invoiceQR: InvoiceQRDTO):Observable<string> {
     return this.http.post<string>(this.getQRCodeUrl, invoiceQR,{withCredentials: true});}

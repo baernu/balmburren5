@@ -147,7 +147,7 @@ export class ActualTourComponent {
     this.emailData.fromEmail = "admin@balmburren.net";
     this.emailData.subject = "Tour-Daten";
     this.emailData.body = "Guten Tag \n Sende Ihnen im Anhang die Tour-Daten.";
-    await firstValueFrom(this.emailService.sendEmailAttachment(this.emailData));
+    await firstValueFrom(this.emailService.sendEmail(this.emailData));
   }
 
   handleChunk(buf: Uint8Array) {

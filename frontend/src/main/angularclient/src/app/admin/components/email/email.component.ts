@@ -35,7 +35,7 @@ export class EmailComponent implements OnInit {
         let personbindphone: UserBindPhoneDTO = await firstValueFrom(this.userService.getUserBindPhone(user));
         let emailUser: EmailUserDTO = new EmailUserDTO();
         emailUser.email = personbindphone.email;
-        emailUser.person = user;
+        emailUser.user = user;
         emailUser.phone = personbindphone.phone;
         this.emailUsers.push(emailUser);
       }
@@ -46,10 +46,14 @@ export class EmailComponent implements OnInit {
   async email() {
     for (const emailUser of this.emailUsers) {
       this.emailData.toEmail = emailUser.email;
-      if (!this.emailData.file && emailUser.email)
-        await firstValueFrom(this.emailService.sendEmailNormal(this.emailData));
-      if (this.emailData.file && emailUser.email)
-        await firstValueFrom(this.emailService.sendEmailAttachment(this.emailData));
+      if (!this.emailData.file && emailUser.email) {
+        this.emailData.type = "normal";
+        await firstValueFrom(this.emailService.sendEmail(this.emailData));
+      }
+      if (this.emailData.file && emailUser.email) {
+        this.emailData.type = "attachment";
+        await firstValueFrom(this.emailService.sendEmail(this.emailData));
+      }
     }
   }
 

@@ -19,14 +19,10 @@ import java.util.List;
 @Slf4j
 public class EmailServiceImpl implements EmailService {
     private final SendingEmail sendingEmail = new SendingEmail();
-    @Override
-    public void sendEmailNormal(String fromEmail, String toEmail, String subject, String password, String body) {
-        sendingEmail.send("normal", fromEmail, toEmail, subject, password, body, null, null, null);
-    }
 
     @Override
-    public void sendEmailAttachment(String fromEmail, String toEmail, String subject, String password, String body, byte[] byteArray, String base64String, String filename) {
-        sendingEmail.send("attachment", fromEmail, toEmail, subject, password, body, byteArray, base64String, filename);
+    public void sendEmailAttachment(String type, String toEmail, String subject, String body, byte[] byteArray, String base64String, String filename) {
+        sendingEmail.send(type, toEmail, subject, body, byteArray, base64String, filename);
     }
 
     @Override

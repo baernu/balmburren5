@@ -24,19 +24,20 @@ public class EmailController {
         this.emailService = emailService;
     }
 
-    @CrossOrigin( allowCredentials = "true")
-    @PostMapping("send/email/normal")
-    public ResponseEntity<?> sendEmailNormal(@RequestBody EmailData emailData) {
-        emailService.sendEmailNormal(emailData.getFromEmail(), emailData.getToEmail(), emailData.getSubject(), emailData.getPassword(), emailData.getBody());
-        log.info("Sending email: {}", emailData);
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/send/email/normal").toUriString());
-        return ResponseEntity.created(uri).body(emailData);
-    }
+//    @CrossOrigin( allowCredentials = "true")
+//    @PostMapping("send/email/normal")
+//    public ResponseEntity<?> sendEmailNormal(@RequestBody EmailData emailData) {
+//        emailService.sendEmailNormal(emailData.getFromEmail(), emailData.getToEmail(), emailData.getSubject(), emailData.getPassword(), emailData.getBody());
+//        log.info("Sending email: {}", emailData);
+//        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/send/email/normal").toUriString());
+//        return ResponseEntity.created(uri).body(emailData);
+//    }
 
     @CrossOrigin( allowCredentials = "true")
-    @PostMapping("send/email/attachment")
+    @PostMapping("send/email/")
+
     public ResponseEntity<?> sendEmailAttachment(@RequestBody EmailData emailData) {
-        emailService.sendEmailAttachment(emailData.getFromEmail(), emailData.getToEmail(), emailData.getSubject(), emailData.getPassword(), emailData.getBody(), emailData.getByteArray(), emailData.getBase64String(), emailData.getFilename());
+        emailService.sendEmailAttachment(emailData.getType(), emailData.getToEmail(), emailData.getSubject(), emailData.getBody(), emailData.getByteArray(), emailData.getBase64String(), emailData.getFilename());
 //        log.info("Sending email with attachment: {}", emailData);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/send/email/attachment").toUriString());
         return ResponseEntity.created(uri).body(emailData);

@@ -100,7 +100,7 @@ export class InvoiceEmailPreviewComponent {
     this.emailData.filename = "Balmburren.pdf";
 
     console.log("Email string: " + this.emailData.base64String);
-    await firstValueFrom(this.emailService.sendEmailAttachment(this.emailData));
+    await firstValueFrom(this.emailService.sendEmail(this.emailData));
     await this.sendQRInvoice();
     await this.notsendEmail();
   }
@@ -220,7 +220,7 @@ export class InvoiceEmailPreviewComponent {
     emailData.filename = "Balmburren_Einzahlungsschein.pdf";
 
     console.log("Email string QR: " + this.emailData.base64String);
-    await firstValueFrom(this.emailService.sendEmailAttachment(emailData));
+    await firstValueFrom(this.emailService.sendEmail(emailData));
   }
 
   private xmlService(xml: string, filename: string) {

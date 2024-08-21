@@ -65,9 +65,9 @@ export class SettingsComponent {
       this.userBindPhone = await firstValueFrom(this.userService.putUserBindPhone(this.userBindPhone));
     }
     this.setEmailData(this.userBindPhone.email, "");
-    await firstValueFrom(this.emailService.sendEmailNormal(this.emailData));
+    await firstValueFrom(this.emailService.sendEmail(this.emailData));
     this.setEmailData("admin@balmburren.net", this.userBindPhone.user.firstname + ' ' + this.userBindPhone.user.lastname);
-    await firstValueFrom(this.emailService.sendEmailNormal(this.emailData));
+    await firstValueFrom(this.emailService.sendEmail(this.emailData));
     await this.router.navigate(['home']);
   }
   setEmailData(mail: string, message: string){
