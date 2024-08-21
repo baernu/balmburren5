@@ -49,6 +49,7 @@ export class EmailComponent implements OnInit {
       if (!this.emailData.file && emailUser.email) {
         this.emailData.type = "normal";
         await firstValueFrom(this.emailService.sendEmail(this.emailData));
+        console.log("Enail to: " + this.emailData.toEmail);
       }
       if (this.emailData.file && emailUser.email) {
         this.emailData.type = "attachment";

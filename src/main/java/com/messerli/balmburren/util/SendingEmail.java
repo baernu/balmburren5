@@ -1,10 +1,9 @@
 package com.messerli.balmburren.util;
 
+import org.springframework.core.io.ClassPathResource;
+
 import javax.mail.*;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.Properties;
@@ -22,8 +21,9 @@ import javax.mail.internet.MimeMultipart;
  */
 public class SendingEmail {
 
-    final String username = "balmburren@gmail.com";
-    final String password = "balmburren-------";
+
+    final String username = System.getenv("GMAIL");
+    final String password = System.getenv("CREDENTIALS");
 
 
 
@@ -52,11 +52,12 @@ public class SendingEmail {
 
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("balmburren@gmail.com"));
-            message.setRecipients(
-                    Message.RecipientType.TO,
-                    InternetAddress.parse(toEmail)
-//                    InternetAddress.parse("to_username_a@gmail.com, to_username_b@yahoo.com")
-            );
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(toEmail));
+//            message.setRecipients(
+//                    Message.RecipientType.TO,
+//                    InternetAddress.parse(toEmail)
+////                    InternetAddress.parse("to_username_a@gmail.com, to_username_b@yahoo.com")
+//            );
             message.setSubject(subject);
             message.setText(body);
 
