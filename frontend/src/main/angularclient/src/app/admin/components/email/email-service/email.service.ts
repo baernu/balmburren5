@@ -19,11 +19,11 @@ export class EmailService {
 
 
   constructor(private http: HttpClient) {
-    this.emailNormalUrl = this.baseUrl + 'send/email/normal';
-    this.emailAttachmentUrl = this.baseUrl + 'send/email/attachment';
-    this.getQRCodeUrl = this.baseUrl + 'qrcode';
-    this.sendTourDataUrl = this.baseUrl + 'send/email/tourdata';
-    this.retourTourDataUrl = this.baseUrl + 'send/retour/tourdata';
+    this.emailNormalUrl = this.baseUrl + 'em/send/email/normal';
+    this.emailAttachmentUrl = this.baseUrl + 'em/send/email/attachment';
+    this.getQRCodeUrl = this.baseUrl + 'em/qrcode';
+    this.sendTourDataUrl = this.baseUrl + 'em/send/email/tourdata';
+    this.retourTourDataUrl = this.baseUrl + 'em/send/retour/tourdata';
 
   }
 
