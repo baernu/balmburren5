@@ -22,8 +22,8 @@ import javax.mail.internet.MimeMultipart;
  */
 public class SendingEmail {
 
-    final String username = "bernhard.messerli.5@gmail.com";
-    final String password = "messkirchbern19";
+    final String username = "balmburren@gmail.com";
+    final String password = "balmburren-------";
 
 
 
@@ -51,7 +51,7 @@ public class SendingEmail {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("bernhard.messerli.5@gmail.com"));
+            message.setFrom(new InternetAddress("balmburren@gmail.com"));
             message.setRecipients(
                     Message.RecipientType.TO,
                     InternetAddress.parse(toEmail)
