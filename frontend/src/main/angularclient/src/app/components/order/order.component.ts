@@ -19,7 +19,7 @@ export class OrderComponent {
   tourDateBindInfosDTOs: TourDateBindInfosDTO[] = [];
   tourDTOs: TourDTO[] = [];
   orders: OrderDTO[] = [];
-  people: UserDTO = new UserDTO();
+  user: UserDTO = new UserDTO();
   userProfileOrders: UserProfileOrderDTO[] = [];
 
 
@@ -34,11 +34,10 @@ export class OrderComponent {
 
 
   async ngOnInit(): Promise<void> {
-    let username = localStorage.getItem('username');
-    if (username)
-      this.people = await firstValueFrom(this.userService.findUser(username));
-    this.tourDateBindInfosDTOs = [];
-    if (this.people.username)
+
+    this.user= await firstValueFrom(this.userService.currentUser());
+
+    if (this.user.username)
       await this.getAllUserProfileOrders();
     this.tourDTOs = await firstValueFrom(this.tourService.getTours());
     for (const tour of this.tourDTOs) {
@@ -49,7 +48,7 @@ export class OrderComponent {
       let date = new DatesDTO();
       date.date = tDBI.dates.date;
       order.date = await firstValueFrom(this.tourService.createDates(date));
-      order.deliverPeople = this.people;
+      order.deliverPeople = this.user;
       order.productBindInfos = tDBI.productBindInfos;
       order.tour = tDBI.tour;
       if (await firstValueFrom(this.userService.existOrder(order.deliverPeople, order.productBindInfos.product,
@@ -71,7 +70,7 @@ export class OrderComponent {
         await this.putOrder(order);
       }
     }
-    this.orders = await firstValueFrom(this.userService.getAllOrderForPerson(this.people));
+    this.orders = await firstValueFrom(this.userService.getAllOrderForPerson(this.user));
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.tour.number.localeCompare(t2.tour.number));
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.date.date.localeCompare(t2.date.date));
   }
@@ -84,7 +83,7 @@ export class OrderComponent {
     dayPlus21.date = new Date(date.setDate(date.getDate() + 21)).toISOString().split('T')[0];
     dateNow = await firstValueFrom(this.tourService.createDates(dateNow));
     dayPlus21 = await firstValueFrom(this.tourService.createDates(dayPlus21));
-    if (await firstValueFrom(this.userService.existPersonBindTour(this.people.username, tour.number))) {
+    if (await firstValueFrom(this.userService.existPersonBindTour(this.user.username, tour.number))) {
       let tourDateBindInfos: TourDateBindInfosDTO[] = await firstValueFrom(this.tourService.getAllTourDatesBindInfosForTourAndDateBetween(
         tour, dateNow, dayPlus21));
       tourDateBindInfos.forEach(tDBI => this.tourDateBindInfosDTOs.push(tDBI));
@@ -107,7 +106,7 @@ export class OrderComponent {
   }
 
   private async getAllUserProfileOrders() {
-    let uPOFPs : UserProfileOrderDTO[] = await firstValueFrom(this.userService.getAllUserProfileOrderForPerson(this.people));
+    let uPOFPs : UserProfileOrderDTO[] = await firstValueFrom(this.userService.getAllUserProfileOrderForPerson(this.user));
     uPOFPs.forEach(uPO => this.userProfileOrders.push(uPO));
   }
 }

@@ -86,16 +86,16 @@ export class UserTourComponent {
   orderPositionOfOrder(o1: OrderDTO, o2: OrderDTO) {
     let uB1 = new UserBindTourDTO();
     let uB2 = new UserBindTourDTO();
-    let u1 = this.userBindTours.find(u => u.person.id === o1.deliverPeople.id);
+    let u1 = this.userBindTours.find(u => u.user.id === o1.deliverPeople.id);
     if (u1) uB1 = u1;
-    let u2 = this.userBindTours.find(u => u.person.id === o2.deliverPeople.id);
+    let u2 = this.userBindTours.find(u => u.user.id === o2.deliverPeople.id);
     if (u2) uB2 = u2;
     if (!u1 || !u2) return 0;
     return uB1.position - uB2.position;
   }
 
   findUserBind(order: OrderDTO) {
-    let userBindTour = this.userBindTours.find(uBT => uBT.person.id === order.deliverPeople.id);
+    let userBindTour = this.userBindTours.find(uBT => uBT.user.id === order.deliverPeople.id);
     if (userBindTour) this.userBindTour = userBindTour;
     if (userBindTour) return true;
     else return false;
@@ -234,7 +234,7 @@ export class UserTourComponent {
           let date = new DatesDTO();
           date.date = tDBI.dates.date;
           order.date = await firstValueFrom(this.tourService.createDates(date));
-          order.deliverPeople = userBindTour.person;
+          order.deliverPeople = userBindTour.user;
           order.productBindInfos = tDBI.productBindInfos;
           order.tour = tDBI.tour;
           if (await firstValueFrom(this.userService.existOrder(order.deliverPeople, order.productBindInfos.product,
@@ -245,7 +245,7 @@ export class UserTourComponent {
           else
             order = await firstValueFrom(this.userService.createOrder(order));
           if (!order.isChecked) {
-            let userProfileOrder : UserProfileOrderDTO = await firstValueFrom(this.userService.getUserProfileOrder(userBindTour.person,
+            let userProfileOrder : UserProfileOrderDTO = await firstValueFrom(this.userService.getUserProfileOrder(userBindTour.user,
               tDBI.productBindInfos.product, tDBI.productBindInfos.productDetails, tDBI.tour));
             if (new Date(order.date.date).getDay() <= 3 && userProfileOrder) {
               order.quantityOrdered = userProfileOrder.firstWeekOrder;

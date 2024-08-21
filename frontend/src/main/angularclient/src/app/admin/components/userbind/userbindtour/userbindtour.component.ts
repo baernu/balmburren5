@@ -54,7 +54,7 @@ export class UserbindtourComponent implements OnInit{
         }
         userBindTourAdapt.tour = userBindTour.tour;
         userBindTourAdapt.id = userBindTour.id;
-        userBindTourAdapt.person = userBindTour.person;
+        userBindTourAdapt.user = userBindTour.user;
         userBindTourAdapt.version = userBindTour.version;
         userBindTourAdapt.position = userBindTour.position;
         if (this.userBindToursAdapt != null) this.userBindToursAdapt.push(userBindTourAdapt);
@@ -68,10 +68,10 @@ export class UserbindtourComponent implements OnInit{
     let user1 = await firstValueFrom(this.userService.findUser(username));
     this.tour = await firstValueFrom(this.tourService.getTour(this.actualTour.number));
     this.userBindTour.tour = this.tour;
-    this.userBindTour.person = user1;
+    this.userBindTour.user = user1;
     console.log("UserID: " + user1.id);
-    console.log("userBindTourUserID: " + this.userBindTour.person.id);
-    if (!await firstValueFrom(this.userService.existPersonBindTour(this.userBindTour.person.username, this.userBindTour.tour.number))){
+    console.log("userBindTourUserID: " + this.userBindTour.user.id);
+    if (!await firstValueFrom(this.userService.existPersonBindTour(this.userBindTour.user.username, this.userBindTour.tour.number))){
       console.log("existPersonBindTour: false");
       await firstValueFrom(this.userService.addPersonBindTour(this.userBindTour));
     }
@@ -98,7 +98,7 @@ export class UserbindtourComponent implements OnInit{
   }
 
   async checkDates(userBindTour: UserBindTourDTOAdapted){
-    let userBindTour2: UserBindTourDTO = await firstValueFrom(this.userService.getPersonBindTour(userBindTour.person.username, userBindTour.tour.number));
+    let userBindTour2: UserBindTourDTO = await firstValueFrom(this.userService.getPersonBindTour(userBindTour.user.username, userBindTour.tour.number));
     let dateDTO1: DatesDTO;
     let dateDTO2: DatesDTO;
     userBindTour2.position = userBindTour.position;
@@ -122,7 +122,7 @@ export class UserbindtourComponent implements OnInit{
   }
 
   async delete(userBindTour: UserBindTourDTOAdapted) {
-    await firstValueFrom(this.userService.deletePersonBindTour(userBindTour.person.username, userBindTour.tour.number));
+    await firstValueFrom(this.userService.deletePersonBindTour(userBindTour.user.username, userBindTour.tour.number));
   }
 
   compareDate(userBindTour: UserBindTourDTOAdapted): boolean {

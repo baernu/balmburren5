@@ -54,8 +54,8 @@
       </thead>
       <tbody>
       <tr *ngFor="let userBindTour of userBindToursAdapt">
-        <td>{{ userBindTour.person.id }}</td>
-        <td>{{ userBindTour.person.username }}</td>
+        <td>{{ userBindTour.user.id }}</td>
+        <td>{{ userBindTour.user.username }}</td>
         <td>{{userBindTour.tour.number}}</td>
         <td><input type="number" step="0.01" [(ngModel)]="userBindTour.position"></td>
         <td><div *ngIf="compareDate(userBindTour)">
