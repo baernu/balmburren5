@@ -12,7 +12,7 @@
       <tbody>
       <tr>
         <td><input type="date" [(ngModel)]="dates.date"></td>
-        <button type="button" (click)='showOrders()' class="btn-dark">show Orders</button>
+        <button type="button" (click)='showOrders()' class="btn-light">show Orders</button>
       </tr>
       </tbody>
     </table>
@@ -59,7 +59,7 @@
         <td><input input class="form-control input-sm" type="number"  min="0" [(ngModel)]="order.quantityDelivered"></td>
         <!--        <button type="button"(click)='apply()' class="btn-dark">apply</button>-->
       </tr>
-      <button type="button"(click)='apply()' class="btn-dark">apply</button>
+      <button type="button"(click)='apply()' class="btn-light">apply</button>
       </tbody>
     </table>
   </div>
@@ -82,8 +82,8 @@
       </tr>
       </tbody>
     </table>
-    <div><button type="button"(click)='commitAll()' class="btn-dark">commit All</button></div>
-    <div><button type="button"(click)='reset()' class="btn-dark">reset All</button></div>
+    <div><button type="button"(click)='commitAll()' class="btn-light">commit All</button></div>
+    <div><button type="button"(click)='reset()' class="btn-light">reset All</button></div>
   </div>
 </div>
 <div class="card my-5">

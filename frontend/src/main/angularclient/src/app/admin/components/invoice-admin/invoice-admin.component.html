@@ -58,7 +58,7 @@
       <tr>
         <td><input type="date" [(ngModel)]="dateFrom.date"></td>
         <td><input type="date" [(ngModel)]="dateTo.date"></td>
-        <button type="button" (click)='apply()' class="btn-dark">apply</button>
+        <button type="button" (click)='apply()' class="btn-light">apply</button>
       </tr>
       </tbody>
     </table>
@@ -85,7 +85,7 @@
         <td>{{userBindInvoice.invoice.paid| number : '1.2-2'}}</td>
         <td>{{userBindInvoice.dateFrom.date| date:'fullDate' }}</td>
         <td>{{userBindInvoice.dateTo.date| date:'fullDate' }}</td>
-        <button type="button" (click)='delete(userBindInvoice)' class="btn-dark">delete</button>
+        <button type="button" (click)='delete(userBindInvoice)' class="btn-light">delete</button>
       </tr>
       </tbody>
     </table>

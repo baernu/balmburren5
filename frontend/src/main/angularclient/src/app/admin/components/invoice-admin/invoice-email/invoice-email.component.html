@@ -12,7 +12,7 @@
       <tbody>
       <tr>
         <td><input type="date" [(ngModel)]="dateFrom.date"></td>
-        <button type="button" (click)='apply()' class="btn-dark">apply</button>
+        <button type="button" (click)='apply()' class="btn-light">apply</button>
       </tr>
       </tbody>
     </table>
@@ -63,7 +63,7 @@
         <td>{{ userBindInvoice.invoice.amount | number : '1.2-2' }}</td>
         <td>{{ userBindInvoice.dateFrom.date | date:'fullDate'}}</td>
       </tr>
-      <button type="button" (click)='email()' class="btn-dark">Email preview</button>
+      <button type="button" (click)='email()' class="btn-light">Email preview</button>
       </tbody>
     </table>
   </div>

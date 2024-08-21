@@ -17,7 +17,7 @@
       </tr>
       </tbody>
     </table>
-    <button type="button" (click)='addProduct()' class="btn-dark">add Product</button>
+    <button type="button" (click)='addProduct()' class="btn-light">add Product</button>
   </div>
 </div>
 <div class="card my-5">
@@ -40,7 +40,7 @@
       </tr>
       </tbody>
     </table>
-    <button type="button" (click)='addDetails()' class="btn-dark">add Details</button>
+    <button type="button" (click)='addDetails()' class="btn-light">add Details</button>
   </div>
 </div>
 <div class="card my-5">
@@ -66,9 +66,9 @@
         <td>{{ productBindInfo.productDetails.size}}</td>
         <td><input type="date"  [(ngModel)]="productBindInfo.startDate.date"></td>
         <td><input type="date"  [(ngModel)]="productBindInfo.endDate.date"></td>
-        <button type="button" (click)='delete(productBindInfo)' class="btn-dark">delete</button>
+        <button type="button" (click)='delete(productBindInfo)' class="btn-light">delete</button>
       </tr>
-      <button type="button" (click)='save()' class="btn-dark">save</button>
+      <button type="button" (click)='save()' class="btn-light">save</button>
       </tbody>
     </table>
   </div>
