@@ -45,17 +45,18 @@ export class EmailComponent implements OnInit {
 
   async email() {
     for (const emailUser of this.emailUsers) {
-      this.emailData.toEmail = emailUser.email;
-      if (!this.emailData.file && emailUser.email) {
-        this.emailData.type = "normal";
-        await firstValueFrom(this.emailService.sendEmail(this.emailData));
-        console.log("Enail to first: " + this.emailData.toEmail);
+      if (emailUser.isChecked) {
+        this.emailData.toEmail = emailUser.email;
+        if (!this.emailData.file && emailUser.email) {
+          this.emailData.type = "normal";
+          await firstValueFrom(this.emailService.sendEmail(this.emailData));
+        }
+        if (this.emailData.file && emailUser.email) {
+          this.emailData.type = "attachment";
+          await firstValueFrom(this.emailService.sendEmail(this.emailData));
+        }
       }
-      if (this.emailData.file && emailUser.email) {
-        this.emailData.type = "attachment";
-        await firstValueFrom(this.emailService.sendEmail(this.emailData));
-        console.log("Enail to second: " + this.emailData.toEmail)
-      }
+
     }
   }
 
@@ -109,11 +110,13 @@ export class EmailComponent implements OnInit {
       for (const emailUser of this.emailUsers) {
         emailUser.isChecked = true;
       }
-    } else {
+    }
+    else {
       for (const emailUser of this.emailUsers) {
         emailUser.isChecked = false;
       }
     }
   }
+
 
 }
