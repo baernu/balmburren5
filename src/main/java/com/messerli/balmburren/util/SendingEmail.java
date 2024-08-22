@@ -1,14 +1,10 @@
 package com.messerli.balmburren.util;
 
-import javax.mail.*;
+
 import java.io.*;
 import java.util.Base64;
 import java.util.Objects;
-import java.util.Properties;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -58,7 +54,7 @@ public class SendingEmail {
             message.setTo(toEmail);
             message.setSubject(subject);
             message.setText(body);
-            mailSender.send(message);
+//            mailSender.send(message);
 //            Message message = new MimeMessage();
 //            message.setFrom(new InternetAddress("balmburren@gmail.com"));
 //            message.addRecipient(Message.RecipientType.TO,new InternetAddress(toEmail));
