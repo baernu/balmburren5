@@ -7,6 +7,7 @@ import java.util.Objects;
 
 
 import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -35,54 +36,82 @@ public class SendingEmail {
             mailSender.send(message);
         }
         if (Objects.equals(type, "attachment")) {
-            MimeMessagePreparator preparator = new MimeMessagePreparator() {
-                public void prepare(MimeMessage mimeMessage) throws Exception {
-                    mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
-                    mimeMessage.setFrom(new InternetAddress("balmburren@gmail.com"));
-                    mimeMessage.setSubject(subject);
-                    mimeMessage.setText(body);
+            MimeMessage message = mailSender.createMimeMessage();
 
-//                    if (filename.endsWith(".txt")) {
-//                        makeFile(byteArray);
-//                        FileSystemResource file = new FileSystemResource(new File("src/main/resources/file.txt"));
-//                        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-//                        helper.addAttachment("Balmburren-Text", file);
-//                    }
-//                    if (filename.endsWith(".pdf")) {
-//                        makePDf(base64String);
-//                        FileSystemResource file = new FileSystemResource(new File("src/main/resources/balmburren.pdf"));
-//                        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-//                        helper.addAttachment("Balmburren-PDF", file);
-//                    }
+            try {
+                MimeMessageHelper  helper = new MimeMessageHelper(message, true);
 
-                    if (filename.endsWith(".txt")) {
-                        String txtFilePath = makeFile(byteArray);  // Return the path where the file is created
-                        FileSystemResource file = new FileSystemResource(new File(txtFilePath));
-                        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-                        helper.addAttachment("Balmburren-Text.txt", file);
-                    }
-
-                    if (filename.endsWith(".pdf")) {
-                        String pdfFilePath = makePDf(base64String);  // Return the path where the file is created
-                        FileSystemResource file = new FileSystemResource(new File(pdfFilePath));
-                        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-                        helper.addAttachment("Balmburren-PDF.pdf", file);
-                    }
-
+                helper.setSubject(subject);
+                helper.setFrom("balmburren@gmail.com");
+                helper.setTo(toEmail);
+                helper.setReplyTo("balmburren@gmail.com");
+                helper.setText(body, false);
+                if (filename.endsWith(".txt")) {
+                    String txtFilePath = makeFile(byteArray);  // Return the path where the file is created
+                    FileSystemResource file = new FileSystemResource(new File(txtFilePath));
+                    helper.addAttachment("Balmburren-Text.txt", file);
                 }
-            };
+                if (filename.endsWith(".pdf")) {
+                    String pdfFilePath = makePDf(base64String);  // Return the path where the file is created
+                    FileSystemResource file = new FileSystemResource(new File(pdfFilePath));
+                    helper.addAttachment("Balmburren-PDF.pdf", file);
+                }
+                mailSender.send(message);
 
-            try
-
-            {
-                mailSender.send(preparator);
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
             }
-            catch(
-                    MailException ex)
 
-            {
-                System.err.println(ex.getMessage());
-            }
+
+
+//            MimeMessagePreparator preparator = new MimeMessagePreparator() {
+//                public void prepare(MimeMessage mimeMessage) throws Exception {
+//                    mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+//                    mimeMessage.setFrom(new InternetAddress("balmburren@gmail.com"));
+//                    mimeMessage.setSubject(subject);
+//                    mimeMessage.setText(body);
+//
+////                    if (filename.endsWith(".txt")) {
+////                        makeFile(byteArray);
+////                        FileSystemResource file = new FileSystemResource(new File("src/main/resources/file.txt"));
+////                        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+////                        helper.addAttachment("Balmburren-Text", file);
+////                    }
+////                    if (filename.endsWith(".pdf")) {
+////                        makePDf(base64String);
+////                        FileSystemResource file = new FileSystemResource(new File("src/main/resources/balmburren.pdf"));
+////                        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+////                        helper.addAttachment("Balmburren-PDF", file);
+////                    }
+//
+//                    if (filename.endsWith(".txt")) {
+//                        String txtFilePath = makeFile(byteArray);  // Return the path where the file is created
+//                        FileSystemResource file = new FileSystemResource(new File(txtFilePath));
+//                        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+//                        helper.addAttachment("Balmburren-Text.txt", file);
+//                    }
+//
+//                    if (filename.endsWith(".pdf")) {
+//                        String pdfFilePath = makePDf(base64String);  // Return the path where the file is created
+//                        FileSystemResource file = new FileSystemResource(new File(pdfFilePath));
+//                        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+//                        helper.addAttachment("Balmburren-PDF.pdf", file);
+//                    }
+//
+//                }
+//            };
+//
+//            try
+//
+//            {
+//                mailSender.send(preparator);
+//            }
+//            catch(
+//                    MailException ex)
+//
+//            {
+//                System.err.println(ex.getMessage());
+//            }
 
 
         }
