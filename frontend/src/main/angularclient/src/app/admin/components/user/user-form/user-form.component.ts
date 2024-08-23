@@ -15,14 +15,12 @@ export class UserFormComponent {
 
   user: UserDTO;
   showPassword: boolean = false;
-  bool1: boolean = false;
-  bool2: boolean = false;
+  error: any;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    private errorHandlingService: ErrorHandlingService,
   ) {
     this.user = new UserDTO();
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -30,29 +28,28 @@ export class UserFormComponent {
     };
   }
 
-  async ngOnInit(): Promise<void> {
-    let bool1: Boolean = await firstValueFrom(this.errorHandlingService.getBoolRegister1());
-    let bool2: Boolean = await firstValueFrom(this.errorHandlingService.getBoolRegister2());
-    this.bool1 = bool1.valueOf();
-    this.bool2 = bool2.valueOf();
-  }
-
   async onSubmit() {
-    if (!await firstValueFrom(this.userService.existUser(this.user.username))
-      && this.user.password.length > 7) {
+    let bool = await firstValueFrom(this.userService.existUser(this.user.username));
+
+
+    if (bool) {
+      this.error = "Username ist besetzt, bitte neu bestimmen.";
+      return;
+    }
+    if (this.user.password.length < 8) {
+      this.error = "Passswort ist zu kurz.";
+      return;
+    }
+
+    if (!bool && this.user.password.length > 7) {
       this.user = await firstValueFrom(this.userService.register(this.user));
-      await firstValueFrom(this.errorHandlingService.putBoolRegister1(false));
-      await firstValueFrom(this.errorHandlingService.putBoolRegister2(false));
       await this.router.navigate(['admin']);
       return;
     }
-    if (await firstValueFrom(this.userService.existUser(this.user.username))) {
-      await firstValueFrom(this.errorHandlingService.putBoolRegister1(true));
-    } else await firstValueFrom(this.errorHandlingService.putBoolRegister1(false));
-    if (this.user.password.length < 8)
-      await firstValueFrom(this.errorHandlingService.putBoolRegister2(true));
-    else await firstValueFrom(this.errorHandlingService.putBoolRegister2(false));
+
     await this.router.navigate(['admin_users_add']);
+    this.error ="Unspezifischer Fehler.";
+
   }
 
   showHidePassword() {

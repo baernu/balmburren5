@@ -10,51 +10,48 @@
                  class="form-control"
                  id="username"
                  name="username"
-                 placeholder="Enter Username"
+                 placeholder="Gib einen Username ein."
                  required #username="ngModel">
         </div>
-        <div *ngIf="bool1" class="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong>Sorry</strong> Try with an another Username.
-        </div>
-        <div [hidden]="!username.pristine" class="alert alert-warning">Username is required</div>
+        <div [hidden]="!username.pristine" class="alert alert-warning">   Username is required</div>
         <div class="form-group">
           <label for="password">Password</label>
           <input [type]=" showPassword ? 'text' : 'password' " [(ngModel)]="user.password"
                  class="form-control"
                  id="password"
                  name="password"
-                 placeholder="Enter your password"
+                 placeholder="Gib ein Passwort ein."
                  required #password="ngModel">
           <button type="button" (click)='showHidePassword()' class="btn-light"> {{ showPassword ? 'Hide' : 'Show' }} Password</button>
-          <span class="help-block">Password with 8 or more Characters</span>
+          <span class="help-block">   Password with 8 or more Characters</span>
         </div>
-        <div *ngIf="bool2" class="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong>Sorry</strong> The Password is too short, try another.
-        </div>
-        <div [hidden]="!password.pristine" class="alert alert-warning">Password is required</div>
+        <div [hidden]="!password.pristine" class="alert alert-warning">    Password is required</div>
         <div class="form-group">
           <label for="firstname">First Name</label>
           <input type="text" [(ngModel)]="user.firstname"
                  class="form-control"
                  id="firstname"
                  name="firstname"
-                 placeholder="Enter your Firstname"
+                 placeholder="Gib den Vorname ein."
                  required #firstname="ngModel">
         </div>
-        <div [hidden]="!firstname.pristine" class="alert alert-warning">Lastname is required</div>
+        <div [hidden]="!firstname.pristine" class="alert alert-warning">   Lastname is required</div>
         <div class="form-group">
           <label for="lastname">Last Name</label>
           <input type="text" [(ngModel)]="user.lastname"
                  class="form-control"
                  id="lastname"
                  name="lastname"
-                 placeholder="Enter your Lastname"
+                 placeholder="Gib den Nachname ein."
                  required #lastname="ngModel">
         </div>
-        <div [hidden]="!lastname.pristine" class="alert alert-warning">Firstname is required</div>
+        <div [hidden]="!lastname.pristine" class="alert alert-warning">   Firstname is required</div>
         <button type="submit" [disabled]="!userForm.form.valid"
                 class="btn btn-info">Submit</button>
       </form>
+    </div>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
     </div>
   </div>
 </div>
