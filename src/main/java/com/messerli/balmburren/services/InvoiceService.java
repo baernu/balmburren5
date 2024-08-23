@@ -12,6 +12,6 @@ public interface InvoiceService {
     Optional<Invoice> getInvoice(Long id);
     Optional<Invoice> deleteInvoice(Invoice invoice);
     boolean existInvoice(Long id);
-    Optional<Reference> findByName(String name);
+    Optional<Reference> findByVal(Long val);
     Optional<Reference> createReference(Reference reference);
 }

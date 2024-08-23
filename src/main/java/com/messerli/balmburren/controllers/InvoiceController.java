@@ -58,9 +58,9 @@ public class InvoiceController {
         return ResponseEntity.ok().body(invoiceService.existInvoice(id));}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("invoice/reference/{name}")
-    ResponseEntity<Optional<Reference>> getInvoiceReference(@PathVariable("name") String name ) {
-        Optional<Reference> reference = invoiceService.findByName(name);
+    @GetMapping("invoice/reference/{val}")
+    ResponseEntity<Optional<Reference>> getInvoiceReference(@PathVariable("val") Long val) {
+        Optional<Reference> reference = invoiceService.findByVal(val);
         if(reference.isEmpty()) throw new NoSuchElementFoundException("Reference not found");
         return ResponseEntity.ok().body(reference);}
 

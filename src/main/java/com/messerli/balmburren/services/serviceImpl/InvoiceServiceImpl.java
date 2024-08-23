@@ -58,8 +58,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public Optional<Reference> findByName(String name) {
-        Optional<Reference> reference = referenceRepo.findByName(name);
+    public Optional<Reference> findByVal(Long val) {
+        Optional<Reference> reference = referenceRepo.findByVal(val);
         log.info("Reference: {}", reference.get());
         return reference;
     }

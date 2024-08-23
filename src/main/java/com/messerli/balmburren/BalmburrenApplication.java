@@ -34,9 +34,9 @@ public class BalmburrenApplication {
 	CommandLineRunner init(RoleRepository roleRepository,ReferenceRepo referenceRepo ,UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
 
-			Reference reference = new Reference();
-            reference.setName("invoiceReference");
-			referenceRepo.save(reference);
+//			Reference reference = new Reference();
+//            reference.setName("invoiceReference");
+//			referenceRepo.save(reference);
 
 
 			RegisterUserDto userDto = new RegisterUserDto();

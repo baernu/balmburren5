@@ -151,7 +151,9 @@ export class InvoiceEmailPreviewComponent {
     let userBindAddress : UserBindDeliverAddressDTO = await firstValueFrom(this.userService.getUserBindAddress(this.user));
     let amount = this.price.toString();
 
-    let reference : ReferenceDTO = await firstValueFrom(this.userService.getReference("invoiceReference"));
+    // let reference : ReferenceDTO = await firstValueFrom(this.userService.getReference("invoiceReference"));
+    let reference: ReferenceDTO = new ReferenceDTO();
+    reference.name = this.user.username;
     reference.val = reference.val + 1;
     console.log("Reference: ", reference.val);
     let ref : string = reference.val.toString();
@@ -164,7 +166,8 @@ export class InvoiceEmailPreviewComponent {
     string = string.concat(ref);
     this.reference = string;
 
-    await firstValueFrom(this.userService.putReference(reference));
+    await firstValueFrom(this.userService.postReference(reference));
+    // await firstValueFrom(this.userService.putReference(reference));
     let myConfiguration  = {
       "Account" : "CH4431999123000889012",
       "CreditorName" : "Balmburren",

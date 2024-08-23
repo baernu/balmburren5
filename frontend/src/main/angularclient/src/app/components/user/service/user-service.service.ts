@@ -302,8 +302,8 @@ export class UserService {
   public deleteUserBindAddress(user: UserDTO): Observable<UserBindDeliverAddressDTO>{
     return this.http.delete<UserBindDeliverAddressDTO>(this.userBindAddress + user.username, {withCredentials : true});}
 
-  public getReference(name: String): Observable<ReferenceDTO>{
-    return this.http.get<ReferenceDTO>(this.invoiceUrl + 'reference/' + name, {withCredentials : true});}
+  public getReference(val: Number): Observable<ReferenceDTO>{
+    return this.http.get<ReferenceDTO>(this.invoiceUrl + 'reference/' + val, {withCredentials : true});}
 
   public postReference(reference: ReferenceDTO): Observable<ReferenceDTO>{
     return this.http.post<ReferenceDTO>(this.invoiceUrl + 'reference/', reference, {withCredentials : true});}
