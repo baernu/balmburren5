@@ -18,6 +18,7 @@ export class LoginComponent {
   authenticate: AuthenticateDTO;
   token: string = "";
   bool: boolean = false;
+  error: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,27 +32,23 @@ export class LoginComponent {
     };
   }
 
-  // async ngOnInit(): Promise<void> {
-  //   let bool: Boolean = await firstValueFrom(this.errorHandlingService.getBoolLogin());
-  //   this.bool = bool.valueOf();
-  // }
-
   async onSubmit() {
     try{
         this.token = await firstValueFrom(this.userService.login(this.user));
     }catch(error){
-        // await firstValueFrom(this.errorHandlingService.putBoolLogin(true));
+
+
+      // @ts-ignore
+      if (error.status === 401 || 404)
+        this.error = "Username Password sind nicht korrekt."
+
+        await firstValueFrom(this.errorHandlingService.putBoolLogin(true));
         await this.router.navigate(['login']);
         return;
     }
-    // this.authenticate.username = this.user.username;
-    // this.authenticate.password = this.user.password;
-    // localStorage.setItem("username", this.user.username);
-    // await firstValueFrom(this.userService.authenticate(this.authenticate));
     await firstValueFrom(this.userService.setTokenCookie(this.token));
     let msg = await firstValueFrom(this.userService.createUser(this.user.username));
     console.log("Boolean add Role user: " + msg);
-    // await firstValueFrom(this.errorHandlingService.putBoolLogin(false));
     await this.router.navigate(['home']);
   }
 
