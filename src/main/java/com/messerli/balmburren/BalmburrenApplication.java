@@ -34,16 +34,10 @@ public class BalmburrenApplication {
 	CommandLineRunner init(RoleRepository roleRepository,ReferenceRepo referenceRepo ,UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
 
-//			Reference reference = new Reference();
-//            reference.setName("invoiceReference");
-//			referenceRepo.save(reference);
 
 
 			RegisterUserDto userDto = new RegisterUserDto();
-//        userDto.setFirstname("Super").setLastname( "Admin").setUsername("super.admin@email.com").setPassword("123456");
 			userDto.setFirstname("Normal").setLastname("Admin").setUsername("admin").setPassword("adminadmin");
-//        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.SUPER_ADMIN);
-//        Optional<User> optionalUser = userRepository.findByUsername(userDto.getUsername());
 			Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
 			Optional<Role> optionalRole1 = roleRepository.findByName(RoleEnum.USER);
 			Optional<User> optionalUser = userRepository.findByUsername(userDto.getUsername());
@@ -66,13 +60,9 @@ public class BalmburrenApplication {
 			User user1 = userRepository.save(user);
 			user1.setRoles(roles);
 			user1 = userRepository.save(user1);
-//        User registeredUser = authenticationService.signup(userDto);
-//        log.info("AuthenticationService is over..");
-//        boolean message = userService.createAdministrator(registeredUser.getUsername());
 			log.info("Created User is : " + user1);
 
 		};
-//		return null;
 	}
 }
 

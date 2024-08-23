@@ -92,11 +92,9 @@ export class InvoiceEmailPreviewComponent {
     this.emailData.base64String = await this.Convert_HTML_To_PDF();
 
     this.emailData.fromEmail = "balmburren@gmail.com";
-    // this.emailData.toEmail = "bernhard.messerli.5@gmail.com";
     this.emailData.toEmail = userBindPhone.email;
     this.emailData.subject = "Rechnung Balmburren";
     this.emailData.body ="Guten Tag " + this.user.firstname +' ' + this.user.lastname + " Balmburren sendet Ihnen die Rechnung im Anhang. \n Freundliche Grüsse Balmburren";
-    // this.emailData.password = "123456";
     this.emailData.filename = "Balmburren.pdf";
 
     console.log("Email string: " + this.emailData.base64String);
@@ -151,7 +149,6 @@ export class InvoiceEmailPreviewComponent {
     let userBindAddress : UserBindDeliverAddressDTO = await firstValueFrom(this.userService.getUserBindAddress(this.user));
     let amount = this.price.toString();
 
-    // let reference : ReferenceDTO = await firstValueFrom(this.userService.getReference("invoiceReference"));
     let reference: ReferenceDTO = new ReferenceDTO();
     reference.name = this.user.username;
     reference.val = reference.val + 1;
@@ -167,7 +164,6 @@ export class InvoiceEmailPreviewComponent {
     this.reference = string;
 
     await firstValueFrom(this.userService.postReference(reference));
-    // await firstValueFrom(this.userService.putReference(reference));
     let myConfiguration  = {
       "Account" : "CH4431999123000889012",
       "CreditorName" : "Balmburren",
