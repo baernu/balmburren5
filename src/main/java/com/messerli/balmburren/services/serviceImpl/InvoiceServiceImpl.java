@@ -64,6 +64,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         return reference;
     }
 
+
     @Override
     public Optional<Reference> createReference(Reference reference) {
         log.info("Saving new Reference: {}", reference);

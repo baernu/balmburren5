@@ -1,9 +1,11 @@
 package com.messerli.balmburren;
 
 import com.messerli.balmburren.dtos.RegisterUserDto;
+import com.messerli.balmburren.entities.Reference;
 import com.messerli.balmburren.entities.Role;
 import com.messerli.balmburren.entities.RoleEnum;
 import com.messerli.balmburren.entities.User;
+import com.messerli.balmburren.repositories.ReferenceRepo;
 import com.messerli.balmburren.repositories.RoleRepository;
 import com.messerli.balmburren.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +31,13 @@ public class BalmburrenApplication {
 
 
 	@Bean
-	CommandLineRunner init(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+	CommandLineRunner init(RoleRepository roleRepository,ReferenceRepo referenceRepo ,UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
+
+			Reference reference = new Reference();
+            reference.setName("invoiceReference");
+			referenceRepo.save(reference);
+
 
 			RegisterUserDto userDto = new RegisterUserDto();
 //        userDto.setFirstname("Super").setLastname( "Admin").setUsername("super.admin@email.com").setPassword("123456");

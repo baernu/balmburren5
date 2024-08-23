@@ -91,12 +91,12 @@ export class InvoiceEmailPreviewComponent {
     let userBindPhone : UserBindPhoneDTO = await firstValueFrom(this.userService.getUserBindPhone(this.user));
     this.emailData.base64String = await this.Convert_HTML_To_PDF();
 
-    this.emailData.fromEmail = "admin@balmburren.net";
+    this.emailData.fromEmail = "balmburren@gmail.com";
     // this.emailData.toEmail = "bernhard.messerli.5@gmail.com";
     this.emailData.toEmail = userBindPhone.email;
     this.emailData.subject = "Rechnung Balmburren";
     this.emailData.body ="Guten Tag " + this.user.firstname +' ' + this.user.lastname + " Balmburren sendet Ihnen die Rechnung im Anhang. \n Freundliche Grüsse Balmburren";
-    this.emailData.password = "123456";
+    // this.emailData.password = "123456";
     this.emailData.filename = "Balmburren.pdf";
 
     console.log("Email string: " + this.emailData.base64String);
@@ -152,9 +152,9 @@ export class InvoiceEmailPreviewComponent {
     let amount = this.price.toString();
 
     let reference : ReferenceDTO = await firstValueFrom(this.userService.getReference("invoiceReference"));
-    reference.value = reference.value + 1;
-    console.log("Reference: ", reference.value);
-    let ref : string = reference.value.toString();
+    reference.val = reference.val + 1;
+    console.log("Reference: ", reference.val);
+    let ref : string = reference.val.toString();
     let i = 26 - ref.length;
     let string = "";
     while (i != 0){
@@ -212,12 +212,13 @@ export class InvoiceEmailPreviewComponent {
     let string: string = json["base64Content"];
     emailData.base64String = string;
 
-    emailData.fromEmail = "admin@balmburren.net";
+    emailData.fromEmail = "balmburren@gmail.com";
     emailData.toEmail = userBindPhone.email;
     emailData.subject = "Rechnung Balmburren";
     emailData.body ="Guten Tag " + this.user.firstname +' ' + this.user.lastname + " Balmburren sendet Ihnen den Einzahlungsschein im Anhang. \n Freundliche Grüsse Balmburren";
     emailData.password = "123456";
     emailData.filename = "Balmburren_Einzahlungsschein.pdf";
+    emailData.type = "attachment";
 
     console.log("Email string QR: " + this.emailData.base64String);
     await firstValueFrom(this.emailService.sendEmail(emailData));
