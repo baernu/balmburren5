@@ -90,8 +90,8 @@ export class UserService {
   public findUserById(id: number):Observable<UserDTO> {
     return this.http.get<UserDTO>(this.usersUrl + 'byid/' +id, {withCredentials : true});}
 
-  public existUser(username: string):Observable<UserDTO> {
-    return this.http.get<UserDTO>(this.authUrl + 'exist/' + username, {withCredentials : true});}
+  public existUser(username: string):Observable<Boolean> {
+    return this.http.get<Boolean>(this.authUrl + 'exist/' + username, {withCredentials : true});}
 
   public findAll(): Observable<UserDTO[]> {
     return this.http.get<UserDTO[]>(this.usersUrl,{withCredentials : true});}

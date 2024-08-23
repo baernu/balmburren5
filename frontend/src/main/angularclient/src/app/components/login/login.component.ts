@@ -23,8 +23,7 @@ export class LoginComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService,
-    private errorHandlingService: ErrorHandlingService) {
+    private userService: UserService) {
     this.user = new UserDTO();
     this.authenticate = new AuthenticateDTO();
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -41,9 +40,7 @@ export class LoginComponent {
       // @ts-ignore
       if (error.status === 401 || 404)
         this.error = "Username Password sind nicht korrekt."
-
-        await firstValueFrom(this.errorHandlingService.putBoolLogin(true));
-        await this.router.navigate(['login']);
+        // await this.router.navigate(['login']);
         return;
     }
     await firstValueFrom(this.userService.setTokenCookie(this.token));

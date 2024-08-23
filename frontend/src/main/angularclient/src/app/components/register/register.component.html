@@ -13,9 +13,6 @@
                placeholder="Enter Username"
                required #username="ngModel">
       </div>
-      <div *ngIf="bool1" class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Sorry</strong> Try with an another Username.
-      </div>
       <div [hidden]="!username.pristine" class="alert alert-warning">Username is required</div>
       <div class="form-group">
         <label for="password">Password</label>
@@ -26,12 +23,9 @@
                placeholder="Enter your password"
                required #password="ngModel">
         <button type="button" (click)='showHidePassword()' class="btn-light"> {{ showPassword ? 'Hide' : 'Show' }} Password</button>
-        <span class="help-block">Password with 8 or more Characters</span>
+        <span class="help-block">   Password with 8 or more Characters</span>
       </div>
-      <div *ngIf="bool2" class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Sorry</strong> The Password is too short, try another.
-      </div>
-        <div [hidden]="!password.pristine" class="alert alert-warning">Password is required</div>
+        <div [hidden]="!password.pristine" class="alert alert-warning">    Password is required</div>
       <div class="form-group">
         <label for="firstname">First Name</label>
         <input type="text" [(ngModel)]="user.firstname"
@@ -41,7 +35,7 @@
                placeholder="Enter your Firstname"
                required #firstname="ngModel">
       </div>
-      <div [hidden]="!firstname.pristine" class="alert alert-warning">Lastname is required</div>
+      <div [hidden]="!firstname.pristine" class="alert alert-warning">   Lastname is required</div>
       <div class="form-group">
         <label for="lastname">Last Name</label>
         <input type="text" [(ngModel)]="user.lastname"
@@ -55,6 +49,9 @@
       <button type="submit" [disabled]="!userForm.form.valid"
               class="btn btn-info">Submit</button>
     </form>
+    </div>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
     </div>
   </div>
 </div>
