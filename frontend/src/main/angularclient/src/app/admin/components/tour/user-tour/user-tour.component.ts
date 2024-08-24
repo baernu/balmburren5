@@ -124,7 +124,7 @@ export class UserTourComponent {
         console.log("in the second client ...");
         if(order.productBindInfos.product.name === "Eier")
           client.eggs = order.quantityOrdered.toString();
-        if(order.productBindInfos.product.name === "Milch")
+        if(order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
           client.milk = order.quantityOrdered.toString();
         client.keys = client.keys.concat(";").concat(order.productBindInfos.id);
       } else {
@@ -137,7 +137,7 @@ export class UserTourComponent {
           userBindAddress.address.plz + ' ' + userBindAddress.address.city;
         if(order.productBindInfos.product.name === "Eier")
           androidClient.eggs = order.quantityOrdered.toString();
-        if(order.productBindInfos.product.name === "Milch")
+        if(order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
           androidClient.milk = order.quantityOrdered.toString();
         androidClient.geopoint = userBindAddress.address.alatitude + ',' +  userBindAddress.address.alongitude;
         androidClient.isDelivered = "0";
@@ -149,11 +149,12 @@ export class UserTourComponent {
     }
     let string = await firstValueFrom(this.emailService.sendTourData(androidClients));
     this.emailData.filename = "tourData.txt";
+    this.emailData.type = "attachment";
     string = JSON.stringify(string);
     const byteArray = new TextEncoder().encode(string);
     this.handleChunk(byteArray);
-    this.emailData.password = "1234656";
-    this.emailData.fromEmail = "admin@balmburren.net";
+    // this.emailData.password = "1234656";
+    this.emailData.fromEmail = "balmburren@gmail.com";
     this.emailData.subject = "Tour-Daten";
     this.emailData.body = "Guten Tag \n Sende Ihnen im Anhang die Tour-Daten.";
     await firstValueFrom(this.emailService.sendEmail(this.emailData));
