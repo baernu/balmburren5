@@ -34,6 +34,8 @@ export class UserTourComponent {
   counter: number = 0;
   count: number = 0;
   error: any;
+  error1: any;
+  success1: any;
 
   constructor(
     private tourService: TourServiceService,
@@ -289,7 +291,15 @@ export class UserTourComponent {
         order = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product, order.productBindInfos.productDetails,
           order.date, order.tour));
         order.quantityDelivered = order.quantityOrdered;
-        await firstValueFrom(this.userService.putOrder(order));
+        // await firstValueFrom(this.userService.putOrder(order));
+        try{
+          await firstValueFrom(this.userService.putOrder(order));
+        }catch(error){
+          // @ts-ignore
+          if(error.status !== 200) this.error1 = "Das Speichern hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
+          return;
+        }
+        this.success1 = "Speichern war erfolgreich!";
         await this.showOrders();
       }
   }
@@ -301,7 +311,15 @@ export class UserTourComponent {
         order = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product, order.productBindInfos.productDetails,
           order.date, order.tour));
         order.quantityDelivered = 0;
-        await firstValueFrom(this.userService.putOrder(order));
+        try{
+          await firstValueFrom(this.userService.putOrder(order));
+        }catch(error){
+          // @ts-ignore
+          if(error.status !== 200) this.error1 = "Das Zurücksetzen hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
+          return;
+        }
+        this.success1 = "Reset war erfolgreich!";
+
         await this.showOrders();
       }
   }

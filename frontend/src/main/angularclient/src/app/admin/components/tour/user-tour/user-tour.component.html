@@ -89,6 +89,12 @@
     <div><button type="button"(click)='reset()' class="btn-light">reset All</button></div>
   </div>
 </div>
+<div *ngIf="error1" class="alert alert-danger">
+  {{ error1 }}
+</div>
+<div *ngIf="success1" class="alert alert-success">
+  {{ success1 }}
+</div>
 <div class="card my-5">
   <div class="card-body">
     <div class="input-group mb-3 w-100 h-25">
