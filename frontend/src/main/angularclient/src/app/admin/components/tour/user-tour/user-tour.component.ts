@@ -33,6 +33,7 @@ export class UserTourComponent {
   totalEggs: number = 0;
   counter: number = 0;
   count: number = 0;
+  error: any;
 
   constructor(
     private tourService: TourServiceService,
@@ -49,7 +50,15 @@ export class UserTourComponent {
       let order1 : OrderDTO = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
         order.productBindInfos.productDetails, order.date, order.tour));
       order.version = order1.version;
-      await firstValueFrom(this.userService.putOrder(order));
+      try{
+        await firstValueFrom(this.userService.putOrder(order));
+      }catch(error){
+        // @ts-ignore
+        if (error.status !== 200)
+          this.error = "Order wurde nicht upgedated, username: " + order.deliverPeople.username;
+          return;
+      }
+
     }
   }
 

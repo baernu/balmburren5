@@ -4,7 +4,6 @@ import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {UserService} from "../user/service/user-service.service";
 import {AuthenticateDTO} from "../user/service/authenticateDTO";
 import {firstValueFrom} from "rxjs";
-import {ErrorHandlingService} from "../error_handling/error-handling.service";
 
 
 @Component({
