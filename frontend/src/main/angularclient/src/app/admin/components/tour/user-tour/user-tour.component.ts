@@ -76,7 +76,7 @@ export class UserTourComponent {
       for (const order of this.orders) {
         if (order.productBindInfos.product.name === "Eier")
           eggs += order.quantityOrdered;
-        if (order.productBindInfos.product.name === "Milch")
+        if (order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
           milks += order.quantityOrdered;
       }
       this.totalMilk = milks;
