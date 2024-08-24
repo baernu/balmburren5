@@ -35,6 +35,7 @@ export class UserTourComponent {
   count: number = 0;
   error: any;
   error1: any;
+  error2: any;
   success1: any;
 
   constructor(
@@ -159,7 +160,13 @@ export class UserTourComponent {
     this.emailData.fromEmail = "balmburren@gmail.com";
     this.emailData.subject = "Tour-Daten";
     this.emailData.body = "Guten Tag \n Sende Ihnen im Anhang die Tour-Daten.";
-    await firstValueFrom(this.emailService.sendEmail(this.emailData));
+    try{
+      await firstValueFrom(this.emailService.sendEmail(this.emailData));
+    }catch(error) {
+      // @ts-ignore
+      if(error.status != 200) this.error2 = "Email konnte nicht gesendet werden!";
+    }
+
   }
 
   handleChunk(buf: Uint8Array) {
@@ -226,7 +233,9 @@ export class UserTourComponent {
   }
 
   async sendData() {
-    // await this.updateAutomatedOrder();
+    ////////////////////////////////////////////////////////
+    await this.updateAutomatedOrder();
+    ///////////////////////////////////////////////////////////////7
     for(const order of this.orders) {
       await firstValueFrom(this.userService.putOrder(order));
     }
