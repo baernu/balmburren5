@@ -43,7 +43,7 @@ public class UserController {
 
     @CrossOrigin( allowCredentials = "true")
     @GetMapping("{username}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'USER')")
     public ResponseEntity<Optional<User>> findUser(@PathVariable("username") String username) {
         Optional<User> optionalUser = userService.findUser(username);
         if (optionalUser.isEmpty()) throw new NoSuchElementFoundException("User not found");

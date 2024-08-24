@@ -59,7 +59,7 @@ export class UserOrderComponent {
       for (const pBI of this.productBindInfos) {
         let userProfileOrder = new UserProfileOrderDTO();
         userProfileOrder.tour = tour;
-        userProfileOrder.person = this.user;
+        userProfileOrder.user = this.user;
         userProfileOrder.productBindProductDetails = pBI;
         if (await firstValueFrom(this.userService.existUserProfileOrder(this.user, pBI.product, pBI.productDetails, tour)))
           this.userProfileOrders1.push(await firstValueFrom(this.userService.getUserProfileOrder(this.user, pBI.product, pBI.productDetails, tour)));
@@ -113,7 +113,7 @@ export class UserOrderComponent {
   }
   async save() {
     for (const userProfileOrder of this.userProfileOrders1) {
-      let userProfileOrder1 = await firstValueFrom(this.userService.getUserProfileOrder(userProfileOrder.person, userProfileOrder.productBindProductDetails.product,
+      let userProfileOrder1 = await firstValueFrom(this.userService.getUserProfileOrder(userProfileOrder.user, userProfileOrder.productBindProductDetails.product,
         userProfileOrder.productBindProductDetails.productDetails, userProfileOrder.tour));
       userProfileOrder.version = userProfileOrder1.version;
       await firstValueFrom(this.userService.putUserProfileOrder(userProfileOrder));

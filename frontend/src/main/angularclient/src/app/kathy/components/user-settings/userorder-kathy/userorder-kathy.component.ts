@@ -59,7 +59,7 @@ export class UserorderKathyComponent {
       for (const pBI of this.productBindInfos) {
         let userProfileOrder = new UserProfileOrderDTO();
         userProfileOrder.tour = tour;
-        userProfileOrder.person = this.user;
+        userProfileOrder.user = this.user;
         userProfileOrder.productBindProductDetails = pBI;
         if (await firstValueFrom(this.userService.existUserProfileOrder(this.user, pBI.product, pBI.productDetails, tour)))
           this.userProfileOrders1.push(await firstValueFrom(this.userService.getUserProfileOrder(this.user, pBI.product, pBI.productDetails, tour)));

@@ -16,7 +16,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./userorderprofile.component.css']
 })
 export class UserorderprofileComponent {
-  bool2: boolean = false;
+  // bool2: boolean = false;
   showPassword: boolean = false;
   userProfileOrders: UserProfileOrderDTO[] = [];
   productBindInfos: ProductBindInfosDTO[] = [];
@@ -38,8 +38,8 @@ export class UserorderprofileComponent {
   }
 
   async ngOnInit(): Promise<void> {
-    let bool2: Boolean = await firstValueFrom(this.errorHandlingService.getBoolRegister2());
-    this.bool2 = bool2.valueOf();
+    // let bool2: Boolean = await firstValueFrom(this.errorHandlingService.getBoolRegister2());
+    // this.bool2 = bool2.valueOf();
     let tours : TourDTO[] = [];
     // let username = localStorage.getItem('username');
     // if (username)
@@ -58,7 +58,7 @@ export class UserorderprofileComponent {
       for (const pBI of this.productBindInfos) {
         let userProfileOrder = new UserProfileOrderDTO();
         userProfileOrder.tour = tour;
-        userProfileOrder.person = this.user;
+        userProfileOrder.user = this.user;
         userProfileOrder.productBindProductDetails = pBI;
         if (await firstValueFrom(this.userService.existUserProfileOrder(this.user, pBI.product, pBI.productDetails, tour)))
           this.userProfileOrders.push(await firstValueFrom(this.userService.getUserProfileOrder(this.user, pBI.product, pBI.productDetails, tour)));
@@ -73,7 +73,7 @@ export class UserorderprofileComponent {
 
   async save() {
     for(const userProfileOrder of this.userProfileOrders) {
-      let userProfileOrder1 = await firstValueFrom(this.userService.getUserProfileOrder(userProfileOrder.person, userProfileOrder.productBindProductDetails.product,
+      let userProfileOrder1 = await firstValueFrom(this.userService.getUserProfileOrder(userProfileOrder.user, userProfileOrder.productBindProductDetails.product,
         userProfileOrder.productBindProductDetails.productDetails, userProfileOrder.tour));
       userProfileOrder.version = userProfileOrder1.version;
       await firstValueFrom(this.userService.putUserProfileOrder(userProfileOrder));

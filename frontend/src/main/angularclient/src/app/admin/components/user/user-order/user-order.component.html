@@ -21,8 +21,8 @@
         <td><input type="number"  min="0" [(ngModel)]="userProfileOrder.firstWeekOrder"></td>
         <td><input type="number"  min="0" [(ngModel)]="userProfileOrder.secondWeekOrder"></td>
       </tr>
-      <button type="button" (click)='save()' class="btn-dark">save</button>
-      <button type="button" (click)='showList()' class="btn-dark">show List</button>
+      <button type="button" (click)='save()' class="btn-light">save</button>
+      <button type="button" (click)='showList()' class="btn-light">show List</button>
       </tbody>
     </table>
   </div>
@@ -48,7 +48,7 @@
         <td>{{ order.productBindInfos.productDetails.category }}</td>
         <td><input type="number"  min="0" [(ngModel)]="order.quantityOrdered"></td>
       </tr>
-      <button type="button" (click)='apply()' class="btn-dark">save</button>
+      <button type="button" (click)='apply()' class="btn-light">save</button>
       </tbody>
     </table>
   </div>

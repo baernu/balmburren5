@@ -202,7 +202,7 @@ export class UserService {
       productdetails.id + '/' + tour.number, {withCredentials : true});}
 
   public existUserProfileOrder(people: UserDTO, product: ProductDTO, productdetails: ProductDetailsDTO, tour: TourDTO): Observable<Boolean> {
-    return this.http.get<Boolean>(this.userProfileOrderUrl + people.username + '/' + product.name + '/' +
+    return this.http.get<Boolean>(this.userProfileOrderUrl + 'exist/' + people.username + '/' + product.name + '/' +
       productdetails.id + '/' + tour.number, {withCredentials : true});}
 
   public deleteUserProfileOrder(people: UserDTO, product: ProductDTO, productdetails: ProductDetailsDTO, tour: TourDTO): Observable<UserProfileOrderDTO> {

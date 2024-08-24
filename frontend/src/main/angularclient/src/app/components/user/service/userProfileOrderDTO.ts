@@ -5,7 +5,7 @@ import {TourDTO} from "../../../admin/components/tour/service/TourDTO";
 export class UserProfileOrderDTO {
   id: string = "" ;
   version: string = "";
-  person: UserDTO = new UserDTO();
+  user: UserDTO = new UserDTO();
   productBindProductDetails: ProductBindInfosDTO = new ProductBindInfosDTO();
   tour: TourDTO = new TourDTO();
   firstWeekOrder: number = 0;
