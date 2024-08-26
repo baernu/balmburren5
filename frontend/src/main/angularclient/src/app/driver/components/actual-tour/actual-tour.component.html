@@ -35,32 +35,35 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Tour Number</th>
-        <th scope="col">Tour Position</th>
-        <th scope="col">Date</th>
-        <th scope="col">Name</th>
-        <th scope="col">Product</th>
-        <th scope="col">Category</th>
+        <th scope="col">Pos</th>
+        <th scope="col">Datum</th>
+        <th scope="col">Produkt</th>
+        <th scope="col">Kategorie</th>
         <th scope="col">Ordered</th>
         <th scope="col">Text</th>
         <th scope="col">Delivered</th>
+        <th scope="col">Adresse</th>
       </tr>
       </thead>
-      <tbody>
-      <tr *ngFor="let order of orders">
-        <td>{{ order.tour.number}}</td>
-        <td *ngIf="findUserBind(order)">{{ userBindTour.position}}</td>
-        <td>{{ order.date.date |date: 'fullDate'}}</td>
-        <td>{{ order.deliverPeople.firstname}} {{order.deliverPeople.lastname}}</td>
-        <td>{{ order.productBindInfos.product.name}}</td>
-        <td>{{ order.productBindInfos.productDetails.category}}</td>
-        <td>{{ order.quantityOrdered}}</td>
-        <td [ngStyle]="{'color': 'red'}"> {{order.text}}</td>
-        <td><input input class="form-control input-sm" type="number"  min="0" [(ngModel)]="order.quantityDelivered"></td>
-        <!--        <button type="button"(click)='apply()' class="btn-dark">apply</button>-->
-      </tr>
-      <button type="button"(click)='apply()' class="btn-light">apply</button>
-      </tbody>
+<!--      <tbody>-->
+      <div *ngFor="let child of categories">
+
+        <span>{{child.category}}</span>
+        <tbody>
+        <tr *ngFor="let order of child.products">
+          <td *ngIf="findUserBind(order)">{{ userBindTour.position}}</td>
+          <td>{{ order.date.date |date}}</td>
+          <td>{{ order.productBindInfos.product.name}}</td>
+          <td>{{ order.productBindInfos.productDetails.category}}</td>
+          <td>{{ order.quantityOrdered}}</td>
+          <td [ngStyle]="{'color': 'red'}"> {{order.text}}</td>
+          <td><input input class="form-control input-sm" type="number"  min="0" [(ngModel)]="order.quantityDelivered"></td>
+          <td *ngIf="findUserAddress(order.deliverPeople.username)">{{getUserBindAddress(order.deliverPeople.username).address.street}} {{getUserBindAddress(order.deliverPeople.username).address.number}} {{getUserBindAddress(order.deliverPeople.username).address.plz}}</td>
+        </tr>
+        </tbody>
+      </div>
+      <button type="button" (click)='apply()' class="btn-light">apply</button>
+<!--      </tbody>-->
     </table>
   </div>
 </div>

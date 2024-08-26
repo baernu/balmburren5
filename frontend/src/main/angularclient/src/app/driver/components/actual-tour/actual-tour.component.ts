@@ -15,6 +15,7 @@ import {ProductBindInfosDTO} from "../../../admin/components/product/service/Pro
 import {UserDTO} from "../../../components/user/service/userDTO";
 import {TourDateBindInfosDTO} from "../../../admin/components/tour/service/TourDateBindInfosDTO";
 import {UserProfileOrderDTO} from "../../../components/user/service/userProfileOrderDTO";
+import { groupebyDTO } from 'src/app/components/user/service/groupbyDTO';
 
 @Component({
   selector: 'app-actual-tour',
@@ -23,6 +24,7 @@ import {UserProfileOrderDTO} from "../../../components/user/service/userProfileO
 })
 export class ActualTourComponent {
   orders: OrderDTO[] = [];
+  grouped: any;
   tour: TourDTO = new TourDTO();
   tours: TourDTO[] = [];
   dates: DatesDTO = new DatesDTO();
@@ -38,6 +40,9 @@ export class ActualTourComponent {
   error2: any;
   success: any;
   success1: any;
+  categories: groupebyDTO[] = [];
+  userBindAddress: UserBindDeliverAddressDTO[] = [];
+
 
   constructor(
     private tourService: TourServiceService,
@@ -63,6 +68,11 @@ export class ActualTourComponent {
         return;
       }
     }
+
+
+    // this.showGroup();
+
+    // this.orders = groupBy(this.orders, this.orders => order.deliverPeople.username);
     this.success = "Orders wurden gespeichert!"
   }
 
@@ -116,6 +126,8 @@ export class ActualTourComponent {
 
   async showOrders() {
     await this.goTo(this.tour);
+    this.showGroup();
+
   }
 
   async onSubmit() {
@@ -336,6 +348,38 @@ compare(date: Date): boolean {
     let now1 = new Date().toISOString().split('T')[0]
     date = new Date(date);
     return date.toISOString().split('T')[0] >= now1;
+  }
+
+  showGroup() {
+    //First, group the products by category
+    const group = this.orders.reduce((acc: any, curr) => {
+      let key = curr.deliverPeople.firstname + ' ' + curr.deliverPeople.lastname;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(curr);
+      return acc;
+    }, {});
+
+    //Get the categories and product related.
+    this.categories = Object.keys(group).map(key => ({
+      category: key,
+      products: group[key]
+    }));
+
+  }
+  async findUserAddress(username: string) {
+    let user = await firstValueFrom( this.userService.findUser(username));
+    let userBindAddress = await firstValueFrom( this.userService.getUserBindAddress(user));
+    this.userBindAddress.push(userBindAddress);
+    if(userBindAddress) return true;
+    else return false;
+  }
+
+  getUserBindAddress(username:string) {
+    let userBindAddress = this.userBindAddress.find(e => e.user.username == username);
+    if (userBindAddress) return userBindAddress;
+    else return new UserBindDeliverAddressDTO();
   }
 
 }
