@@ -36,6 +36,7 @@ export class UserTourComponent {
   error: any;
   error1: any;
   error2: any;
+  success: any;
   success1: any;
 
   constructor(
@@ -63,6 +64,7 @@ export class UserTourComponent {
       }
 
     }
+    this.success = "Orders wurden gespeichert!";
   }
 
   async goTo(tour: TourDTO) {
@@ -211,7 +213,7 @@ export class UserTourComponent {
             let user : UserDTO = await firstValueFrom(this.userService.findUserById(Number(str[0])));
             let order : OrderDTO = await firstValueFrom(this.userService.getOrder(user, productbindinfo.product,
               productbindinfo.productDetails, dateDTO, tour));
-            if(client.isDelivered === "2" && order.productBindInfos.product.name === "Milch")
+            if(client.isDelivered === "2" && order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
               order.quantityDelivered = Number(client.milk);
             if(client.isDelivered === "2" && order.productBindInfos.product.name === "Eier")
               order.quantityDelivered = Number(client.eggs);

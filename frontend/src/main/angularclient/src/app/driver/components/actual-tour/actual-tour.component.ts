@@ -33,6 +33,11 @@ export class ActualTourComponent {
   totalEggs: number = 0;
   counter: number = 0;
   count: number = 0;
+  error: any;
+  error1: any;
+  error2: any;
+  success: any;
+  success1: any;
 
   constructor(
     private tourService: TourServiceService,
@@ -49,8 +54,16 @@ export class ActualTourComponent {
       let order1 : OrderDTO = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
         order.productBindInfos.productDetails, order.date, order.tour));
       order.version = order1.version;
-      await firstValueFrom(this.userService.putOrder(order));
+      try{
+        await firstValueFrom(this.userService.putOrder(order));
+      }catch(error){
+        // @ts-ignore
+        if (error.status !== 200)
+          this.error = "Order wurde nicht upgedated, username: " + order.deliverPeople.username;
+        return;
+      }
     }
+    this.success = "Orders wurden gespeichert!"
   }
 
   async goTo(tour: TourDTO) {
@@ -76,7 +89,7 @@ export class ActualTourComponent {
     for (const order of this.orders) {
       if (order.productBindInfos.product.name === "Eier")
         eggs += order.quantityOrdered;
-      if (order.productBindInfos.product.name === "Milch")
+      if (order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
         milks += order.quantityOrdered;
     }
     this.totalMilk = milks;
@@ -115,7 +128,7 @@ export class ActualTourComponent {
         console.log("in the second client ...");
         if(order.productBindInfos.product.name === "Eier")
           client.eggs = order.quantityOrdered.toString();
-        if(order.productBindInfos.product.name === "Milch")
+        if(order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
           client.milk = order.quantityOrdered.toString();
         client.keys = client.keys.concat(";").concat(order.productBindInfos.id);
       } else {
@@ -128,7 +141,7 @@ export class ActualTourComponent {
           userBindAddress.address.plz + ' ' + userBindAddress.address.city;
         if(order.productBindInfos.product.name === "Eier")
           androidClient.eggs = order.quantityOrdered.toString();
-        if(order.productBindInfos.product.name === "Milch")
+        if(order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
           androidClient.milk = order.quantityOrdered.toString();
         androidClient.geopoint = userBindAddress.address.alatitude + ',' +  userBindAddress.address.alongitude;
         androidClient.isDelivered = "0";
@@ -140,14 +153,21 @@ export class ActualTourComponent {
     }
     let string = await firstValueFrom(this.emailService.sendTourData(androidClients));
     this.emailData.filename = "tourData.txt";
+    this.emailData.type = "attachment";
     string = JSON.stringify(string);
     const byteArray = new TextEncoder().encode(string);
     this.handleChunk(byteArray);
-    this.emailData.password = "1234656";
-    this.emailData.fromEmail = "admin@balmburren.net";
+    // this.emailData.password = "1234656";
+    this.emailData.fromEmail = "balmburren@gmail.com";
     this.emailData.subject = "Tour-Daten";
     this.emailData.body = "Guten Tag \n Sende Ihnen im Anhang die Tour-Daten.";
-    await firstValueFrom(this.emailService.sendEmail(this.emailData));
+    try{
+      await firstValueFrom(this.emailService.sendEmail(this.emailData));
+    }catch(error) {
+      // @ts-ignore
+      if(error.status != 200) this.error2 = "Email konnte nicht gesendet werden!";
+    }
+
   }
 
   handleChunk(buf: Uint8Array) {
@@ -192,7 +212,7 @@ export class ActualTourComponent {
             let user : UserDTO = await firstValueFrom(this.userService.findUserById(Number(str[0])));
             let order : OrderDTO = await firstValueFrom(this.userService.getOrder(user, productbindinfo.product,
               productbindinfo.productDetails, dateDTO, tour));
-            if(client.isDelivered === "2" && order.productBindInfos.product.name === "Milch")
+            if(client.isDelivered === "2" && order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
               order.quantityDelivered = Number(client.milk);
             if(client.isDelivered === "2" && order.productBindInfos.product.name === "Eier")
               order.quantityDelivered = Number(client.eggs);
@@ -206,6 +226,7 @@ export class ActualTourComponent {
     }
   }
 
+
   async fileToString(file: File) {
     const fileToBlob = async (file: any) => new Blob([new Uint8Array(await file.arrayBuffer())], {type: file.type});
     let blob = await fileToBlob(file);
@@ -215,7 +236,9 @@ export class ActualTourComponent {
 
   async sendData() {
     let date = this.orders[0].date.date;
-    // await this.updateAutomatedOrder();
+    /////////////////////////////////////////////////
+    await this.updateAutomatedOrder();
+    ///////////////////////////////////////////////////
     if(this.compare(new Date(date)))
       for(const order of this.orders) {
         await firstValueFrom(this.userService.putOrder(order));
@@ -258,7 +281,6 @@ export class ActualTourComponent {
             await this.putOrder(order);
           }
         }
-
       }
     }
   }
@@ -277,7 +299,15 @@ export class ActualTourComponent {
         order = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product, order.productBindInfos.productDetails,
           order.date, order.tour));
         order.quantityDelivered = order.quantityOrdered;
-        await firstValueFrom(this.userService.putOrder(order));
+        // await firstValueFrom(this.userService.putOrder(order));
+        try{
+          await firstValueFrom(this.userService.putOrder(order));
+        }catch(error){
+          // @ts-ignore
+          if(error.status !== 200) this.error1 = "Das Speichern hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
+          return;
+        }
+        this.success1 = "Speichern war erfolgreich!";
         await this.showOrders();
       }
   }
@@ -289,7 +319,15 @@ export class ActualTourComponent {
         order = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product, order.productBindInfos.productDetails,
           order.date, order.tour));
         order.quantityDelivered = 0;
-        await firstValueFrom(this.userService.putOrder(order));
+        try{
+          await firstValueFrom(this.userService.putOrder(order));
+        }catch(error){
+          // @ts-ignore
+          if(error.status !== 200) this.error1 = "Das Zurücksetzen hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
+          return;
+        }
+        this.success1 = "Reset war erfolgreich!";
+
         await this.showOrders();
       }
   }

@@ -6,6 +6,7 @@ import {HeaderComponent} from "../components/header/header.component";
 import {FormsModule} from "@angular/forms";
 import {ActualTourComponent} from "../components/actual-tour/actual-tour.component";
 import {DriverComponent} from "../components/driver/driver.component";
+import {AdminModule} from "../../admin/admin.module";
 
 
 @NgModule({
@@ -17,10 +18,11 @@ import {DriverComponent} from "../components/driver/driver.component";
   exports: [
     HeaderComponent
   ],
-  imports: [
-    CommonModule,
-    DriverRoutingModule,
-    FormsModule,
-  ]
+    imports: [
+        CommonModule,
+        DriverRoutingModule,
+        FormsModule,
+        AdminModule,
+    ]
 })
 export class DriverModule { }
