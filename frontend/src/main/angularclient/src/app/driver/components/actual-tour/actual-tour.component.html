@@ -50,15 +50,15 @@
 
         <span>{{child.category}}</span>
         <tbody>
-        <tr *ngFor="let order of child.products">
-          <td *ngIf="findUserBind(order)">{{ userBindTour.position}}</td>
-          <td>{{ order.date.date |date}}</td>
-          <td>{{ order.productBindInfos.product.name}}</td>
-          <td>{{ order.productBindInfos.productDetails.category}}</td>
-          <td>{{ order.quantityOrdered}}</td>
-          <td [ngStyle]="{'color': 'red'}"> {{order.text}}</td>
-          <td><input input class="form-control input-sm" type="number"  min="0" [(ngModel)]="order.quantityDelivered"></td>
-          <td *ngIf="findUserAddress(order.deliverPeople.username)">{{getUserBindAddress(order.deliverPeople.username).address.street}} {{getUserBindAddress(order.deliverPeople.username).address.number}} {{getUserBindAddress(order.deliverPeople.username).address.plz}}</td>
+        <tr *ngFor="let userOrderTourAddress of child.products">
+          <td>{{ userOrderTourAddress.userbindtour.position}}</td>
+          <td>{{ userOrderTourAddress.order.date.date |date}}</td>
+          <td>{{ userOrderTourAddress.order.productBindInfos.product.name}}</td>
+          <td>{{ userOrderTourAddress.order.productBindInfos.productDetails.category}}</td>
+          <td>{{ userOrderTourAddress.order.quantityOrdered}}</td>
+          <td [ngStyle]="{'color': 'red'}"> {{userOrderTourAddress.order.text}}</td>
+          <td><input input class="form-control input-sm" type="number"  min="0" [(ngModel)]="userOrderTourAddress.order.quantityDelivered"></td>
+          <td >{{userOrderTourAddress.address.street}} {{userOrderTourAddress.address.number}} {{userOrderTourAddress.address.plz}}</td>
         </tr>
         </tbody>
       </div>
