@@ -239,7 +239,7 @@ export class ActualTourComponent {
 
   updateOrders(orders: OrderDTO[]) {
        for(const order of orders) {
-         let userOrderTourAddress = this.userOrderTourAddress.find(e => e.order.id == order.id);
+         let userOrderTourAddress = this.userOrderTourAddress.find(e => e.order.id === order.id);
          if(userOrderTourAddress) userOrderTourAddress.order = order;
        }
     }
@@ -253,15 +253,15 @@ export class ActualTourComponent {
   }
 
   async sendData() {
-    let date = this.orders[0].date.date;
+    let date = this.userOrderTourAddress[0].order.date.date;
     /////////////////////////////////////////////////
     //await this.updateAutomatedOrder();
     ///////////////////////////////////////////////////
-    if (this.compare(new Date(date)))
-      for (const userOrderTourAddress of this.userOrderTourAddress) {
-        let order = userOrderTourAddress.order;
-        await firstValueFrom(this.userService.putOrder(order));
-      }
+    if (this.compare(new Date(date)))this.apply();
+      // for (const userOrderTourAddress of this.userOrderTourAddress) {
+      //   let order = userOrderTourAddress.order;
+      //   await firstValueFrom(this.userService.putOrder(order));
+      // }
   }
 
   async updateAutomatedOrder() {
@@ -349,7 +349,7 @@ export class ActualTourComponent {
           return;
         }
         this.success1 = "Reset war erfolgreich!";
-
+        this.apply();
         // await this.showOrders();
       }
   }
