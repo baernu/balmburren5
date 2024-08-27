@@ -75,6 +75,9 @@ export class UserService {
   public findUser(username: string):Observable<UserDTO> {
     return this.http.get<UserDTO>(this.usersUrl + username, {withCredentials : true});}
 
+  public findUserById(id: number):Observable<UserDTO> {
+    return this.http.get<UserDTO>(this.usersUrl + 'byid/' +id, {withCredentials : true});}
+
   public currentUser():Observable<UserDTO> {
     return this.http.get<UserDTO>(this.usersUrl + "me", {withCredentials : true});}
 
@@ -86,9 +89,6 @@ export class UserService {
   public updateUser(user: UserDTO):Observable<UserDTO> {
     return this.http.put<UserDTO>(this.adminUrl + "update/user", user, {withCredentials : true});}
 
-
-  public findUserById(id: number):Observable<UserDTO> {
-    return this.http.get<UserDTO>(this.usersUrl + 'byid/' +id, {withCredentials : true});}
 
   public existUser(username: string):Observable<Boolean> {
     return this.http.get<Boolean>(this.authUrl + 'exist/' + username, {withCredentials : true});}

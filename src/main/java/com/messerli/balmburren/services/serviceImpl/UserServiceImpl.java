@@ -77,6 +77,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user;
+    }
+
+    @Override
     public boolean createDriver(String username) {
         Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.DRIVER);
 

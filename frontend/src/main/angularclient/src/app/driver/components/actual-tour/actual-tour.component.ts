@@ -315,13 +315,14 @@ export class ActualTourComponent {
   async commitAll() {
     this.count++;
     if (this.count == 7)
-      for (let order of this.orders) {
+      for (let userOrderTourAddress of this.userOrderTourAddress) {
+        let order = userOrderTourAddress.order;
         order = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product, order.productBindInfos.productDetails,
           order.date, order.tour));
         order.quantityDelivered = order.quantityOrdered;
         // await firstValueFrom(this.userService.putOrder(order));
         try {
-          await firstValueFrom(this.userService.putOrder(order));
+          userOrderTourAddress.order = await firstValueFrom(this.userService.putOrder(order));
         } catch (error) {
           // @ts-ignore
           if (error.status !== 200) this.error1 = "Das Speichern hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
@@ -335,12 +336,13 @@ export class ActualTourComponent {
   async reset() {
     this.counter++;
     if (this.counter == 7)
-      for (let order of this.orders) {
+      for (let userOrderTourAddress of this.userOrderTourAddress) {
+        let order = userOrderTourAddress.order;
         order = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product, order.productBindInfos.productDetails,
           order.date, order.tour));
         order.quantityDelivered = 0;
         try {
-          await firstValueFrom(this.userService.putOrder(order));
+          userOrderTourAddress.order = await firstValueFrom(this.userService.putOrder(order));
         } catch (error) {
           // @ts-ignore
           if (error.status !== 200) this.error1 = "Das Zurücksetzen hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;

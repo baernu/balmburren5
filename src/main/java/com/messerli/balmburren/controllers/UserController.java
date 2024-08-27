@@ -49,6 +49,14 @@ public class UserController {
         if (optionalUser.isEmpty()) throw new NoSuchElementFoundException("User not found");
         return ResponseEntity.ok(optionalUser);
     }
+
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping ("byid/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'USER')")
+    ResponseEntity<Optional<User>> getUserById(@PathVariable("id") Long id) {
+        Optional<User> user = userService.getUserById(id);
+        if (user.isEmpty()) throw new NoSuchElementFoundException("User not found");
+        return ResponseEntity.ok().body(user);}
     @CrossOrigin( allowCredentials = "true")
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")

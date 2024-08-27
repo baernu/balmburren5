@@ -14,6 +14,7 @@ public interface UserService {
     public boolean existUser(String username);
 
     public Optional<User> findUser(String username);
+    Optional<User> getUserById(Long id);
     public boolean createDriver(String username);
     public boolean createUser(String username);
     public Optional<User> updateUser(User user);
