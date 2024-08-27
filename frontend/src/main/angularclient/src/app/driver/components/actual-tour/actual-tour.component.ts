@@ -232,9 +232,17 @@ export class ActualTourComponent {
           }
         }
       }
-      this.orders = orders;
+      this.updateOrders(orders);
+      // this.orders = orders;
     }
   }
+
+  updateOrders(orders: OrderDTO[]) {
+       for(const order of orders) {
+         let userOrderTourAddress = this.userOrderTourAddress.find(e => e.order.id == order.id);
+         if(userOrderTourAddress) userOrderTourAddress.order = order;
+       }
+    }
 
 
   async fileToString(file: File) {
@@ -247,10 +255,11 @@ export class ActualTourComponent {
   async sendData() {
     let date = this.orders[0].date.date;
     /////////////////////////////////////////////////
-    await this.updateAutomatedOrder();
+    //await this.updateAutomatedOrder();
     ///////////////////////////////////////////////////
     if (this.compare(new Date(date)))
-      for (const order of this.orders) {
+      for (const userOrderTourAddress of this.userOrderTourAddress) {
+        let order = userOrderTourAddress.order;
         await firstValueFrom(this.userService.putOrder(order));
       }
   }
