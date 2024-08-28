@@ -86,7 +86,7 @@ export class ActualTourComponent {
   }
 
   async goTo(tour: TourDTO) {
-    if (tour && this.dates.date) {
+    if (this.compare(new Date(this.dates.date)) && tour) {
       this.tour = tour;
       this.tour = await firstValueFrom(this.tourService.getTour(tour.number));
       this.userBindTours = await firstValueFrom(this.userService.getAllPersonsForTour(this.tour.number));

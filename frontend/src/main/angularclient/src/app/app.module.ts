@@ -21,6 +21,7 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import {DriverModule} from "./driver/driver/driver.module";
 import {KathyModule} from "./kathy/kathy/kathy.module";
+import { WorkComponent } from './driver/components/work/work.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {KathyModule} from "./kathy/kathy/kathy.module";
     UserorderprofileComponent,
     InvoiceComponent,
     SettingsComponent,
+    WorkComponent,
   ],
     imports: [
         BrowserModule,
