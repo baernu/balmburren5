@@ -12,7 +12,7 @@
       <tbody>
       <tr>
         <td><input type="date" [(ngModel)]="dates.date"></td>
-        <button type="button" (click)='showOrders()' class="btn-light">show Orders</button>
+        <button type="button" (click)='showOrders()' class="btn-light">Orders zeigen</button>
       </tr>
       </tbody>
     </table>
@@ -62,7 +62,7 @@
         </tr>
         </tbody>
       </div>
-      <button type="button" (click)='apply()' class="btn-light">apply</button>
+      <button type="button" (click)='apply()' class="btn-light">Speichern</button>
 <!--      </tbody>-->
     </table>
   </div>
@@ -91,8 +91,8 @@
       </tr>
       </tbody>
     </table>
-    <div><button type="button"(click)='commitAll()' class="btn-light">commit All</button></div>
-    <div><button type="button"(click)='reset()' class="btn-light">reset All</button></div>
+<!--    <div><button type="button"(click)='commitAll()' class="btn-light">Alle Speichern</button></div>-->
+    <div><button type="button"(click)='reset()' class="btn-light">Alle zurücksetzen</button></div>
   </div>
 </div>
 <div *ngIf="error1" class="alert alert-danger">
@@ -114,9 +114,9 @@
                  placeholder="Enter Email To"
                  required #toEmail="ngModel">
         </div>
-        <div [hidden]="!toEmail.pristine" class="alert alert-danger">Email To is required</div>
+        <div [hidden]="!toEmail.pristine" class="alert alert-danger">Email To ist nötig</div>
         <button type="submit" [disabled]="!Form.form.valid"
-                class="btn btn-info">send Data</button>
+                class="btn btn-info">Email senden</button>
       </form>
     </div>
   </div>
@@ -124,10 +124,13 @@
 <div *ngIf="error2" class="alert alert-danger">
   {{ error2 }}
 </div>
+<div *ngIf="success2" class="alert alert-success">
+  {{ success2 }}
+</div>
 <div class="card my-5">
   <div class="card-body">
     <div class="input-group mb-3 w-100 h-25">
-      <form (ngSubmit)="sendData()" #Form1="ngForm">
+      <form #Form1="ngForm">
         <div class="form-group">
           <div class="form-group">
             <label for="file">File</label>
@@ -137,10 +140,16 @@
                    name="file" (change)="uploadFile($event)">
           </div>
           <!--          <input type="file" id="file" name="file" onchange="add(event)"/>-->
-          <button type="submit" [disabled]="!Form1.form.valid"
-                  class="btn btn-info">upload Retour Data</button>
+<!--          <button type="submit" [disabled]="!Form1.form.valid"-->
+<!--                  class="btn btn-info">Retour Daten speichern</button>-->
         </div>
       </form>
+    </div>
+    <div *ngIf="error3" class="alert alert-danger">
+      {{ error3 }}
+    </div>
+    <div *ngIf="success3" class="alert alert-success">
+      {{ success3 }}
     </div>
   </div>
 </div>

@@ -36,11 +36,15 @@ export class ActualTourComponent {
   totalEggs: number = 0;
   counter: number = 0;
   count: number = 0;
-  error: any;
-  error1: any;
-  error2: any;
-  success: any;
-  success1: any;
+  error: string ="";
+  error1: string ="";
+  error2: string ="";
+  error3: string ="";
+  success: string ="";
+  success1: string ="";
+  success2: string ="";
+  success3: string ="";
+  updatedOrder: boolean = false;
   categories: groupebyDTO[] = [];
   userBindAddress: UserBindDeliverAddressDTO[] = [];
   userOrderTourAddress: UserOrderTourAddressDTO[] = [];
@@ -55,21 +59,26 @@ export class ActualTourComponent {
 
   async ngOnInit(): Promise<void> {
     this.tours = await firstValueFrom(this.tourService.getTours());
+    if(!this.updatedOrder) {
+      this.updateAutomatedOrder();
+      this.updatedOrder = true;
+    }
   }
 
   async apply() {
+    this.success ="";
+    this.error = "";
     for (const userOrderTourAddress of this.userOrderTourAddress) {
       let order = userOrderTourAddress.order;
       let order1: OrderDTO = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
         order.productBindInfos.productDetails, order.date, order.tour));
-      order.version = order1.version;
+      userOrderTourAddress.order.version = order1.version;
       try {
-        await firstValueFrom(this.userService.putOrder(order));
+        await firstValueFrom(this.userService.putOrder(userOrderTourAddress.order));
 
-      } catch (error) {
-        // @ts-ignore
+      } catch (error: any) {
         if (error.status !== 200)
-          this.error = "Order wurde nicht upgedated, username: " + order.deliverPeople.username;
+          this.error = "Order wurde nicht upgedated, Name: " + order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
         return;
       }
     }
@@ -128,6 +137,8 @@ export class ActualTourComponent {
   }
 
   async onSubmit() {
+    this.success2 ="";
+    this.error2 = "";
     let count: number = 0;
     let androidClients: AndroidClientDTO[] = [];
     for (const userOrderTourAddress of this.userOrderTourAddress) {
@@ -173,11 +184,10 @@ export class ActualTourComponent {
     this.emailData.body = "Guten Tag \n Sende Ihnen im Anhang die Tour-Daten.";
     try {
       await firstValueFrom(this.emailService.sendEmail(this.emailData));
-    } catch (error) {
-      // @ts-ignore
+    } catch (error: any) {
       if (error.status != 200) this.error2 = "Email konnte nicht gesendet werden!";
     }
-
+    this.success2 = "Email konnte gesendet werden!";
   }
 
   handleChunk(buf: Uint8Array) {
@@ -189,6 +199,8 @@ export class ActualTourComponent {
   }
 
   async uploadFile(event: Event) {
+    this.success3 ="";
+    this.error3 = "";
     let file: File;
     let filename: string;
     const element = event.currentTarget as HTMLInputElement;
@@ -218,17 +230,21 @@ export class ActualTourComponent {
           const [, ...rest1] = str;
           const [, ...rest] = rest1;
           for (const id of rest) {
-            let productbindinfo: ProductBindInfosDTO = await firstValueFrom(this.productService.getProductBindInfosById(Number(id)));
-            let user: UserDTO = await firstValueFrom(this.userService.findUserById(Number(str[0])));
-            let order: OrderDTO = await firstValueFrom(this.userService.getOrder(user, productbindinfo.product,
-              productbindinfo.productDetails, dateDTO, tour));
-            if (client.isDelivered === "2" && order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
-              order.quantityDelivered = Number(client.milk);
-            if (client.isDelivered === "2" && order.productBindInfos.product.name === "Eier")
-              order.quantityDelivered = Number(client.eggs);
-            if (client.text)
-              order.text = client.text;
-            orders.push(order);
+            try {
+              let productbindinfo: ProductBindInfosDTO = await firstValueFrom(this.productService.getProductBindInfosById(Number(id)));
+              let user: UserDTO = await firstValueFrom(this.userService.findUserById(Number(str[0])));
+              let order: OrderDTO = await firstValueFrom(this.userService.getOrder(user, productbindinfo.product,
+                productbindinfo.productDetails, dateDTO, tour));
+              if (client.isDelivered === "2" && order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
+                order.quantityDelivered = Number(client.milk);
+              if (client.isDelivered === "2" && order.productBindInfos.product.name === "Eier")
+                order.quantityDelivered = Number(client.eggs);
+              if (client.text)
+                order.text = client.text;
+              orders.push(order);
+            }catch(error: any) {
+              if (error.status != 200) this.error3 = "Upload hat nicht funktioniert!";
+            }
           }
         }
       }
@@ -241,8 +257,14 @@ export class ActualTourComponent {
        for(const order of orders) {
          let userOrderTourAddress = this.userOrderTourAddress.find(e => e.order.id === order.id);
          if(userOrderTourAddress) userOrderTourAddress.order = order;
+         else {
+           this.error3 = "Upload hat nicht funktioniert!"
+           return;
+         }
        }
-    }
+       this.success3 = "Upload hat funktioniert!";
+       this.success ="";
+  }
 
 
   async fileToString(file: File) {
@@ -252,17 +274,17 @@ export class ActualTourComponent {
 
   }
 
-  async sendData() {
-    let date = this.userOrderTourAddress[0].order.date.date;
-    /////////////////////////////////////////////////
-    //await this.updateAutomatedOrder();
-    ///////////////////////////////////////////////////
-    if (this.compare(new Date(date)))this.apply();
-      // for (const userOrderTourAddress of this.userOrderTourAddress) {
-      //   let order = userOrderTourAddress.order;
-      //   await firstValueFrom(this.userService.putOrder(order));
-      // }
-  }
+  // async sendData() {
+  //   let date = this.userOrderTourAddress[0].order.date.date;
+  //   /////////////////////////////////////////////////
+  //   //await this.updateAutomatedOrder();
+  //   ///////////////////////////////////////////////////
+  //   if (this.compare(new Date(date)))this.apply();
+  //     // for (const userOrderTourAddress of this.userOrderTourAddress) {
+  //     //   let order = userOrderTourAddress.order;
+  //     //   await firstValueFrom(this.userService.putOrder(order));
+  //     // }
+  // }
 
   async updateAutomatedOrder() {
     let date = new Date();
@@ -312,28 +334,29 @@ export class ActualTourComponent {
     await firstValueFrom(this.userService.putOrder(order));
   }
 
-  async commitAll() {
-    this.count++;
-    if (this.count == 7)
-      for (let userOrderTourAddress of this.userOrderTourAddress) {
-        let order = userOrderTourAddress.order;
-        order = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product, order.productBindInfos.productDetails,
-          order.date, order.tour));
-        order.quantityDelivered = order.quantityOrdered;
-        // await firstValueFrom(this.userService.putOrder(order));
-        try {
-          userOrderTourAddress.order = await firstValueFrom(this.userService.putOrder(order));
-        } catch (error) {
-          // @ts-ignore
-          if (error.status !== 200) this.error1 = "Das Speichern hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
-          return;
-        }
-        this.success1 = "Speichern war erfolgreich!";
-        // await this.showOrders();
-      }
-  }
+  // async commitAll() {
+  //   this.count++;
+  //   if (this.count == 7)
+  //     for (let userOrderTourAddress of this.userOrderTourAddress) {
+  //       let order = userOrderTourAddress.order;
+  //       order = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product, order.productBindInfos.productDetails,
+  //         order.date, order.tour));
+  //       order.quantityDelivered = order.quantityOrdered;
+  //       // await firstValueFrom(this.userService.putOrder(order));
+  //       try {
+  //         userOrderTourAddress.order = await firstValueFrom(this.userService.putOrder(order));
+  //       } catch (error: any) {
+  //         if (error.status !== 200) this.error1 = "Das Speichern hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
+  //         return;
+  //       }
+  //       this.success1 = "Speichern war erfolgreich!";
+  //       // await this.showOrders();
+  //     }
+  // }
 
   async reset() {
+    this.success1 ="";
+    this.error1 = "";
     this.counter++;
     if (this.counter == 7)
       for (let userOrderTourAddress of this.userOrderTourAddress) {
