@@ -17,6 +17,8 @@ export class TourServiceService {
   private readonly datesUrl: string;
   private readonly tourBindDatesUrl: string;
   private readonly tourDateBindInfosUrl: string;
+  private readonly workUrl: string;
+  private readonly workPayment: string;
   private readonly baseUrl: string = 'http://localhost:8006/api/';
   // private readonly baseUrl: string = 'api/';
   constructor(private http: HttpClient) {
@@ -24,6 +26,8 @@ export class TourServiceService {
     this.datesUrl = this.baseUrl + 'tr/dates/';
     this.tourBindDatesUrl = this.baseUrl + 'tr/tour/bind/dates/';
     this.tourDateBindInfosUrl = this.baseUrl + 'tr/tour/bind/dates/product/infos/';
+    this.workUrl = this.baseUrl + 'wr/work/';
+    this.workPayment = this.baseUrl + 'wr/work/wage/payment/';
 
   }
 
