@@ -430,6 +430,13 @@ export class ActualTourComponent {
 
     }
   }
+
+  googleMaps(userOrderTourAdress: UserOrderTourAddressDTO) {
+    let lat = userOrderTourAdress.address.alatitude.toString();
+    let lon = userOrderTourAdress.address.alongitude.toString();
+    window.open('https://www.google.com/maps/search/?api=1&query=' + lat + ',' + lon);
+
+  }
 }
 
 
