@@ -70,8 +70,8 @@ public class WorkController {
 
     @CrossOrigin( allowCredentials = "true")
     @GetMapping("work/{username}/{startdate}/{enddate}")
-    ResponseEntity<Optional<List<Work>>> getAllWorksForPeopleandIntervall(@PathVariable("username") String username) {
-        return ResponseEntity.ok().body(workService.getAllWorksForPeople(getPeople(username).get()));}
+    ResponseEntity<Optional<List<Work>>> getAllWorksForPeopleandIntervall(@PathVariable("username") String username, @PathVariable("startdate") Long startDate, @PathVariable("enddate") Long endDate) {
+        return ResponseEntity.ok().body(workService.getAllWorksForPeopleAndIntervall(getPeople(username).get(), getDates(startDate).get(), getDates(endDate).get()));}
 
     @CrossOrigin( allowCredentials = "true")
     @PostMapping("wage/payment/")
@@ -102,10 +102,13 @@ public class WorkController {
 
     @CrossOrigin( allowCredentials = "true")
     @GetMapping("wage/payment/{username}")
-    ResponseEntity<Optional<List<WagePayment>>> getAllWagePaymentsForPeople(@PathVariable("username") String username) {
+    ResponseEntity<Optional<List<WagePayment>>> getAllWagePaymentsForUser(@PathVariable("username") String username) {
         return ResponseEntity.ok().body(workService.getAllWagePaymentsForPeople(getPeople(username).get()));}
 
-
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping("wage/payment/{username}/{startdate}/{enddate}")
+    ResponseEntity<Optional<List<WagePayment>>> getAllWagePaymentsForPeopleandIntervall(@PathVariable("username") String username, @PathVariable("startdate") Long startDate, @PathVariable("enddate") Long endDate) {
+        return ResponseEntity.ok().body(workService.getAllWagePaymentsForPeopleAndIntervall(getPeople(username).get(), getDates(startDate).get(), getDates(endDate).get()));}
 
     private Optional<User> getPeople(String username) {
         Optional<User> user = userService.findUser(username);
