@@ -8,6 +8,7 @@ import {TourDateBindInfosDTO} from "./TourDateBindInfosDTO";
 import {ProductDTO} from "../../product/service/ProductDTO";
 import {ProductDetailsDTO} from "../../product/service/ProductDetailsDTO";
 import { WorkDTO } from './workDTO';
+import {WagePaymentDTO} from "./wagePaymentDTO";
 
 
 @Injectable({
@@ -32,7 +33,23 @@ export class TourServiceService {
 
   }
 
+  public createWagePayment(wagePayment: WagePaymentDTO):Observable<WagePaymentDTO> {
+    return this.http.post<WagePaymentDTO>(this.workPayment, wagePayment,{withCredentials: true});}
 
+  public putWagePayment(wagePayment: WagePaymentDTO):Observable<WagePaymentDTO> {
+    return this.http.post<WagePaymentDTO>(this.workPayment, wagePayment,{withCredentials: true});}
+
+  public getWagePayment(username: string, date: number):Observable<WagePaymentDTO> {
+    return this.http.get<WagePaymentDTO>(this.workPayment + username + '/' + date, {withCredentials: true});}
+
+  public deleteWagePayment(username: string, date: number):Observable<WagePaymentDTO> {
+    return this.http.delete<WagePaymentDTO>(this.workPayment + username + '/' + date, {withCredentials: true});}
+
+  public getAllWagePaymentsForUser(username: string):Observable<WagePaymentDTO[]> {
+    return this.http.get<WagePaymentDTO[]>(this.workPayment + username, {withCredentials: true});}
+
+  public getAllWagePaymentsForUserandIntervall(username: string, startDate: number, endDate: number):Observable<WagePaymentDTO[]> {
+    return this.http.get<WagePaymentDTO[]>(this.workPayment + username + '/' + startDate + '/' + endDate, {withCredentials: true});}
   public createWork(work: WorkDTO):Observable<WorkDTO> {
     return this.http.post<WorkDTO>(this.workUrl, work,{withCredentials: true});}
 
