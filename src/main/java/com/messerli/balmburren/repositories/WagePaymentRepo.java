@@ -14,6 +14,6 @@ import java.util.Optional;
 public interface WagePaymentRepo extends JpaRepository<WagePayment, Long> {
     Optional<WagePayment> findByUserAndDateTo_Date(User user, String date);
     Optional<List<WagePayment>> findAllByUser(User user);
-    Optional<List<WagePayment>> findAllByDates_DateFromBetweenAndUser(Dates startDate, Dates endDate, User user);
+    Optional<List<WagePayment>> findAllByDateFrom_DateBetweenAndUser(String startDate, String endDate, User user);
 
 }
