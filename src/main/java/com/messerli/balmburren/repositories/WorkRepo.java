@@ -15,5 +15,5 @@ public interface WorkRepo extends JpaRepository<Work, Long> {
 
     Optional<List<Work>> findAllByUser(User user);
 
-    Optional<List<Work>> findAllByDate_DateBetweenAndUser(Dates startDate, Dates endDate, User user);
+    Optional<List<Work>> findAllByDates_DateBetweenAndUser(Dates startDate, Dates endDate, User user);
 }

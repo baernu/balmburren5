@@ -64,7 +64,7 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public Optional<List<Work>> getAllWorksForPeopleAndIntervall(User user, Dates startDate, Dates endDate) {
-        Optional<List<Work>> list = workRepo.findAllByDate_DateBetweenAndUser(startDate, endDate, user);
+        Optional<List<Work>> list = workRepo.findAllByDates_DateBetweenAndUser(startDate, endDate, user);
         log.info("Get all Works: {} for Person: {} and startDate: {} and endDate: {}",list.get(), user, startDate, endDate);
         return list;
     }
@@ -100,6 +100,13 @@ public class WorkServiceImpl implements WorkService {
     public Optional<List<WagePayment>> getAllWagePaymentsForPeople(User user) {
         Optional<List<WagePayment>> list = wagePaymentRepo.findAllByUser(user);
         log.info("Get all WagePayments: {} for people: {}", list.get(), user);
+        return list;
+    }
+
+    @Override
+    public Optional<List<WagePayment>> getAllWagePaymentsForPeopleAndIntervall(User user, Dates startDate, Dates endDate) {
+        Optional<List<WagePayment>> list = wagePaymentRepo.findAllByDates_DateFromBetweenAndUser(startDate, endDate, user);
+        log.info("Get all Works: {} for Person: {} and startDate: {} and endDate: {}",list.get(), user, startDate, endDate);
         return list;
     }
 }
