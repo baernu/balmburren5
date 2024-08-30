@@ -26,6 +26,7 @@ export class WorkComponent {
 
 
   async showWork(dates: DatesDTO) {
+    this.work = new WorkDTO();
     this.dates.date = new Date(dates.date).toISOString().split('T')[0];
     this.dates = await firstValueFrom(this.tourService.createDates(this.dates));
     let user = await firstValueFrom(this.userService.currentUser());
@@ -34,7 +35,7 @@ export class WorkComponent {
       console.log("Id Dates: " + this.dates.id);
       let work = await firstValueFrom(this.tourService.getWork(this.user.username, this.dates));
       if (work) this.work = work;
-      else this.work = new WorkDTO();
+      else return;
     }
   }
 
