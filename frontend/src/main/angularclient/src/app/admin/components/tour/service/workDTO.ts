@@ -1,11 +1,13 @@
 import {DatesDTO} from "./DatesDTO";
+import {UserDTO} from "../../../../components/user/service/userDTO";
 
 export class WorkDTO {
   id: string = "" ;
   version: string = "";
-  number: string = "0";
-  dates: DatesDTO[] = [];
+  user: UserDTO = new UserDTO();
+  date: DatesDTO = new DatesDTO();
   startTime: string = "";
   endTime: string = "";
+  workTime: string = "";
   description: string = "";
 }
