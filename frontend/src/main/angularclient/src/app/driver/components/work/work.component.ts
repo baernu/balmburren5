@@ -31,13 +31,20 @@ export class WorkComponent {
     let user = await firstValueFrom(this.userService.currentUser());
     this.user = await firstValueFrom(this.userService.findUser(user.username));
     if(this.compare(new Date(this.dates.date))){
-      this.work = await firstValueFrom(this.tourService.getWork(this.user.username, parseInt(dates.id)));
+      console.log("Id Dates: " + this.dates.id);
+      let work = await firstValueFrom(this.tourService.getWork(this.user.username, this.dates));
+      if (work) this.work = work;
+      else this.work = new WorkDTO();
     }
   }
 
   async apply() {
-    if (this.work.id) this.work = await firstValueFrom(this.tourService.putWork(this.work));
-    else this.work = await firstValueFrom(this.tourService.createWork(this.work));
+    if (this.work.id != "") this.work = await firstValueFrom(this.tourService.putWork(this.work));
+    else {
+      this.work.date = this.dates;
+      this.work.user = this.user;
+      this.work = await firstValueFrom(this.tourService.createWork(this.work));
+    }
   }
 
   compare(date: Date): boolean {

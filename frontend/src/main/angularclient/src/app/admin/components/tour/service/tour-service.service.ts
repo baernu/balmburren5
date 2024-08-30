@@ -39,34 +39,34 @@ export class TourServiceService {
   public putWagePayment(wagePayment: WagePaymentDTO):Observable<WagePaymentDTO> {
     return this.http.post<WagePaymentDTO>(this.workPayment, wagePayment,{withCredentials: true});}
 
-  public getWagePayment(username: string, date: number):Observable<WagePaymentDTO> {
-    return this.http.get<WagePaymentDTO>(this.workPayment + username + '/' + date, {withCredentials: true});}
+  public getWagePayment(username: string, date: DatesDTO):Observable<WagePaymentDTO> {
+    return this.http.get<WagePaymentDTO>(this.workPayment + username + '/' + date.id, {withCredentials: true});}
 
-  public deleteWagePayment(username: string, date: number):Observable<WagePaymentDTO> {
-    return this.http.delete<WagePaymentDTO>(this.workPayment + username + '/' + date, {withCredentials: true});}
+  public deleteWagePayment(username: string, date: DatesDTO):Observable<WagePaymentDTO> {
+    return this.http.delete<WagePaymentDTO>(this.workPayment + username + '/' + date.id, {withCredentials: true});}
 
   public getAllWagePaymentsForUser(username: string):Observable<WagePaymentDTO[]> {
     return this.http.get<WagePaymentDTO[]>(this.workPayment + username, {withCredentials: true});}
 
-  public getAllWagePaymentsForUserandIntervall(username: string, startDate: number, endDate: number):Observable<WagePaymentDTO[]> {
-    return this.http.get<WagePaymentDTO[]>(this.workPayment + username + '/' + startDate + '/' + endDate, {withCredentials: true});}
+  public getAllWagePaymentsForUserandIntervall(username: string, startDate: DatesDTO, endDate: DatesDTO):Observable<WagePaymentDTO[]> {
+    return this.http.get<WagePaymentDTO[]>(this.workPayment + username + '/' + startDate.id + '/' + endDate.id, {withCredentials: true});}
   public createWork(work: WorkDTO):Observable<WorkDTO> {
     return this.http.post<WorkDTO>(this.workUrl, work,{withCredentials: true});}
 
   public putWork(work: WorkDTO):Observable<WorkDTO> {
     return this.http.put<WorkDTO>(this.workUrl, work,{withCredentials: true});}
 
-  public getWork(username: string, date: number):Observable<WorkDTO> {
-    return this.http.get<WorkDTO>(this.workUrl + username + '/' + date, {withCredentials: true});}
+  public getWork(username: string, date: DatesDTO):Observable<WorkDTO> {
+    return this.http.get<WorkDTO>(this.workUrl + username + '/' + date.id, {withCredentials: true});}
 
-  public deleteWork(username: string, date: number):Observable<WorkDTO> {
-    return this.http.delete<WorkDTO>(this.workUrl + username + '/' + date, {withCredentials: true});}
+  public deleteWork(username: string, date: DatesDTO):Observable<WorkDTO> {
+    return this.http.delete<WorkDTO>(this.workUrl + username + '/' + date.id, {withCredentials: true});}
 
   public getAllWorksForUser(username: string):Observable<WorkDTO[]> {
     return this.http.get<WorkDTO[]>(this.workUrl + username, {withCredentials: true});}
 
-  public getAllWorksForUserandIntervall(username: string, startDate: number, endDate: number):Observable<WorkDTO[]> {
-    return this.http.get<WorkDTO[]>(this.workUrl + username + '/' + startDate + '/' + endDate, {withCredentials: true});}
+  public getAllWorksForUserandIntervall(username: string, startDate: DatesDTO, endDate: DatesDTO):Observable<WorkDTO[]> {
+    return this.http.get<WorkDTO[]>(this.workUrl + username + '/' + startDate.id + '/' + endDate.id, {withCredentials: true});}
   public getTour(number: string):Observable<TourDTO> {
     return this.http.get<TourDTO>(this.tourUrl + number, {withCredentials: true});}
 

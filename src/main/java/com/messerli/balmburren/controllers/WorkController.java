@@ -53,7 +53,7 @@ public class WorkController {
     @GetMapping("work/{username}/{date}")
     ResponseEntity<Optional<Work>> getWork(@PathVariable("username") String username, @PathVariable("date") Long date) {
         Optional<Work> work1 = workService.getWork(getPeople(username).get(), getDates(date).get());
-        if (work1.isEmpty()) throw new NoSuchElementFoundException("Work not found");
+//        if (work1.isEmpty()) throw new NoSuchElementFoundException("Work not found");
         return ResponseEntity.ok().body(work1);}
 
     @CrossOrigin( allowCredentials = "true")
@@ -112,7 +112,8 @@ public class WorkController {
 
     private Optional<User> getPeople(String username) {
         Optional<User> user = userService.findUser(username);
-        throw new NoSuchElementFoundException("Person not found");
+        if(user.isEmpty()) throw new NoSuchElementFoundException("Person not found");
+        return user;
     }
     private Optional<Dates> getDates(Long date) {
         Optional<Dates> dates = datesService.getDate(date);

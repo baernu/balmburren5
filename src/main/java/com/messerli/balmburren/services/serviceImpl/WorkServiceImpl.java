@@ -43,6 +43,7 @@ public class WorkServiceImpl implements WorkService {
     @Override
     public Optional<Work> getWork(User user, Dates date) {
         Optional<Work> work = workRepo.findByUserAndDate_Date(user, date.getDate());
+        if(work.isEmpty())return null;
         log.info("Get Work: {}", work.get());
         return work;
     }
