@@ -25,9 +25,9 @@ export class WorkComponent {
   }
 
 
-  async showWork(dates: DatesDTO) {
+  async showWork() {
     this.work = new WorkDTO();
-    this.dates.date = new Date(dates.date).toISOString().split('T')[0];
+    this.dates.date = new Date(this.dates.date).toISOString().split('T')[0];
     this.dates = await firstValueFrom(this.tourService.createDates(this.dates));
     let user = await firstValueFrom(this.userService.currentUser());
     this.user = await firstValueFrom(this.userService.findUser(user.username));
@@ -40,12 +40,10 @@ export class WorkComponent {
   }
 
   async apply() {
+    this.work.date = this.dates;
+    this.work.user = this.user;
     if (this.work.id != "") this.work = await firstValueFrom(this.tourService.putWork(this.work));
-    else {
-      this.work.date = this.dates;
-      this.work.user = this.user;
-      this.work = await firstValueFrom(this.tourService.createWork(this.work));
-    }
+    else this.work = await firstValueFrom(this.tourService.createWork(this.work));
   }
 
   compare(date: Date): boolean {

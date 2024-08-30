@@ -1,23 +1,23 @@
 <app-driver-header></app-driver-header>
 <router-outlet></router-outlet>
-<div class="card my-5">
-  <div class="card-body">
-    <span style="display:block; height:50px;"></span>
-    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col">Datum</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td><input type="date" [(ngModel)]="dates.date"></td>
-        <button type="button" (click)='showWork(dates)' class="btn-light">Arbeit zeigen</button>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+<!--<div class="card my-5">-->
+<!--  <div class="card-body">-->
+<!--    <span style="display:block; height:50px;"></span>-->
+<!--    <table class="table table-bordered table-striped table-hover table-responsive table-sm">-->
+<!--      <thead class="thead-dark">-->
+<!--      <tr>-->
+<!--        <th scope="col">Datum</th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr>-->
+<!--        <td><input type="date" [(ngModel)]="dates.date"></td>-->
+<!--        <button type="button" (click)='showWork(dates)' class="btn-light">Arbeit zeigen</button>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--  </div>-->
+<!--</div>-->
 <div class="card my-5">
   <div class="card-body">
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
@@ -32,7 +32,7 @@
       </thead>
       <tbody>
       <tr>
-        <td><input type="date" [(ngModel)]="dates.date"></td>
+        <td><input type="date" [(ngModel)]="dates.date" (change)="showWork()"></td>
         <td><input type="time" [(ngModel)]="work.startTime"></td>
         <td><input type="time" [(ngModel)]="work.endTime"></td>
         <td><input type="time" [(ngModel)]="work.workTime"></td>
