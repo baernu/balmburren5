@@ -57,15 +57,20 @@ public class WorkController {
         return ResponseEntity.ok().body(work1);}
 
     @CrossOrigin( allowCredentials = "true")
-    @DeleteMapping("work/")
+    @DeleteMapping("work/{username}/{date}")
     ResponseEntity<Optional<Work>> deleteWork(@PathVariable("username") String username, @PathVariable("date") Long date) {
         Optional<Work> work1 = workService.getWork(getPeople(username).get(), getDates(date).get());
         if (work1.isEmpty()) throw new NoSuchElementFoundException("Work not found");
         return ResponseEntity.ok().body(workService.deleteWork(getPeople(username).get(), getDates(date).get()));}
 
     @CrossOrigin( allowCredentials = "true")
+    @GetMapping("work/{username}")
+    ResponseEntity<Optional<List<Work>>> getAllWorksForPeople(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(workService.getAllWorksForPeople(getPeople(username).get()));}
+
+    @CrossOrigin( allowCredentials = "true")
     @GetMapping("work/{username}/{startdate}/{enddate}")
-    ResponseEntity<Optional<List<Work>>> getAllWorksForPeopleAndInterval(@PathVariable("username") String username) {
+    ResponseEntity<Optional<List<Work>>> getAllWorksForPeopleandIntervall(@PathVariable("username") String username) {
         return ResponseEntity.ok().body(workService.getAllWorksForPeople(getPeople(username).get()));}
 
     @CrossOrigin( allowCredentials = "true")

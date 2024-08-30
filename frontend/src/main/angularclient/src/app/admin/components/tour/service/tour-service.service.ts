@@ -7,6 +7,7 @@ import {TourBindDatesDTO} from "./TourBindDatesDTO";
 import {TourDateBindInfosDTO} from "./TourDateBindInfosDTO";
 import {ProductDTO} from "../../product/service/ProductDTO";
 import {ProductDetailsDTO} from "../../product/service/ProductDetailsDTO";
+import { WorkDTO } from './workDTO';
 
 
 @Injectable({
@@ -31,6 +32,24 @@ export class TourServiceService {
 
   }
 
+
+  public createWork(work: WorkDTO):Observable<WorkDTO> {
+    return this.http.post<WorkDTO>(this.workUrl, work,{withCredentials: true});}
+
+  public putWork(work: WorkDTO):Observable<WorkDTO> {
+    return this.http.put<WorkDTO>(this.workUrl, work,{withCredentials: true});}
+
+  public getWork(username: string, date: number):Observable<WorkDTO> {
+    return this.http.get<WorkDTO>(this.workUrl + username + '/' + date, {withCredentials: true});}
+
+  public deleteWork(username: string, date: number):Observable<WorkDTO> {
+    return this.http.delete<WorkDTO>(this.workUrl + username + '/' + date, {withCredentials: true});}
+
+  public getAllWorksForUser(username: string):Observable<WorkDTO[]> {
+    return this.http.get<WorkDTO[]>(this.workUrl + username, {withCredentials: true});}
+
+  public getAllWorksForUserandIntervall(username: string, startDate: number, endDate: number):Observable<WorkDTO[]> {
+    return this.http.get<WorkDTO[]>(this.workUrl + username + '/' + startDate + '/' + endDate, {withCredentials: true});}
   public getTour(number: string):Observable<TourDTO> {
     return this.http.get<TourDTO>(this.tourUrl + number, {withCredentials: true});}
 

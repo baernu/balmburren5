@@ -63,6 +63,13 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
+    public Optional<List<Work>> getAllWorksForPeopleAndIntervall(User user, Dates startDate, Dates endDate) {
+        Optional<List<Work>> list = workRepo.findAllByDate_DateBetweenAndUser(startDate, endDate, user);
+        log.info("Get all Works: {} for Person: {} and startDate: {} and endDate: {}",list.get(), user, startDate, endDate);
+        return list;
+    }
+
+    @Override
     public Optional<WagePayment> saveWagePayment(WagePayment wagePayment) {
         log.info("Saving WagePayment: {}", wagePayment);
         return Optional.of(wagePaymentRepo.save(wagePayment));

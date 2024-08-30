@@ -1,6 +1,7 @@
 package com.messerli.balmburren.repositories;
 
 
+import com.messerli.balmburren.entities.Dates;
 import com.messerli.balmburren.entities.User;
 import com.messerli.balmburren.entities.Work;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,5 @@ public interface WorkRepo extends JpaRepository<Work, Long> {
 
     Optional<List<Work>> findAllByUser(User user);
 
+    Optional<List<Work>> findAllByDate_DateBetweenAndUser(Dates startDate, Dates endDate, User user);
 }

@@ -15,6 +15,9 @@ public interface WorkService {
     Optional<Work> getWork(User user, Dates date);
     Optional<Work> deleteWork(User user, Dates date);
     Optional<List<Work>> getAllWorksForPeople(User user);
+
+    Optional<List<Work>> getAllWorksForPeopleAndIntervall(User user, Dates startDate, Dates endDate);
+
     Optional<WagePayment> saveWagePayment(WagePayment wagePayment);
     Optional<WagePayment> putWagePayment(WagePayment wagePayment);
     Optional<WagePayment> getWagePayment(User user, Dates date);
