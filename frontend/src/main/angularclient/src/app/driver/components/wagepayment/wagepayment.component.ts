@@ -6,6 +6,7 @@ import {TourServiceService} from "../../../admin/components/tour/service/tour-se
 import {UserService} from "../../../components/user/service/user-service.service";
 import {Router} from "@angular/router";
 import {firstValueFrom} from "rxjs";
+import {OrderDTO} from "../../../components/user/service/orderDTO";
 
 @Component({
   selector: 'app-wagepayment',
@@ -44,9 +45,14 @@ export class WagepaymentComponent {
     this.error = "";
     this.success = "";
     try {
+      this.startdate.date = new Date(this.startdate.date).toISOString().split('T')[0];
+      this.startdate = await firstValueFrom(this.tourService.createDates(this.startdate));
       this.works = await firstValueFrom(this.tourService.getAllWorksForUserandIntervall(this.user.username, this.startdate, this.actualdate));
+      this.works.sort((e1: WorkDTO, e2: WorkDTO) => e1.date.date.localeCompare(e2.date.date));
+      this.enddate = this.actualdate;
     }catch(error: any){
       if(error.status != 200)this.error = "Etwas lief schief!";
+      return;
     }
     this.success = "OK!";
     return;
@@ -55,7 +61,16 @@ export class WagepaymentComponent {
   async showWork2() {
     this.error = "";
     this.success = "";
-
+    try {
+      this.enddate.date = new Date(this.enddate.date).toISOString().split('T')[0];
+      this.enddate = await firstValueFrom(this.tourService.createDates(this.enddate));
+      this.works = await firstValueFrom(this.tourService.getAllWorksForUserandIntervall(this.user.username, this.startdate, this.enddate));
+    }catch(error: any){
+      if(error.status != 200)this.error = "Etwas lief schief!";
+      return;
+    }
+    this.success = "OK!";
+    return;
   }
 
 
