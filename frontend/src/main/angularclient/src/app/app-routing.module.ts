@@ -14,6 +14,7 @@ import {BasicGuard} from "./guard/basic_guard/basic.guard";
 import {DriverComponent} from "./driver/components/driver/driver.component";
 import {DriverGuard} from "./guard/driver_guard/driver.guard";
 import {WorkComponent} from "./driver/components/work/work.component";
+import {WagepaymentComponent} from "./driver/components/wagepayment/wagepayment.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
@@ -33,6 +34,8 @@ const routes: Routes = [
   {path: 'driver', component: DriverComponent,
     canActivate: [DriverGuard]},
   {path: 'work', component: WorkComponent,
+    canActivate: [DriverGuard]},
+  {path: 'wage_payment', component: WagepaymentComponent,
     canActivate: [DriverGuard]},
 ];
 

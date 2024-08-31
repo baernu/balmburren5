@@ -59,10 +59,6 @@ export class ActualTourComponent {
 
   async ngOnInit(): Promise<void> {
     this.tours = await firstValueFrom(this.tourService.getTours());
-    if(!this.updatedOrder) {
-      this.updateAutomatedOrder();
-      this.updatedOrder = true;
-    }
   }
 
   async apply() {
@@ -86,7 +82,12 @@ export class ActualTourComponent {
   }
 
   async goTo(tour: TourDTO) {
+    this.error = "";
     if (this.compare(new Date(this.dates.date)) && tour) {
+      if(!this.updatedOrder) {
+        this.updateAutomatedOrder();
+        this.updatedOrder = true;
+      }
       this.tour = tour;
       this.tour = await firstValueFrom(this.tourService.getTour(tour.number));
       this.userBindTours = await firstValueFrom(this.userService.getAllPersonsForTour(this.tour.number));
@@ -103,6 +104,7 @@ export class ActualTourComponent {
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => o1.productBindInfos.productDetails.category.localeCompare(o2.productBindInfos.productDetails.category));
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => this.orderPositionOfOrder(o1, o2));
     }
+    if (!this.compare(new Date(this.dates.date))) this.error = "Datum liegt in der Vergangenheit: Kein Zugriff!"
 
     let eggs: number = 0;
     let milks: number = 0;
