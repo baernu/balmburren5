@@ -5,6 +5,20 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
+        <th scope="col">Start Datum</th>
+        <th scope="col">End Datum</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><input type="date" [(ngModel)]="startdate.date" (change)="showWork1()"></td>
+        <td><input type="date" [(ngModel)]="enddate.date" (change)="showWork2()"></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
         <th scope="col">Datum</th>
         <th scope="col">Startzeit</th>
         <th scope="col">Endzeit</th>
@@ -13,16 +27,14 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td><input type="date" [(ngModel)]="dates.date" (change)="showWork()"></td>
-        <td><input type="time" [(ngModel)]="work.startTime"></td>
-        <td><input type="time" [(ngModel)]="work.endTime"></td>
-        <td><input type="time" [(ngModel)]="work.workTime"></td>
-        <td><input type="text" [(ngModel)]="work.description"></td>
+      <tr *ngFor="let work of works">
+        <td>{{ work.date.date | date}}</td>
+        <td>{{ work.startTime }}</td>
+        <td>{{ work.endTime }}</td>
+        <td>{{ work.workTime }}</td>
+        <td>{{ work.description }}</td>
       </tr>
       </tbody>
-      <button type="button" (click)='apply()' class="btn-light">Speichern</button>
-      <button type="button" (click)='clear()' class="btn-light">Löschen</button>
     </table>
   </div>
 </div>

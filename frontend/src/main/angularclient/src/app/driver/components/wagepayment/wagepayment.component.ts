@@ -14,9 +14,11 @@ import {firstValueFrom} from "rxjs";
 })
 export class WagepaymentComponent {
   dates: DatesDTO = new DatesDTO();
-  work: WorkDTO = new WorkDTO();
+  works: WorkDTO[] = [];
   user: UserDTO = new UserDTO();
-  counter: number = 0;
+  enddate: DatesDTO = new DatesDTO();
+  startdate: DatesDTO = new DatesDTO();
+  actualdate: DatesDTO = new DatesDTO();
   success: string = "";
   error: string = "";
 
@@ -30,71 +32,33 @@ export class WagepaymentComponent {
     };
   }
 
+  async ngOnInit(): Promise<void> {
+    this.user = await firstValueFrom(this.userService.currentUser());
+    this.user = await firstValueFrom(this.userService.findUser(this.user.username));
+    this.actualdate.date = new Date().toISOString().split('T')[0];
+    this.actualdate = await firstValueFrom(this.tourService.createDates(this.actualdate));
+  }
 
-  async showWork() {
+
+  async showWork1() {
     this.error = "";
     this.success = "";
-    this.work = new WorkDTO();
-    this.dates.date = new Date(this.dates.date).toISOString().split('T')[0];
-    this.dates = await firstValueFrom(this.tourService.createDates(this.dates));
-    let user = await firstValueFrom(this.userService.currentUser());
-    this.user = await firstValueFrom(this.userService.findUser(user.username));
-    if(this.compare(new Date(this.dates.date))){
-      console.log("Id Dates: " + this.dates.id);
-      let work = await firstValueFrom(this.tourService.getWork(this.user.username, this.dates));
-      if (work) {
-        this.work = work;
-        // this.success = "Arbeit wurde gespeichert!"
-      }
-      else return;
-    } else this.error ="Datum liegt in der Vergangenheit: Keine Berechtigung!"
-  }
-
-  async apply() {
-    this.work.date = this.dates;
-    this.work.user = this.user;
-    if (this.work.id != "") {
-      try {
-        this.work = await firstValueFrom(this.tourService.putWork(this.work));
-      } catch (error: any) {
-        if (error.status != 200) this.error= "Speichern hat nicht funktioniert!"
-        await this.router.navigate(['/work']);
-        return;
-      }
-      this.success = "Speichern hat funktioniert!"
-      return;
+    try {
+      this.works = await firstValueFrom(this.tourService.getAllWorksForUserandIntervall(this.user.username, this.startdate, this.actualdate));
+    }catch(error: any){
+      if(error.status != 200)this.error = "Etwas lief schief!";
     }
-    else {
-      try{
-        this.work = await firstValueFrom(this.tourService.createWork(this.work));
-      }catch (error: any) {
-        if (error.status != 200) this.error= "Speichern hat nicht funktioniert!"
-        await this.router.navigate(['/work']);
-        return;
-      }
-      this.success = "Speichern hat funktioniert!"
-      return;
-    }
+    this.success = "OK!";
+    return;
+  }
+
+  async showWork2() {
+    this.error = "";
+    this.success = "";
 
   }
 
-  async clear() {
-    if (this.counter == 6) {
-      await firstValueFrom(this.tourService.deleteWork(this.user.username, this.dates));
-      this.counter = 0;
-      this.success = "Arbeit wurde gelöscht!"
-      await this.router.navigate(['/work']);
-      return;
-    }
-    this.counter ++;
-    let c = 7 - this.counter;
-    this.error = "Tippe " + c +  " mal zum Löschen!";
-  }
 
-  compare(date: Date): boolean {
-    let now1 = new Date().toISOString().split('T')[0]
-    date = new Date(date);
-    return date.toISOString().split('T')[0] >= now1;
-  }
+
 
 }
