@@ -22,6 +22,9 @@ export class WagepaymentComponent {
   actualdate: DatesDTO = new DatesDTO();
   success: string = "";
   error: string = "";
+  success1: string = "";
+  error1: string = "";
+  total: string= "";
 
   constructor(
     private tourService: TourServiceService,
@@ -50,6 +53,7 @@ export class WagepaymentComponent {
       this.works = await firstValueFrom(this.tourService.getAllWorksForUserandIntervall(this.user.username, this.startdate, this.actualdate));
       this.works.sort((e1: WorkDTO, e2: WorkDTO) => e1.date.date.localeCompare(e2.date.date));
       this.enddate = this.actualdate;
+      this.total = this.computeTotalWork();
     }catch(error: any){
       if(error.status != 200)this.error = "Etwas lief schief!";
       return;
@@ -65,6 +69,8 @@ export class WagepaymentComponent {
       this.enddate.date = new Date(this.enddate.date).toISOString().split('T')[0];
       this.enddate = await firstValueFrom(this.tourService.createDates(this.enddate));
       this.works = await firstValueFrom(this.tourService.getAllWorksForUserandIntervall(this.user.username, this.startdate, this.enddate));
+      this.works.sort((e1: WorkDTO, e2: WorkDTO) => e1.date.date.localeCompare(e2.date.date));
+      this.total = this.computeTotalWork();
     }catch(error: any){
       if(error.status != 200)this.error = "Etwas lief schief!";
       return;
@@ -73,6 +79,13 @@ export class WagepaymentComponent {
     return;
   }
 
+  computeTotalWork() {
+    let total: number = 0;
+    for (let work of this.works){
+      total += parseFloat(work.workTime.replace(':','.'));
+    }
+    return total.toFixed(2);;
+  }
 
 
 
