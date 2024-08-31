@@ -25,6 +25,6 @@ public class Work {
     private Dates date;
     private LocalTime startTime;
     private LocalTime endTime;
-    private LocalTime workTime;
+    private String workTime;
     private String description;
 }

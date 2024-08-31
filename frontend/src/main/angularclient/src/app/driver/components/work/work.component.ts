@@ -6,6 +6,7 @@ import {WorkDTO} from "../../../admin/components/tour/service/workDTO";
 import {UserDTO} from "../../../components/user/service/userDTO";
 import {UserService} from "../../../components/user/service/user-service.service";
 import {Router} from "@angular/router";
+import * as moment from 'moment';
 
 
 @Component({
@@ -97,6 +98,21 @@ export class WorkComponent {
     let now1 = new Date().toISOString().split('T')[0]
     date = new Date(date);
     return date.toISOString().split('T')[0] >= now1;
+  }
+
+  computeWorktime(){
+    let total: number = 0;
+    let arr = this.work.endTime.split(':');
+    let arr2 = this.work.startTime.split(':');
+    console.log("arr: " + arr[0] + '/ ' + arr[1]);
+    console.log("arr2: " + arr2[0] + '/ ' + arr2[1]);
+    total = parseInt(arr[0]) - parseInt(arr2[0]);
+    console.log("total: " + total);
+    total = total + (parseFloat(arr[1]) - parseFloat(arr2[1]))/60;
+    let str = total.toFixed(2);
+    console.log("startZeit: " + this.work.startTime);
+    console.log("Total: " + str);
+    this.work.workTime = str;
   }
 
 }

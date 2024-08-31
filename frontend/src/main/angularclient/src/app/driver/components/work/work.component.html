@@ -17,8 +17,8 @@
       <tr>
         <td><input type="date" [(ngModel)]="dates.date" (change)="showWork()"></td>
         <td><input type="time" [(ngModel)]="work.startTime"></td>
-        <td><input type="time" [(ngModel)]="work.endTime"></td>
-        <td><input type="time" [(ngModel)]="work.workTime"></td>
+        <td><input type="time" [(ngModel)]="work.endTime" (change)="computeWorktime()"></td>
+        <td><input type="number" [(ngModel)]="work.workTime"></td>
         <td><input type="text" [(ngModel)]="work.description"></td>
       </tr>
       </tbody>
