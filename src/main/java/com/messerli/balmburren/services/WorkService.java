@@ -14,6 +14,9 @@ public interface WorkService {
     Optional<Work> putWork(Work work);
     Optional<Work> getWork(User user, Dates date);
     Optional<Work> deleteWork(User user, Dates date);
+
+    void deleteWorkById(Work work);
+
     Optional<List<Work>> getAllWorksForPeople(User user);
 
     Optional<List<Work>> getAllWorksForPeopleAndIntervall(User user, Dates startDate, Dates endDate);

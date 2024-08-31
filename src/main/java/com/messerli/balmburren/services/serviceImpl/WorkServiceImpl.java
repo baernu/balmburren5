@@ -57,6 +57,11 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
+    public void deleteWorkById(Work work) {
+        workRepo.delete(work);
+    }
+
+    @Override
     public Optional<List<Work>> getAllWorksForPeople(User user) {
         Optional<List<Work>> list = workRepo.findAllByUser(user);
         log.info("Get all Works: {} for Person: {} and startDate: {} and endDate: {}",list.get(), user);

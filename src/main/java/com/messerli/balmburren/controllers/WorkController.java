@@ -64,6 +64,12 @@ public class WorkController {
         return ResponseEntity.ok().body(workService.deleteWork(getPeople(username).get(), getDates(date).get()));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PatchMapping("work/")
+    ResponseEntity<?> deleteWorkById(@RequestBody Work work){
+        workService.deleteWorkById(work);
+        return ResponseEntity.ok().body(work);}
+
+    @CrossOrigin( allowCredentials = "true")
     @GetMapping("work/{username}")
     ResponseEntity<Optional<List<Work>>> getAllWorksForPeople(@PathVariable("username") String username) {
         return ResponseEntity.ok().body(workService.getAllWorksForPeople(getPeople(username).get()));}

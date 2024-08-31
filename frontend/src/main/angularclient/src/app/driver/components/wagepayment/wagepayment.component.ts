@@ -87,6 +87,18 @@ export class WagepaymentComponent {
     return total.toFixed(2);;
   }
 
+  async delete(work:WorkDTO) {
+    try{
+      await firstValueFrom(this.tourService.deleteWorkById(work));
+    }catch(error: any) {
+      if (error.status != 200)this.error = "Löschen hat nicht geklappt";
+    }
+    this.success = "Löschen hat geklappt";
+    setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
+
+    // this.router.navigate(['/wage_payment']);
+  }
+
 
 
 }

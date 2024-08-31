@@ -62,6 +62,9 @@ export class TourServiceService {
   public deleteWork(username: string, date: DatesDTO):Observable<WorkDTO> {
     return this.http.delete<WorkDTO>(this.workUrl + username + '/' + date.id, {withCredentials: true});}
 
+  public deleteWorkById(work: WorkDTO):Observable<WorkDTO> {
+    return this.http.patch<WorkDTO>(this.workUrl, work,{withCredentials: true});}
+
   public getAllWorksForUser(username: string):Observable<WorkDTO[]> {
     return this.http.get<WorkDTO[]>(this.workUrl + username, {withCredentials: true});}
 
