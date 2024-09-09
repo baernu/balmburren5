@@ -33,7 +33,7 @@
         <td>{{ work.endTime }}</td>
         <td>{{ work.workTime }}</td>
         <td>{{ work.description }}</td>
-        <td><button type="button" (click)='delete(work)' class="btn-light">Löschen</button></td>
+        <td><button type="button" (click)='deleteWork(work)' class="btn-light">Löschen</button></td>
       </tr>
       </tbody>
     </table>
@@ -66,4 +66,31 @@
 </div>
 <div *ngIf="success1" class="alert alert-success">
   {{ success1 }}
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped  table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Vorname</th>
+        <th scope="col">Nachname</th>
+        <th scope="col">Lohn Betrag</th>
+        <th scope="col">Lohn Auszahlung</th>
+        <th scope="col">Start Datum</th>
+        <th scope="col">End Datum</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let userBindInvoice of userBindInvoices">
+        <td>{{userBindInvoice.personInvoice.firstname}}</td>
+        <td>{{userBindInvoice.personInvoice.lastname}}</td>
+        <td>{{userBindInvoice.invoice.amount| number : '1.2-2'}}</td>
+        <td><input type="number" [(ngModel)]="userBindInvoice.invoice.paid" (change)="putInvoice(userBindInvoice.invoice)"></td>
+        <td>{{userBindInvoice.dateFrom.date| date:'fullDate' }}</td>
+        <td>{{userBindInvoice.dateTo.date| date:'fullDate' }}</td>
+        <td><button type="button" (click)='deleteUserBindInvoice(userBindInvoice)' class="btn-light">delete</button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

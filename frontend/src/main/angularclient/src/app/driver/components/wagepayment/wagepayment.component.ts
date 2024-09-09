@@ -7,6 +7,8 @@ import {UserService} from "../../../components/user/service/user-service.service
 import {Router} from "@angular/router";
 import {firstValueFrom} from "rxjs";
 import {OrderDTO} from "../../../components/user/service/orderDTO";
+import {UserBindInvoiceDTO} from "../../../components/user/service/userBindInvoiceDTO";
+import {InvoiceDTO} from "../../../components/user/service/invoiceDTO";
 
 @Component({
   selector: 'app-wagepayment',
@@ -17,6 +19,7 @@ export class WagepaymentComponent {
   dates: DatesDTO = new DatesDTO();
   works: WorkDTO[] = [];
   user: UserDTO = new UserDTO();
+  userBindInvoices: UserBindInvoiceDTO[] = [];
   enddate: DatesDTO = new DatesDTO();
   startdate: DatesDTO = new DatesDTO();
   actualdate: DatesDTO = new DatesDTO();
@@ -41,6 +44,8 @@ export class WagepaymentComponent {
     this.user = await firstValueFrom(this.userService.findUser(this.user.username));
     this.actualdate.date = new Date().toISOString().split('T')[0];
     this.actualdate = await firstValueFrom(this.tourService.createDates(this.actualdate));
+    this.userBindInvoices = await firstValueFrom(this.userService.getAllPersonBindInvoiceForDeliver(this.user));
+    this.userBindInvoices = this.userBindInvoices.sort((e1 , e2) => e1.dateTo.date.localeCompare(e2.dateTo.date));
   }
 
 
@@ -54,6 +59,7 @@ export class WagepaymentComponent {
       this.works.sort((e1: WorkDTO, e2: WorkDTO) => e1.date.date.localeCompare(e2.date.date));
       this.enddate = this.actualdate;
       this.total = this.computeTotalWork();
+      this.userBindInvoices = this.userBindInvoices.filter(e => e.dateTo.date.localeCompare(this.startdate.date));
     }catch(error: any){
       if(error.status != 200)this.error = "Etwas lief schief!";
       return;
@@ -71,6 +77,7 @@ export class WagepaymentComponent {
       this.works = await firstValueFrom(this.tourService.getAllWorksForUserandIntervall(this.user.username, this.startdate, this.enddate));
       this.works.sort((e1: WorkDTO, e2: WorkDTO) => e1.date.date.localeCompare(e2.date.date));
       this.total = this.computeTotalWork();
+      this.userBindInvoices = this.userBindInvoices.filter(e => e.dateTo.date.localeCompare(this.enddate.date));
     }catch(error: any){
       if(error.status != 200)this.error = "Etwas lief schief!";
       return;
@@ -87,7 +94,7 @@ export class WagepaymentComponent {
     return total.toFixed(2);;
   }
 
-  async delete(work:WorkDTO) {
+  async deleteWork(work:WorkDTO) {
     try{
       await firstValueFrom(this.tourService.deleteWorkById(work));
     }catch(error: any) {
@@ -97,6 +104,14 @@ export class WagepaymentComponent {
     setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
 
     // this.router.navigate(['/wage_payment']);
+  }
+
+  async putInvoice(invoice: InvoiceDTO) {
+
+  }
+
+  async deleteUserBindInvoice(userBindInvoice: UserBindInvoiceDTO) {
+
   }
 
 
