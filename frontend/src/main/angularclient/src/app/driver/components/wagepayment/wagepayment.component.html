@@ -85,7 +85,7 @@
         <td>{{userBindInvoice.personInvoice.firstname}}</td>
         <td>{{userBindInvoice.personInvoice.lastname}}</td>
         <td>{{userBindInvoice.invoice.amount| number : '1.2-2'}}</td>
-        <td><input type="number" [(ngModel)]="userBindInvoice.invoice.paid" (change)="putInvoice(userBindInvoice.invoice)"></td>
+        <td><input type="number" [(ngModel)]="userBindInvoice.invoice.paid" (change)="putInvoice(userBindInvoice)"></td>
         <td>{{userBindInvoice.dateFrom.date| date:'fullDate' }}</td>
         <td>{{userBindInvoice.dateTo.date| date:'fullDate' }}</td>
         <td><button type="button" (click)='deleteUserBindInvoice(userBindInvoice)' class="btn-light">delete</button></td>
@@ -93,4 +93,10 @@
       </tbody>
     </table>
   </div>
+</div>
+<div *ngIf="error2" class="alert alert-danger">
+  {{ error2 }}
+</div>
+<div *ngIf="success2" class="alert alert-success">
+  {{ success2 }}
 </div>

@@ -6,7 +6,6 @@ import {TourServiceService} from "../../../admin/components/tour/service/tour-se
 import {UserService} from "../../../components/user/service/user-service.service";
 import {Router} from "@angular/router";
 import {firstValueFrom} from "rxjs";
-import {OrderDTO} from "../../../components/user/service/orderDTO";
 import {UserBindInvoiceDTO} from "../../../components/user/service/userBindInvoiceDTO";
 import {InvoiceDTO} from "../../../components/user/service/invoiceDTO";
 
@@ -27,6 +26,8 @@ export class WagepaymentComponent {
   error: string = "";
   success1: string = "";
   error1: string = "";
+  success2: string = "";
+  error2: string = "";
   total: string= "";
 
   constructor(
@@ -98,7 +99,10 @@ export class WagepaymentComponent {
     try{
       await firstValueFrom(this.tourService.deleteWorkById(work));
     }catch(error: any) {
-      if (error.status != 200)this.error = "Löschen hat nicht geklappt";
+      if (error.status != 200) {
+        this.error = "Löschen hat nicht geklappt";
+        return;
+      }
     }
     this.success = "Löschen hat geklappt";
     setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
@@ -106,8 +110,19 @@ export class WagepaymentComponent {
     // this.router.navigate(['/wage_payment']);
   }
 
-  async putInvoice(invoice: InvoiceDTO) {
-
+  async putInvoice(userBindInvoice: UserBindInvoiceDTO) {
+    this.success2 = "";
+    this.error2 = "";
+    try{
+      userBindInvoice.invoice = await firstValueFrom(this.userService.putInvoice(userBindInvoice.invoice));
+    }catch(error:any){
+      if (error.status != 200) {
+        this.error2 = "Lohn Auszahlung konnte nicht aktualisiert werden!";
+        return;
+      }
+    }
+    this.success2 = "Lohn Auszahlung wurde akualisiert!";
+    setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
   }
 
   async deleteUserBindInvoice(userBindInvoice: UserBindInvoiceDTO) {

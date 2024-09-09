@@ -36,7 +36,8 @@ public class InvoiceController {
     ResponseEntity<Optional<Invoice>> putInvoice(@RequestBody Invoice invoice) {
         Optional<Invoice> invoice1 = invoiceService.getInvoice(invoice.getId());
         if (invoice1.isEmpty()) throw new NoSuchElementFoundException("Invoice not found");
-        return ResponseEntity.ok().body(invoiceService.putInvoice(invoice1.get()));}
+        invoice.setVersion(invoice1.get().getVersion());
+        return ResponseEntity.ok().body(invoiceService.putInvoice(invoice));}
 
     @CrossOrigin( allowCredentials = "true")
     @GetMapping("invoice/{id}")
