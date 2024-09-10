@@ -23,6 +23,8 @@ import {InvoiceEmailComponent} from "./components/invoice-admin/invoice-email/in
 import {
   InvoiceEmailPreviewComponent
 } from "./components/invoice-admin/invoice-email-preview/invoice-email-preview.component";
+import {DriverWorkComponent} from "./components/driver/driver-work/driver-work.component";
+import {DriverOverviewComponent} from "./components/driver-overview/driver-overview.component";
 
 const routes: Routes = [
   {path: 'admin', component: AdminDashboardComponent,
@@ -65,6 +67,10 @@ const routes: Routes = [
   {path: 'admin_invoice_email', component: InvoiceEmailComponent,
     canActivate: [AuthGuardGuard]},
   {path: 'admin_invoice_email_preview', component: InvoiceEmailPreviewComponent,
+    canActivate: [AuthGuardGuard]},
+  {path: 'driver_work', component: DriverWorkComponent,
+    canActivate: [AuthGuardGuard]},
+  {path: 'driver_overview', component: DriverOverviewComponent,
     canActivate: [AuthGuardGuard]},
 
 ];
