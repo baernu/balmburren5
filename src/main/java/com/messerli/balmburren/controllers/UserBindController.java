@@ -134,6 +134,22 @@ public class UserBindController {
     userBindService.deletePersonBindInvoiceById(personBindInvoice);
         return ResponseEntity.ok().body(Optional.ofNullable(personBindInvoice));}
 
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping("person/bind/invoice/invoice/{username}")
+    ResponseEntity<Optional<List<PersonBindInvoice>>> getAllPersonBindInvoiceForInvoice(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoiceForInvoice(getPeople(username).get()));}
+
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping("person/bind/invoice/")
+    ResponseEntity<Optional<List<PersonBindInvoice>>> getAllPersonBindInvoice() {
+        return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoice());}
+
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping("person/bind/invoice/{dateFrom}")
+    ResponseEntity<Optional<List<PersonBindInvoice>>> getAllPersonBindInvoiceDateFrom(@PathVariable("dateFrom") String dateFrom) {
+        return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoiceForDateFrom(dateFrom));}
+
+
 
     @CrossOrigin( allowCredentials = "true")
     @PostMapping("driver/bind/invoice/")
@@ -182,19 +198,19 @@ public class UserBindController {
         return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoiceForDeliver(getPeople(username).get()));}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("person/bind/invoice/invoice/{username}")
-    ResponseEntity<Optional<List<PersonBindInvoice>>> getAllPersonBindInvoiceForInvoice(@PathVariable("username") String username) {
-        return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoiceForInvoice(getPeople(username).get()));}
+    @GetMapping("driver/bind/invoice/invoice/{username}")
+    ResponseEntity<Optional<List<DriverBindInvoice>>> getAllDriverBindInvoiceForInvoice(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(userBindService.getAllDriverBindInvoiceForInvoice(getPeople(username).get()));}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("person/bind/invoice/")
-    ResponseEntity<Optional<List<PersonBindInvoice>>> getAllPersonBindInvoice() {
-        return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoice());}
+    @GetMapping("driver/bind/invoice/")
+    ResponseEntity<Optional<List<DriverBindInvoice>>> getAllDriverBindInvoice() {
+        return ResponseEntity.ok().body(userBindService.getAllDriverBindInvoice());}
 
     @CrossOrigin( allowCredentials = "true")
-    @GetMapping("person/bind/invoice/{dateFrom}")
-    ResponseEntity<Optional<List<PersonBindInvoice>>> getAllPersonBindInvoiceDateFrom(@PathVariable("dateFrom") String dateFrom) {
-        return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoiceForDateFrom(dateFrom));}
+    @GetMapping("driver/bind/invoice/{dateFrom}")
+    ResponseEntity<Optional<List<DriverBindInvoice>>> getAllDriverBindInvoiceDateFrom(@PathVariable("dateFrom") String dateFrom) {
+        return ResponseEntity.ok().body(userBindService.getAllDriverBindInvoiceForDateFrom(dateFrom));}
 
     @CrossOrigin( allowCredentials = "true")
     @PostMapping("person/bind/phone/")
