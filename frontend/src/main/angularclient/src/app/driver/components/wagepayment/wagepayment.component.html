@@ -35,6 +35,13 @@
         <td>{{ work.description }}</td>
         <td><button type="button" (click)='deleteWork(work)' class="btn-light">Löschen</button></td>
       </tr>
+      <tr>
+        <td><b>Total Stunden</b></td>
+        <td></td>
+        <td></td>
+        <td>{{ total }}</td>
+        <td><button type="button" (click)='createPersonBindInvoice()' class="btn-light">Erstelle Lohn Auszahlung</button></td>
+      </tr>
       </tbody>
     </table>
   </div>
@@ -45,28 +52,12 @@
 <div *ngIf="success" class="alert alert-success">
   {{ success }}
 </div>
-<div class="card my-5">
-  <div class="card-body">
-    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col">Total Stunden</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>{{ total }}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-<div *ngIf="error1" class="alert alert-danger">
-  {{ error1 }}
-</div>
-<div *ngIf="success1" class="alert alert-success">
-  {{ success1 }}
-</div>
+<!--<div *ngIf="error1" class="alert alert-danger">-->
+<!--  {{ error1 }}-->
+<!--</div>-->
+<!--<div *ngIf="success1" class="alert alert-success">-->
+<!--  {{ success1 }}-->
+<!--</div>-->
 <div class="card my-5">
   <div class="card-body">
     <table class="table table-bordered table-striped  table-sm">

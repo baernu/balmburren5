@@ -244,6 +244,9 @@ export class UserService {
     return this.http.delete<UserBindInvoiceDTO>(this.userBindInvoiceUrl + dateFrom.id + '/' + dateTo.id + '/' +
       invoice.username + '/' + deliver.username,{withCredentials : true});}
 
+  public deleteUserBindInvoiceById(userBindInvoice: UserBindInvoiceDTO): Observable<UserBindInvoiceDTO>{
+    return this.http.patch<UserBindInvoiceDTO>(this.userBindInvoiceUrl, userBindInvoice,{withCredentials : true});}
+
   public existUserBindInvoice(dateFrom: DatesDTO, dateTo: DatesDTO, invoice: UserDTO, deliver: UserDTO): Observable<UserBindInvoiceDTO>{
     return this.http.get<UserBindInvoiceDTO>(this.userBindInvoiceUrl + 'exist/' + dateFrom.id + '/' + dateTo.id + '/' +
       invoice.username + '/' + deliver.username,{withCredentials : true});}

@@ -25,6 +25,21 @@ public interface UserBindService {
     Optional<List<PersonBindInvoice>> getAllPersonBindInvoiceForDateFrom(String dateFrom);
     Optional<List<PersonBindInvoice>>getAllPersonBindInvoice();
     Optional<PersonBindInvoice> deletePersonBindInvoice(String dateFrom, String dateTo, User peopleInvoice, User peopleDeliver);
+
+    void deletePersonBindInvoiceById(PersonBindInvoice personBindInvoice);
+
+
+    Optional<DriverBindInvoice> saveDriverBindInvoice(DriverBindInvoice driverBindInvoice);
+    Optional<DriverBindInvoice> putDriverBindInvoice(DriverBindInvoice driverBindInvoice);
+    Optional<DriverBindInvoice> getDriverBindInvoice(String dateFrom, String dateTo, User peopleInvoice);
+    boolean existDriverBindInvoice(String dateFrom, String dateTo, User peopleInvoice);
+    Optional<List<DriverBindInvoice>> getAllDriverBindInvoiceForInvoice(User user);
+    Optional<List<DriverBindInvoice>> getAllDriverBindInvoiceForDateFrom(String dateFrom);
+    Optional<List<DriverBindInvoice>>getAllDriverBindInvoice();
+    Optional<DriverBindInvoice> deleteDriverBindInvoice(String dateFrom, String dateTo, User peopleInvoice);
+
+    void deleteDriverBindInvoiceById(DriverBindInvoice driverBindInvoice);
+
     Optional<PersonBindPhone> savePersonBindPhone(PersonBindPhone personBindPhone);
     Optional<PersonBindPhone> putPersonBindPhone(PersonBindPhone personBindPhone);
     Optional<PersonBindPhone> getPersonBindPhone(User user);

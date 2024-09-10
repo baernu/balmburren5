@@ -24,8 +24,8 @@ export class WagepaymentComponent {
   actualdate: DatesDTO = new DatesDTO();
   success: string = "";
   error: string = "";
-  success1: string = "";
-  error1: string = "";
+  // success1: string = "";
+  // error1: string = "";
   success2: string = "";
   error2: string = "";
   total: string= "";
@@ -126,9 +126,34 @@ export class WagepaymentComponent {
   }
 
   async deleteUserBindInvoice(userBindInvoice: UserBindInvoiceDTO) {
-
+    this.success2 = "";
+    this.error2 = "";
+    try{
+      await firstValueFrom(this.userService.deleteUserBindInvoiceById(userBindInvoice));
+    }catch(error:any){
+      if (error.status != 200) {
+        this.error2 = "Lohn Erfassung konnte nicht gelöscht werden!";
+        return;
+      }
+    }
+    this.success2 = "Lohn Erfassung wurde gelöscht!";
+    setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
   }
 
-
+   async createPersonBindInvoice() {
+     this.success2 = "";
+     this.error2 = "";
+     let userBindInvoice: UserBindInvoiceDTO = new UserBindInvoiceDTO();
+     try{
+       await firstValueFrom(this.userService.createUserBindInvoice(userBindInvoice));
+     }catch(error:any){
+       if (error.status != 200) {
+         this.error2 = "Lohn Erfassung konnte nicht gelöscht werden!";
+         return;
+       }
+     }
+     this.success2 = "Lohn Erfassung wurde gelöscht!";
+     setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
+   }
 
 }

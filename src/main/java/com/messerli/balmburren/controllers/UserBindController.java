@@ -129,6 +129,13 @@ public class UserBindController {
         return ResponseEntity.ok().body(userBindService.deletePersonBindInvoice(getDates(dateFrom), getDates(dateTo), getPeople(invoice).get(), getPeople(deliver).get()));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PatchMapping("person/bind/invoice/")
+    ResponseEntity<Optional<PersonBindInvoice>> deletePersonBindInvoiceById(@RequestBody PersonBindInvoice personBindInvoice) {
+    userBindService.deletePersonBindInvoiceById(personBindInvoice);
+        return ResponseEntity.ok().body(Optional.ofNullable(personBindInvoice));}
+
+
+    @CrossOrigin( allowCredentials = "true")
     @GetMapping("person/bind/invoice/deliver/{username}")
     ResponseEntity<Optional<List<PersonBindInvoice>>> getAllPersonBindInvoiceForDeliver(@PathVariable("username") String username) {
         return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoiceForDeliver(getPeople(username).get()));}

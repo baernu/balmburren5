@@ -20,13 +20,15 @@ public class UserBindServiceImpl implements UserBindService {
     private final AddressRepo addressRepo;
     private final PersonBindInvoiceRepo personBindInvoiceRepo;
     private final PersonBindPhoneRepo personBindPhoneRepo;
+    private final DriverBindInvoiceRepo driverBindInvoiceRepo;
 
-    public UserBindServiceImpl(PersonBindTourRepo personBindTourRepo, PersonBindDeliverAddressRepo personBindDeliverAddressRepo, AddressRepo addressRepo, PersonBindInvoiceRepo personBindInvoiceRepo, PersonBindPhoneRepo personBindPhoneRepo) {
+    public UserBindServiceImpl(PersonBindTourRepo personBindTourRepo, PersonBindDeliverAddressRepo personBindDeliverAddressRepo, AddressRepo addressRepo, PersonBindInvoiceRepo personBindInvoiceRepo, PersonBindPhoneRepo personBindPhoneRepo, DriverBindInvoiceRepo driverBindInvoiceRepo) {
         this.personBindTourRepo = personBindTourRepo;
         this.personBindDeliverAddressRepo = personBindDeliverAddressRepo;
         this.addressRepo = addressRepo;
         this.personBindInvoiceRepo = personBindInvoiceRepo;
         this.personBindPhoneRepo = personBindPhoneRepo;
+        this.driverBindInvoiceRepo = driverBindInvoiceRepo;
     }
 
     @Override
@@ -133,7 +135,7 @@ public class UserBindServiceImpl implements UserBindService {
     @Override
     public Optional<List<PersonBindInvoice>> getAllPersonBindInvoiceForDateFrom(String dateFrom) {
         Optional<List<PersonBindInvoice>> list = personBindInvoiceRepo.getAllByDateFrom_Date(dateFrom);
-        log.info("Get all PersonBindInvoice: {} for people invoice: {}", list.get());
+        log.info("Get all PersonBindInvoice: {}", list.get());
         return list;
     }
 
@@ -150,6 +152,73 @@ public class UserBindServiceImpl implements UserBindService {
         log.info("Deleted PersonBindInvoice: {}", personBindInvoice);
         personBindInvoiceRepo.delete(personBindInvoice.get());
         return personBindInvoice;
+    }
+
+    @Override
+    public void deletePersonBindInvoiceById(PersonBindInvoice personBindInvoice) {
+        personBindInvoiceRepo.delete(personBindInvoice);
+        log.info("Deleted PersonBindInvoice: {}", personBindInvoice);
+    }
+
+    @Override
+    public Optional<DriverBindInvoice> saveDriverBindInvoice(DriverBindInvoice driverBindInvoice) {
+        log.info("Saving DriverBindInvoice: {}", driverBindInvoice);
+        return Optional.of(driverBindInvoiceRepo.save(driverBindInvoice));
+    }
+
+    @Override
+    public Optional<DriverBindInvoice> putDriverBindInvoice(DriverBindInvoice driverBindInvoice) {
+        log.info("Updating DriverBindInvoice: {}", driverBindInvoice);
+        return Optional.of(driverBindInvoiceRepo.save(driverBindInvoice));
+    }
+
+    @Override
+    public Optional<DriverBindInvoice> getDriverBindInvoice(String dateFrom, String dateTo, User peopleInvoice) {
+        Optional<DriverBindInvoice> driverBindInvoice = driverBindInvoiceRepo.findByDateFrom_DateAndDateTo_DateAndPersonInvoice(dateFrom, dateTo, peopleInvoice);
+        log.info("Get DriverBindInvoice: {}", driverBindInvoice.get());
+        return driverBindInvoice;
+    }
+
+    @Override
+    public boolean existDriverBindInvoice(String dateFrom, String dateTo, User peopleInvoice) {
+        boolean bool = driverBindInvoiceRepo.existsByDateFrom_DateAndDateTo_DateAndPersonInvoice(dateFrom, dateTo, peopleInvoice);
+        log.info("Exist DriverBindInvoice: {}", bool);
+        return bool;
+    }
+
+    @Override
+    public Optional<List<DriverBindInvoice>> getAllDriverBindInvoiceForInvoice(User user) {
+        Optional<List<DriverBindInvoice>> list = driverBindInvoiceRepo.getAllByPersonInvoice(user);
+        log.info("Get all DriverBindInvoice: {} for people invoice: {}", list.get(), user);
+        return list;
+    }
+
+    @Override
+    public Optional<List<DriverBindInvoice>> getAllDriverBindInvoiceForDateFrom(String dateFrom) {
+        Optional<List<DriverBindInvoice>> list = driverBindInvoiceRepo.getAllByDateFrom_Date(dateFrom);
+        log.info("Get all DriverBindInvoice: {} for people invoice: {}", list.get());
+        return list;
+    }
+
+    @Override
+    public Optional<List<DriverBindInvoice>> getAllDriverBindInvoice() {
+        List<DriverBindInvoice> list = driverBindInvoiceRepo.findAll();
+        log.info("Get all DriverBindInvoice: {}", list);
+        return Optional.of(list);
+    }
+
+    @Override
+    public Optional<DriverBindInvoice> deleteDriverBindInvoice(String dateFrom, String dateTo, User peopleInvoice) {
+        Optional<DriverBindInvoice> driverBindInvoice = getDriverBindInvoice(dateFrom, dateTo, peopleInvoice);
+        log.info("Deleted DriverBindInvoice: {}", driverBindInvoice);
+        driverBindInvoiceRepo.delete(driverBindInvoice.get());
+        return driverBindInvoice;
+    }
+
+    @Override
+    public void deleteDriverBindInvoiceById(DriverBindInvoice driverBindInvoice) {
+        driverBindInvoiceRepo.delete(driverBindInvoice);
+        log.info("Deleted DriverBindInvoice: {}", driverBindInvoice);
     }
 
     @Override
