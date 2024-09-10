@@ -136,6 +136,47 @@ public class UserBindController {
 
 
     @CrossOrigin( allowCredentials = "true")
+    @PostMapping("driver/bind/invoice/")
+    ResponseEntity<Optional<DriverBindInvoice>> createDriverBindInvoice(@RequestBody DriverBindInvoice driverBindInvoice) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/driver/bind/invoice").toUriString());
+        return ResponseEntity.created(uri).body(userBindService.saveDriverBindInvoice(driverBindInvoice));}
+
+    @CrossOrigin( allowCredentials = "true")
+    @PutMapping("driver/bind/invoice/")
+    ResponseEntity<Optional<DriverBindInvoice>> putDriverBindInvoice(@RequestBody DriverBindInvoice driverBindInvoice) {
+        return ResponseEntity.ok().body(userBindService.putDriverBindInvoice(driverBindInvoice));}
+
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping("driver/bind/invoice/{dateFrom}/{dateTo}/{invoice}")
+    ResponseEntity<Optional<DriverBindInvoice>> getDriverBindInvoice(@PathVariable("dateFrom") Long dateFrom, @PathVariable("dateTo") Long dateTo,
+                                                                     @PathVariable("invoice") String invoice) {
+        Optional<DriverBindInvoice> driverBindInvoice1 = userBindService.getDriverBindInvoice(getDates(dateFrom), getDates(dateTo), getPeople(invoice).get());
+        if (driverBindInvoice1.isEmpty()) throw new NoSuchElementFoundException("DriverBindInvoice not found");
+        return ResponseEntity.ok().body(driverBindInvoice1);}
+
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping("driver/bind/invoice/exist/{dateFrom}/{dateTo}/{invoice}")
+    ResponseEntity<Boolean> existDriverBindInvoice(@PathVariable("dateFrom") Long dateFrom, @PathVariable("dateTo") Long dateTo,
+                                                   @PathVariable("invoice") String invoice) {
+        boolean bool = userBindService.existDriverBindInvoice(getDates(dateFrom), getDates(dateTo), getPeople(invoice).get());
+        return ResponseEntity.ok().body(bool);}
+
+    @CrossOrigin( allowCredentials = "true")
+    @DeleteMapping("driver/bind/invoice/{dateFrom}/{dateTo}/{invoice}")
+    ResponseEntity<Optional<DriverBindInvoice>> deleteDriverBindInvoice(@PathVariable("dateFrom") Long dateFrom, @PathVariable("dateTo") Long dateTo,
+                                                                        @PathVariable("invoice") String invoice) {
+        Optional<DriverBindInvoice> driverBindInvoice1 = userBindService.getDriverBindInvoice(getDates(dateFrom), getDates(dateTo), getPeople(invoice).get());
+        if (driverBindInvoice1.isEmpty()) throw new NoSuchElementFoundException("DriverBindInvoice not found");
+        return ResponseEntity.ok().body(userBindService.deleteDriverBindInvoice(getDates(dateFrom), getDates(dateTo), getPeople(invoice).get()));}
+
+    @CrossOrigin( allowCredentials = "true")
+    @PatchMapping("driver/bind/invoice/")
+    ResponseEntity<Optional<DriverBindInvoice>> deleteDriverBindInvoiceById(@RequestBody DriverBindInvoice driverBindInvoice) {
+        userBindService.deleteDriverBindInvoiceById(driverBindInvoice);
+        return ResponseEntity.ok().body(Optional.ofNullable(driverBindInvoice));}
+
+
+    @CrossOrigin( allowCredentials = "true")
     @GetMapping("person/bind/invoice/deliver/{username}")
     ResponseEntity<Optional<List<PersonBindInvoice>>> getAllPersonBindInvoiceForDeliver(@PathVariable("username") String username) {
         return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoiceForDeliver(getPeople(username).get()));}
