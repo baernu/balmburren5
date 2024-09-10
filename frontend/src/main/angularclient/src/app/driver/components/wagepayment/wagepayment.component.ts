@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
 import {firstValueFrom} from "rxjs";
 import {UserBindInvoiceDTO} from "../../../components/user/service/userBindInvoiceDTO";
 import { DriverBindInvoiceDTO } from 'src/app/components/user/service/driverBindInvoiceDTO';
+import {InvoiceDTO} from "../../../components/user/service/invoiceDTO";
 
 @Component({
   selector: 'app-wagepayment',
@@ -140,19 +141,27 @@ export class WagepaymentComponent {
     setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
   }
 
-   async createPersonBindInvoice() {
+   async createDriverBindInvoice() {
      this.success2 = "";
      this.error2 = "";
-     let userBindInvoice: UserBindInvoiceDTO = new UserBindInvoiceDTO();
+     let driverBindInvoice: DriverBindInvoiceDTO = new DriverBindInvoiceDTO();
+     let invoice: InvoiceDTO = new InvoiceDTO();
      try{
-       await firstValueFrom(this.userService.createUserBindInvoice(userBindInvoice));
+       invoice = await firstValueFrom(this.userService.createInvoice(invoice));
+       invoice.amount = parseFloat(this.total);
+       invoice = await firstValueFrom(this.userService.putInvoice(invoice));
+       driverBindInvoice.invoice = invoice;
+       driverBindInvoice.dateTo = this.enddate;
+       driverBindInvoice.dateFrom = this.startdate;
+       driverBindInvoice.personInvoice = this.user;
+       driverBindInvoice = await firstValueFrom(this.userService.createDriverBindInvoice(driverBindInvoice));
      }catch(error:any){
-       if (error.status != 200) {
-         this.error2 = "Lohn Erfassung konnte nicht gelöscht werden!";
+       if (error.status != 200 || 201) {
+         this.error2 = "Lohn Erfassung konnte nicht erstellt werden!";
          return;
        }
      }
-     this.success2 = "Lohn Erfassung wurde gelöscht!";
+     this.success2 = "Lohn Erfassung wurde erstellt!";
      setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
    }
 
