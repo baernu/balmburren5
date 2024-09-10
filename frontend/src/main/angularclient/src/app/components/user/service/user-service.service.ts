@@ -284,7 +284,7 @@ export class UserService {
     return this.http.delete<DriverBindInvoiceDTO>(this.driverBindInvoiceUrl + dateFrom.id + '/' + dateTo.id + '/' +
       invoice.username,{withCredentials : true});}
 
-  public deleteUDriverBindInvoiceById(driverBindInvoice: DriverBindInvoiceDTO): Observable<DriverBindInvoiceDTO>{
+  public deleteDriverBindInvoiceById(driverBindInvoice: DriverBindInvoiceDTO): Observable<DriverBindInvoiceDTO>{
     return this.http.patch<DriverBindInvoiceDTO>(this.driverBindInvoiceUrl, driverBindInvoice,{withCredentials : true});}
 
   public existDriverBindInvoice(dateFrom: DatesDTO, dateTo: DatesDTO, invoice: UserDTO): Observable<DriverBindInvoiceDTO>{
