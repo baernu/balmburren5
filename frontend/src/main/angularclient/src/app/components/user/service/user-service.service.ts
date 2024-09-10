@@ -21,6 +21,7 @@ import {UserBindPhoneDTO} from "./UserBindPhoneDTO";
 import {AddressDTO} from "./addressDTO";
 import {UserBindDeliverAddressDTO} from "./userBindDeliverAddressDTO";
 import {ReferenceDTO} from "./ReferenceDTO";
+import { DriverBindInvoiceDTO } from './driverBindInvoiceDTO';
 
 @Injectable()
 export class UserService {
@@ -40,6 +41,7 @@ export class UserService {
   private readonly userProfileOrderUrl: string;
   private readonly invoiceUrl: string;
   private readonly userBindInvoiceUrl: string;
+  private readonly driverBindInvoiceUrl: string;
   private readonly userBindPhoneUrl: string;
   private readonly addressUrl: string;
   private readonly userBindAddress: string;
@@ -64,6 +66,7 @@ export class UserService {
     this.userProfileOrderUrl = this.baseUrl + 'or/order/person/profile/';
     this.invoiceUrl = this.baseUrl + 'ic/invoice/';
     this.userBindInvoiceUrl = this.baseUrl + 'bd/person/bind/invoice/';
+    this.driverBindInvoiceUrl = this.baseUrl + 'bd/driver/bind/invoice/';
     this.userBindPhoneUrl = this.baseUrl + 'bd/person/bind/phone/';
     this.userBindAddress = this.baseUrl + 'bd/person/bind/deliveraddress/';
     this.addressUrl = this.baseUrl + 'bd/address/';
@@ -262,6 +265,42 @@ export class UserService {
 
   public getAllPersonBindInvoiceDateFrom(date: DatesDTO): Observable<UserBindInvoiceDTO[]>{
     return this.http.get<UserBindInvoiceDTO[]>(this.userBindInvoiceUrl + date.date,{withCredentials : true});}
+
+
+
+
+
+  public createDriverBindInvoice(driverBindInvoice: DriverBindInvoiceDTO): Observable<DriverBindInvoiceDTO>{
+    return this.http.post<DriverBindInvoiceDTO>(this.driverBindInvoiceUrl, driverBindInvoice,{withCredentials : true});}
+
+  public putDriverBindInvoice(driverBindInvoice: DriverBindInvoiceDTO): Observable<DriverBindInvoiceDTO>{
+    return this.http.put<DriverBindInvoiceDTO>(this.driverBindInvoiceUrl, driverBindInvoice,{withCredentials : true});}
+
+  public getDriverBindInvoice(dateFrom: DatesDTO, dateTo: DatesDTO, invoice: UserDTO): Observable<DriverBindInvoiceDTO>{
+    return this.http.get<DriverBindInvoiceDTO>(this.driverBindInvoiceUrl + dateFrom.id + '/' + dateTo.id + '/' +
+      invoice.username,{withCredentials : true});}
+
+  public deleteDriverBindInvoice(dateFrom: DatesDTO, dateTo: DatesDTO, invoice: UserDTO): Observable<DriverBindInvoiceDTO>{
+    return this.http.delete<DriverBindInvoiceDTO>(this.driverBindInvoiceUrl + dateFrom.id + '/' + dateTo.id + '/' +
+      invoice.username,{withCredentials : true});}
+
+  public deleteUDriverBindInvoiceById(driverBindInvoice: DriverBindInvoiceDTO): Observable<DriverBindInvoiceDTO>{
+    return this.http.patch<DriverBindInvoiceDTO>(this.driverBindInvoiceUrl, driverBindInvoice,{withCredentials : true});}
+
+  public existDriverBindInvoice(dateFrom: DatesDTO, dateTo: DatesDTO, invoice: UserDTO): Observable<DriverBindInvoiceDTO>{
+    return this.http.get<DriverBindInvoiceDTO>(this.driverBindInvoiceUrl + 'exist/' + dateFrom.id + '/' + dateTo.id + '/' +
+      invoice.username,{withCredentials : true});}
+
+  public getAllDriverBindInvoiceForInvoice(invoice: UserDTO): Observable<DriverBindInvoiceDTO[]>{
+    return this.http.get<DriverBindInvoiceDTO[]>(this.driverBindInvoiceUrl + 'invoice/' + invoice.username,{withCredentials : true});}
+
+  public getAllDriverBindInvoice(): Observable<DriverBindInvoiceDTO[]>{
+    return this.http.get<DriverBindInvoiceDTO[]>(this.driverBindInvoiceUrl,{withCredentials : true});}
+
+  public getAllDriverBindInvoiceDateFrom(date: DatesDTO): Observable<DriverBindInvoiceDTO[]>{
+    return this.http.get<DriverBindInvoiceDTO[]>(this.driverBindInvoiceUrl + date.date,{withCredentials : true});}
+
+
 
   public createUserBindPhone(userBindPhone: UserBindPhoneDTO): Observable<UserBindPhoneDTO>{
     return this.http.post<UserBindPhoneDTO>(this.userBindPhoneUrl, userBindPhone,{withCredentials : true});}
