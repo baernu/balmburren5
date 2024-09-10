@@ -23,7 +23,8 @@ import { EmailComponent } from './components/email/email.component';
 import { InvoiceEmailComponent } from './components/invoice-admin/invoice-email/invoice-email.component';
 import { InvoiceEmailPreviewComponent } from './components/invoice-admin/invoice-email-preview/invoice-email-preview.component';
 import { DriverWorkComponent } from './components/driver/driver-work/driver-work.component';
-import { DriverOverviewComponent } from './components/driver-overview/driver-overview.component';
+import { DriverOverviewComponent } from './components/driver/driver-overview/driver-overview.component';
+import { DriverComponent } from './components/driver/driver.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { DriverOverviewComponent } from './components/driver-overview/driver-ove
     InvoiceEmailPreviewComponent,
     DriverWorkComponent,
     DriverOverviewComponent,
+    DriverComponent,
   ],
   exports: [
     HeaderComponent

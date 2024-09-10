@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {UserDTO} from "../../../../components/user/service/userDTO";
-import {UserWithRoleDTO} from "../../../../components/user/service/userWithRoleDTO";
-import {UserService} from "../../../../components/user/service/user-service.service";
+import {UserDTO} from "../../../components/user/service/userDTO";
+import {UserWithRoleDTO} from "../../../components/user/service/userWithRoleDTO";
+import {UserService} from "../../../components/user/service/user-service.service";
 import {Router} from "@angular/router";
 import {firstValueFrom} from "rxjs";
-import {UserBindRoleDTO} from "../../../../components/user/service/userBindRoleDTO";
+import {UserBindRoleDTO} from "../../../components/user/service/userBindRoleDTO";
 
 @Component({
-  selector: 'app-driver-work',
-  templateUrl: './driver-work.component.html',
-  styleUrls: ['./driver-work.component.css']
+  selector: 'app-driver',
+  templateUrl: './driver.component.html',
+  styleUrls: ['./driver.component.css']
 })
-export class DriverWorkComponent implements OnInit {
+export class DriverComponent implements OnInit {
   users: UserDTO[] = [];
   usersWithRole: UserWithRoleDTO[] = [];
 
@@ -46,13 +46,13 @@ export class DriverWorkComponent implements OnInit {
         userWithRole.username = user.username;
         userWithRole.firstname = user.firstname;
         userWithRole.lastname = user.lastname;
-        this.usersWithRole.push(userWithRole);
+        if (userWithRole.driverIsChecked) this.usersWithRole.push(userWithRole);
       }
     }
   }
 
   driverWork(user: UserDTO) {
-    this.router.navigate(['admin_users_settings/'],
+    this.router.navigate(['driver_work/'],
       {
         queryParams: {
           param1: user.username
@@ -60,21 +60,5 @@ export class DriverWorkComponent implements OnInit {
       });
   }
 
-  userOrder(user: UserWithRoleDTO) {
-    this.router.navigate(['admin_users_order/'],
-      {
-        queryParams: {
-          param1: user.username
-        }
-      });
-  }
 
-  userOrdered(user: UserWithRoleDTO) {
-    this.router.navigate(['admin_users_ordered/'],
-      {
-        queryParams: {
-          param1: user.username
-        }
-      });
-  }
 }
