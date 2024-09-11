@@ -109,6 +109,9 @@ export class TourServiceService {
   public deleteTourDatesBindInfos(tour: TourDTO, date: DatesDTO, product: ProductDTO, detail: ProductDetailsDTO):Observable<TourDateBindInfosDTO> {
     return this.http.delete<TourDateBindInfosDTO>(this.tourDateBindInfosUrl + tour.number + '/' + date.id + '/' + product.name + '/' + detail.id, {withCredentials: true});}
 
+  public deleteTourDatesBindInfosById(tourDateBindInfosDTO: TourDateBindInfosDTO):Observable<TourDateBindInfosDTO> {
+    return this.http.patch<TourDateBindInfosDTO>(this.tourDateBindInfosUrl, tourDateBindInfosDTO, {withCredentials: true});}
+
   public createTourDateBindInfos(tourDateBindInfos: TourDateBindInfosDTO):Observable<TourDateBindInfosDTO> {
     return this.http.post<TourDateBindInfosDTO>(this.tourDateBindInfosUrl, tourDateBindInfos, {withCredentials: true});}
 

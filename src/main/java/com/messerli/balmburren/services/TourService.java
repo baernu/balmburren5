@@ -19,6 +19,9 @@ public interface TourService {
     Optional<TourBindDatesAndProductBindInfo> putTourBindDatesAndProductBindInfos(TourBindDatesAndProductBindInfo tourBindDatesAndProductBindInfo);
     Optional<TourBindDatesAndProductBindInfo> getTourBindDatesAndProductBindInfos(Tour tour, Dates date, Product product, ProductDetails productDetails);
     void deleteTourBindDatesAndProductBindInfos(Tour tour, Dates date, Product product, ProductDetails productDetails);
+
+    void deleteTourBindDatesAndProductBindInfosById(TourBindDatesAndProductBindInfo tourBindDatesAndProductBindInfo);
+
     boolean existTourBindDatesAndProductBindInfo(Tour tour, Dates date, Product product, ProductDetails productDetails);
     Optional<List<TourBindDatesAndProductBindInfo>> getAllTourBindDatesAndProductInfosForTourAndDate(Tour tour, Dates date);
     Optional<List<TourBindDatesAndProductBindInfo>> getAllTourBindDatesAndProductInfosForTourAndDateBetween(Tour tour, Dates startDate, Dates endDate);

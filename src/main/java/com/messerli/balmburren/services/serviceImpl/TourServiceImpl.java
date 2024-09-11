@@ -120,6 +120,12 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
+    public void deleteTourBindDatesAndProductBindInfosById(TourBindDatesAndProductBindInfo tourBindDatesAndProductBindInfo) {
+        tourBindDatesAndProductBindInfoRepo.delete(tourBindDatesAndProductBindInfo);
+        log.info("Deleting TourBindDatesAndProductBindInfo: {}", tourBindDatesAndProductBindInfo);
+    }
+
+    @Override
     public boolean existTourBindDatesAndProductBindInfo(Tour tour, Dates date, Product product, ProductDetails productDetails) {
         Optional<ProductBindProductDetails> productBindInfos = productService.getProductBindInfos(product, productDetails);
         boolean isExist = tourBindDatesAndProductBindInfoRepo.existsByTourAndDates_DateAndProductBindInfos(tour, date.getDate(), productBindInfos);

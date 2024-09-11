@@ -51,7 +51,13 @@ export class AddDatesComponent implements OnInit{
         }
       }
 
-      await this.router.navigate(['/admin_tour_data']);
+      // await this.router.navigate(['/admin_tour_data']);
+      await this.router.navigate(['admin_tour_data/'],
+          {
+            queryParams: {
+              param1: this.param1
+            }
+          });
     }
   }
 

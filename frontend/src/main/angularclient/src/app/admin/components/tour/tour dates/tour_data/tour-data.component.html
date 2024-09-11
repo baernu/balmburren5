@@ -11,14 +11,10 @@
       </thead>
       <tbody>
       <tr *ngFor="let tour of tours">
-        <td (click)="goTo(tour)">{{ tour.number }}</td>
+        <td (click)="goTo(tour)"><ins>{{ tour.number }}</ins></td>
       </tr>
       </tbody>
     </table>
-  </div>
-</div>
-<div class="card my-5">
-  <div class="card-body">
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
@@ -51,11 +47,17 @@
           <td>{{tourDateBindInfo.tour.number}}</td>
           <td>{{tourDateBindInfo.dates.date | date:'fullDate'}}</td>
           <td>{{tourDateBindInfo.productBindInfos.productDetails.category}}</td>
-          <button type="button" (click)='del(tourDateBindInfo )' class="btn-light">Delete PDBI</button>
+          <button type="button" (click)='del(tourDateBindInfo )' class="btn-light">Löschen</button>
         </tr>
       </tbody>
     </table>
   </div>
+</div>
+<div *ngIf="error" class="alert alert-danger">
+  {{ error }}
+</div>
+<div *ngIf="success" class="alert alert-success">
+  {{ success }}
 </div>
 <div class="card my-5">
   <div class="card-body">

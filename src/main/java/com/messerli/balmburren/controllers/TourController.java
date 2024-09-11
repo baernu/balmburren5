@@ -172,6 +172,12 @@ public class TourController {
         return ResponseEntity.ok().body(tourBindDatesAndProductBindInfo);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PatchMapping ("tour/bind/dates/product/infos/")
+    ResponseEntity<Optional<TourBindDatesAndProductBindInfo>> deleteTourBindDatesAndProductInfoById(@RequestBody TourBindDatesAndProductBindInfo tourBindDatesAndProductBindInfo) {
+        tourService.deleteTourBindDatesAndProductBindInfosById(tourBindDatesAndProductBindInfo);
+        return ResponseEntity.ok().body(Optional.ofNullable(tourBindDatesAndProductBindInfo));}
+
+    @CrossOrigin( allowCredentials = "true")
     @GetMapping ("tour/bind/dates/product/infos/exist/{tour}/{date}/{product}/{productdetail}")
     ResponseEntity<Boolean> existTourBindDatesAndProductInfo(@PathVariable("tour") String number,
                                                              @PathVariable("date") Long date,

@@ -20,10 +20,12 @@ export class TourDataComponent implements OnInit{
   tour: TourDTO;
   tourBindDatesDTOs: TourBindDatesDTO[] = [];
   dates: Date[] = [];
-  param1:string = "";
+  param1: string = "";
   productBindInfos: ProductBindInfosDTO[] = [];
   productBindInfosForDate: ProductBindInfosDTO[] = [];
   tourDatesBindInfos: TourDateBindInfosDTO[] = [];
+  error: string = "";
+  success: string = "";
 
 
   constructor(
@@ -37,6 +39,11 @@ export class TourDataComponent implements OnInit{
 
 
   async ngOnInit() {
+    let param= this.route.snapshot.queryParamMap.get('param1');
+    if (param) {
+        this.param1 = param;
+        this.tour = await firstValueFrom(this.tourService.getTour(param));
+    }
     this.tours = await firstValueFrom(this.tourService.getTours());
     this.productBindInfos = await firstValueFrom(this.productService.getAllProductBindInfos());
     this.productBindInfos = this.checkIfProductBindInfosActive(this.productBindInfos);
@@ -45,7 +52,7 @@ export class TourDataComponent implements OnInit{
     this.tourDatesBindInfos = await firstValueFrom(this.tourService.getAllTourDatesBindInfos());
     this.tourDatesBindInfos.sort((t1:TourDateBindInfosDTO, t2: TourDateBindInfosDTO) => t1.productBindInfos.productDetails.category.localeCompare(t2.productBindInfos.productDetails.category));
     this.tourDatesBindInfos.sort((t1:TourDateBindInfosDTO, t2: TourDateBindInfosDTO) => t1.dates.date.localeCompare(t2.dates.date));
-
+    if(this.param1 != "")this.goTo(this.tour);
   }
 
   checkIfProductBindInfosActive(productBindInfos: ProductBindInfosDTO[]) {
@@ -82,7 +89,7 @@ export class TourDataComponent implements OnInit{
 
   async updateDateArray() {
     this.dates = [];
-    this.tourBindDatesDTOs = await firstValueFrom(this.tourService.getAllTourBindDatesForTour(this.param1));
+    if (this.param1 != "") this.tourBindDatesDTOs = await firstValueFrom(this.tourService.getAllTourBindDatesForTour(this.param1));
     this.tourBindDatesDTOs.forEach(d => {
       if (d.dates.date != "") {
         this.dates.push(new Date(d.dates.date));
@@ -104,9 +111,19 @@ export class TourDataComponent implements OnInit{
   }
 
   async del(tourDateBindInfo: TourDateBindInfosDTO) {
-    await firstValueFrom(this.tourService.deleteTourDatesBindInfos(tourDateBindInfo.tour, tourDateBindInfo.dates,
-      tourDateBindInfo.productBindInfos.product, tourDateBindInfo.productBindInfos.productDetails));
-    this.tourDatesBindInfos = this.tourDatesBindInfos.filter(t => t != tourDateBindInfo);
+    this.error = "";
+    this.success = "";
+    try{
+        await firstValueFrom(this.tourService.deleteTourDatesBindInfosById(tourDateBindInfo));
+        this.tourDatesBindInfos = this.tourDatesBindInfos.filter(t => t != tourDateBindInfo);
+    }catch(error: any){
+      if(error.status != 200) {
+          this.error = "Löschen hat nicht geklappt!";
+          return;
+      }
+    }
+      this.success = "Löschen hat geklappt";
+      setTimeout(() => { this.router.navigate(['/admin_tour_data']);}, 1000);
   }
 
  async addInfos(date: Date) {
