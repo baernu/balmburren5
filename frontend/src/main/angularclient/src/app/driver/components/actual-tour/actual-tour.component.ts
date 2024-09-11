@@ -405,20 +405,6 @@ export class ActualTourComponent {
 
   }
 
-  // async findUserAddress(username: string) {
-  //   let user = await firstValueFrom( this.userService.findUser(username));
-  //   let userBindAddress = await firstValueFrom( this.userService.getUserBindAddress(user));
-  //   this.userBindAddress.push(userBindAddress);
-  //   if(userBindAddress) return true;
-  //   else return false;
-  // }
-
-  // getUserBindAddress(username:string) {
-  //   let userBindAddress = this.userBindAddress.find(e => e.user.username == username);
-  //   if (userBindAddress) return userBindAddress;
-  //   else return new UserBindDeliverAddressDTO();
-  // }
-
   async pushUserOrderTourAddress() {
     this.userOrderTourAddress = [];
     for (let order of this.orders) {

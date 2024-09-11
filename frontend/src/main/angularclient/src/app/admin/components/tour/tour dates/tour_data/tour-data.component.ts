@@ -52,6 +52,7 @@ export class TourDataComponent implements OnInit{
     this.tourDatesBindInfos = await firstValueFrom(this.tourService.getAllTourDatesBindInfos());
     this.tourDatesBindInfos.sort((t1:TourDateBindInfosDTO, t2: TourDateBindInfosDTO) => t1.productBindInfos.productDetails.category.localeCompare(t2.productBindInfos.productDetails.category));
     this.tourDatesBindInfos.sort((t1:TourDateBindInfosDTO, t2: TourDateBindInfosDTO) => t1.dates.date.localeCompare(t2.dates.date));
+    this.tourDatesBindInfos = this.tourDatesBindInfos.filter(e => this.compare(new Date(e.dates.date)));
     if(this.param1 != "")this.goTo(this.tour);
   }
 
@@ -89,9 +90,12 @@ export class TourDataComponent implements OnInit{
 
   async updateDateArray() {
     this.dates = [];
-    if (this.param1 != "") this.tourBindDatesDTOs = await firstValueFrom(this.tourService.getAllTourBindDatesForTour(this.param1));
+    if (this.param1 != "") {
+        this.tourBindDatesDTOs = await firstValueFrom(this.tourService.getAllTourBindDatesForTour(this.param1));
+        this.tourBindDatesDTOs.filter(e => this.compare(new Date(e.dates.date)));
+    }
     this.tourBindDatesDTOs.forEach(d => {
-      if (d.dates.date != "") {
+      if (d.dates.date != "" && this.compare(new Date(d.dates.date))) {
         this.dates.push(new Date(d.dates.date));
       }});
     }
@@ -123,7 +127,10 @@ export class TourDataComponent implements OnInit{
       }
     }
       this.success = "Löschen hat geklappt";
-      setTimeout(() => { this.router.navigate(['/admin_tour_data']);}, 1000);
+      setTimeout(() => {
+        this.success = "";
+        this.router.navigate(['/admin_tour_data']);}, 1000);
+
   }
 
  async addInfos(date: Date) {
@@ -147,4 +154,10 @@ export class TourDataComponent implements OnInit{
         await firstValueFrom(this.tourService.createTourDateBindInfos(tourDateBindInfo));
     await this.ngOnInit();
   }
+
+    compare(date: Date): boolean {
+        let now1 = new Date().toISOString().split('T')[0]
+        date = new Date(date);
+        return date.toISOString().split('T')[0] >= now1;
+    }
 }

@@ -24,12 +24,13 @@
       </thead>
       <tbody>
       <tr *ngFor="let date of (dates)">
-        <td (click)="addInfos(date)">{{ date | date:'fullDate' }}</td>
-        <button type="button" (click)='delete(date)' class="btn-light">Delete Date</button>
+        <td>{{ date | date:'fullDate' }}</td>
+        <td><button type="button" (click)="addInfos(date)" class="btn-light">Produkte Laden</button></td>
+        <td><button type="button" (click)='delete(date)' class="btn-light">Datum Löschen</button></td>
       </tr>
       </tbody>
     </table>
-    <button type="button" (click)='addDates(tour)' class="btn-light">new Dates</button>
+    <button type="button" (click)='addDates(tour)' class="btn-light">Neues Datum</button>
   </div>
 </div>
 <div class="card my-5">
