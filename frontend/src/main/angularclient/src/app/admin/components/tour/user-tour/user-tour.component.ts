@@ -735,4 +735,9 @@ export class UserTourComponent {
     window.open('https://www.google.com/maps/search/?api=1&query=' + combi);
 
   }
+
+  changeValue(userOrderTourAddress: UserOrderTourAddressDTO){
+    userOrderTourAddress.order.quantityDelivered = userOrderTourAddress.order.quantityOrdered;
+    return userOrderTourAddress.order.quantityOrdered;
+  }
 }

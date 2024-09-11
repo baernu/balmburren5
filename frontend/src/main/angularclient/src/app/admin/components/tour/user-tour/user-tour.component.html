@@ -46,7 +46,7 @@
           <td>{{ userOrderTourAddress.order.productBindInfos.productDetails.category}}</td>
           <td>{{userOrderTourAddress.order.quantityOrdered}}</td>
           <td [ngStyle]="{'color': 'red'}"> {{userOrderTourAddress.order.text}}</td>
-          <td><input input class="form-control input-sm" type="number"  min="0" [(ngModel)]="name.value ? userOrderTourAddress.order.quantityOrdered:userOrderTourAddress.order.quantityDelivered"></td>
+          <td><input input class="form-control input-sm" type="number"  min="0" [(ngModel)]="name.value ? changeValue(userOrderTourAddress):userOrderTourAddress.order.quantityDelivered"></td>
           <td (click)="googleMaps(userOrderTourAddress)" title="Google Maps"><ins>{{userOrderTourAddress.address.street}} {{userOrderTourAddress.address.number}} {{userOrderTourAddress.address.plz}}</ins></td>
         </tr>
         </tbody>
