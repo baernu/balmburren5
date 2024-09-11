@@ -1,5 +1,135 @@
 <app-admin-header></app-admin-header>
 <router-outlet></router-outlet>
+<!--<div class="card my-5">-->
+<!--  <div class="card-body">-->
+<!--    <span style="display:block; height:50px;"></span>-->
+<!--    <table class="table table-bordered table-striped table-hover table-responsive table-sm">-->
+<!--      <thead class="thead-dark">-->
+<!--      <tr>-->
+<!--        <th scope="col">Datum</th>-->
+<!--        <th scope="col">Tour</th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr *ngFor="let tour of tours">-->
+<!--        <td><input type="date" [(ngModel)]="dates.date" (change)="showOrders(tour)"></td>-->
+<!--        <td>{{ tour.number }}</td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<div class="card my-5">-->
+<!--  <div class="card-body">-->
+<!--    <table class="table table-bordered table-striped table-hover table-responsive table-sm">-->
+<!--      <thead class="thead-dark">-->
+<!--      <tr>-->
+<!--        <th scope="col">Tour Number</th>-->
+<!--        <th scope="col">Tour Position</th>-->
+<!--        <th scope="col">Date</th>-->
+<!--        <th scope="col">Name</th>-->
+<!--        <th scope="col">Product</th>-->
+<!--        <th scope="col">Category</th>-->
+<!--        <th scope="col">Ordered</th>-->
+<!--        <th scope="col">Text</th>-->
+<!--        <th scope="col">Delivered</th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr *ngFor="let order of orders">-->
+<!--        <td>{{ order.tour.number}}</td>-->
+<!--        <td *ngIf="findUserBind(order)">{{ userBindTour.position}}</td>-->
+<!--        <td>{{ order.date.date |date: 'fullDate'}}</td>-->
+<!--        <td>{{ order.deliverPeople.firstname}} {{order.deliverPeople.lastname}}</td>-->
+<!--        <td>{{ order.productBindInfos.product.name}}</td>-->
+<!--        <td>{{ order.productBindInfos.productDetails.category}}</td>-->
+<!--        <td>{{ order.quantityOrdered}}</td>-->
+<!--        <td [ngStyle]="{'color': 'red'}"> {{order.text}}</td>-->
+<!--        <td><input input class="form-control input-sm" type="number"  min="0" [(ngModel)]="order.quantityDelivered"></td>-->
+<!--&lt;!&ndash;        <button type="button"(click)='apply()' class="btn-dark">apply</button>&ndash;&gt;-->
+<!--      </tr>-->
+<!--      <button type="button"(click)='apply()' class="btn-light">apply</button>-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<div *ngIf="error" class="alert alert-danger">-->
+<!--  {{ error }}-->
+<!--</div>-->
+<!--<div *ngIf="success" class="alert alert-success">-->
+<!--  {{ success }}-->
+<!--</div>-->
+<!--<div class="card my-5">-->
+<!--  <div class="card-body">-->
+<!--    <table class="table table-bordered table-striped table-hover table-responsive table-sm">-->
+<!--      <thead class="thead-dark">-->
+<!--      <tr>-->
+<!--        <th scope="col">Total Milch</th>-->
+<!--        <th scope="col">Total Eier</th>-->
+<!--        <th scope="col">Date</th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr>-->
+<!--        <td>{{ totalMilk}}</td>-->
+<!--        <td>{{ totalEggs}}</td>-->
+<!--        <td>{{ dates.date |date: 'fullDate'}}</td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--    <div><button type="button"(click)='commitAll()' class="btn-light">commit All</button></div>-->
+<!--    <div><button type="button"(click)='reset()' class="btn-light">reset All</button></div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<div *ngIf="error1" class="alert alert-danger">-->
+<!--  {{ error1 }}-->
+<!--</div>-->
+<!--<div *ngIf="success1" class="alert alert-success">-->
+<!--  {{ success1 }}-->
+<!--</div>-->
+<!--<div class="card my-5">-->
+<!--  <div class="card-body">-->
+<!--    <div class="input-group mb-3 w-100 h-25">-->
+<!--      <form (ngSubmit)="onSubmit()" #Form="ngForm">-->
+<!--        <div class="form-group">-->
+<!--          <label for="toEmail">Email To</label>-->
+<!--          <input type="text" [(ngModel)]="emailData.toEmail"-->
+<!--                 class="form-control"-->
+<!--                 id="toEmail"-->
+<!--                 name="toEmail"-->
+<!--                 placeholder="Enter Email To"-->
+<!--                 required #toEmail="ngModel">-->
+<!--        </div>-->
+<!--        <div [hidden]="!toEmail.pristine" class="alert alert-danger">Email To is required</div>-->
+<!--        <button type="submit" [disabled]="!Form.form.valid"-->
+<!--                class="btn btn-info">send Data</button>-->
+<!--    </form>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div *ngIf="error2" class="alert alert-danger">-->
+<!--  {{ error2 }}-->
+<!--</div>-->
+<!--<div class="card my-5">-->
+<!--  <div class="card-body">-->
+<!--    <div class="input-group mb-3 w-100 h-25">-->
+<!--      <form (ngSubmit)="sendData()" #Form1="ngForm">-->
+<!--        <div class="form-group">-->
+<!--          <div class="form-group">-->
+<!--            <label for="file">File</label>-->
+<!--            <input type="file" [(ngModel)]="emailData.file"-->
+<!--                   class="form-control"-->
+<!--                   id="file"-->
+<!--                   name="file" (change)="uploadFile($event)">-->
+<!--          </div>-->
+<!--          &lt;!&ndash;          <input type="file" id="file" name="file" onchange="add(event)"/>&ndash;&gt;-->
+<!--          <button type="submit" [disabled]="!Form1.form.valid"-->
+<!--                  class="btn btn-info">upload Retour Data</button>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 <div class="card my-5">
   <div class="card-body">
     <span style="display:block; height:50px;"></span>
@@ -24,32 +154,34 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Tour Number</th>
-        <th scope="col">Tour Position</th>
-        <th scope="col">Date</th>
-        <th scope="col">Name</th>
-        <th scope="col">Product</th>
-        <th scope="col">Category</th>
+        <th scope="col">Pos</th>
+        <th scope="col">Datum</th>
+        <th scope="col">Produkt</th>
+        <th scope="col">Kategorie</th>
         <th scope="col">Ordered</th>
         <th scope="col">Text</th>
         <th scope="col">Delivered</th>
+        <th scope="col">Adresse</th>
       </tr>
       </thead>
-      <tbody>
-      <tr *ngFor="let order of orders">
-        <td>{{ order.tour.number}}</td>
-        <td *ngIf="findUserBind(order)">{{ userBindTour.position}}</td>
-        <td>{{ order.date.date |date: 'fullDate'}}</td>
-        <td>{{ order.deliverPeople.firstname}} {{order.deliverPeople.lastname}}</td>
-        <td>{{ order.productBindInfos.product.name}}</td>
-        <td>{{ order.productBindInfos.productDetails.category}}</td>
-        <td>{{ order.quantityOrdered}}</td>
-        <td [ngStyle]="{'color': 'red'}"> {{order.text}}</td>
-        <td><input input class="form-control input-sm" type="number"  min="0" [(ngModel)]="order.quantityDelivered"></td>
-<!--        <button type="button"(click)='apply()' class="btn-dark">apply</button>-->
-      </tr>
-      <button type="button"(click)='apply()' class="btn-light">apply</button>
-      </tbody>
+      <!--      <tbody>-->
+      <div *ngFor="let child of categories">
+
+        <span>{{child.category}}</span>
+        <tbody>
+        <tr *ngFor="let userOrderTourAddress of child.products">
+          <td>{{ userOrderTourAddress.userbindtour.position}}</td>
+          <td>{{ userOrderTourAddress.order.date.date |date}}</td>
+          <td>{{ userOrderTourAddress.order.productBindInfos.product.name}}</td>
+          <td>{{ userOrderTourAddress.order.productBindInfos.productDetails.category}}</td>
+          <td>{{ userOrderTourAddress.order.quantityOrdered}}</td>
+          <td [ngStyle]="{'color': 'red'}"> {{userOrderTourAddress.order.text}}</td>
+          <td><input input class="form-control input-sm" type="number"  min="0" [(ngModel)]="userOrderTourAddress.order.quantityDelivered"></td>
+          <td (click)="googleMaps(userOrderTourAddress)" title="Google Maps">{{userOrderTourAddress.address.street}} {{userOrderTourAddress.address.number}} {{userOrderTourAddress.address.plz}}</td>
+        </tr>
+        </tbody>
+      </div>
+      <button type="button" (click)='apply()' class="btn-light">Speichern</button>
     </table>
   </div>
 </div>
@@ -77,8 +209,8 @@
       </tr>
       </tbody>
     </table>
-    <div><button type="button"(click)='commitAll()' class="btn-light">commit All</button></div>
-    <div><button type="button"(click)='reset()' class="btn-light">reset All</button></div>
+    <!--    <div><button type="button"(click)='commitAll()' class="btn-light">Alle Speichern</button></div>-->
+    <div><button type="button"(click)='reset()' class="btn-light">Alle zurücksetzen</button></div>
   </div>
 </div>
 <div *ngIf="error1" class="alert alert-danger">
@@ -100,20 +232,23 @@
                  placeholder="Enter Email To"
                  required #toEmail="ngModel">
         </div>
-        <div [hidden]="!toEmail.pristine" class="alert alert-danger">Email To is required</div>
+        <div [hidden]="!toEmail.pristine" class="alert alert-danger">Email To ist nötig</div>
         <button type="submit" [disabled]="!Form.form.valid"
-                class="btn btn-info">send Data</button>
-    </form>
+                class="btn btn-info">Email senden</button>
+      </form>
     </div>
-</div>
+  </div>
 </div>
 <div *ngIf="error2" class="alert alert-danger">
   {{ error2 }}
 </div>
+<div *ngIf="success2" class="alert alert-success">
+  {{ success2 }}
+</div>
 <div class="card my-5">
   <div class="card-body">
     <div class="input-group mb-3 w-100 h-25">
-      <form (ngSubmit)="sendData()" #Form1="ngForm">
+      <form #Form1="ngForm">
         <div class="form-group">
           <div class="form-group">
             <label for="file">File</label>
@@ -123,13 +258,18 @@
                    name="file" (change)="uploadFile($event)">
           </div>
           <!--          <input type="file" id="file" name="file" onchange="add(event)"/>-->
-          <button type="submit" [disabled]="!Form1.form.valid"
-                  class="btn btn-info">upload Retour Data</button>
+          <!--          <button type="submit" [disabled]="!Form1.form.valid"-->
+          <!--                  class="btn btn-info">Retour Daten speichern</button>-->
         </div>
       </form>
     </div>
+    <div *ngIf="error3" class="alert alert-danger">
+      {{ error3 }}
+    </div>
+    <div *ngIf="success3" class="alert alert-success">
+      {{ success3 }}
+    </div>
   </div>
 </div>
-
 
 

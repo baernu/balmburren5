@@ -78,7 +78,11 @@ export class ActualTourComponent {
         return;
       }
     }
-    this.success = "Orders wurden gespeichert!"
+    this.success = "Orders wurden gespeichert!";
+    setTimeout(() => {
+      this.success = "";
+      return;
+    }, 1000);
   }
 
   async goTo(tour: TourDTO) {
@@ -191,6 +195,10 @@ export class ActualTourComponent {
       if (error.status != 200) this.error2 = "Email konnte nicht gesendet werden!";
     }
     this.success2 = "Email konnte gesendet werden!";
+    setTimeout(() => {
+      this.success2 = "";
+      return;
+    }, 1000);
   }
 
   handleChunk(buf: Uint8Array) {
@@ -265,8 +273,12 @@ export class ActualTourComponent {
            return;
          }
        }
-       this.success3 = "Upload hat funktioniert!";
-       this.success ="";
+    this.success3 = "Upload hat funktioniert!";
+    setTimeout(() => {
+      this.success3 = "";
+      return;
+    }, 1000);
+    this.success ="";
   }
 
 
@@ -361,11 +373,11 @@ export class ActualTourComponent {
     this.success1 ="";
     this.error1 = "";
     this.counter++;
-    if (this.counter == 7)
+    if (this.counter == 7){
       for (let userOrderTourAddress of this.userOrderTourAddress) {
         let order = userOrderTourAddress.order;
         order = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product, order.productBindInfos.productDetails,
-          order.date, order.tour));
+            order.date, order.tour));
         order.quantityDelivered = 0;
         try {
           userOrderTourAddress.order = await firstValueFrom(this.userService.putOrder(order));
@@ -375,9 +387,19 @@ export class ActualTourComponent {
           return;
         }
         this.success1 = "Reset war erfolgreich!";
+        setTimeout(() => {
+          this.success1 = "";
+          return;
+        }, 1000);
         this.apply();
-        // await this.showOrders();
       }
+      this.counter ++;
+    }
+    this.error1 = "Klicke noch " + (7-this.counter) + " mal um zu löschen";
+    setTimeout(() => {
+      this.error1 = "";
+      return;}, 1000);
+
   }
 
   compare(date: Date): boolean {
