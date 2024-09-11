@@ -260,7 +260,6 @@ export class ActualTourComponent {
         }
       }
       this.updateOrders(orders);
-      // this.orders = orders;
     }
   }
 
@@ -350,8 +349,7 @@ export class ActualTourComponent {
         order.quantityDelivered = 0;
         try {
           userOrderTourAddress.order = await firstValueFrom(this.userService.putOrder(order));
-        } catch (error) {
-          // @ts-ignore
+        } catch (error: any) {
           if (error.status !== 200) this.error1 = "Das Zurücksetzen hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
           return;
         }
@@ -419,6 +417,11 @@ export class ActualTourComponent {
     let combi = lat + ',' + lon;
     window.open('https://www.google.com/maps/search/?api=1&query=' + combi);
 
+  }
+
+  changeValue(userOrderTourAddress: UserOrderTourAddressDTO){
+    userOrderTourAddress.order.quantityDelivered = userOrderTourAddress.order.quantityOrdered;
+    return userOrderTourAddress.order.quantityOrdered;
   }
 }
 

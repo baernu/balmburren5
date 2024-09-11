@@ -665,8 +665,7 @@ export class UserTourComponent {
         order.quantityDelivered = 0;
         try {
           userOrderTourAddress.order = await firstValueFrom(this.userService.putOrder(order));
-        } catch (error) {
-          // @ts-ignore
+        } catch (error:any) {
           if (error.status !== 200) this.error1 = "Das Zurücksetzen hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
           return;
         }

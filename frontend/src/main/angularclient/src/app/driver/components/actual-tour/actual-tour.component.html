@@ -34,9 +34,9 @@
         <th scope="col">Adresse</th>
       </tr>
       </thead>
-<!--      <tbody>-->
       <div *ngFor="let child of categories">
-
+        <span><input class="form-check-input" type="checkbox" name="{{child.category}}" #name="ngModel" ngModel></span>
+        <span style="display:block; width:50px;"></span>
         <span>{{child.category}}</span>
         <tbody>
         <tr *ngFor="let userOrderTourAddress of child.products">
@@ -44,9 +44,9 @@
           <td>{{ userOrderTourAddress.order.date.date |date}}</td>
           <td>{{ userOrderTourAddress.order.productBindInfos.product.name}}</td>
           <td>{{ userOrderTourAddress.order.productBindInfos.productDetails.category}}</td>
-          <td>{{ userOrderTourAddress.order.quantityOrdered}}</td>
+          <td>{{userOrderTourAddress.order.quantityOrdered}}</td>
           <td [ngStyle]="{'color': 'red'}"> {{userOrderTourAddress.order.text}}</td>
-          <td><input input class="form-control input-sm" type="number"  min="0" [(ngModel)]="userOrderTourAddress.order.quantityDelivered"></td>
+          <td><input input class="form-control input-sm" type="number"  min="0" [(ngModel)]="name.value ? changeValue(userOrderTourAddress):userOrderTourAddress.order.quantityDelivered"></td>
           <td (click)="googleMaps(userOrderTourAddress)" title="Google Maps"><ins>{{userOrderTourAddress.address.street}} {{userOrderTourAddress.address.number}} {{userOrderTourAddress.address.plz}}</ins></td>
         </tr>
         </tbody>
@@ -79,7 +79,6 @@
       </tr>
       </tbody>
     </table>
-<!--    <div><button type="button"(click)='commitAll()' class="btn-light">Alle Speichern</button></div>-->
     <div><button type="button"(click)='reset()' class="btn-light">Alle zurücksetzen</button></div>
   </div>
 </div>
@@ -127,9 +126,6 @@
                    id="file"
                    name="file" (change)="uploadFile($event)">
           </div>
-          <!--          <input type="file" id="file" name="file" onchange="add(event)"/>-->
-<!--          <button type="submit" [disabled]="!Form1.form.valid"-->
-<!--                  class="btn btn-info">Retour Daten speichern</button>-->
         </div>
       </form>
     </div>
