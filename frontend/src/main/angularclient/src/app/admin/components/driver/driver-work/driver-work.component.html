@@ -6,30 +6,30 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Username</th>
-        <th scope="col">Firstname</th>
-        <th scope="col">Lastname</th>
-        <th scope="col">Admin</th>
-        <th scope="col">Driver</th>
-        <th scope="col">User</th>
+        <th scope="col">Datum</th>
+        <th scope="col">Startzeit</th>
+        <th scope="col">Endzeit</th>
+        <th scope="col">Arbeitsstunden</th>
+        <th scope="col">Text</th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let user of usersWithRole">
-        <td (click)="driverWork(user)" title="Daten...">{{ user.username }}</td>
-        <td>{{user.firstname}}</td>
-        <td>{{ user.lastname }}</td>
-        <td><div class="form-check">
-          <input class="form-check-input" type="checkbox" value="{{user.driverIsChecked}}" onclick="return false" [ngModel]="user.adminIsChecked">
-        </div></td>
-        <td><div class="form-check">
-          <input class="form-check-input" type="checkbox" value="{{user.driverIsChecked}}" onclick="return false" [(ngModel)]="user.driverIsChecked">
-        </div></td>
-        <td><div class="form-check">
-          <input class="form-check-input" type="checkbox" value="{{user.userIsChecked}}" onclick="return false" [(ngModel)]="user.userIsChecked">
-        </div></td>
+      <tr>
+        <td><input type="date" [(ngModel)]="dates.date" (change)="showWork()"></td>
+        <td><input type="time" [(ngModel)]="work.startTime"></td>
+        <td><input type="time" [(ngModel)]="work.endTime" (change)="computeWorktime()"></td>
+        <td><input type="number" [(ngModel)]="work.workTime"></td>
+        <td><input type="text" [(ngModel)]="work.description"></td>
       </tr>
       </tbody>
+      <button type="button" (click)='apply()' class="btn-light">Speichern</button>
+      <button type="button" (click)='clear()' class="btn-light">Löschen</button>
     </table>
   </div>
+</div>
+<div *ngIf="error" class="alert alert-danger">
+  {{ error }}
+</div>
+<div *ngIf="success" class="alert alert-success">
+  {{ success }}
 </div>
