@@ -6,25 +6,14 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Date</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td><input type="date" [(ngModel)]="dates.date"></td>
-        <button type="button" (click)='showOrders()' class="btn-light">show Orders</button>
-      </tr>
-      </tbody>
-    </table>
-    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col">Tour Nummer</th>
+        <th scope="col">Datum</th>
+        <th scope="col">Tour</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let tour of tours">
-        <td (click)="goTo(tour)">{{ tour.number }}</td>
+        <td><input type="date" [(ngModel)]="dates.date" (change)="showOrders(tour)"></td>
+        <td>{{ tour.number }}</td>
       </tr>
       </tbody>
     </table>

@@ -115,8 +115,9 @@ export class UserTourComponent {
     else return false;
   }
 
-  async showOrders() {
-    await this.goTo(this.tour);
+  async showOrders(tour: TourDTO) {
+    this.tour = tour;
+    await this.goTo(tour);
   }
 
   async onSubmit() {
@@ -311,7 +312,7 @@ export class UserTourComponent {
           return;
         }
         this.success1 = "Speichern war erfolgreich!";
-        await this.showOrders();
+        await this.showOrders(this.tour);
       }
   }
 
@@ -331,7 +332,7 @@ export class UserTourComponent {
         }
         this.success1 = "Reset war erfolgreich!";
 
-        await this.showOrders();
+        await this.showOrders(this.tour);
       }
   }
 }
