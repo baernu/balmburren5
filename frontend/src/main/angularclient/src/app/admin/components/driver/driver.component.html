@@ -16,8 +16,8 @@
       </thead>
       <tbody>
       <tr *ngFor="let user of usersWithRole">
-        <td (click)="driverWork(user)" title="Arbeitszeit erfassen">{{ user.username }}</td>
-        <td (click)="driverOverview(user)" title="Lohnauszahlungen">{{user.firstname}}</td>
+        <td (click)="driverWork(user)" title="Arbeitszeit erfassen"><ins>{{ user.username }}</ins></td>
+        <td (click)="driverOverview(user)" title="Lohnauszahlungen"><ins>{{user.firstname}}</ins></td>
         <td>{{ user.lastname }}</td>
         <td><div class="form-check">
           <input class="form-check-input" type="checkbox" value="{{user.driverIsChecked}}" onclick="return false" [ngModel]="user.adminIsChecked">
