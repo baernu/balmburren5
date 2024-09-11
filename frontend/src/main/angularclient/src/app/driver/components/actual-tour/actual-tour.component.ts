@@ -132,8 +132,9 @@ export class ActualTourComponent {
   }
 
 
-  async showOrders() {
-    await this.goTo(this.tour);
+  async showOrders(tour: TourDTO) {
+    await this.goTo(tour);
+    this.tour = tour;
     this.showGroup();
 
   }
