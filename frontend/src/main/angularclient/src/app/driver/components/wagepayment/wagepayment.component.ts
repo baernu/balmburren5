@@ -6,9 +6,7 @@ import {TourServiceService} from "../../../admin/components/tour/service/tour-se
 import {UserService} from "../../../components/user/service/user-service.service";
 import {Router} from "@angular/router";
 import {firstValueFrom} from "rxjs";
-import {UserBindInvoiceDTO} from "../../../components/user/service/userBindInvoiceDTO";
 import { DriverBindInvoiceDTO } from 'src/app/components/user/service/driverBindInvoiceDTO';
-import {InvoiceDTO} from "../../../components/user/service/invoiceDTO";
 
 @Component({
   selector: 'app-wagepayment',
@@ -25,10 +23,6 @@ export class WagepaymentComponent {
   actualdate: DatesDTO = new DatesDTO();
   success: string = "";
   error: string = "";
-  // success1: string = "";
-  // error1: string = "";
-  // success2: string = "";
-  // error2: string = "";
   total: string= "";
   count: number = 0;
 
@@ -48,8 +42,6 @@ export class WagepaymentComponent {
     this.actualdate.date = new Date().toISOString().split('T')[0];
     this.actualdate = await firstValueFrom(this.tourService.createDates(this.actualdate));
     this.startSetting();
-    // this.driverBindInvoices = await firstValueFrom(this.userService.getAllDriverBindInvoiceForInvoice(this.user));
-    // this.driverBindInvoices = this.driverBindInvoices.sort((e1 , e2) => e1.dateTo.date.localeCompare(e2.dateTo.date));
   }
   async startSetting() {
     this.driverBindInvoices = await firstValueFrom(this.userService.getAllDriverBindInvoiceForInvoice(this.user));
@@ -88,7 +80,6 @@ export class WagepaymentComponent {
       this.works = await firstValueFrom(this.tourService.getAllWorksForUserandIntervall(this.user.username, this.startdate, this.enddate));
       this.works.sort((e1: WorkDTO, e2: WorkDTO) => e1.date.date.localeCompare(e2.date.date));
       this.total = this.computeTotalWork();
-      // this.driverBindInvoices = this.driverBindInvoices.filter(e => e.dateTo.date.localeCompare(this.enddate.date));
     }catch(error: any){
       if(error.status != 200)this.error = "Etwas lief schief!";
       return;
@@ -126,59 +117,4 @@ export class WagepaymentComponent {
       this.error = "";
       return;}, 1000);
   }
-
-  // async putInvoice(driverBindInvoice: DriverBindInvoiceDTO) {
-  //   this.success2 = "";
-  //   this.error2 = "";
-  //   try{
-  //     driverBindInvoice.invoice = await firstValueFrom(this.userService.putInvoice(driverBindInvoice.invoice));
-  //   }catch(error:any){
-  //     if (error.status != 200) {
-  //       this.error2 = "Lohn Auszahlung konnte nicht aktualisiert werden!";
-  //       return;
-  //     }
-  //   }
-  //   this.success2 = "Lohn Auszahlung wurde akualisiert!";
-  //   setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
-  // }
-
-  // async deleteUserBindInvoice(driverBindInvoice: DriverBindInvoiceDTO) {
-  //   this.success2 = "";
-  //   this.error2 = "";
-  //   try{
-  //     await firstValueFrom(this.userService.deleteDriverBindInvoiceById(driverBindInvoice));
-  //   }catch(error:any){
-  //     if (error.status != 200) {
-  //       this.error2 = "Lohn Erfassung konnte nicht gelöscht werden!";
-  //       return;
-  //     }
-  //   }
-  //   this.success2 = "Lohn Erfassung wurde gelöscht!";
-  //   setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
-  // }
-
-   // async createDriverBindInvoice() {
-   //   this.success2 = "";
-   //   this.error2 = "";
-   //   let driverBindInvoice: DriverBindInvoiceDTO = new DriverBindInvoiceDTO();
-   //   let invoice: InvoiceDTO = new InvoiceDTO();
-   //   try{
-   //     invoice = await firstValueFrom(this.userService.createInvoice(invoice));
-   //     invoice.amount = parseFloat(this.total);
-   //     invoice = await firstValueFrom(this.userService.putInvoice(invoice));
-   //     driverBindInvoice.invoice = invoice;
-   //     driverBindInvoice.dateTo = this.enddate;
-   //     driverBindInvoice.dateFrom = this.startdate;
-   //     driverBindInvoice.personInvoice = this.user;
-   //     driverBindInvoice = await firstValueFrom(this.userService.createDriverBindInvoice(driverBindInvoice));
-   //   }catch(error:any){
-   //     if (error.status != 200 || 201) {
-   //       this.error2 = "Lohn Erfassung konnte nicht erstellt werden!";
-   //       return;
-   //     }
-   //   }
-   //   this.success2 = "Lohn Erfassung wurde erstellt!";
-   //   setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
-   // }
-
 }

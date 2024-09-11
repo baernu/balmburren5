@@ -25,8 +25,6 @@ export class DriverOverviewComponent {
   actualdate: DatesDTO = new DatesDTO();
   success: string = "";
   error: string = "";
-  // success1: string = "";
-  // error1: string = "";
   success2: string = "";
   error2: string = "";
   total: string= "";
@@ -50,34 +48,12 @@ export class DriverOverviewComponent {
     this.actualdate.date = new Date().toISOString().split('T')[0];
     this.actualdate = await firstValueFrom(this.tourService.createDates(this.actualdate));
     this.startSetting();
-    // this.driverBindInvoices = await firstValueFrom(this.userService.getAllDriverBindInvoiceForInvoice(this.user));
-    // this.driverBindInvoices = this.driverBindInvoices.sort((e1 , e2) => e1.dateTo.date.localeCompare(e2.dateTo.date));
   }
 
   async startSetting() {
     this.driverBindInvoices = await firstValueFrom(this.userService.getAllDriverBindInvoiceForInvoice(this.user));
     this.driverBindInvoices = this.driverBindInvoices.sort((e1 , e2) => e1.dateTo.date.localeCompare(e2.dateTo.date));
   }
-
-
-  // async showWork1() {
-  //   this.error = "";
-  //   this.success = "";
-  //   try {
-  //     this.startdate.date = new Date(this.startdate.date).toISOString().split('T')[0];
-  //     this.startdate = await firstValueFrom(this.tourService.createDates(this.startdate));
-  //     this.works = await firstValueFrom(this.tourService.getAllWorksForUserandIntervall(this.user.username, this.startdate, this.actualdate));
-  //     this.works.sort((e1: WorkDTO, e2: WorkDTO) => e1.date.date.localeCompare(e2.date.date));
-  //     this.enddate = this.actualdate;
-  //     this.total = this.computeTotalWork();
-  //     this.driverBindInvoices = this.driverBindInvoices.filter(e => e.dateTo.date.localeCompare(this.startdate.date));
-  //   }catch(error: any){
-  //     if(error.status != 200)this.error = "Etwas lief schief!";
-  //     return;
-  //   }
-  //   this.success = "OK!";
-  //   return;
-  // }
 
   async showWork1() {
     this.error = "";
@@ -126,21 +102,6 @@ export class DriverOverviewComponent {
     }
     return total.toFixed(2);;
   }
-
-  // async deleteWork(work:WorkDTO) {
-  //   try{
-  //     await firstValueFrom(this.tourService.deleteWorkById(work));
-  //   }catch(error: any) {
-  //     if (error.status != 200) {
-  //       this.error = "Löschen hat nicht geklappt";
-  //       return;
-  //     }
-  //   }
-  //   this.success = "Löschen hat geklappt";
-  //   setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
-  //
-  //   // this.router.navigate(['/wage_payment']);
-  // }
 
   async deleteWork(work:WorkDTO) {
     this.error = "";
