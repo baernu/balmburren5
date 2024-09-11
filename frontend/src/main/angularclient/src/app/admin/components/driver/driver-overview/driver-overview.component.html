@@ -1,2 +1,88 @@
 <app-admin-header></app-admin-header>
 <router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <span style="display:block; height:50px;"></span>
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Start Datum</th>
+        <th scope="col">End Datum</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><input type="date" [(ngModel)]="startdate.date" (change)="showWork1()"></td>
+        <td><input type="date" [(ngModel)]="enddate.date" (change)="showWork2()"></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Datum</th>
+        <th scope="col">Startzeit</th>
+        <th scope="col">Endzeit</th>
+        <th scope="col">Arbeitsstunden</th>
+        <th scope="col">Text</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let work of works">
+        <td>{{ work.date.date | date}}</td>
+        <td>{{ work.startTime }}</td>
+        <td>{{ work.endTime }}</td>
+        <td>{{ work.workTime }}</td>
+        <td>{{ work.description }}</td>
+        <td><button type="button" (click)='deleteWork(work)' class="btn-light">Löschen</button></td>
+      </tr>
+      <tr>
+        <td><b>Total Stunden</b></td>
+        <td></td>
+        <td></td>
+        <td>{{ total }}</td>
+        <td><button type="button" (click)='createDriverBindInvoice()' class="btn-light">Erstelle Lohn Auszahlung</button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div *ngIf="error" class="alert alert-danger">
+  {{ error }}
+</div>
+<div *ngIf="success" class="alert alert-success">
+  {{ success }}
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped  table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Vorname</th>
+        <th scope="col">Nachname</th>
+        <th scope="col">Lohn Betrag</th>
+        <th scope="col">Lohn Auszahlung</th>
+        <th scope="col">Start Datum</th>
+        <th scope="col">End Datum</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let driverBindInvoice of driverBindInvoices">
+        <td>{{driverBindInvoice.personInvoice.firstname}}</td>
+        <td>{{driverBindInvoice.personInvoice.lastname}}</td>
+        <td>{{driverBindInvoice.invoice.amount| number : '1.2-2'}}</td>
+        <td><input type="number" [(ngModel)]="driverBindInvoice.invoice.paid" (change)="putInvoice(driverBindInvoice)"></td>
+        <td>{{driverBindInvoice.dateFrom.date| date:'fullDate' }}</td>
+        <td>{{driverBindInvoice.dateTo.date| date:'fullDate' }}</td>
+        <td><button type="button" (click)='deleteUserBindInvoice(driverBindInvoice)' class="btn-light">delete</button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div *ngIf="error2" class="alert alert-danger">
+  {{ error2 }}
+</div>
+<div *ngIf="success2" class="alert alert-success">
+  {{ success2 }}
+</div>

@@ -60,5 +60,14 @@ export class DriverComponent implements OnInit {
       });
   }
 
+  driverOverview(user: UserDTO) {
+    this.router.navigate(['driver_overview/'],
+      {
+        queryParams: {
+          param1: user.username
+        }
+      });
+  }
+
 
 }
