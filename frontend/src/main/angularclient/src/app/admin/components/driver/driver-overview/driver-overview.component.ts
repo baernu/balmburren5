@@ -31,6 +31,7 @@ export class DriverOverviewComponent {
   error2: string = "";
   total: string= "";
   param1: string | null = "";
+  count: number = 0;
 
   constructor(
     private tourService: TourServiceService,
@@ -98,19 +99,41 @@ export class DriverOverviewComponent {
     return total.toFixed(2);;
   }
 
-  async deleteWork(work:WorkDTO) {
-    try{
-      await firstValueFrom(this.tourService.deleteWorkById(work));
-    }catch(error: any) {
-      if (error.status != 200) {
-        this.error = "Löschen hat nicht geklappt";
-        return;
-      }
-    }
-    this.success = "Löschen hat geklappt";
-    setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
+  // async deleteWork(work:WorkDTO) {
+  //   try{
+  //     await firstValueFrom(this.tourService.deleteWorkById(work));
+  //   }catch(error: any) {
+  //     if (error.status != 200) {
+  //       this.error = "Löschen hat nicht geklappt";
+  //       return;
+  //     }
+  //   }
+  //   this.success = "Löschen hat geklappt";
+  //   setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
+  //
+  //   // this.router.navigate(['/wage_payment']);
+  // }
 
-    // this.router.navigate(['/wage_payment']);
+  async deleteWork(work:WorkDTO) {
+    this.error = "";
+    this.success = "";
+    if (this.count == 6){
+      try{
+        await firstValueFrom(this.tourService.deleteWorkById(work));
+      }catch(error: any) {
+        if (error.status != 200) {
+          this.error = "Löschen hat nicht geklappt";
+          return;
+        }
+      }
+      this.success = "Löschen hat geklappt";
+      setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
+    }
+    this.count ++;
+    this.error = "Klicke noch " + (7-this.count) + " mal um zu löschen";
+    setTimeout(() => {
+      this.error = "";
+      return;}, 1000);
   }
 
   async putInvoice(driverBindInvoice: DriverBindInvoiceDTO) {

@@ -40,7 +40,7 @@
         <td></td>
         <td></td>
         <td>{{ total }}</td>
-        <td><button type="button" (click)='createDriverBindInvoice()' class="btn-light">Erstelle Lohn Auszahlung</button></td>
+<!--        <td><button type="button" (click)='createDriverBindInvoice()' class="btn-light">Erstelle Lohn Auszahlung</button></td>-->
       </tr>
       </tbody>
     </table>
@@ -69,19 +69,20 @@
       <tr *ngFor="let driverBindInvoice of driverBindInvoices">
         <td>{{driverBindInvoice.personInvoice.firstname}}</td>
         <td>{{driverBindInvoice.personInvoice.lastname}}</td>
-        <td>{{driverBindInvoice.invoice.amount| number : '1.2-2'}}</td>
-        <td><input type="number" [(ngModel)]="driverBindInvoice.invoice.paid" (change)="putInvoice(driverBindInvoice)"></td>
+        <td>{{driverBindInvoice.invoice.amount | number : '1.2-2'}}</td>
+        <td>{{driverBindInvoice.invoice.paid | number : '1.2-2'}}</td>
+<!--        <td><input type="number" [(ngModel)]="driverBindInvoice.invoice.paid" (change)="putInvoice(driverBindInvoice)"></td>-->
         <td>{{driverBindInvoice.dateFrom.date| date:'fullDate' }}</td>
         <td>{{driverBindInvoice.dateTo.date| date:'fullDate' }}</td>
-        <td><button type="button" (click)='deleteUserBindInvoice(driverBindInvoice)' class="btn-light">delete</button></td>
+<!--        <td><button type="button" (click)='deleteUserBindInvoice(driverBindInvoice)' class="btn-light">delete</button></td>-->
       </tr>
       </tbody>
     </table>
   </div>
 </div>
-<div *ngIf="error2" class="alert alert-danger">
-  {{ error2 }}
-</div>
-<div *ngIf="success2" class="alert alert-success">
-  {{ success2 }}
-</div>
+<!--<div *ngIf="error2" class="alert alert-danger">-->
+<!--  {{ error2 }}-->
+<!--</div>-->
+<!--<div *ngIf="success2" class="alert alert-success">-->
+<!--  {{ success2 }}-->
+<!--</div>-->
