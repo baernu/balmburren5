@@ -602,17 +602,7 @@ export class UserTourComponent {
 
   }
 
-  // async sendData() {
-  //   let date = this.userOrderTourAddress[0].order.date.date;
-  //   /////////////////////////////////////////////////
-  //   //await this.updateAutomatedOrder();
-  //   ///////////////////////////////////////////////////
-  //   if (this.compare(new Date(date)))this.apply();
-  //     // for (const userOrderTourAddress of this.userOrderTourAddress) {
-  //     //   let order = userOrderTourAddress.order;
-  //     //   await firstValueFrom(this.userService.putOrder(order));
-  //     // }
-  // }
+
 
   async updateAutomatedOrder() {
     let date = new Date();
@@ -662,25 +652,6 @@ export class UserTourComponent {
     await firstValueFrom(this.userService.putOrder(order));
   }
 
-  // async commitAll() {
-  //   this.count++;
-  //   if (this.count == 7)
-  //     for (let userOrderTourAddress of this.userOrderTourAddress) {
-  //       let order = userOrderTourAddress.order;
-  //       order = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product, order.productBindInfos.productDetails,
-  //         order.date, order.tour));
-  //       order.quantityDelivered = order.quantityOrdered;
-  //       // await firstValueFrom(this.userService.putOrder(order));
-  //       try {
-  //         userOrderTourAddress.order = await firstValueFrom(this.userService.putOrder(order));
-  //       } catch (error: any) {
-  //         if (error.status !== 200) this.error1 = "Das Speichern hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
-  //         return;
-  //       }
-  //       this.success1 = "Speichern war erfolgreich!";
-  //       // await this.showOrders();
-  //     }
-  // }
 
   async reset() {
     this.success1 ="";
@@ -735,7 +706,7 @@ export class UserTourComponent {
     //Get the categories and product related.
     this.categories = Object.keys(group).map(key => ({
       category: key,
-      products: group[key]
+      products: group[key],
     }));
 
   }
