@@ -44,15 +44,15 @@ export class DriverWorkComponent implements OnInit {
     this.dates = await firstValueFrom(this.tourService.createDates(this.dates));
     let user = await firstValueFrom(this.userService.currentUser());
     this.user = await firstValueFrom(this.userService.findUser(user.username));
-    if(this.compare(new Date(this.dates.date))){
-      console.log("Id Dates: " + this.dates.id);
-      let work = await firstValueFrom(this.tourService.getWork(this.user.username, this.dates));
-      if (work) {
-        this.work = work;
-        // this.success = "Arbeit wurde gespeichert!"
-      }
-      else return;
-    } else this.error ="Datum liegt in der Vergangenheit: Keine Berechtigung!"
+    // if(this.compare(new Date(this.dates.date))){
+    console.log("Id Dates: " + this.dates.id);
+    let work = await firstValueFrom(this.tourService.getWork(this.user.username, this.dates));
+    if (work) {
+      this.work = work;
+      // this.success = "Arbeit wurde gespeichert!"
+    }
+    else return;
+    // } else this.error ="Datum liegt in der Vergangenheit: Keine Berechtigung!"
   }
 
   async apply() {
@@ -96,11 +96,11 @@ export class DriverWorkComponent implements OnInit {
     this.error = "Tippe " + c +  " mal zum Löschen!";
   }
 
-  compare(date: Date): boolean {
-    let now1 = new Date().toISOString().split('T')[0]
-    date = new Date(date);
-    return date.toISOString().split('T')[0] >= now1;
-  }
+  // compare(date: Date): boolean {
+  //   let now1 = new Date().toISOString().split('T')[0]
+  //   date = new Date(date);
+  //   return date.toISOString().split('T')[0] >= now1;
+  // }
 
   computeWorktime(){
     let total: number = 0;

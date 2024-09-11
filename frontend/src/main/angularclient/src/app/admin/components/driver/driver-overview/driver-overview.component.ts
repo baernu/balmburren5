@@ -49,22 +49,50 @@ export class DriverOverviewComponent {
     if (this.param1 != null) this.user = await firstValueFrom(this.userService.findUser(this.param1));
     this.actualdate.date = new Date().toISOString().split('T')[0];
     this.actualdate = await firstValueFrom(this.tourService.createDates(this.actualdate));
+    this.startSetting();
+    // this.driverBindInvoices = await firstValueFrom(this.userService.getAllDriverBindInvoiceForInvoice(this.user));
+    // this.driverBindInvoices = this.driverBindInvoices.sort((e1 , e2) => e1.dateTo.date.localeCompare(e2.dateTo.date));
+  }
+
+  async startSetting() {
     this.driverBindInvoices = await firstValueFrom(this.userService.getAllDriverBindInvoiceForInvoice(this.user));
     this.driverBindInvoices = this.driverBindInvoices.sort((e1 , e2) => e1.dateTo.date.localeCompare(e2.dateTo.date));
   }
 
 
+  // async showWork1() {
+  //   this.error = "";
+  //   this.success = "";
+  //   try {
+  //     this.startdate.date = new Date(this.startdate.date).toISOString().split('T')[0];
+  //     this.startdate = await firstValueFrom(this.tourService.createDates(this.startdate));
+  //     this.works = await firstValueFrom(this.tourService.getAllWorksForUserandIntervall(this.user.username, this.startdate, this.actualdate));
+  //     this.works.sort((e1: WorkDTO, e2: WorkDTO) => e1.date.date.localeCompare(e2.date.date));
+  //     this.enddate = this.actualdate;
+  //     this.total = this.computeTotalWork();
+  //     this.driverBindInvoices = this.driverBindInvoices.filter(e => e.dateTo.date.localeCompare(this.startdate.date));
+  //   }catch(error: any){
+  //     if(error.status != 200)this.error = "Etwas lief schief!";
+  //     return;
+  //   }
+  //   this.success = "OK!";
+  //   return;
+  // }
+
   async showWork1() {
     this.error = "";
     this.success = "";
+    this.startSetting();
     try {
       this.startdate.date = new Date(this.startdate.date).toISOString().split('T')[0];
+      let date = new Date(this.startdate.date);
+      let date1 = new Date(date.getTime() - 86400000).toISOString().split('T')[0];
       this.startdate = await firstValueFrom(this.tourService.createDates(this.startdate));
       this.works = await firstValueFrom(this.tourService.getAllWorksForUserandIntervall(this.user.username, this.startdate, this.actualdate));
       this.works.sort((e1: WorkDTO, e2: WorkDTO) => e1.date.date.localeCompare(e2.date.date));
       this.enddate = this.actualdate;
       this.total = this.computeTotalWork();
-      this.driverBindInvoices = this.driverBindInvoices.filter(e => e.dateTo.date.localeCompare(this.startdate.date));
+      this.driverBindInvoices = this.driverBindInvoices.filter(e => e.dateTo.date.localeCompare(date1));
     }catch(error: any){
       if(error.status != 200)this.error = "Etwas lief schief!";
       return;

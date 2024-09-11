@@ -63,13 +63,14 @@ export class WagepaymentComponent {
     this.startSetting();
     try {
       this.startdate.date = new Date(this.startdate.date).toISOString().split('T')[0];
-      let date1 = new Date().setDate(new Date(this.startdate.date).getDate() + 1);
+      let date = new Date(this.startdate.date);
+      let date1 = new Date(date.getTime() - 86400000).toISOString().split('T')[0];
       this.startdate = await firstValueFrom(this.tourService.createDates(this.startdate));
       this.works = await firstValueFrom(this.tourService.getAllWorksForUserandIntervall(this.user.username, this.startdate, this.actualdate));
       this.works.sort((e1: WorkDTO, e2: WorkDTO) => e1.date.date.localeCompare(e2.date.date));
       this.enddate = this.actualdate;
       this.total = this.computeTotalWork();
-      this.driverBindInvoices = this.driverBindInvoices.filter(e => e.dateTo.date.localeCompare(date1.toString()));
+      this.driverBindInvoices = this.driverBindInvoices.filter(e => e.dateTo.date.localeCompare(date1));
     }catch(error: any){
       if(error.status != 200)this.error = "Etwas lief schief!";
       return;
