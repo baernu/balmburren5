@@ -64,13 +64,13 @@ export class LoginComponent {
   }
 
   async sendPassword() {
-    this.user = await firstValueFrom(this.userService.findUser(this.user.username));
+    let user = await firstValueFrom(this.userService.findUser(this.user.username));
     let password = this.randomString(10, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
-    this.user.password = password;
+    user.password = password;
     try{
-      this.user = await firstValueFrom(this.userService.update1User(this.user));
+      user = await firstValueFrom(this.userService.update1User(user));
       let emailData = new EmailDataDTO();
-      let personbindphone: UserBindPhoneDTO = await firstValueFrom(this.userService.getUserBindPhone(this.user));
+      let personbindphone: UserBindPhoneDTO = await firstValueFrom(this.userService.getUserBindPhone(user));
       emailData.type = "normal";
       emailData.body = "Guten Tag \n  Balmburren sendet Ihnen ein neues Passwort. Bitte setzten Sie nach dem Login mit diesem Passwort ein neues Passwort bei Balmburren unter Einstellungen.\n Vielen Dank. \n Passwort: " + password;
       emailData.toEmail = personbindphone.email;
@@ -91,13 +91,22 @@ export class LoginComponent {
       this.success = "";
       this.error = "";
       return;
-    }, 1000);
+    }, 3000);
   }
 
   randomString(length:number, chars:string) {
     var result = '';
     for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
     return result;
+  }
+
+  async register(){
+    this.success = "Sie werden zum Registrieren weitergeleitet."
+    setTimeout(async () => {
+      this.success = "";
+      this.error = "";
+      await this.router.navigate(['register']);
+    }, 2000);
   }
 
 }
