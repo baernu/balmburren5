@@ -36,21 +36,41 @@ export class RegisterComponent {
 
     if (bool) {
       this.error = "Username ist besetzt, bitte neu bestimmen.";
-      return;
+      setTimeout(async () => {
+        this.success = "";
+        this.error = "";
+        return;
+      }, 2000);
     }
     if (this.user.password.length < 8) {
       this.error = "Passswort ist zu kurz.";
-      return;
+      setTimeout(async () => {
+        this.success = "";
+        this.error = "";
+        return;
+      }, 2000);
     }
 
     if (!bool && this.user.password.length > 7) {
-      this.user = await firstValueFrom(this.userService.register(this.user));
-      await this.router.navigate(['login']);
-      return;
+      try {
+        await firstValueFrom(this.userService.register(this.user));
+      }catch(error: any){
+        if(error.status != 200) {
+          this.error = "Registrierung hat nicht geklappt!";
+          setTimeout(async () => {
+            this.success = "";
+            this.error = "";
+            return;
+          }, 2000);
+        }
+      }
+      this.success = "Registrierung hat geklappt. Sie können sich einloggen.";
+      setTimeout(async () => {
+        this.success = "";
+        this.error = "";
+        await this.router.navigate(['login']);
+      }, 2000);
     }
-
-    await this.router.navigate(['register']);
-    this.error ="Unspezifischer Fehler.";
   }
 
   showHidePassword() {
