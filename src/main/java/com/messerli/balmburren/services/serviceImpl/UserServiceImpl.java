@@ -21,13 +21,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 //    private final MyUserDetails myUserDetails;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, MyUserDetails myUserDetails, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, MyUserDetails myUserDetails, PasswordEncoder passwordEncoder, PasswordEncoder passwordEncoder1) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
 //        this.myUserDetails = myUserDetails;
 //        this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder1;
     }
     @Override
     public List<User> allUsers() {
@@ -143,6 +144,13 @@ public class UserServiceImpl implements UserService {
         Optional<User> user1 = findUser(user.getUsername());
         user.setVersion(user1.get().getVersion());
             return Optional.of(userRepository.save(user));
+    }
+
+    public Optional<User> newPassword(User user) {
+        Optional<User> user1 = findUser(user.getUsername());
+        user.setVersion(user1.get().getVersion());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return Optional.of(userRepository.save(user));
     }
 
     public boolean isAdmin(String username) {

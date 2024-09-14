@@ -56,6 +56,14 @@ public class AdminController {
     }
 
     @CrossOrigin( allowCredentials = "true")
+    @PutMapping("/update1/user")
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN','SUPER_ADMIN')")
+//    @PreAuthorize("isAuthenticated()")'SUPER_ADMIN'
+    public ResponseEntity<Optional<User>> update1User(@RequestBody User user) {
+        return ResponseEntity.ok().body(userService.newPassword(user));
+    }
+
+    @CrossOrigin( allowCredentials = "true")
     @GetMapping("/is_admin/{username}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<Boolean> isAdmin(@PathVariable("username") String username) {

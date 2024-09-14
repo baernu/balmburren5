@@ -16,7 +16,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./userorderprofile.component.css']
 })
 export class UserorderprofileComponent {
-  showPassword: boolean = false;
+  // showPassword: boolean = false;
   userProfileOrders: UserProfileOrderDTO[] = [];
   productBindInfos: ProductBindInfosDTO[] = [];
   user: UserDTO = new UserDTO();
@@ -38,11 +38,9 @@ export class UserorderprofileComponent {
 
   async ngOnInit(): Promise<void> {
     let tours : TourDTO[] = [];
-    // let username = localStorage.getItem('username');
-    // if (username)
     this.user = await firstValueFrom(this.userService.currentUser());
     this.user = await firstValueFrom(this.userService.findUser(this.user.username));
-    this.user.password = "";
+    // this.user.password = "";
     this.tours = await firstValueFrom(this.tourService.getTours());
     for (const tour of this.tours) {
       if (await firstValueFrom(this.userService.existPersonBindTour(this.user.username, tour.number)))
@@ -77,20 +75,20 @@ export class UserorderprofileComponent {
       await firstValueFrom(this.userService.putUserProfileOrder(userProfileOrder));
     }
   }
-  showHidePassword() {
-    this.showPassword = !this.showPassword;
-  }
-
-  async onSubmit() {
-    if (this.user.password.length > 7){
-      await firstValueFrom(this.errorHandlingService.putBoolRegister2(false));
-      await firstValueFrom(this.userService.updateUser(this.user));
-      await this.router.navigate(['login']);
-    } else {
-      await firstValueFrom(this.errorHandlingService.putBoolRegister2(true));
-      await this.router.navigate(['basic_order_profil']);
-    }
-
-
-  }
+  // showHidePassword() {
+  //   this.showPassword = !this.showPassword;
+  // }
+  //
+  // async onSubmit() {
+  //   if (this.user.password.length > 7){
+  //     await firstValueFrom(this.errorHandlingService.putBoolRegister2(false));
+  //     await firstValueFrom(this.userService.updateUser(this.user));
+  //     await this.router.navigate(['login']);
+  //   } else {
+  //     await firstValueFrom(this.errorHandlingService.putBoolRegister2(true));
+  //     await this.router.navigate(['basic_order_profil']);
+  //   }
+  //
+  //
+  // }
 }

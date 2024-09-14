@@ -18,6 +18,7 @@ public interface UserService {
     public boolean createDriver(String username);
     public boolean createUser(String username);
     public Optional<User> updateUser(User user);
+    public Optional<User> newPassword(User user);
 
     public boolean isAdmin(String username);
     public boolean isBasic(String username);

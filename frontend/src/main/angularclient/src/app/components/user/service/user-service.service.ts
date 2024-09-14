@@ -92,6 +92,9 @@ export class UserService {
   public updateUser(user: UserDTO):Observable<UserDTO> {
     return this.http.put<UserDTO>(this.adminUrl + "update/user", user, {withCredentials : true});}
 
+  public update1User(user: UserDTO):Observable<UserDTO> {
+    return this.http.put<UserDTO>(this.adminUrl + "update1/user", user, {withCredentials : true});}
+
 
   public existUser(username: string):Observable<Boolean> {
     return this.http.get<Boolean>(this.authUrl + 'exist/' + username, {withCredentials : true});}

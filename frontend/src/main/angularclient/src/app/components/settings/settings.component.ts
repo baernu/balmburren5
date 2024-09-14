@@ -23,6 +23,9 @@ export class SettingsComponent {
   emailData: EmailDataDTO = new EmailDataDTO();
   error: string = "";
   success: string = "";
+  error1: string = "";
+  success1: string = "";
+  showPassword: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +43,7 @@ export class SettingsComponent {
 
       this.user = await firstValueFrom(this.userService.currentUser());
       this.user = await firstValueFrom(this.userService.findUser(this.user.username));
+      this.user.password = "";
     if(await firstValueFrom(this.userService.existUserBindPhone(this.user)))
       this.userBindPhone = await firstValueFrom(this.userService.getUserBindPhone(this.user));
     if(await firstValueFrom(this.userService.existUserBindAddress(this.user))) {
@@ -51,32 +55,67 @@ export class SettingsComponent {
 
   async onSubmit() {
     if(!await firstValueFrom(this.userService.existUserBindAddress(this.user))) {
-      this.userBindAddress.address = await firstValueFrom(this.userService.createAddress(this.address));
-      this.userBindAddress.user = this.user;
-      this.userBindAddress = await firstValueFrom(this.userService.createUserBindAddress(this.userBindAddress));
-    } else {
-      this.userBindAddress.address = await firstValueFrom(this.userService.putAddress(this.address));
+      try {
+        this.userBindAddress.address = await firstValueFrom(this.userService.createAddress(this.address));
+        this.userBindAddress.user = this.user;
+        this.userBindAddress = await firstValueFrom(this.userService.createUserBindAddress(this.userBindAddress));
+      }catch(error: any) {
+        if (error.status != 200){
+          this.error = "Adresse konnte nicht gespeichert werden!";
+        }
+      }
+      this.success = "Adresse wurde gespeichert."
+      setTimeout(async () => {
+        this.error = "";
+        this.success = "";
+        return;
+      }, 1000);
 
-      this.userBindAddress = await firstValueFrom(this.userService.putUserBindAddress(this.userBindAddress));
+    }
+    else {
+      try {
+        this.userBindAddress.address = await firstValueFrom(this.userService.putAddress(this.address));
+        this.userBindAddress = await firstValueFrom(this.userService.putUserBindAddress(this.userBindAddress));
+      }catch(error: any) {
+        if (error.status != 200){
+          this.error = "Adresse konnte nicht gespeichert werden!";
+        }
+      }
+      this.success = "Adresse wurde gespeichert."
+      setTimeout(async () => {
+        this.error = "";
+        this.success = "";
+        return;
+      }, 1000);
     }
     if(!await firstValueFrom(this.userService.existUserBindPhone(this.user))) {
-      this.userBindPhone.user = this.user;
-      this.userBindPhone.invoicePerson = this.user;
-      this.userBindPhone = await firstValueFrom(this.userService.createUserBindPhone(this.userBindPhone));
-    } else {
-      this.userBindPhone = await firstValueFrom(this.userService.putUserBindPhone(this.userBindPhone));
-    }
-    this.setEmailData(this.userBindPhone.email, "");
-    await firstValueFrom(this.emailService.sendEmail(this.emailData));
-    this.setEmailData("admin@balmburren.net", this.userBindPhone.user.firstname + ' ' + this.userBindPhone.user.lastname);
-    try{
-      await firstValueFrom(this.emailService.sendEmail(this.emailData));
-    }catch(error: any) {
-      if (error.status != 200){
-        this.error = "Mail konnte nicht gesendet werden!";
+      try {
+        this.userBindPhone.user = this.user;
+        this.userBindPhone.invoicePerson = this.user;
+        this.userBindPhone = await firstValueFrom(this.userService.createUserBindPhone(this.userBindPhone));
+      }catch(error:any) {
+        if(error.staus != 200)this.error = "Telefonnummer konnte nicht kreiert werden!"
       }
+
+    } else {
+      try {
+        this.userBindPhone = await firstValueFrom(this.userService.putUserBindPhone(this.userBindPhone));
+      }catch(error:any){
+        if(error.staus != 200)this.error = "Telefonnummer konnte nicht gespeichert werden!"
+      }
+
     }
-    this.success = "Mail wurde gesendet.";
+    // this.setEmailData(this.userBindPhone.email, "");
+    // await firstValueFrom(this.emailService.sendEmail(this.emailData));
+    // this.setEmailData("admin@balmburren.net", this.userBindPhone.user.firstname + ' ' + this.userBindPhone.user.lastname);
+    // try{
+    //   await firstValueFrom(this.emailService.sendEmail(this.emailData));
+    // }catch(error: any) {
+    //   if (error.status != 200){
+    //     this.error = "Mail konnte nicht gesendet werden!";
+    //   }
+    // }
+    this.success = "Daten wurden gespeichert.";
     setTimeout(async () => {
       this.error = "";
       this.success = "";
@@ -84,10 +123,34 @@ export class SettingsComponent {
     }, 1000);
 
   }
-  setEmailData(mail: string, message: string){
-    this.emailData.subject = "Balmburren Einstellungen " + message;
-    this.emailData.body = "Guten Tag    Wir melden uns von Balmburren, da Sie Änderung bei ihren Daten vorgenommen haben. Bitte teilen Sie uns mit, falls Sie eine andere Lieferadresse oder eine andere Email haben. Vielen Dank. Das Balmburren Team.";
-    this.emailData.toEmail = mail;
-    this.emailData.type = "normal";
+  // setEmailData(mail: string, message: string){
+  //   this.emailData.subject = "Balmburren Einstellungen " + message;
+  //   this.emailData.body = "Guten Tag    Wir melden uns von Balmburren, da Sie Änderung bei ihren Daten vorgenommen haben. Bitte teilen Sie uns mit, falls Sie eine andere Lieferadresse oder eine andere Email haben. Vielen Dank. Das Balmburren Team.";
+  //   this.emailData.toEmail = mail;
+  //   this.emailData.type = "normal";
+  // }
+
+  showHidePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
+  async onSubmit2() {
+    if (this.user.password.length > 7){
+      try {
+        await firstValueFrom(this.userService.update1User(this.user));
+      }catch(error: any) {
+        if(error.status != 200)this.error1 = "Passwort konnte nicht gespeichert werden!";
+      }
+      this.success = "Passwort wurde gespeichert.";
+    } else {
+      this.error1 = "Passwort ist zu kurz!";
+    }
+    setTimeout(async () => {
+      this.error1 = "";
+      this.success1 = "";
+      await this.router.navigate(['settings']);
+    }, 1000);
+
+
   }
 }
