@@ -21,6 +21,8 @@ export class SettingsComponent {
   address: AddressDTO = new AddressDTO();
   user: UserDTO = new UserDTO();
   emailData: EmailDataDTO = new EmailDataDTO();
+  error: string = "";
+  success: string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -67,14 +69,25 @@ export class SettingsComponent {
     this.setEmailData(this.userBindPhone.email, "");
     await firstValueFrom(this.emailService.sendEmail(this.emailData));
     this.setEmailData("admin@balmburren.net", this.userBindPhone.user.firstname + ' ' + this.userBindPhone.user.lastname);
-    await firstValueFrom(this.emailService.sendEmail(this.emailData));
-    await this.router.navigate(['home']);
+    try{
+      await firstValueFrom(this.emailService.sendEmail(this.emailData));
+    }catch(error: any) {
+      if (error.status != 200){
+        this.error = "Mail konnte nicht gesendet werden!";
+      }
+    }
+    this.success = "Mail wurde gesendet.";
+    setTimeout(async () => {
+      this.error = "";
+      this.success = "";
+      await this.router.navigate(['settings']);
+    }, 1000);
+
   }
   setEmailData(mail: string, message: string){
-    this.emailData.password = "1234656";
-    this.emailData.fromEmail = "admin@balmburren.net";
     this.emailData.subject = "Balmburren Registration " + message;
-    this.emailData.body = "Guten Tag    Vielen Dank, wir werden Sie informieren sobald wir Sie als Balmburren User dazugefügt haben, so dass Sie dann online bestellen können. Falls Sie schon Balmburren User sind, bekommen Sie dieses Mail, weil Sie Ihre Einstellungen angepasst haben. Und bitte melden Sie Balmburren, wenn Sie eine neue Lieferadresse haben. Vielen Dank.";
+    this.emailData.body = "Guten Tag    Vielen Dank, wir werden Sie informieren sobald wir Sie als Balmburren User dazugefügt haben, damit Sie dann online bestellen können. Falls Sie schon Balmburren User sind, bekommen Sie diese Mail, weil Sie Ihre Einstellungen angepasst haben. Und bitte melden Sie Balmburren, wenn Sie eine neue Lieferadresse haben. Vielen Dank.";
     this.emailData.toEmail = mail;
+    this.emailData.type = "normal";
   }
 }

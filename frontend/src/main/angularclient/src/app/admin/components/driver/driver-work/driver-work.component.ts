@@ -49,7 +49,6 @@ export class DriverWorkComponent implements OnInit {
     this.dates = await firstValueFrom(this.tourService.createDates(this.dates));
     let user = await firstValueFrom(this.userService.currentUser());
     this.user = await firstValueFrom(this.userService.findUser(user.username));
-    console.log("Id Dates: " + this.dates.id);
     let work = await firstValueFrom(this.tourService.getWork(this.user.username, this.dates));
     if (work) {
       this.work = work;
@@ -102,14 +101,9 @@ export class DriverWorkComponent implements OnInit {
     let total: number = 0;
     let arr = this.work.endTime.split(':');
     let arr2 = this.work.startTime.split(':');
-    // console.log("arr: " + arr[0] + '/ ' + arr[1]);
-    // console.log("arr2: " + arr2[0] + '/ ' + arr2[1]);
     total = parseInt(arr[0]) - parseInt(arr2[0]);
-    // console.log("total: " + total);
     total = total + (parseFloat(arr[1]) - parseFloat(arr2[1]))/60;
     let str = total.toFixed(2);
-    // console.log("startZeit: " + this.work.startTime);
-    // console.log("Total: " + str);
     this.work.workTime = str;
   }
 }

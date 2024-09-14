@@ -14,7 +14,7 @@
                  placeholder="Enter Email"
                  required #email="ngModel">
         </div>
-        <div [hidden]="userBindPhone.email !=''" class="alert alert-warning">Email is required</div>
+        <div [hidden]="userBindPhone.email !=''" class="alert alert-warning">Email wird benötigt</div>
         <div class="form-group">
           <label for="street">Strasse</label>
           <input type="text" [(ngModel)]="address.street"
@@ -24,7 +24,7 @@
                  placeholder="Enter your Street"
                  required #street="ngModel">
         </div>
-        <div [hidden]="address.street !=''" class="alert alert-warning">Street is required</div>
+        <div [hidden]="address.street !=''" class="alert alert-warning">Strasse wird benötigt</div>
         <div class="form-group">
           <label for="number">Street Number</label>
           <input type="text" [(ngModel)]="address.number"
@@ -34,7 +34,7 @@
                  placeholder="Enter your Street Number"
                  required #number="ngModel">
         </div>
-        <div [hidden]="address.number !=''" class="alert alert-warning">Street Number is required</div>
+        <div [hidden]="address.number !=''" class="alert alert-warning">Strassennummer wird benötigt</div>
         <div class="form-group">
           <label for="city">City</label>
           <input type="text" [(ngModel)]="address.city"
@@ -44,7 +44,7 @@
                  placeholder="Enter your City"
                  required #city="ngModel">
         </div>
-        <div [hidden]="address.city !=''" class="alert alert-warning">City is required</div>
+        <div [hidden]="address.city !=''" class="alert alert-warning">Ort wird benötigt</div>
         <div class="form-group">
           <label for="plz">PLZ</label>
           <input type="number" [(ngModel)]="address.plz"
@@ -54,7 +54,7 @@
                  placeholder="Enter your PLZ"
                  required #plz="ngModel">
         </div>
-        <div [hidden]="address.plz !=0" class="alert alert-warning">PLZ is required</div>
+        <div [hidden]="address.plz !=0" class="alert alert-warning">PLZ wird benötigt</div>
         <div class="form-group">
           <label for="phone">Phone</label>
           <input type="text" [(ngModel)]="userBindPhone.phone"
@@ -64,11 +64,17 @@
                  placeholder="Enter your Phone Number"
                  required #phone="ngModel">
         </div>
-        <div [hidden]="userBindPhone.phone !=''" class="alert alert-warning">Phone Number is required</div>
+        <div [hidden]="userBindPhone.phone !=''" class="alert alert-warning">Telefon Nummer wird benötigt</div>
         <button type="submit" [disabled]="!userForm.form.valid"
-                class="btn btn-info">Submit</button>
+                class="btn btn-info">Speichern</button>
       </form>
     </div>
+  </div>
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+  <div *ngIf="success" class="alert alert-success">
+    {{ success }}
   </div>
 </div>
 </div>
