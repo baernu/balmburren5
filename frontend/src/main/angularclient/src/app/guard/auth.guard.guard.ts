@@ -8,8 +8,6 @@ import {UserDTO} from "../components/user/service/userDTO";
   providedIn: 'root'
   })
 export class AuthGuardGuard implements CanActivate {
-  private message: Boolean = false;
-  private bool: boolean = false;
   private people: UserDTO = new UserDTO();
 
   constructor(private userService: UserService, private router: Router) {}
@@ -19,25 +17,22 @@ export class AuthGuardGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Promise<boolean> {
     let user: UserDTO = new UserDTO();
-    user = await firstValueFrom(this.userService.currentUser());
-    if ( user.username == "") {
-      await this.router.navigate(['home']);
-      return false;
+    try{
+      user = await firstValueFrom(this.userService.currentUser());
+    }catch(error:any){
+      if(error.status !=200){
+        await this.router.navigate(['home']);
+        return false;
+      }
     }
     this.people = user;
     try{
-      this.message = await firstValueFrom(this.userService.isAdmin(this.people.username));
+      await firstValueFrom(this.userService.isAdmin(this.people.username));
     }catch(error: any){
       if(error.bool != true) await this.router.navigate(['home']);
       return false;
     }
 
-    // this.bool = this.message.valueOf();
-    // if (!this.bool) {
-    //   await this.router.navigate(['home']);
-    //   return this.bool;
-    // }
     return true;
-
   }
 }

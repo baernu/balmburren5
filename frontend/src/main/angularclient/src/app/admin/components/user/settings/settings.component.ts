@@ -76,6 +76,6 @@ export class SettingsComponent {
   }
 
   async savePassword() {
-    this.user = await firstValueFrom(this.userService.updateUser(this.user));
+    this.user = await firstValueFrom(this.userService.update1User(this.user));
   }
 }
