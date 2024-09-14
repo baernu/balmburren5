@@ -18,6 +18,8 @@ export class SettingsComponent {
   userBindPhone: UserBindPhoneDTO = new UserBindPhoneDTO();
   userBindAddress: UserBindDeliverAddressDTO = new UserBindDeliverAddressDTO();
   hash: string = "";
+  error: string = "";
+  success: string = "";
 
   constructor(private userService: UserService,
               private router: Router,
@@ -44,38 +46,84 @@ export class SettingsComponent {
 
   async onSubmit() {
     this.user.password = this.hash;
-    this.user = await firstValueFrom(this.userService.updateUser(this.user));
+    try {
+      this.user = await firstValueFrom(this.userService.updateUser(this.user));
+    }catch(error: any) {
+      if(error.status != 200) {
+        this.error = "Update User hat nicht geklappt!";
+        setTimeout(async () => {
+          this.success = "";
+          this.error = "";
+          return;
+        }, 1000);
+      }
+    }
     this.user.password = "";
     this.userBindPhone.user= await firstValueFrom(this.userService.findUser(this.user.username));
     this.userBindAddress.user = this.userBindPhone.user;
 
-    if (!await firstValueFrom(this.userService.existUserBindAddress(this.user))) {
-      this.userBindAddress.address = await firstValueFrom(this.userService.createAddress(this.userBindAddress.address));
-      this.userBindAddress = await firstValueFrom(this.userService.createUserBindAddress(this.userBindAddress));
-    } else {
-      this.userBindAddress.address = await firstValueFrom(this.userService.putAddress(this.userBindAddress.address));
-      this.userBindAddress = await firstValueFrom(this.userService.putUserBindAddress(this.userBindAddress));
+    try {
+      if (!await firstValueFrom(this.userService.existUserBindAddress(this.user))) {
+        this.userBindAddress.address = await firstValueFrom(this.userService.createAddress(this.userBindAddress.address));
+        this.userBindAddress = await firstValueFrom(this.userService.createUserBindAddress(this.userBindAddress));
+      } else {
+        this.userBindAddress.address = await firstValueFrom(this.userService.putAddress(this.userBindAddress.address));
+        this.userBindAddress = await firstValueFrom(this.userService.putUserBindAddress(this.userBindAddress));
 
+      }
+      if (!await firstValueFrom(this.userService.existUserBindPhone(this.user))) {
+        this.userBindPhone.invoicePerson = await firstValueFrom(this.userService.findUser(this.userBindPhone.invoicePerson.username));
+        this.userBindPhone = await firstValueFrom(this.userService.createUserBindPhone(this.userBindPhone));
+      } else {
+        this.userBindPhone.invoicePerson = await firstValueFrom(this.userService.findUser(this.userBindPhone.invoicePerson.username));
+        this.userBindPhone = await firstValueFrom(this.userService.putUserBindPhone(this.userBindPhone));
+      }
+    }catch(error: any){
+      if(error.status != 200) {
+        this.error = "Update Adresse/ Telefon hat nicht geklappt!";
+        setTimeout(async () => {
+          this.success = "";
+          this.error = "";
+          return;
+        }, 1000);
+      }
     }
-    if (!await firstValueFrom(this.userService.existUserBindPhone(this.user))) {
-      this.userBindPhone.invoicePerson = await firstValueFrom(this.userService.findUser(this.userBindPhone.invoicePerson.username));
-      this.userBindPhone = await firstValueFrom(this.userService.createUserBindPhone(this.userBindPhone));
-    } else {
-      this.userBindPhone.invoicePerson = await firstValueFrom(this.userService.findUser(this.userBindPhone.invoicePerson.username));
-      this.userBindPhone = await firstValueFrom(this.userService.putUserBindPhone(this.userBindPhone));
-    }
-    await this.router.navigate(['admin_users_settings/'],
-      {
-        queryParams: {
-          param1: this.user.username
-        }
-      });
+    this.success = "Die Daten wurden gespeichert";
+    setTimeout(async () => {
+      this.success = "";
+      this.error = "";
+      await this.router.navigate(['admin_users_settings/'],
+        {
+          queryParams: {
+            param1: this.user.username
+          }
+        });
+    }, 1000);
+
   }
   showHidePassword() {
     this.showPassword = !this.showPassword;
   }
 
   async savePassword() {
-    this.user = await firstValueFrom(this.userService.update1User(this.user));
+    try {
+      await firstValueFrom(this.userService.update1User(this.user));
+    }catch(error: any){
+      if(error.status != 200) {
+        this.error = "Passwort wurde nicht gespeichert!!";
+        setTimeout(async () => {
+          this.success = "";
+          this.error = "";
+          return;
+        }, 2000);
+      }
+    }
+    this.success = "Passwort wurde gespeichert."
+    setTimeout(async () => {
+      this.success = "";
+      this.error = "";
+      return;
+    }, 1000);
+
   }
 }

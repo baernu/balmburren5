@@ -13,77 +13,77 @@
                  class="form-control"
                  id="email"
                  name="email"
-                 placeholder="Enter Email"
+                 placeholder="Email"
                  required #email="ngModel">
         </div>
-        <div [hidden]="userBindPhone.email !=''" class="alert alert-warning">Email is required</div>
+        <div [hidden]="userBindPhone.email !=''" class="alert alert-warning">Email wird benötigt</div>
         <div class="form-group">
-          <label for="firstname">Firstname</label>
+          <label for="firstname">Vorname</label>
           <input type="text" [(ngModel)]="user.firstname"
                  class="form-control"
                  id="firstname"
                  name="firstname"
-                 placeholder="Enter your Firstname"
+                 placeholder="Vorname"
                  required #firstname="ngModel">
         </div>
-        <div [hidden]="user.firstname !=''" class="alert alert-warning">Firstname is required</div>
+        <div [hidden]="user.firstname !=''" class="alert alert-warning">Vorname wird benötigt</div>
         <div class="form-group">
-          <label for="firstname">Lastname</label>
+          <label for="firstname">Nachname</label>
           <input type="text" [(ngModel)]="user.lastname"
                  class="form-control"
                  id="lastname"
                  name="lastname"
-                 placeholder="Enter your Lastname"
+                 placeholder="Nachname"
                  required #lastname="ngModel">
         </div>
-        <div [hidden]="user.lastname !=''" class="alert alert-warning">Lastname is required</div>
+        <div [hidden]="user.lastname !=''" class="alert alert-warning">Nachname wird benötigt</div>
         <div class="form-group">
           <label for="street">Strasse</label>
           <input type="text" [(ngModel)]="userBindAddress.address.street"
                  class="form-control"
                  id="street"
                  name="street"
-                 placeholder="Enter your Street"
+                 placeholder="Strasse"
                  required #street="ngModel">
         </div>
-        <div [hidden]="userBindAddress.address.street !=''" class="alert alert-warning">Street is required</div>
+        <div [hidden]="userBindAddress.address.street !=''" class="alert alert-warning">Strasse wird benötigt</div>
         <div class="form-group">
-          <label for="number">Street Number</label>
+          <label for="number">Strassen Nummer</label>
           <input type="text" [(ngModel)]="userBindAddress.address.number"
                  class="form-control"
                  id="number"
                  name="number"
-                 placeholder="Enter your Street Number"
+                 placeholder="Strassen Nummer"
                  required #number="ngModel">
         </div>
-        <div [hidden]="userBindAddress.address.number !=''" class="alert alert-warning">Street Number is required</div>
+        <div [hidden]="userBindAddress.address.number !=''" class="alert alert-warning">Strassen Nummer wird benötigt</div>
         <div class="form-group">
-          <label for="city">City</label>
+          <label for="city">Ort</label>
           <input type="text" [(ngModel)]="userBindAddress.address.city"
                  class="form-control"
                  id="city"
                  name="city"
-                 placeholder="Enter your City"
+                 placeholder="Ort"
                  required #city="ngModel">
         </div>
-        <div [hidden]="userBindAddress.address.city !=''" class="alert alert-warning">City is required</div>
+        <div [hidden]="userBindAddress.address.city !=''" class="alert alert-warning">Ort wird benötigt</div>
         <div class="form-group">
           <label for="plz">PLZ</label>
           <input type="number" [(ngModel)]="userBindAddress.address.plz"
                  class="form-control"
                  id="plz"
                  name="plz"
-                 placeholder="Enter your PLZ"
+                 placeholder="PLZ"
                  required #plz="ngModel">
         </div>
-        <div [hidden]="userBindAddress.address.plz !=0" class="alert alert-warning">PLZ is required</div>
+        <div [hidden]="userBindAddress.address.plz !=0" class="alert alert-warning">PLZ wird benötigt</div>
         <div class="form-group">
-          <label for="phone">Phone</label>
+          <label for="phone">Telefon Nummer</label>
           <input type="text" [(ngModel)]="userBindPhone.phone"
                  class="form-control"
                  id="phone"
                  name="phone"
-                 placeholder="Enter your Phone Number">
+                 placeholder="Telefon Nummer">
 <!--                 required #phone="ngModel">-->
         </div>
 <!--        <div [hidden]="userBindPhone.phone !=''" class="alert alert-warning">Phone Number is required</div>-->
@@ -93,43 +93,49 @@
                  class="form-control"
                  id="aLatitude"
                  name="aLatitude"
-                 placeholder="Enter Latitude"
-                 required #aLatitude="ngModel">
+                 placeholder="Latitude">
+<!--                 required #aLatitude="ngModel">-->
         </div>
-        <div [hidden]="userBindAddress.address.alatitude !=0" class="alert alert-warning">Latitude is required</div>
+<!--        <div [hidden]="userBindAddress.address.alatitude !=0" class="alert alert-warning">Latitude is required</div>-->
         <div class="form-group">
           <label for="aLongitude">Longitude</label>
           <input type="number" step="0.00001" [(ngModel)]="userBindAddress.address.alongitude"
                  class="form-control"
                  id="aLongitude"
                  name="aLongitude"
-                 placeholder="Enter Longitude"
-                 required #aLongitude="ngModel">
+                 placeholder="Longitude">
+<!--                 required #aLongitude="ngModel">-->
         </div>
-        <div [hidden]="userBindAddress.address.alongitude !=0" class="alert alert-warning">Longitude is required</div>
+<!--        <div [hidden]="userBindAddress.address.alongitude !=0" class="alert alert-warning">Longitude is required</div>-->
         <div class="form-group">
-          <label for="invoice">Invoice Person</label>
+          <label for="invoice">Rechnung Person</label>
           <input type="text" [(ngModel)]="userBindPhone.invoicePerson.username"
                  class="form-control"
                  id="invoice"
                  name="invoice"
-                 placeholder="Enter Username Person Invoice"
+                 placeholder="Rechnung Person"
                  required #invoice="ngModel">
         </div>
-        <div [hidden]="userBindPhone.invoicePerson.username !=''" class="alert alert-warning">Person Invoice is required</div>
+        <div [hidden]="userBindPhone.invoicePerson.username !=''" class="alert alert-warning">Rechnung Person wird benötigt</div>
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">Passwort</label>
           <input [type]=" showPassword ? 'text' : 'password' " [(ngModel)]="user.password"
                  class="form-control"
                  id="password"
                  name="password"
-                 placeholder="Only for new Password!">
-          <button type="button" (click)='showHidePassword()' class="btn-dark"> {{ showPassword ? 'Hide' : 'Show' }} Password</button>
-          <span class="help-block">Password with 8 or more Characters</span>
-          <button type="button" (click)='savePassword()' class="btn-dark">Save New Password</button>
+                 placeholder="Neues Passwort">
+          <button type="button" (click)='showHidePassword()' class="btn-light"> Passwort {{ showPassword ? 'verdecken' : 'zeigen' }}</button>
+          <span class="help-block">   Passwort mit 8 oder mehr Zeichen   </span>
+          <button type="button" (click)='savePassword()' class="btn-light">Passwort sichern</button>
         </div>
-        <button type="submit" [disabled]="!userForm.form.valid" class="btn btn-info">Submit</button>
+        <button type="submit" [disabled]="!userForm.form.valid" class="btn btn-info">Speichern</button>
       </form>
+    </div>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    <div *ngIf="success" class="alert alert-success">
+      {{ success }}
     </div>
   </div>
 </div>
