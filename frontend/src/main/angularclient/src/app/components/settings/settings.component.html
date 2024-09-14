@@ -93,7 +93,6 @@
                  placeholder="Neues Passwort"
                  required #password="ngModel">
           <button type="button" (click)='showHidePassword()' class="btn-light">Passwort {{ showPassword ? ' Verbergen' : ' Zeigen' }}</button>
-          <!--          <span class="help-block">Passwort mit 8 oder mehr Zeichen.</span>-->
         </div>
         <div [hidden]="user.password !=''" class="alert alert-warning">Passwort wird benötigt</div>
         <button type="submit" [disabled]="!userForm.form.valid" class="btn btn-info">Speichern</button>

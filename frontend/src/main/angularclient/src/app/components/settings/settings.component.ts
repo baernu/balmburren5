@@ -105,16 +105,6 @@ export class SettingsComponent {
       }
 
     }
-    // this.setEmailData(this.userBindPhone.email, "");
-    // await firstValueFrom(this.emailService.sendEmail(this.emailData));
-    // this.setEmailData("admin@balmburren.net", this.userBindPhone.user.firstname + ' ' + this.userBindPhone.user.lastname);
-    // try{
-    //   await firstValueFrom(this.emailService.sendEmail(this.emailData));
-    // }catch(error: any) {
-    //   if (error.status != 200){
-    //     this.error = "Mail konnte nicht gesendet werden!";
-    //   }
-    // }
     this.success = "Daten wurden gespeichert.";
     setTimeout(async () => {
       this.error = "";
@@ -123,12 +113,6 @@ export class SettingsComponent {
     }, 1000);
 
   }
-  // setEmailData(mail: string, message: string){
-  //   this.emailData.subject = "Balmburren Einstellungen " + message;
-  //   this.emailData.body = "Guten Tag    Wir melden uns von Balmburren, da Sie Änderung bei ihren Daten vorgenommen haben. Bitte teilen Sie uns mit, falls Sie eine andere Lieferadresse oder eine andere Email haben. Vielen Dank. Das Balmburren Team.";
-  //   this.emailData.toEmail = mail;
-  //   this.emailData.type = "normal";
-  // }
 
   showHidePassword() {
     this.showPassword = !this.showPassword;

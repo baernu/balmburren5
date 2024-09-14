@@ -28,12 +28,18 @@ export class KathyGuard implements CanActivate {
       return false;
     }
     this.people = user;
-    this.message = await firstValueFrom(this.userService.isKathy(this.people.username));
-    this.bool = this.message.valueOf();
-    if (!this.bool) {
-      await this.router.navigate(['home']);
-      return this.bool;
+    try{
+      this.message = await firstValueFrom(this.userService.isKathy(this.people.username));
+    }catch(error: any){
+      if(error.bool != true) await this.router.navigate(['home']);
+      return false;
     }
+    // this.message = await firstValueFrom(this.userService.isKathy(this.people.username));
+    // this.bool = this.message.valueOf();
+    // if (!this.bool) {
+    //   await this.router.navigate(['home']);
+    //   return this.bool;
+    // }
     return true;
 
   }
