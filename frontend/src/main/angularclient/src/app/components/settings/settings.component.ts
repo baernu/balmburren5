@@ -85,8 +85,8 @@ export class SettingsComponent {
 
   }
   setEmailData(mail: string, message: string){
-    this.emailData.subject = "Balmburren Registration " + message;
-    this.emailData.body = "Guten Tag    Vielen Dank, wir werden Sie informieren sobald wir Sie als Balmburren User dazugefügt haben, damit Sie dann online bestellen können. Falls Sie schon Balmburren User sind, bekommen Sie diese Mail, weil Sie Ihre Einstellungen angepasst haben. Und bitte melden Sie Balmburren, wenn Sie eine neue Lieferadresse haben. Vielen Dank.";
+    this.emailData.subject = "Balmburren Einstellungen " + message;
+    this.emailData.body = "Guten Tag    Wir melden uns von Balmburren, da Sie Änderung bei ihren Daten vorgenommen haben. Bitte teilen Sie uns mit, falls Sie eine andere Lieferadresse oder eine andere Email haben. Vielen Dank. Das Balmburren Team.";
     this.emailData.toEmail = mail;
     this.emailData.type = "normal";
   }
