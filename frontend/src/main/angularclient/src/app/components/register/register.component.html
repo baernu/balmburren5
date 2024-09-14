@@ -22,7 +22,7 @@
                name="password"
                placeholder="Gib ein Passwort ein."
                required #password="ngModel">
-        <button type="button" (click)='showHidePassword()' class="btn-light"> {{ showPassword ? 'Hide' : 'Show' }} Password</button>
+        <button type="button" (click)='showHidePassword()' class="btn-light">Passwort {{ showPassword ? ' verdecken' : ' zeigen }}</button>
         <span class="help-block">   Password with 8 or more Characters</span>
       </div>
         <div [hidden]="!password.pristine" class="alert alert-warning">    Password is required</div>

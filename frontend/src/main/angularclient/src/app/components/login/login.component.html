@@ -10,10 +10,10 @@
                class="form-control"
                id="username"
                name="username"
-               placeholder="Enter Username"
+               placeholder="Username"
                required #username="ngModel">
       </div>
-      <div [hidden]="!username.pristine" class="alert alert-warning">Username is required</div>
+      <div [hidden]="!username.pristine" class="alert alert-warning">Username wird benötigt</div>
         <div class="form-group">
         <label for="password">Password</label>
         <input [type]=" showPassword ? 'text' : 'password' " [(ngModel)]="user.password"
@@ -22,17 +22,22 @@
                name="password"
                placeholder="Enter Password"
                required #password="ngModel">
-        <div [hidden]="!password.pristine" class="alert alert-warning">Password is required</div>
+          <button type="button" (click)='showHidePassword()' class="btn-light"> Passwort{{ showPassword ? ' verdecken' : ' zeigen' }}</button>
+        <div [hidden]="!password.pristine" class="alert alert-warning">Passwort wird benötigt</div>
       </div>
       <div *ngIf="bool" class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Sorry</strong> Your credentials are not correct, try again.
       </div>
       <button type="submit" [disabled]="!userForm.form.valid"
-              class="btn btn-info">Submit</button>
+              class="btn btn-info">Senden</button>
     </form>
     </div>
+    <div><p>Wenn Sie das Passwort vergessen haben, geben Sie bitte ihr Username ein und drücken: Passwort per Email senden.</p></div>
+    <button type="button" (click)='sendPassword()' class="btn-light"> Passwort per Email senden</button>
     <div *ngIf="error" class="alert alert-danger">
       {{ error }}
+    </div>
+    <div *ngIf="success" class="alert alert-success">
+      {{ success }}
     </div>
   </div>
 </div>

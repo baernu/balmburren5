@@ -2,9 +2,7 @@ import { Component } from '@angular/core';
 import {UserService} from "../user/service/user-service.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserDTO} from "../user/service/userDTO";
-import {UserBindPhoneDTO} from "../user/service/UserBindPhoneDTO";
 import {firstValueFrom} from "rxjs";
-import {ErrorHandlingService} from "../error_handling/error-handling.service";
 
 
 @Component({
