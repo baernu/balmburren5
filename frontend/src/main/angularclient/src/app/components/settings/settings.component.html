@@ -13,7 +13,7 @@
                  class="form-control"
                  id="email"
                  name="email"
-                 placeholder="Enter Email"
+                 placeholder="Email"
                  required #email="ngModel">
         </div>
         <div [hidden]="userBindPhone.email !=''" class="alert alert-warning">Email wird benötigt</div>
@@ -23,27 +23,27 @@
                  class="form-control"
                  id="street"
                  name="street"
-                 placeholder="Enter your Street"
+                 placeholder="Strasse"
                  required #street="ngModel">
         </div>
         <div [hidden]="address.street !=''" class="alert alert-warning">Strasse wird benötigt</div>
         <div class="form-group">
-          <label for="number">Street Number</label>
+          <label for="number">Strassen Nummer</label>
           <input type="text" [(ngModel)]="address.number"
                  class="form-control"
                  id="number"
                  name="number"
-                 placeholder="Enter your Street Number"
+                 placeholder="Strassennummer"
                  required #number="ngModel">
         </div>
-        <div [hidden]="address.number !=''" class="alert alert-warning">Strassennummer wird benötigt</div>
+        <div [hidden]="address.number !=''" class="alert alert-warning">Strassen Nummer wird benötigt</div>
         <div class="form-group">
-          <label for="city">City</label>
+          <label for="city">Ort</label>
           <input type="text" [(ngModel)]="address.city"
                  class="form-control"
                  id="city"
                  name="city"
-                 placeholder="Enter your City"
+                 placeholder="Ort"
                  required #city="ngModel">
         </div>
         <div [hidden]="address.city !=''" class="alert alert-warning">Ort wird benötigt</div>
@@ -53,20 +53,20 @@
                  class="form-control"
                  id="plz"
                  name="plz"
-                 placeholder="Enter your PLZ"
+                 placeholder="PLZ"
                  required #plz="ngModel">
         </div>
         <div [hidden]="address.plz !=0" class="alert alert-warning">PLZ wird benötigt</div>
         <div class="form-group">
-          <label for="phone">Phone</label>
+          <label for="phone">Telefon Nummer</label>
           <input type="text" [(ngModel)]="userBindPhone.phone"
                  class="form-control"
                  id="phone"
                  name="phone"
-                 placeholder="Enter your Phone Number"
-                 required #phone="ngModel">
+                 placeholder="Telefon Nummer">
+<!--                 required #phone="ngModel">-->
         </div>
-        <div [hidden]="userBindPhone.phone !=''" class="alert alert-warning">Telefon Nummer wird benötigt</div>
+<!--        <div [hidden]="userBindPhone.phone !=''" class="alert alert-warning">Telefon Nummer wird benötigt</div>-->
         <button type="submit" [disabled]="!userForm.form.valid"
                 class="btn btn-info">Speichern</button>
       </form>
@@ -92,7 +92,7 @@
                  name="password"
                  placeholder="Neues Passwort"
                  required #password="ngModel">
-          <button type="button" (click)='showHidePassword()' class="btn-light">Passwort {{ showPassword ? ' Verbergen' : ' Zeigen' }}</button>
+          <button type="button" (click)='showHidePassword()' class="btn-light">Passwort {{ showPassword ? ' verdecken' : ' zeigen' }}</button>
         </div>
         <div [hidden]="user.password !=''" class="alert alert-warning">Passwort wird benötigt</div>
         <button type="submit" [disabled]="!userForm.form.valid" class="btn btn-info">Speichern</button>
