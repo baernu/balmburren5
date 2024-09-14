@@ -32,6 +32,13 @@ export class DriverWorkComponent implements OnInit {
   async ngOnInit(){
     this.param1= this.route.snapshot.queryParamMap.get('param1');
     if (this.param1 != null) this.user = await firstValueFrom(this.userService.findUser(this.param1));
+    if (this.user.username != "") this.user = await firstValueFrom(this.userService.findUser(this.user.username));
+    if (this.user.username == "")this.error = "User nicht gefunden!";
+    else this.success = "User gefunden!";
+    setTimeout(() => {
+      this.error = "";
+      this.success = "";
+      return;}, 1000);
   }
 
   async showWork() {

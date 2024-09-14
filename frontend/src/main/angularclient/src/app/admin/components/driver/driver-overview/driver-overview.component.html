@@ -6,6 +6,16 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
+        <th scope="col">Username</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><input type="text" [(ngModel)]="user.username" (change)="ngOnInit()"></td>
+      </tr>
+      </tbody>
+      <thead class="thead-dark">
+      <tr>
         <th scope="col">Start Datum</th>
         <th scope="col">End Datum</th>
       </tr>
