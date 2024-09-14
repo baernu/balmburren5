@@ -16,7 +16,6 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./userorderprofile.component.css']
 })
 export class UserorderprofileComponent {
-  // bool2: boolean = false;
   showPassword: boolean = false;
   userProfileOrders: UserProfileOrderDTO[] = [];
   productBindInfos: ProductBindInfosDTO[] = [];
@@ -38,12 +37,11 @@ export class UserorderprofileComponent {
   }
 
   async ngOnInit(): Promise<void> {
-    // let bool2: Boolean = await firstValueFrom(this.errorHandlingService.getBoolRegister2());
-    // this.bool2 = bool2.valueOf();
     let tours : TourDTO[] = [];
     // let username = localStorage.getItem('username');
     // if (username)
     this.user = await firstValueFrom(this.userService.currentUser());
+    this.user = await firstValueFrom(this.userService.findUser(this.user.username));
     this.user.password = "";
     this.tours = await firstValueFrom(this.tourService.getTours());
     for (const tour of this.tours) {
