@@ -47,6 +47,16 @@
                required #lastname="ngModel">
       </div>
       <div [hidden]="!lastname.pristine" class="alert alert-warning">Nachname wird benötigt</div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="text" [(ngModel)]="userBindPhone.email"
+                 class="form-control"
+                 id="email"
+                 name="email"
+                 placeholder="Email"
+                 required #email="ngModel">
+        </div>
+        <div [hidden]="!email.pristine" class="alert alert-warning">Email wird benötigt</div>
       <button type="submit" [disabled]="!userForm.form.valid"
               class="btn btn-info">Senden</button>
     </form>

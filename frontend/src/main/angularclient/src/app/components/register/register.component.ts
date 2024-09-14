@@ -3,6 +3,9 @@ import {UserService} from "../user/service/user-service.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserDTO} from "../user/service/userDTO";
 import {firstValueFrom} from "rxjs";
+import {EmailDataDTO} from "../../admin/components/email/email-service/EmailDataDTO";
+import {UserBindPhoneDTO} from "../user/service/UserBindPhoneDTO";
+import {EmailService} from "../../admin/components/email/email-service/email.service";
 
 
 @Component({
@@ -13,6 +16,7 @@ import {firstValueFrom} from "rxjs";
 export class RegisterComponent {
 
   user: UserDTO;
+  userBindPhone: UserBindPhoneDTO = new UserBindPhoneDTO();
   showPassword: boolean = false;
   error: string = "";
   success: string = "";
@@ -21,6 +25,7 @@ export class RegisterComponent {
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
+    private emailService: EmailService,
     ) {
     this.user = new UserDTO();
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
@@ -53,9 +58,11 @@ export class RegisterComponent {
 
     if (!bool && this.user.password.length > 7) {
       try {
-        await firstValueFrom(this.userService.register(this.user));
+        this.userBindPhone.user  = await firstValueFrom(this.userService.register(this.user));
+        this.userBindPhone.invoicePerson = this.userBindPhone.user;
+        await firstValueFrom(this.userService.createUserBindPhone(this.userBindPhone));
       }catch(error: any){
-        if(error.status != 200) {
+        if(error.status != 200 || 201) {
           this.error = "Registrierung hat nicht geklappt!";
           setTimeout(async () => {
             this.success = "";
@@ -64,16 +71,51 @@ export class RegisterComponent {
           }, 2000);
         }
       }
-      this.success = "Registrierung hat geklappt. Sie können sich einloggen.";
-      setTimeout(async () => {
-        this.success = "";
-        this.error = "";
-        await this.router.navigate(['login']);
-      }, 2000);
+      this.success = "Bitte schauen sie in den nächsten Minuten in Ihrem Email Postfach.";
+      this.sendRegisterMessage();
+      // setTimeout(async () => {
+      //   this.success = "";
+      //   this.error = "";
+      //   return;
+      //   // await this.sendRegisterMessage();
+      //   // await this.router.navigate(['login']);
+      // }, 2000);
+      // await this.sendRegisterMessage();
+      // this.sendRegisterMessage();
+      // await this.router.navigate(['login']);
     }
   }
 
   showHidePassword() {
     this.showPassword = !this.showPassword;
   }
+
+  async sendRegisterMessage() {
+    // let userBindPhone = await firstValueFrom(this.userService.getUserBindPhone(this.userBindPhone.user));
+    // console.log("Userbindphone: " + userBindPhone.email);
+    try{
+      let emailData = new EmailDataDTO();;
+      emailData.type = "normal";
+      emailData.body = "Guten Tag\nSie haben sich neu bei Balmburren registriert. Bitte antworten Sie auf diese Mail und bestätigen kurz,\nbei Balmburren als Kunde * in online bestellen zu wollen.\nVielen Dank.";
+      emailData.toEmail = this.userBindPhone.email;
+      emailData.subject = "Registrierung Balmburren";
+      await firstValueFrom(this.emailService.sendEmail(emailData));
+    }catch(error:any){
+      if(error.status != 200) {
+        this.error = "Registrierungsmail konnte nicht gesendet werden!";
+        setTimeout(() => {
+          this.success = "";
+          this.error = "";
+          return;
+        }, 2000);
+      }
+    }
+    this.success = "Registrierungsmail wurde gesendet. Bitte lesen Sie die Mail. Sie werden zum Login weitergleitet."
+    setTimeout(async () => {
+      this.success = "";
+      this.error = "";
+      await this.router.navigate(['login']);
+    }, 3000);
+  }
+
 }
