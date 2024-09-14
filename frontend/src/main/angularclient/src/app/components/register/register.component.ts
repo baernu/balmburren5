@@ -14,7 +14,8 @@ export class RegisterComponent {
 
   user: UserDTO;
   showPassword: boolean = false;
-  error: any;
+  error: string = "";
+  success: string = "";
 
   constructor(
     private route: ActivatedRoute,

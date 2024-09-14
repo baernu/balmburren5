@@ -2,6 +2,7 @@
 <router-outlet></router-outlet>
 <div class="card my-5">
   <div class="card-body">
+    <span style="display:block; height:50px;"></span>
     <div class="input-group mb-3 w-100 was-validated h-25">
     <form (ngSubmit)="onSubmit()" #userForm="ngForm">
       <div class="form-group">
@@ -14,18 +15,16 @@
                required #username="ngModel">
       </div>
       <div [hidden]="!username.pristine" class="alert alert-warning">Username wird benötigt</div>
-        <div class="form-group">
-        <label for="password">Password</label>
+      <div class="form-group">
+        <label for="password">Passwort</label>
         <input [type]=" showPassword ? 'text' : 'password' " [(ngModel)]="user.password"
                class="form-control"
                id="password"
                name="password"
-               placeholder="Enter Password"
+               placeholder="Passwort"
                required #password="ngModel">
-          <button type="button" (click)='showHidePassword()' class="btn-light"> Passwort{{ showPassword ? ' verdecken' : ' zeigen' }}</button>
+        <button type="button" (click)='showHidePassword()' class="btn-light"> Passwort{{ showPassword ? ' verdecken' : ' zeigen' }}</button>
         <div [hidden]="!password.pristine" class="alert alert-warning">Passwort wird benötigt</div>
-      </div>
-      <div *ngIf="bool" class="alert alert-danger alert-dismissible fade show" role="alert">
       </div>
       <button type="submit" [disabled]="!userForm.form.valid"
               class="btn btn-info">Senden</button>
