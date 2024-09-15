@@ -87,7 +87,7 @@ export class UserTourComponent {
 
   async goTo(tour: TourDTO) {
     this.error = "";
-    if ( tour) {
+    if ( tour && tour.number != "0") {
       if(!this.updatedOrder) {
         this.updateAutomatedOrder();
         this.updatedOrder = true;
@@ -99,7 +99,7 @@ export class UserTourComponent {
       this.dates.date = new Date(this.dates.date).toISOString().split('T')[0];
       this.dates = await firstValueFrom(this.tourService.createDates(this.dates));
 
-      await this.updateAutomatedOrder();
+      // await this.updateAutomatedOrder();
 
       this.orders = await firstValueFrom(this.userService.getAllOrderForTourAndDate(this.tour, this.dates));
       this.orders = this.orders.filter(order => order.quantityOrdered > 0);
