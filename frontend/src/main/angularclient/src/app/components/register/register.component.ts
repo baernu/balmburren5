@@ -6,6 +6,7 @@ import {firstValueFrom} from "rxjs";
 import {EmailDataDTO} from "../../admin/components/email/email-service/EmailDataDTO";
 import {UserBindPhoneDTO} from "../user/service/UserBindPhoneDTO";
 import {EmailService} from "../../admin/components/email/email-service/email.service";
+import {UserBindDeliverAddressDTO} from "../user/service/userBindDeliverAddressDTO";
 
 
 @Component({
@@ -17,6 +18,7 @@ export class RegisterComponent {
 
   user: UserDTO;
   userBindPhone: UserBindPhoneDTO = new UserBindPhoneDTO();
+  userBindAddress: UserBindDeliverAddressDTO = new UserBindDeliverAddressDTO();
   showPassword: boolean = false;
   error: string = "";
   success: string = "";
@@ -63,7 +65,21 @@ export class RegisterComponent {
         await firstValueFrom(this.userService.createUserBindPhone(this.userBindPhone));
       }catch(error: any){
         if(error.status != 200 || 201) {
-          this.error = "Registrierung hat nicht geklappt!";
+          this.error = "Registrierung  Email/ Phone hat nicht geklappt!";
+          setTimeout(async () => {
+            this.success = "";
+            this.error = "";
+            return;
+          }, 2000);
+        }
+      }
+      try {
+        this.userBindAddress.address = await firstValueFrom(this.userService.createAddress(this.userBindAddress.address));
+        this.userBindAddress.user = this.userBindPhone.user;
+        this.userBindAddress = await firstValueFrom(this.userService.createUserBindAddress(this.userBindAddress));
+      }catch(error: any){
+        if(error.status != 200 || 201){
+          this.error = "Registrierung Adresse hat nicht geklappt!";
           setTimeout(async () => {
             this.success = "";
             this.error = "";
@@ -115,7 +131,7 @@ export class RegisterComponent {
       this.success = "";
       this.error = "";
       await this.router.navigate(['login']);
-    }, 3000);
+    }, 5000);
   }
 
 }
