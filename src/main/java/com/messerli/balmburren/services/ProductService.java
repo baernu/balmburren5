@@ -22,13 +22,15 @@ public interface ProductService {
 
     Optional<ProductDetails> deleteProductDetails(ProductDetails productDetails);
 
+    Optional<Product> deleteProduct(Product product);
+
     Optional<ProductDetails> putProductDetails(ProductDetails productDetails);
     Optional<ProductBindProductDetails> saveProductBindInfos(ProductBindProductDetails productBindInfos);
     Optional<ProductBindProductDetails> putProductBindInfos(ProductBindProductDetails productBindInfos);
     Optional<ProductBindProductDetails> getProductBindInfos(Product product, ProductDetails productDetails);
     boolean isProductBindInfos(Product product, ProductDetails productDetails);
     Optional<ProductBindProductDetails> getProductBindInfosById(Long id);
-    Optional<ProductBindProductDetails> deleteProductBindInfos(Product product, ProductDetails productDetails);
+    Optional<ProductBindProductDetails> deleteProductBindInfos(ProductBindProductDetails productBindProductDetails);
     Optional<List<ProductBindProductDetails>> getAllProductBindInfosForProduct(Product product);
     Optional<List<ProductBindProductDetails>> getAllProductBindInfos();
 }

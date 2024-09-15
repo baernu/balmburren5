@@ -33,6 +33,9 @@ export class ProductService {
   public getProduct(name: string):Observable<ProductDTO> {
     return this.http.get<ProductDTO>(this.productUrl + name, {withCredentials: true});}
 
+  public deleteProduct(product: ProductDTO):Observable<ProductDTO> {
+    return this.http.patch<ProductDTO>(this.productUrl, product,{withCredentials: true});}
+
   public getProducts():Observable<ProductDTO[]>{
     return this.http.get<ProductDTO[]>(this.productUrl, {withCredentials: true});}
 
@@ -72,8 +75,8 @@ export class ProductService {
   public getProductBindInfosById(id: number):Observable<ProductBindInfosDTO> {
     return this.http.get<ProductBindInfosDTO>(this.productBindDetailsUrl + 'byid/' +id , {withCredentials: true});}
 
-  public deleteProductBindInfos(product: ProductDTO, productDetails: ProductDetailsDTO):Observable<ProductBindInfosDTO> {
-    return this.http.delete<ProductBindInfosDTO>(this.productBindDetailsUrl + product.name + '/' + productDetails.id , {withCredentials: true});}
+  public deleteProductBindInfos(productBindInfos: ProductBindInfosDTO):Observable<ProductBindInfosDTO> {
+    return this.http.patch<ProductBindInfosDTO>(this.productBindDetailsUrl ,productBindInfos, {withCredentials: true});}
 
   public getAllProductBindInfosForProduct(product: ProductDTO):Observable<ProductBindInfosDTO[]> {
     return this.http.get<ProductBindInfosDTO[]>(this.productBindDetailsUrl + product.name , {withCredentials: true});}

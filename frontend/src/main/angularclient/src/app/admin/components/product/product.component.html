@@ -14,11 +14,18 @@
       <tr *ngFor="let product of products">
         <td>{{ product.id }}</td>
         <td (click)="holdProduct(product)" title="Neue Kombi 1">{{ product.name }}</td>
+        <button type="button" (click)='deleteProduct(product)' class="btn-light">Löschen</button>
       </tr>
       </tbody>
     </table>
     <button type="button" (click)='addProduct()' class="btn-light">Neues Produkt</button>
   </div>
+</div>
+<div *ngIf="error" class="alert alert-danger">
+  {{ error }}
+</div>
+<div *ngIf="success" class="alert alert-success">
+  {{ success }}
 </div>
 <div class="card my-5">
   <div class="card-body">
@@ -75,8 +82,15 @@
         <td><input type="date"  [(ngModel)]="productBindInfo.endDate.date"></td>
         <button type="button" (click)='delete(productBindInfo)' class="btn-light">Löschen</button>
       </tr>
-      <button type="button" (click)='save()' class="btn-light">Speichern</button>
       </tbody>
     </table>
+    <button type="button" (click)='save()' class="btn-light">Speichern</button>
+    <div *ngIf="error2" class="alert alert-danger">
+      {{ error2 }}
+    </div>
+    <div *ngIf="success2" class="alert alert-success">
+      {{ success2 }}
+    </div>
   </div>
 </div>
+

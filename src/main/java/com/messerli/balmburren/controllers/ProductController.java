@@ -7,6 +7,7 @@ import com.messerli.balmburren.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -30,12 +31,14 @@ public class ProductController {
     }
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @PostMapping("product/")
     ResponseEntity<Optional<Product>> createProduct(@RequestBody Product product) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/product").toUriString());
         return ResponseEntity.created(uri).body(productService.saveProduct(product));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("product/{name}")
     ResponseEntity<Optional<Product>> getProduct(@PathVariable("name") String name) {
         return ResponseEntity.ok().body(getProduct1(name));}
@@ -46,31 +49,43 @@ public class ProductController {
         return product;
     }
 
-    @CrossOrigin( allowCredentials = "true")
-    @DeleteMapping("product/{name}")
-    ResponseEntity<Optional<Product>> deleteProduct(@PathVariable("name") String name) {
-        Optional<Product> product = productService.deleteProduct(name);
-        if (product.isEmpty()) throw new NoSuchElementFoundException("Product not found");
-        return ResponseEntity.ok().body(product);}
+//    @CrossOrigin( allowCredentials = "true")
+//    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
+//    @DeleteMapping("product/{name}")
+//    ResponseEntity<Optional<Product>> deleteProduct(@PathVariable("name") String name) {
+//        Optional<Product> product = productService.deleteProduct(name);
+//        if (product.isEmpty()) throw new NoSuchElementFoundException("Product not found");
+//        return ResponseEntity.ok().body(product);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("product/")
     ResponseEntity<Optional<List<Product>>> getProducts() {
         return ResponseEntity.ok().body(productService.getProducts());}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
+    @PatchMapping("product/")
+    ResponseEntity<Optional<Product>> deleteProduct(@RequestBody Product product) {
+//        productService.deleteProduct(product);
+        return ResponseEntity.ok().body(productService.deleteProduct(product));}
+
+    @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping ("product/exist/{name}")
     ResponseEntity<Boolean> existProduct(@PathVariable("name") String name) {
         boolean bool = productService.existProduct(name);
         return ResponseEntity.ok().body(bool);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @PostMapping("product/details/")
     ResponseEntity<Optional<ProductDetails>> createProductDetails(@RequestBody ProductDetails productDetails) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/product/details").toUriString());
         return ResponseEntity.created(uri).body(productService.saveProductDetails(productDetails));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @PutMapping("product/details/{id}")
     ResponseEntity<Optional<ProductDetails>> putProductDetails(@RequestBody ProductDetails productDetails) {
         Optional<ProductDetails> productDetails1 = productService.putProductDetails(productDetails);
@@ -78,6 +93,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productDetails1);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("product/details/{id}")
     ResponseEntity<Optional<ProductDetails>> getProductDetails(@PathVariable("id") Long id) {
         Optional<ProductDetails> productDetails = productService.getProductDetails(id);
@@ -85,40 +101,47 @@ public class ProductController {
         return ResponseEntity.ok().body(productDetails);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("product/details/{category}")
     ResponseEntity<Optional<List<ProductDetails>>> getAllProductDetailsForProduct(@PathVariable("category") String category) {
         Optional<List<ProductDetails>> list = productService.getAllProductDetailsForCategory(category);
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("product/details/")
     ResponseEntity<Optional<List<ProductDetails>>> getAllProductDetails() {
         Optional<List<ProductDetails>> list = productService.getAllProductDetails();
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @PatchMapping("product/details/")
     ResponseEntity<Optional<ProductDetails>> deleteProductDetails(@RequestBody ProductDetails productDetails) {
-        productService.deleteProductDetails(productDetails);
-        return ResponseEntity.ok().body(Optional.ofNullable(productDetails));}
+//        productService.deleteProductDetails(productDetails);
+        return ResponseEntity.ok().body(productService.deleteProductDetails(productDetails));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @PostMapping("product/bind/infos/")
     ResponseEntity<Optional<ProductBindProductDetails>> createProductDetails(@RequestBody ProductBindProductDetails productBindInfos) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/product/bind/infos").toUriString());
         return ResponseEntity.created(uri).body(productService.saveProductBindInfos(productBindInfos));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @PutMapping("product/bind/infos/")
     ResponseEntity<Optional<ProductBindProductDetails>> putProductDetails(@RequestBody ProductBindProductDetails productBindInfos) {
         return ResponseEntity.ok().body(productService.putProductBindInfos(productBindInfos));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("product/bind/infos/{product}/{productdetails}")
     ResponseEntity<Optional<ProductBindProductDetails>> getProductBindInfos(@PathVariable("product") String name, @PathVariable("productdetails") Long id) {
         return ResponseEntity.ok().body(getProductBindInfo(name, id, 1));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("product/bind/infos/exist/{product}/{productdetails}")
     ResponseEntity<Boolean> isProductBindInfos(@PathVariable("product") String name, @PathVariable("productdetails") Long id) {
         ProductBindProductDetails productBindInfos = null;
@@ -130,16 +153,19 @@ public class ProductController {
         return ResponseEntity.ok().body(bool);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("product/bind/infos/byid/{id}")
     ResponseEntity<Optional<ProductBindProductDetails>> getProductBindInfosById(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(productService.getProductBindInfosById(id));}
 
     @CrossOrigin( allowCredentials = "true")
-    @DeleteMapping("product/bind/infos/{product}/{productdetails}")
-    ResponseEntity<Optional<ProductBindProductDetails>> deleteProductBindInfos(@PathVariable("product") String name, @PathVariable("productdetails") Long id) {
-        return ResponseEntity.ok().body(getProductBindInfo(name, id, 0));}
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
+    @PatchMapping("product/bind/infos/")
+    ResponseEntity<Optional<ProductBindProductDetails>> deleteProductBindInfos(@RequestBody ProductBindProductDetails productBindProductDetails) {
+        return ResponseEntity.ok().body(productService.deleteProductBindInfos(productBindProductDetails));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("product/bind/infos/{product}")
     ResponseEntity<Optional<List<ProductBindProductDetails>>> getAllProductBindInfosForProduct(@PathVariable("product") String name) {
         Optional<Product> product = productService.getProduct(name);
@@ -147,6 +173,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.getAllProductBindInfosForProduct(product.get()));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("product/bind/infos/")
     ResponseEntity<Optional<List<ProductBindProductDetails>>> getAllProductBindInfos() {
         return ResponseEntity.ok().body(productService.getAllProductBindInfos());}
@@ -158,7 +185,7 @@ public class ProductController {
         Optional<ProductDetails> productDetails = productService.getProductDetails(id);
         if (productDetails.isEmpty()) throw new NoSuchElementFoundException("ProductDetails not found");
         if (i == 1) productBindInfos = productService.getProductBindInfos(product1.get(), productDetails.get());
-        if (i == 0) productBindInfos = productService.deleteProductBindInfos(product1.get(), productDetails.get());
+//        if (i == 0) productBindInfos = productService.deleteProductBindInfos(product1.get(), productDetails.get());
         if (productBindInfos.isEmpty()) throw new NoSuchElementFoundException("ProductBindInfo not found");
         return productBindInfos;
     }

@@ -98,6 +98,13 @@ public class ProductServiceImpl implements ProductService {
         return Optional.of(productDetails);
     }
 
+    @Override
+    public Optional<Product> deleteProduct(Product product) {
+        productRepo.delete(product);
+        log.info("Deleted Product {}", product);
+        return Optional.of(product);
+    }
+
 
     @Override
     public Optional<ProductDetails> putProductDetails(ProductDetails productDetails) {
@@ -139,11 +146,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<ProductBindProductDetails> deleteProductBindInfos(Product product, ProductDetails productDetails) {
-        Optional<ProductBindProductDetails> productBindInfos = getProductBindInfos(product, productDetails);
-        log.info("Deleted ProductInfos for Product: {} ", productBindInfos);
-        productBindInfosRepo.delete(productBindInfos.get());
-        return productBindInfos;
+    public Optional<ProductBindProductDetails> deleteProductBindInfos(ProductBindProductDetails productBindProductDetails) {
+        log.info("Deleted ProductBindProductDetails : {} ", productBindProductDetails);
+        productBindInfosRepo.delete(productBindProductDetails);
+        return Optional.of(productBindProductDetails);
     }
 
     @Override
