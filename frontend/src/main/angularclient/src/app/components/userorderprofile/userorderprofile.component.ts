@@ -95,20 +95,4 @@ export class UserorderprofileComponent {
       await this.router.navigate(['basic_order_profil']);
     }, 4000);
   }
-  // showHidePassword() {
-  //   this.showPassword = !this.showPassword;
-  // }
-  //
-  // async onSubmit() {
-  //   if (this.user.password.length > 7){
-  //     await firstValueFrom(this.errorHandlingService.putBoolRegister2(false));
-  //     await firstValueFrom(this.userService.updateUser(this.user));
-  //     await this.router.navigate(['login']);
-  //   } else {
-  //     await firstValueFrom(this.errorHandlingService.putBoolRegister2(true));
-  //     await this.router.navigate(['basic_order_profil']);
-  //   }
-  //
-  //
-  // }
 }

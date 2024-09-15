@@ -87,17 +87,16 @@ export class UserTourComponent {
 
   async goTo(tour: TourDTO) {
     this.error = "";
-    if ( tour && tour.number != "0") {
-      if(!this.updatedOrder) {
-        this.updateAutomatedOrder();
-        this.updatedOrder = true;
-      }
+    if ( tour) {
       this.tour = tour;
       this.tour = await firstValueFrom(this.tourService.getTour(tour.number));
+
+
       this.userBindTours = await firstValueFrom(this.userService.getAllPersonsForTour(this.tour.number));
       this.userBindTours.sort((u1: UserBindTourDTO, u2: UserBindTourDTO) => u1.position - u2.position);
       this.dates.date = new Date(this.dates.date).toISOString().split('T')[0];
       this.dates = await firstValueFrom(this.tourService.createDates(this.dates));
+
 
       // await this.updateAutomatedOrder();
 
@@ -107,14 +106,18 @@ export class UserTourComponent {
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => o1.productBindInfos.product.name.localeCompare(o2.productBindInfos.product.name));
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => o1.productBindInfos.productDetails.category.localeCompare(o2.productBindInfos.productDetails.category));
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => this.orderPositionOfOrder(o1, o2));
+
+      if(!this.updatedOrder) {
+        await this.updateAutomatedOrder(this.tour);
+      }
     }
 
     let eggs: number = 0;
     let milks: number = 0;
     for (const order of this.orders) {
-      if (order.productBindInfos.product.name === "Eier")
+      if (order.productBindInfos.productDetails.category === "Eier")
         eggs += order.quantityOrdered;
-      if (order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
+      if (order.productBindInfos.productDetails.category === "Milch")
         milks += order.quantityOrdered;
     }
     this.totalMilk = milks;
@@ -155,7 +158,7 @@ export class UserTourComponent {
         console.log("in the second client ...");
         if (order.productBindInfos.product.name === "Eier")
           client.eggs = order.quantityOrdered.toString();
-        if (order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
+        if (order.productBindInfos.product.name === "Milch")
           client.milk = order.quantityOrdered.toString();
         client.keys = client.keys.concat(";").concat(order.productBindInfos.id);
       } else {
@@ -168,7 +171,7 @@ export class UserTourComponent {
             userBindAddress.address.plz + ' ' + userBindAddress.address.city;
         if (order.productBindInfos.product.name === "Eier")
           androidClient.eggs = order.quantityOrdered.toString();
-        if (order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
+        if (order.productBindInfos.product.name === "Milch")
           androidClient.milk = order.quantityOrdered.toString();
         androidClient.geopoint = userBindAddress.address.alatitude + ',' + userBindAddress.address.alongitude;
         androidClient.isDelivered = "0";
@@ -289,16 +292,33 @@ export class UserTourComponent {
 
 
 
-  async updateAutomatedOrder() {
+  async updateAutomatedOrder(tour: TourDTO) {
+
     let date = new Date();
     let dateNow: DatesDTO = new DatesDTO();
     dateNow.date = new Date().toISOString().split('T')[0];
     let dayPlus21: DatesDTO = new DatesDTO();
     dayPlus21.date = new Date(date.setDate(date.getDate() + 21)).toISOString().split('T')[0];
     if (this.compare(new Date(this.dates.date)) && this.dates.date <= dayPlus21.date) {
-      let tourBindInfos: TourDateBindInfosDTO[] = await firstValueFrom(this.tourService.getAllTourDatesBindInfosForTourAndDate(this.tour, this.dates));
-      let userBindTourDTOS = await firstValueFrom(this.userService.getAllPersonsForTour(this.tour.number));
+      this.updatedOrder = true;
+      let tourBindInfos: TourDateBindInfosDTO[] = await firstValueFrom(this.tourService.getAllTourDatesBindInfosForTourAndDate(tour, this.dates));
+      let userBindTourDTOS = await firstValueFrom(this.userService.getAllPersonsForTour(tour.number));
       for (const userBindTour of userBindTourDTOS) {
+
+
+       let productBindInfos = await firstValueFrom(this.productService.getAllProductBindInfos());
+       productBindInfos = this.checkIfProductBindInfosActive(productBindInfos);
+
+        for (const pBI of productBindInfos) {
+          let userProfileOrder = new UserProfileOrderDTO();
+          userProfileOrder.tour = tour;
+          userProfileOrder.user = userBindTour.user;
+          userProfileOrder.productBindProductDetails = pBI;
+          if (!await firstValueFrom(this.userService.existUserProfileOrder(userBindTour.user, pBI.product, pBI.productDetails, tour)))
+            await firstValueFrom(this.userService.createUserProfileOrder(userProfileOrder));
+        }
+
+
         for (const tDBI of tourBindInfos) {
           let order = new OrderDTO();
           let date = new DatesDTO();
@@ -327,6 +347,10 @@ export class UserTourComponent {
         }
       }
     }
+  }
+
+  checkIfProductBindInfosActive(productBindInfos: ProductBindInfosDTO[]) {
+    return productBindInfos.filter(productBindInfo =>  productBindInfo.endDate.date >= new Date().toISOString().split('T')[0]);
   }
 
   private async putOrder(order: OrderDTO) {
