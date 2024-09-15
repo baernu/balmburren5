@@ -21,6 +21,8 @@ export class OrderComponent {
   orders: OrderDTO[] = [];
   user: UserDTO = new UserDTO();
   userProfileOrders: UserProfileOrderDTO[] = [];
+  error: string = "";
+  success: string = "";
 
 
   constructor(
@@ -92,11 +94,26 @@ export class OrderComponent {
   }
 
   async apply() {
-    for (const order of this.orders) {
-      await this.putOrder(order);
+    try {
+      for (const order of this.orders) {
+        await this.putOrder(order);
+      }
+    }catch(error: any){
+      if(error.status != 200){
+        this.error = "Speichern hat nicht funktioniert!";
+        setTimeout(async () => {
+          this.success = "";
+          this.error = "";
+          return;
+        }, 2000);
+      }
     }
-    await this.router.navigate(['basic_order']);
-
+    this.success = "Speichern hat funktioniert.";
+    setTimeout(async () => {
+      this.success = "";
+      this.error = "";
+      await this.router.navigate(['basic_order']);
+    }, 2000);
   }
   private async putOrder(order: OrderDTO) {
     order.isChecked = true;

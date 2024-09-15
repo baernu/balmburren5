@@ -29,27 +29,10 @@
     </table>
   </div>
 </div>
-<!--<div class="card my-5">-->
-<!--  <div class="card-body">-->
-<!--    <div> <h4>Username: {{user.username}} </h4></div>-->
-<!--    <div> <h4>ID: {{user.id}} </h4></div>-->
-<!--    <div class="input-group mb-3 was-validated w-100 h-25">-->
-<!--      <form (ngSubmit)="onSubmit()" #userForm="ngForm">-->
-<!--        <div class="form-group">-->
-<!--          <label for="password">Neues Passwort erstellen mit 8 oder mehr Zeichen.</label>-->
-<!--          <input [type]=" showPassword ? 'text' : 'password' " [(ngModel)]="user.password"-->
-<!--                 class="form-control"-->
-<!--                 id="password"-->
-<!--                 name="password"-->
-<!--                 placeholder="Neues Passwort"-->
-<!--                 required #password="ngModel">-->
-<!--          <button type="button" (click)='showHidePassword()' class="btn-light">Passwort {{ showPassword ? ' Verbergen' : ' Zeigen' }}</button>-->
-<!--&lt;!&ndash;          <span class="help-block">Passwort mit 8 oder mehr Zeichen.</span>&ndash;&gt;-->
-<!--        </div>-->
-<!--        <div [hidden]="user.password !=''" class="alert alert-warning">Passwort wird benötigt</div>-->
-<!--        <button type="submit" [disabled]="!userForm.form.valid" class="btn btn-info">Speichern</button>-->
-<!--      </form>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
+<div *ngIf="error" class="alert alert-danger">
+  {{ error }}
+</div>
+<div *ngIf="success" class="alert alert-success">
+  {{ success }}
+</div>
 

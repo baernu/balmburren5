@@ -21,6 +21,8 @@ export class UserorderprofileComponent {
   productBindInfos: ProductBindInfosDTO[] = [];
   user: UserDTO = new UserDTO();
   tours: TourDTO[] = [];
+  error: string = "";
+  success: string = "";
 
   constructor(
     private tourService: TourServiceService,
@@ -68,12 +70,30 @@ export class UserorderprofileComponent {
   }
 
   async save() {
-    for(const userProfileOrder of this.userProfileOrders) {
-      let userProfileOrder1 = await firstValueFrom(this.userService.getUserProfileOrder(userProfileOrder.user, userProfileOrder.productBindProductDetails.product,
-        userProfileOrder.productBindProductDetails.productDetails, userProfileOrder.tour));
-      userProfileOrder.version = userProfileOrder1.version;
-      await firstValueFrom(this.userService.putUserProfileOrder(userProfileOrder));
+    try {
+      for(const userProfileOrder of this.userProfileOrders) {
+        let userProfileOrder1 = await firstValueFrom(this.userService.getUserProfileOrder(userProfileOrder.user, userProfileOrder.productBindProductDetails.product,
+          userProfileOrder.productBindProductDetails.productDetails, userProfileOrder.tour));
+        userProfileOrder.version = userProfileOrder1.version;
+        await firstValueFrom(this.userService.putUserProfileOrder(userProfileOrder));
+      }
+
+    }catch(error: any){
+      if(error.status != 200){
+        this.error = "Speichern hat nicht funktioniert!";
+        setTimeout(async () => {
+          this.success = "";
+          this.error = "";
+          return;
+        }, 2000);
+      }
     }
+    this.success = "Speichern hat funktioniert. Regelmässige Bestellung ist aktiviert.";
+    setTimeout(async () => {
+      this.success = "";
+      this.error = "";
+      await this.router.navigate(['basic_order_profil']);
+    }, 4000);
   }
   // showHidePassword() {
   //   this.showPassword = !this.showPassword;

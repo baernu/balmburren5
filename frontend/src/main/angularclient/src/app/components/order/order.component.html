@@ -21,9 +21,15 @@
         <td>{{ order.productBindInfos.productDetails.category }}</td>
         <td><input type="number"  min="0" [(ngModel)]="order.quantityOrdered"></td>
       </tr>
-      <button type="button" (click)='apply()' class="btn-light">save</button>
+      <button type="button" (click)='apply()' class="btn-light">Speichern</button>
       </tbody>
     </table>
   </div>
+</div>
+<div *ngIf="error" class="alert alert-danger">
+  {{ error }}
+</div>
+<div *ngIf="success" class="alert alert-success">
+  {{ success }}
 </div>
 
