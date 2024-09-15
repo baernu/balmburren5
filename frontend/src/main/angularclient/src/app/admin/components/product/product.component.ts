@@ -20,6 +20,10 @@ export class ProductComponent {
   productBindInfo: ProductBindInfosDTO = new ProductBindInfosDTO();
   productBindInfos: ProductBindInfosDTO[] = [];
   category: string = "";
+  success: string = "";
+  error: string = "";
+  success1: string = "";
+  error1: string = "";
 
 
   constructor(
@@ -77,4 +81,28 @@ export class ProductComponent {
       await this.ngOnInit();
     }
   }
+
+  async deleteProductDetail(productDetail: ProductDetailsDTO) {
+    try {
+      await firstValueFrom(this.productService.deleteProductDetails(productDetail));
+    }catch(error: any){
+      if(error.status != 200){
+        this.error1 = "Löschen hat nicht funktioniert!";
+        setTimeout(async () => {
+          this.success1 = "";
+          this.error1 = "";
+          return;
+        }, 2000);
+      }
+    }
+    this.success1 = "Löschen hat funktioniert.";
+    setTimeout(async () => {
+      this.success1 = "";
+      this.error1 = "";
+      this.ngOnInit();
+      return;
+      // await this.router.navigate(['admin_product']);
+    }, 2000);
+  }
+
 }

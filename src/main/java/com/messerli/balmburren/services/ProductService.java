@@ -17,7 +17,11 @@ public interface ProductService {
     Optional<ProductDetails> getProductDetails(Long id);
     Optional<List<ProductDetails>> getAllProductDetailsForCategory(String category);
     Optional<List<ProductDetails>> getAllProductDetails();
-    Optional<ProductDetails> deleteProductDetails(Long id);
+
+
+
+    Optional<ProductDetails> deleteProductDetails(ProductDetails productDetails);
+
     Optional<ProductDetails> putProductDetails(ProductDetails productDetails);
     Optional<ProductBindProductDetails> saveProductBindInfos(ProductBindProductDetails productBindInfos);
     Optional<ProductBindProductDetails> putProductBindInfos(ProductBindProductDetails productBindInfos);

@@ -48,8 +48,8 @@ export class ProductService {
   public getProductDetails(id: string):Observable<ProductDetailsDTO> {
     return this.http.get<ProductDetailsDTO>(this.productDetailsUrl + id, {withCredentials: true});}
 
-  public deleteProductDetails(id: string):Observable<ProductDetailsDTO> {
-    return this.http.delete<ProductDetailsDTO>(this.productDetailsUrl + id, {withCredentials: true});}
+  public deleteProductDetails(productDetails: ProductDetailsDTO):Observable<ProductDetailsDTO> {
+    return this.http.patch<ProductDetailsDTO>(this.productDetailsUrl, productDetails,{withCredentials: true});}
 
   public getAllProductDetailsForCategory(category: string):Observable<ProductDetailsDTO[]> {
     return this.http.get<ProductDetailsDTO[]>(this.productDetailsUrl + category, {withCredentials: true});}

@@ -92,10 +92,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<ProductDetails> deleteProductDetails(Long id) {
-        Optional<ProductDetails> productDetails = getProductDetails(id);
-        log.info("Deleted ProductDetails with the description: {}", productDetails.get().getDescription());
-        return productDetails;
+    public Optional<ProductDetails> deleteProductDetails(ProductDetails productDetails) {
+        productDetailsRepo.delete(productDetails);
+        log.info("Deleted ProductDetails with the description: {}", productDetails.getDescription());
+        return Optional.of(productDetails);
     }
 
 

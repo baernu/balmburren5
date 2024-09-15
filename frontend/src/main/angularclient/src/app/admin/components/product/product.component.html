@@ -6,18 +6,18 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Product Number</th>
-        <th scope="col">Product Name</th>
+        <th scope="col">Produkt Nummer</th>
+        <th scope="col">Produkt Name</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let product of products">
         <td>{{ product.id }}</td>
-        <td (click)="holdProduct(product)" title="Set Product">{{ product.name }}</td>
+        <td (click)="holdProduct(product)" title="Neue Kombi 1">{{ product.name }}</td>
       </tr>
       </tbody>
     </table>
-    <button type="button" (click)='addProduct()' class="btn-light">add Product</button>
+    <button type="button" (click)='addProduct()' class="btn-light">Neues Produkt</button>
   </div>
 </div>
 <div class="card my-5">
@@ -25,36 +25,43 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Category</th>
-        <th scope="col">Price</th>
-        <th scope="col">Size</th>
-        <th scope="col">Description</th>
+        <th scope="col">Kategorie</th>
+        <th scope="col">Preis</th>
+        <th scope="col">Anzahl</th>
+        <th scope="col">Beschreibung</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let  productDetail of productDetails">
-        <td (click)="createProductBindDetail(productDetail)" title="Create Product Info">{{ productDetail.category}}</td>
+        <td (click)="createProductBindDetail(productDetail)" title="Neue Kombi 2">{{ productDetail.category}}</td>
         <td>{{ productDetail.price}}</td>
         <td>{{ productDetail.size}}</td>
         <td>{{ productDetail.description}}</td>
+        <button type="button" (click)='deleteProductDetail(productDetail)' class="btn-light">Löschen</button>
       </tr>
       </tbody>
     </table>
-    <button type="button" (click)='addDetails()' class="btn-light">add Details</button>
+    <button type="button" (click)='addDetails()' class="btn-light">Neue Produkt-Info</button>
   </div>
+</div>
+<div *ngIf="error1" class="alert alert-danger">
+  {{ error1 }}
+</div>
+<div *ngIf="success1" class="alert alert-success">
+  {{ success1 }}
 </div>
 <div class="card my-5">
   <div class="card-body">
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Product Name</th>
-        <th scope="col">Category</th>
-        <th scope="col">Description</th>
-        <th scope="col">Price</th>
-        <th scope="col">Size</th>
-        <th scope="col">Start-Date</th>
-        <th scope="col">End-Date</th>
+        <th scope="col">Produkt Name</th>
+        <th scope="col">Kategorie</th>
+        <th scope="col">Beschreibung</th>
+        <th scope="col">Preis</th>
+        <th scope="col">Anzahl</th>
+        <th scope="col">Start-Datum</th>
+        <th scope="col">End-Datum</th>
       </tr>
       </thead>
       <tbody>
@@ -66,9 +73,9 @@
         <td>{{ productBindInfo.productDetails.size}}</td>
         <td><input type="date"  [(ngModel)]="productBindInfo.startDate.date"></td>
         <td><input type="date"  [(ngModel)]="productBindInfo.endDate.date"></td>
-        <button type="button" (click)='delete(productBindInfo)' class="btn-light">delete</button>
+        <button type="button" (click)='delete(productBindInfo)' class="btn-light">Löschen</button>
       </tr>
-      <button type="button" (click)='save()' class="btn-light">save</button>
+      <button type="button" (click)='save()' class="btn-light">Speichern</button>
       </tbody>
     </table>
   </div>

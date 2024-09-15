@@ -97,11 +97,10 @@ public class ProductController {
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @DeleteMapping("product/details/{id}")
-    ResponseEntity<Optional<ProductDetails>> deleteProductDetails(@PathVariable("id") Long id) {
-        Optional<ProductDetails> productDetails = productService.deleteProductDetails(id);
-        if (productDetails.isEmpty()) throw new NoSuchElementFoundException("ProductDetail not found");
-        return ResponseEntity.ok().body(productDetails);}
+    @PatchMapping("product/details/")
+    ResponseEntity<Optional<ProductDetails>> deleteProductDetails(@RequestBody ProductDetails productDetails) {
+        productService.deleteProductDetails(productDetails);
+        return ResponseEntity.ok().body(Optional.ofNullable(productDetails));}
 
     @CrossOrigin( allowCredentials = "true")
     @PostMapping("product/bind/infos/")
