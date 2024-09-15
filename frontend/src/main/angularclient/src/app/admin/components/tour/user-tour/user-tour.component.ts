@@ -97,8 +97,7 @@ export class UserTourComponent {
       this.dates.date = new Date(this.dates.date).toISOString().split('T')[0];
       this.dates = await firstValueFrom(this.tourService.createDates(this.dates));
 
-
-      // await this.updateAutomatedOrder();
+      await this.updateAutomatedOrder(this.tour);
 
       this.orders = await firstValueFrom(this.userService.getAllOrderForTourAndDate(this.tour, this.dates));
       this.orders = this.orders.filter(order => order.quantityOrdered > 0);
@@ -107,9 +106,9 @@ export class UserTourComponent {
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => o1.productBindInfos.productDetails.category.localeCompare(o2.productBindInfos.productDetails.category));
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => this.orderPositionOfOrder(o1, o2));
 
-      if(!this.updatedOrder) {
-        await this.updateAutomatedOrder(this.tour);
-      }
+      // if(!this.updatedOrder) {
+
+      // }
     }
 
     let eggs: number = 0;
@@ -261,7 +260,7 @@ export class UserTourComponent {
           }
         }
       }
-      this.updateOrders(orders);
+      // this.updateOrders(orders);
     }
   }
 
@@ -300,7 +299,7 @@ export class UserTourComponent {
     let dayPlus21: DatesDTO = new DatesDTO();
     dayPlus21.date = new Date(date.setDate(date.getDate() + 21)).toISOString().split('T')[0];
     if (this.compare(new Date(this.dates.date)) && this.dates.date <= dayPlus21.date) {
-      this.updatedOrder = true;
+      // this.updatedOrder = true;
       let tourBindInfos: TourDateBindInfosDTO[] = await firstValueFrom(this.tourService.getAllTourDatesBindInfosForTourAndDate(tour, this.dates));
       let userBindTourDTOS = await firstValueFrom(this.userService.getAllPersonsForTour(tour.number));
       for (const userBindTour of userBindTourDTOS) {
