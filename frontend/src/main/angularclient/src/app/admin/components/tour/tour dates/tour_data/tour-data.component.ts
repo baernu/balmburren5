@@ -8,6 +8,7 @@ import {ProductBindInfosDTO} from "../../../product/service/ProductBindInfosDTO"
 import {ProductService} from "../../../product/service/product.service";
 import {TourDateBindInfosDTO} from "../../service/TourDateBindInfosDTO";
 import {DatesDTO} from "../../service/DatesDTO";
+import {groupebyDTO} from "../../../../../components/user/service/groupbyDTO";
 
 @Component({
   selector: 'app-tour-data',
@@ -26,6 +27,7 @@ export class TourDataComponent implements OnInit{
   tourDatesBindInfos: TourDateBindInfosDTO[] = [];
   error: string = "";
   success: string = "";
+  categories: groupebyDTO[] = [];
 
 
   constructor(
@@ -98,6 +100,7 @@ export class TourDataComponent implements OnInit{
       if (d.dates.date != "" && this.compare(new Date(d.dates.date))) {
         this.dates.push(new Date(d.dates.date));
       }});
+    this.showGroup();
     }
 
  async apply() {
@@ -160,4 +163,22 @@ export class TourDataComponent implements OnInit{
         date = new Date(date);
         return date.toISOString().split('T')[0] >= now1;
     }
+
+  showGroup() {
+    const group = this.tourDatesBindInfos.reduce((acc: any, curr) => {
+      let key = curr.dates.date;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(curr);
+      return acc;
+    }, {});
+
+    //Get the categories and product related.
+    this.categories = Object.keys(group).map(key => ({
+      category: key,
+      products: group[key],
+    }));
+  }
+
 }

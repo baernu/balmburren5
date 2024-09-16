@@ -106,9 +106,6 @@ export class UserTourComponent {
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => o1.productBindInfos.productDetails.category.localeCompare(o2.productBindInfos.productDetails.category));
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => this.orderPositionOfOrder(o1, o2));
 
-      // if(!this.updatedOrder) {
-
-      // }
     }
 
     let eggs: number = 0;
@@ -141,7 +138,6 @@ export class UserTourComponent {
     await this.goTo(tour);
     this.tour = tour;
     this.showGroup();
-
   }
 
   async onSubmit() {
@@ -154,7 +150,6 @@ export class UserTourComponent {
       let androidClient: AndroidClientDTO = new AndroidClientDTO();
       let client = androidClients.find(client => client.name === order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname);
       if (client) {
-        console.log("in the second client ...");
         if (order.productBindInfos.product.name === "Eier")
           client.eggs = order.quantityOrdered.toString();
         if (order.productBindInfos.product.name === "Milch")
@@ -186,7 +181,6 @@ export class UserTourComponent {
     string = JSON.stringify(string);
     const byteArray = new TextEncoder().encode(string);
     this.handleChunk(byteArray);
-    // this.emailData.password = "1234656";
     this.emailData.fromEmail = "balmburren@gmail.com";
     this.emailData.subject = "Tour-Daten";
     this.emailData.body = "Guten Tag \n Sende Ihnen im Anhang die Tour-Daten.";
@@ -260,7 +254,6 @@ export class UserTourComponent {
           }
         }
       }
-      // this.updateOrders(orders);
     }
   }
 
@@ -299,7 +292,6 @@ export class UserTourComponent {
     let dayPlus21: DatesDTO = new DatesDTO();
     dayPlus21.date = new Date(date.setDate(date.getDate() + 21)).toISOString().split('T')[0];
     if (this.compare(new Date(this.dates.date)) && this.dates.date <= dayPlus21.date) {
-      // this.updatedOrder = true;
       let tourBindInfos: TourDateBindInfosDTO[] = await firstValueFrom(this.tourService.getAllTourDatesBindInfosForTourAndDate(tour, this.dates));
       let userBindTourDTOS = await firstValueFrom(this.userService.getAllPersonsForTour(tour.number));
       for (const userBindTour of userBindTourDTOS) {
@@ -390,7 +382,6 @@ export class UserTourComponent {
     setTimeout(() => {
       this.error1 = "";
       return;}, 1000);
-
   }
 
   compare(date: Date): boolean {
@@ -400,7 +391,6 @@ export class UserTourComponent {
   }
 
   showGroup() {
-    //First, group the products by category
     const group = this.userOrderTourAddress.reduce((acc: any, curr) => {
       let key = curr.order.deliverPeople.firstname + ' ' + curr.order.deliverPeople.lastname;
       if (!acc[key]) {
@@ -415,7 +405,6 @@ export class UserTourComponent {
       category: key,
       products: group[key],
     }));
-
   }
 
   async pushUserOrderTourAddress() {

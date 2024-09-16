@@ -43,14 +43,21 @@
         <th scope="col">Produkt Name</th>
       </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let tourDateBindInfo of tourDatesBindInfos">
+      <div *ngFor="let child of categories">
+        <span><input class="form-check-input" type="checkbox" name="{{child.category}}" #name="ngModel" ngModel></span>
+        <span style="display:block; width:50px;"></span>
+        <span><b>{{child.category | date:'fullDate'}}</b></span>
+        <tbody>
+        <tr *ngFor="let tourDateBindInfo of child.products">
+<!--      <tbody>-->
+<!--        <tr *ngFor="let tourDateBindInfo of tourDatesBindInfos">-->
           <td *ngIf="param1" >{{tourDateBindInfo.tour.number}}</td>
           <td *ngIf="param1" >{{tourDateBindInfo.dates.date | date:'fullDate'}}</td>
           <td *ngIf="param1" >{{tourDateBindInfo.productBindInfos.product.name}}</td>
           <button *ngIf="param1" type="button" (click)='del(tourDateBindInfo )' class="btn-light">Löschen</button>
         </tr>
       </tbody>
+      </div>
     </table>
   </div>
 </div>
