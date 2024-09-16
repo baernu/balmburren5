@@ -434,6 +434,30 @@ export class UserTourComponent {
 
   changeValue(userOrderTourAddress: UserOrderTourAddressDTO){
     userOrderTourAddress.order.quantityDelivered = userOrderTourAddress.order.quantityOrdered;
+    this.save(userOrderTourAddress);
     return userOrderTourAddress.order.quantityOrdered;
+  }
+
+  async save(userOrderTourAddress: UserOrderTourAddressDTO) {
+    this.success ="";
+    this.error = "";
+
+    let order = userOrderTourAddress.order;
+    let order1: OrderDTO = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
+      order.productBindInfos.productDetails, order.date, order.tour));
+    userOrderTourAddress.order.version = order1.version;
+    try {
+      await firstValueFrom(this.userService.putOrder(userOrderTourAddress.order));
+
+    } catch (error: any) {
+      if (error.status !== 200)
+        this.error = "Order wurde nicht upgedated, Name: " + order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
+      return;
+    }
+    this.success = "Order wurde gespeichert!";
+    setTimeout(() => {
+      this.success = "";
+      return;
+    }, 1000);
   }
 }
