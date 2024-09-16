@@ -27,7 +27,7 @@
         <th scope="col">Pos</th>
         <th scope="col">Datum</th>
         <th scope="col">Produkt</th>
-<!--        <th scope="col">Kategorie</th>-->
+        <th scope="col">Grösse</th>
         <th scope="col">Bestellt</th>
         <th scope="col">Text</th>
         <th scope="col">Geliefert</th>
@@ -43,8 +43,8 @@
           <td>{{ userOrderTourAddress.userbindtour.position}}</td>
           <td>{{ userOrderTourAddress.order.date.date |date}}</td>
           <td>{{ userOrderTourAddress.order.productBindInfos.product.name}}</td>
-<!--          <td>{{ userOrderTourAddress.order.productBindInfos.productDetails.category}}</td>-->
-          <td><b>{{userOrderTourAddress.order.quantityOrdered}}</b></td>
+          <td>{{ userOrderTourAddress.order.productBindInfos.productDetails.size}} {{ userOrderTourAddress.order.productBindInfos.productDetails.unit}}</td>
+          <td [ngStyle]="{'color': 'brown'}">{{userOrderTourAddress.order.quantityOrdered}}</td>
           <td [ngStyle]="{'color': 'red'}"> {{userOrderTourAddress.order.text}}</td>
           <td><input input class="form-control input-sm" type="number"  min="0" [(ngModel)]="name.value ? changeValue(userOrderTourAddress):userOrderTourAddress.order.quantityDelivered"></td>
           <td (click)="googleMaps(userOrderTourAddress)" title="Google Maps"><ins>{{userOrderTourAddress.address.street}} {{userOrderTourAddress.address.number}} {{userOrderTourAddress.address.plz}}</ins></td>
