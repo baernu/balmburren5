@@ -19,7 +19,7 @@ import {UserOrderTourAddressDTO} from "../../../../../components/user/service/us
 export class TourDataComponent implements OnInit{
 
   tours: TourDTO[] =[];
-  tour: TourDTO;
+  tour: TourDTO = new TourDTO();
   tourBindDatesDTOs: TourBindDatesDTO[] = [];
   dates: Date[] = [];
   param1: string = "";
@@ -37,7 +37,8 @@ export class TourDataComponent implements OnInit{
     private route: ActivatedRoute,
     private router: Router,
   ){
-    this.tour = new TourDTO();
+    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+      return false;};
   }
 
 
@@ -89,6 +90,8 @@ export class TourDataComponent implements OnInit{
         await this.updateDateArray();
       }
     }
+    await this.ngOnInit();
+    // this.router.navigate(['/admin_tour_data']);
   }
 
   async updateDateArray() {
@@ -115,7 +118,7 @@ export class TourDataComponent implements OnInit{
     let p0 = await firstValueFrom(this.productService.getProductBindInfos(p.product, p.productDetails));
     p.version = p0.version;
     let p1 = await firstValueFrom(this.productService.putProductBindInfos(p));
-    console.log(p1.isChecked);
+    // console.log(p1.isChecked);
   }
 
   async del(tourDateBindInfo: TourDateBindInfosDTO) {
@@ -133,7 +136,9 @@ export class TourDataComponent implements OnInit{
       this.success = "Löschen hat geklappt";
       setTimeout(() => {
         this.success = "";
-        this.router.navigate(['/admin_tour_data']);}, 1000);
+        this.ngOnInit();
+        // this.router.navigate(['/admin_tour_data']);}, 500);
+        return;}, 500);
 
   }
 
@@ -144,7 +149,14 @@ export class TourDataComponent implements OnInit{
       if (p.startDate.date <= dateString && p.endDate.date >= dateString)
         this.addTourDateBindInfo(p, dateString)
     });
-    await this.ngOnInit();
+    // await this.ngOnInit();
+   // await this.router.navigate(['/admin_tour_data']);
+   await this.router.navigate(['admin_tour_data/'],
+     {
+       queryParams: {
+         param1: this.param1
+       }
+     });
   }
   async addTourDateBindInfo(p: ProductBindInfosDTO, dateString: string) {
     let date = new DatesDTO();
@@ -156,7 +168,8 @@ export class TourDataComponent implements OnInit{
     if (!await firstValueFrom(this.tourService.existTourDatesBindInfos(tourDateBindInfo.tour,tourDateBindInfo.dates,
       tourDateBindInfo.productBindInfos.product, tourDateBindInfo.productBindInfos.productDetails)))
         await firstValueFrom(this.tourService.createTourDateBindInfos(tourDateBindInfo));
-    await this.ngOnInit();
+    // await this.ngOnInit();
+    // await this.router.navigate(['/admin_tour_data']);
   }
 
     compare(date: Date): boolean {

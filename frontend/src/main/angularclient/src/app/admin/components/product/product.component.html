@@ -34,7 +34,7 @@
       <tr>
         <th scope="col">Kategorie</th>
         <th scope="col">Preis</th>
-        <th scope="col">Anzahl</th>
+        <th scope="col">Grösse</th>
         <th scope="col">Beschreibung</th>
       </tr>
       </thead>
@@ -42,7 +42,7 @@
       <tr *ngFor="let  productDetail of productDetails">
         <td (click)="createProductBindDetail(productDetail)" title="Neue Kombi 2">{{ productDetail.category}}</td>
         <td>{{ productDetail.price}}</td>
-        <td>{{ productDetail.size}}</td>
+        <td>{{ productDetail.size}} {{ productDetail.unit}}</td>
         <td>{{ productDetail.description}}</td>
         <button type="button" (click)='deleteProductDetail(productDetail)' class="btn-light">Löschen</button>
       </tr>
@@ -65,8 +65,9 @@
         <th scope="col">Produkt Name</th>
         <th scope="col">Kategorie</th>
         <th scope="col">Beschreibung</th>
+        <th scope="col">Grösse</th>
         <th scope="col">Preis</th>
-        <th scope="col">Anzahl</th>
+<!--        <th scope="col">Anzahl</th>-->
         <th scope="col">Start-Datum</th>
         <th scope="col">End-Datum</th>
       </tr>
@@ -76,8 +77,9 @@
         <td>{{ productBindInfo.product.name}}</td>
         <td>{{ productBindInfo.productDetails.category}}</td>
         <td>{{ productBindInfo.productDetails.description}}</td>
+        <td>{{ productBindInfo.productDetails.size}} {{ productBindInfo.productDetails.unit}}</td>
         <td>{{ productBindInfo.productDetails.price}}</td>
-        <td>{{ productBindInfo.productDetails.size}}</td>
+<!--        <td>{{ productBindInfo.productDetails.size}}</td>-->
         <td><input type="date"  [(ngModel)]="productBindInfo.startDate.date"></td>
         <td><input type="date"  [(ngModel)]="productBindInfo.endDate.date"></td>
         <button type="button" (click)='delete(productBindInfo)' class="btn-light">Löschen</button>

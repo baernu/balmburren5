@@ -21,5 +21,6 @@ public class ProductDetails {
     private String category;
     private double price;
     private double size;
+    private String unit;
     private String description;
 }

@@ -6,45 +6,55 @@
     <div class="input-group mb-3 w-100 h-25">
     <form (ngSubmit)="onSubmit()" #Form="ngForm">
       <div class="form-group">
-        <label for="category">Category</label>
+        <label for="category">Kategorie</label>
         <input type="text" [(ngModel)]="productDetails.category"
                class="form-control"
                id="category"
                name="category"
-               placeholder="Enter the category"
+               placeholder="Kategorie"
                required #category="ngModel">
       </div>
-      <div [hidden]="!category.pristine" class="alert alert-danger">Category is required</div>
+      <div [hidden]="!category.pristine" class="alert alert-danger">Kategorie wird benötigt</div>
       <div class="form-group">
-        <label for="price">Price</label>
+        <label for="price">Preis</label>
         <input type="number" step="0.01" [(ngModel)]="productDetails.price"
                class="form-control"
                id="price"
                name="price"
-               placeholder="Enter the price"
+               placeholder="Preis"
                required #price="ngModel">
       </div>
-      <div [hidden]="!price.pristine" class="alert alert-danger">Price is required</div>
+      <div [hidden]="!price.pristine" class="alert alert-danger">Preis wird benötigt</div>
       <div class="form-group">
-        <label for="size">Size</label>
+        <label for="size">Grösse</label>
         <input type="number" step="0.1" [(ngModel)]="productDetails.size"
                class="form-control"
                id="size"
                name="size"
-               placeholder="Enter the size"
+               placeholder="Grösse"
                required #size="ngModel">
       </div>
-      <div [hidden]="!size.pristine" class="alert alert-danger">Size is required</div>
+      <div [hidden]="!size.pristine" class="alert alert-danger">Grösse wird benötigt</div>
       <div class="form-group">
-        <label for="description">Description</label>
+        <label for="unit">Einheit</label>
+        <input type="text" [(ngModel)]="productDetails.unit"
+               class="form-control"
+               id="unit"
+               name="unit"
+               placeholder="Einheit"
+               required #unit="ngModel">
+      </div>
+      <div [hidden]="!unit.pristine" class="alert alert-danger">Einheit wird benötigt</div>
+      <div class="form-group">
+        <label for="description">Beschreibung</label>
         <input type="text" [(ngModel)]="productDetails.description"
                class="form-control"
                id="description"
                name="description"
-               placeholder="Enter the description"
+               placeholder="Beschreibung"
                required #description="ngModel">
       </div>
-      <div [hidden]="!description.pristine" class="alert alert-danger">Size is required</div>
+      <div [hidden]="!description.pristine" class="alert alert-danger">Beschreibung wird benötigt</div>
       <button type="submit" [disabled]="!Form.form.valid"
               class="btn btn-info">Submit</button>
     </form>

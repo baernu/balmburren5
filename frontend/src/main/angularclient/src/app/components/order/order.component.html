@@ -9,7 +9,7 @@
 <!--        <th scope="col">Daten</th>-->
 <!--        <th scope="col">Tour</th>-->
         <th scope="col">Produkt</th>
-        <th scope="col">Kategory</th>
+        <th scope="col">Einheit</th>
         <th scope="col">Anzahl</th>
       </tr>
       </thead>
@@ -24,7 +24,7 @@
 <!--        <td *ngIf="!name.value" >{{ order.date.date | date:'fullDate' }}</td>-->
 <!--        <td *ngIf="!name.value" >{{order.tour.number}}</td>-->
         <td *ngIf="!name.value" >{{ order.productBindInfos.product.name }}</td>
-        <td *ngIf="!name.value" >{{ order.productBindInfos.productDetails.category }}</td>
+        <td *ngIf="!name.value" >{{ order.productBindInfos.productDetails.size }}</td>
         <td *ngIf="!name.value" ><input type="number"  min="0" [(ngModel)]="order.quantityOrdered" (change)="save(order)"></td>
       </tr>
 <!--      <button type="button" (click)='apply()' class="btn-light">Speichern</button>-->

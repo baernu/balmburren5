@@ -4,6 +4,7 @@ export class ProductDetailsDTO {
   category: string = "";
   price: number = 0;
   size: number = 0;
+  unit: string = "";
   description: string = "";
 
 }
