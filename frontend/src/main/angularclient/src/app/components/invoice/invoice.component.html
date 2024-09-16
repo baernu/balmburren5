@@ -41,10 +41,10 @@
 <!--      <tr *ngFor="let order of orders">-->
 <!--        <td>{{ order.date.date | date:'fullDate' }}</td>-->
 <!--        <td>{{order.tour.number}}</td>-->
-        <td *ngIf="name.value" >{{ order.productBindInfos.product.name }}</td>
-        <td *ngIf="name.value" >{{ order.productBindInfos.productDetails.size}}  {{ order.productBindInfos.productDetails.unit}}</td>
-        <td [ngStyle]="{'color': 'brown'}" *ngIf="name.value" >{{ order.quantityDelivered}}</td>
-        <td *ngIf="name.value" >{{ order.productBindInfos.productDetails.price * order.quantityDelivered | number : '1.2-2'}} CHF</td>
+        <td *ngIf="!name.value" >{{ order.productBindInfos.product.name }}</td>
+        <td *ngIf="!name.value" >{{ order.productBindInfos.productDetails.size}}  {{ order.productBindInfos.productDetails.unit}}</td>
+        <td [ngStyle]="{'color': 'brown'}" *ngIf="!name.value" >{{ order.quantityDelivered}}</td>
+        <td *ngIf="!name.value" >{{ order.productBindInfos.productDetails.price * order.quantityDelivered | number : '1.2-2'}} CHF</td>
       </tr>
       </tbody>
       </div>
@@ -54,7 +54,7 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Price Total</th>
+        <th scope="col">Summe</th>
       </tr>
       </thead>
       <tbody>
