@@ -23,8 +23,8 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Daten</th>
-        <th scope="col">Tour</th>
+<!--        <th scope="col">Datum</th>-->
+<!--        <th scope="col">Tour</th>-->
         <th scope="col">Produkt</th>
         <th scope="col">Grösse</th>
         <th scope="col">Lieferung</th>
@@ -39,12 +39,12 @@
         <tr *ngFor="let order of child.products">
 <!--      <tbody>-->
 <!--      <tr *ngFor="let order of orders">-->
-        <td>{{ order.date.date | date:'fullDate' }}</td>
-        <td>{{order.tour.number}}</td>
-        <td>{{ order.productBindInfos.product.name }}</td>
-        <td>{{ order.productBindInfos.productDetails.size}}  {{ order.productBindInfos.productDetails.unit}}</td>
-        <td>{{ order.quantityDelivered}}</td>
-        <td>{{ order.productBindInfos.productDetails.price * order.quantityDelivered | number : '1.2-2'}} CHF</td>
+<!--        <td>{{ order.date.date | date:'fullDate' }}</td>-->
+<!--        <td>{{order.tour.number}}</td>-->
+        <td *ngIf="name.value" >{{ order.productBindInfos.product.name }}</td>
+        <td *ngIf="name.value" >{{ order.productBindInfos.productDetails.size}}  {{ order.productBindInfos.productDetails.unit}}</td>
+        <td [ngStyle]="{'color': 'brown'}" *ngIf="name.value" >{{ order.quantityDelivered}}</td>
+        <td *ngIf="name.value" >{{ order.productBindInfos.productDetails.price * order.quantityDelivered | number : '1.2-2'}} CHF</td>
       </tr>
       </tbody>
       </div>
