@@ -6,15 +6,15 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Date From</th>
-        <th scope="col">Date To</th>
+        <th scope="col">Start Datum</th>
+        <th scope="col">End Datum</th>
       </tr>
       </thead>
       <tbody>
       <tr>
         <td><input type="date" [(ngModel)]="dateFrom.date"></td>
         <td><input type="date" [(ngModel)]="dateTo.date"></td>
-        <button type="button" (click)='apply()' class="btn-light">apply</button>
+        <button type="button" (click)='apply()' class="btn-light">Anwenden</button>
       </tr>
       </tbody>
     </table>
@@ -23,24 +23,31 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Dates</th>
+        <th scope="col">Daten</th>
         <th scope="col">Tour</th>
-        <th scope="col">Product</th>
-        <th scope="col">Category</th>
-        <th scope="col">Delivered</th>
-        <th scope="col">Price</th>
+        <th scope="col">Produkt</th>
+        <th scope="col">Grösse</th>
+        <th scope="col">Lieferung</th>
+        <th scope="col">Preis</th>
       </tr>
       </thead>
-      <tbody>
-      <tr *ngFor="let order of orders">
+      <div *ngFor="let child of categories">
+        <span><input class="form-check-input" type="checkbox" name="{{child.category}}" #name="ngModel" ngModel></span>
+        <span style="display:block; width:50px;"></span>
+        <span><b>{{child.category | date:'fullDate'}}</b></span>
+        <tbody>
+        <tr *ngFor="let order of child.products">
+<!--      <tbody>-->
+<!--      <tr *ngFor="let order of orders">-->
         <td>{{ order.date.date | date:'fullDate' }}</td>
         <td>{{order.tour.number}}</td>
         <td>{{ order.productBindInfos.product.name }}</td>
-        <td>{{ order.productBindInfos.productDetails.category }}</td>
+        <td>{{ order.productBindInfos.productDetails.size}}  {{ order.productBindInfos.productDetails.unit}}</td>
         <td>{{ order.quantityDelivered}}</td>
         <td>{{ order.productBindInfos.productDetails.price * order.quantityDelivered | number : '1.2-2'}} CHF</td>
       </tr>
       </tbody>
+      </div>
     </table>
   </div>
   <div class="card-body">

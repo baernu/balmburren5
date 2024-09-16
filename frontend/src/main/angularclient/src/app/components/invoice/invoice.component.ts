@@ -5,6 +5,7 @@ import {OrderDTO} from "../user/service/orderDTO";
 import {firstValueFrom} from "rxjs";
 import {UserDTO} from "../user/service/userDTO";
 import {DatesDTO} from "../../admin/components/tour/service/DatesDTO";
+import {groupebyDTO} from "../user/service/groupbyDTO";
 
 @Component({
   selector: 'app-invoice',
@@ -18,6 +19,7 @@ export class InvoiceComponent {
   dateFrom: DatesDTO = new DatesDTO();
   dateTo: DatesDTO = new DatesDTO();
   price: number = 0;
+  categories: groupebyDTO[] = [];
 
   constructor(
     private tourService: TourServiceService,
@@ -40,5 +42,24 @@ export class InvoiceComponent {
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.productBindInfos.productDetails.category.localeCompare(t2.productBindInfos.productDetails.category));
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.date.date.localeCompare(t2.date.date));
     this.orders.forEach(o => this.price += o.productBindInfos.productDetails.price * o.quantityDelivered);
+
+    this.showGroup();
+  }
+
+  showGroup() {
+    const group = this.orders.reduce((acc: any, curr) => {
+      let key = curr.date.date;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(curr);
+      return acc;
+    }, {});
+
+    //Get the categories and product related.
+    this.categories = Object.keys(group).map(key => ({
+      category: key,
+      products: group[key],
+    }));
   }
 }
