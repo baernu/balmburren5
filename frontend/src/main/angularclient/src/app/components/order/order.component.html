@@ -25,13 +25,13 @@
 <!--        <td *ngIf="!name.value" >{{order.tour.number}}</td>-->
         <td *ngIf="!name.value" >{{ order.productBindInfos.product.name }}</td>
         <td *ngIf="!name.value" >{{ order.productBindInfos.productDetails.category }}</td>
-        <td *ngIf="!name.value" ><input type="number"  min="0" [(ngModel)]="order.quantityOrdered"></td>
+        <td *ngIf="!name.value" ><input type="number"  min="0" [(ngModel)]="order.quantityOrdered" (change)="save(order)"></td>
       </tr>
 <!--      <button type="button" (click)='apply()' class="btn-light">Speichern</button>-->
       </tbody>
       </div>
     </table>
-    <button type="button" (click)='apply()' class="btn-light">Speichern</button>
+<!--    <button type="button" (click)='apply()' class="btn-light">Speichern</button>-->
     <div *ngIf="error" class="alert alert-danger">
       {{ error }}
     </div>

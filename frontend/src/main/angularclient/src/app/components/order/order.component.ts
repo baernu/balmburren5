@@ -96,11 +96,9 @@ export class OrderComponent {
     }
   }
 
-  async apply() {
+  async save(order: OrderDTO){
     try {
-      for (const order of this.orders) {
         await this.putOrder(order);
-      }
     }catch(error: any){
       if(error.status != 200){
         this.error = "Speichern hat nicht funktioniert!";
@@ -108,16 +106,41 @@ export class OrderComponent {
           this.success = "";
           this.error = "";
           return;
-        }, 2000);
+        }, 1000);
       }
     }
     this.success = "Speichern hat funktioniert.";
     setTimeout(async () => {
       this.success = "";
       this.error = "";
-      await this.router.navigate(['basic_order']);
-    }, 2000);
+      return;
+      // await this.router.navigate(['basic_order']);
+    }, 1000);
   }
+
+  // async apply() {
+  //   try {
+  //     for (const order of this.orders) {
+  //       await this.putOrder(order);
+  //     }
+  //   }catch(error: any){
+  //     if(error.status != 200){
+  //       this.error = "Speichern hat nicht funktioniert!";
+  //       setTimeout(async () => {
+  //         this.success = "";
+  //         this.error = "";
+  //         return;
+  //       }, 2000);
+  //     }
+  //   }
+  //   this.success = "Speichern hat funktioniert.";
+  //   setTimeout(async () => {
+  //     this.success = "";
+  //     this.error = "";
+  //     return;
+  //     // await this.router.navigate(['basic_order']);
+  //   }, 2000);
+  // }
   private async putOrder(order: OrderDTO) {
     order.isChecked = true;
     let order1: OrderDTO = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
