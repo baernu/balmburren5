@@ -432,20 +432,18 @@ export class UserTourComponent {
 
   }
 
-  async changeValue(userOrderTourAddress: UserOrderTourAddressDTO) {
-    userOrderTourAddress.order.quantityDelivered = userOrderTourAddress.order.quantityOrdered;
+  // changeValue(userOrderTourAddress: UserOrderTourAddressDTO) {
+  //   userOrderTourAddress.order.quantityDelivered = userOrderTourAddress.order.quantityOrdered;
+  //
+  //
+  //   // this.save(userOrderTourAddress);
+  //
+  //
+  //   return userOrderTourAddress.order.quantityOrdered;
+  // }
 
-
-    // await this.save(userOrderTourAddress);
-
-
-    return userOrderTourAddress.order.quantityDelivered;
-  }
-
-  async save(userOrderTourAddress: UserOrderTourAddressDTO) {
-    this.success ="";
+  async  save1(userOrderTourAddress: UserOrderTourAddressDTO) {
     this.error = "";
-
     let order = userOrderTourAddress.order;
     let order1: OrderDTO = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
       order.productBindInfos.productDetails, order.date, order.tour));
@@ -457,16 +455,36 @@ export class UserTourComponent {
       if (error.status !== 200) {
         this.error = "Order wurde nicht upgedated, Name: " + order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
         setTimeout(() => {
-          this.success = "";
           this.error = "";
           return;
         }, 1000);
       }
     }
-    this.success = "Order wurde gespeichert!";
-    setTimeout(() => {
-      this.success = "";
-      return;
-    }, 1000);
+  }
+
+  async save(userOrderTourAddresses: UserOrderTourAddressDTO[]) {
+    this.error = "";
+
+    for(const userOrderTourAddress of userOrderTourAddresses){
+      let order = userOrderTourAddress.order;
+      let order1: OrderDTO = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
+        order.productBindInfos.productDetails, order.date, order.tour));
+      userOrderTourAddress.order.version = order1.version;
+      userOrderTourAddress.order.quantityDelivered = userOrderTourAddress.order.quantityOrdered;
+      try {
+        await firstValueFrom(this.userService.putOrder(userOrderTourAddress.order));
+
+      } catch (error: any) {
+        if (error.status !== 200) {
+          this.error = "Order wurde nicht upgedated, Name: " + order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
+          setTimeout(() => {
+            this.error = "";
+            return;
+          }, 1000);
+        }
+      }
+    }
+
+
   }
 }
