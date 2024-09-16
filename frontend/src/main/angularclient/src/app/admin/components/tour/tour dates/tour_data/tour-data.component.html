@@ -51,10 +51,10 @@
         <tr *ngFor="let tourDateBindInfo of child.products">
 <!--      <tbody>-->
 <!--        <tr *ngFor="let tourDateBindInfo of tourDatesBindInfos">-->
-          <td *ngIf="param1" >{{tourDateBindInfo.tour.number}}</td>
-          <td *ngIf="param1" >{{tourDateBindInfo.dates.date | date:'fullDate'}}</td>
-          <td *ngIf="param1" >{{tourDateBindInfo.productBindInfos.product.name}}</td>
-          <button *ngIf="param1" type="button" (click)='del(tourDateBindInfo )' class="btn-light">Löschen</button>
+          <td *ngIf="param1 && !name.value" >{{tourDateBindInfo.tour.number}}</td>
+          <td *ngIf="param1 && !name.value" >{{tourDateBindInfo.dates.date | date:'fullDate'}}</td>
+          <td *ngIf="param1 && !name.value" >{{tourDateBindInfo.productBindInfos.product.name}}</td>
+          <button *ngIf="param1 && !name.value" type="button" (click)='del(tourDateBindInfo )' class="btn-light">Löschen</button>
         </tr>
       </tbody>
       </div>

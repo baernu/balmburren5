@@ -9,6 +9,7 @@ import {ProductService} from "../../../product/service/product.service";
 import {TourDateBindInfosDTO} from "../../service/TourDateBindInfosDTO";
 import {DatesDTO} from "../../service/DatesDTO";
 import {groupebyDTO} from "../../../../../components/user/service/groupbyDTO";
+import {UserOrderTourAddressDTO} from "../../../../../components/user/service/userOrderTourAddressDTO";
 
 @Component({
   selector: 'app-tour-data',
