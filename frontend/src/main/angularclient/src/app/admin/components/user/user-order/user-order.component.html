@@ -8,7 +8,7 @@
       <tr>
         <th scope="col">Tour</th>
         <th scope="col">Product</th>
-        <th scope="col">Category</th>
+        <th scope="col">Grösse</th>
         <th scope="col">Number First</th>
         <th scope="col">Number Second</th>
       </tr>
@@ -17,7 +17,7 @@
       <tr *ngFor="let userProfileOrder of userProfileOrders1">
         <td>{{ userProfileOrder.tour.number}}</td>
         <td>{{ userProfileOrder.productBindProductDetails.product.name }}</td>
-        <td>{{ userProfileOrder.productBindProductDetails.productDetails.category }}</td>
+        <td>{{ userProfileOrder.productBindProductDetails.productDetails.size}} {{ userProfileOrder.productBindProductDetails.productDetails.unit}}</td>
         <td><input type="number"  min="0" [(ngModel)]="userProfileOrder.firstWeekOrder"></td>
         <td><input type="number"  min="0" [(ngModel)]="userProfileOrder.secondWeekOrder"></td>
       </tr>
