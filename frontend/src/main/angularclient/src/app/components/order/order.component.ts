@@ -9,6 +9,7 @@ import {OrderDTO} from "../user/service/orderDTO";
 import {UserDTO} from "../user/service/userDTO";
 import {UserProfileOrderDTO} from "../user/service/userProfileOrderDTO";
 import {Router} from "@angular/router";
+import {groupebyDTO} from "../user/service/groupbyDTO";
 
 @Component({
   selector: 'app-order',
@@ -23,6 +24,7 @@ export class OrderComponent {
   userProfileOrders: UserProfileOrderDTO[] = [];
   error: string = "";
   success: string = "";
+  categories: groupebyDTO[] = [];
 
 
   constructor(
@@ -76,6 +78,7 @@ export class OrderComponent {
     this.orders = await firstValueFrom(this.userService.getAllOrderForPerson(this.user));
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.tour.number.localeCompare(t2.tour.number));
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.date.date.localeCompare(t2.date.date));
+    this.showGroup();
   }
 
   async getAllTourBindDates(tour: TourDTO) {
@@ -127,4 +130,22 @@ export class OrderComponent {
     let uPOFPs : UserProfileOrderDTO[] = await firstValueFrom(this.userService.getAllUserProfileOrderForPerson(this.user));
     uPOFPs.forEach(uPO => this.userProfileOrders.push(uPO));
   }
+
+  showGroup() {
+    const group = this.orders.reduce((acc: any, curr) => {
+      let key = curr.date.date;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(curr);
+      return acc;
+    }, {});
+
+    //Get the categories and product related.
+    this.categories = Object.keys(group).map(key => ({
+      category: key,
+      products: group[key],
+    }));
+  }
 }
+

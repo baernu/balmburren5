@@ -181,5 +181,4 @@ export class TourDataComponent implements OnInit{
       products: group[key],
     }));
   }
-
 }

@@ -6,30 +6,39 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Daten</th>
-        <th scope="col">Tour</th>
+<!--        <th scope="col">Daten</th>-->
+<!--        <th scope="col">Tour</th>-->
         <th scope="col">Produkt</th>
         <th scope="col">Kategory</th>
         <th scope="col">Anzahl</th>
       </tr>
       </thead>
-      <tbody>
-      <tr *ngFor="let order of orders">
-        <td>{{ order.date.date | date:'fullDate' }}</td>
-        <td>{{order.tour.number}}</td>
-        <td>{{ order.productBindInfos.product.name }}</td>
-        <td>{{ order.productBindInfos.productDetails.category }}</td>
-        <td><input type="number"  min="0" [(ngModel)]="order.quantityOrdered"></td>
+      <div *ngFor="let child of categories">
+        <span><input class="form-check-input" type="checkbox" name="{{child.category}}" #name="ngModel" ngModel></span>
+        <span style="display:block; width:50px;"></span>
+        <span><b>{{child.category | date:'fullDate'}}</b></span>
+        <tbody>
+        <tr *ngFor="let order of child.products">
+<!--      <tbody>-->
+<!--      <tr *ngFor="let order of orders">-->
+<!--        <td *ngIf="!name.value" >{{ order.date.date | date:'fullDate' }}</td>-->
+<!--        <td *ngIf="!name.value" >{{order.tour.number}}</td>-->
+        <td *ngIf="!name.value" >{{ order.productBindInfos.product.name }}</td>
+        <td *ngIf="!name.value" >{{ order.productBindInfos.productDetails.category }}</td>
+        <td *ngIf="!name.value" ><input type="number"  min="0" [(ngModel)]="order.quantityOrdered"></td>
       </tr>
-      <button type="button" (click)='apply()' class="btn-light">Speichern</button>
+<!--      <button type="button" (click)='apply()' class="btn-light">Speichern</button>-->
       </tbody>
+      </div>
     </table>
+    <button type="button" (click)='apply()' class="btn-light">Speichern</button>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    <div *ngIf="success" class="alert alert-success">
+      {{ success }}
+    </div>
   </div>
 </div>
-<div *ngIf="error" class="alert alert-danger">
-  {{ error }}
-</div>
-<div *ngIf="success" class="alert alert-success">
-  {{ success }}
-</div>
+
 
