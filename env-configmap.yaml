@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  MYSQLDB_DATABASE: balmburren_db
+  MYSQLDB_ROOT_PASSWORD: secret
+  MYSQLDB_USER: root
+kind: ConfigMap
+metadata:
+  labels:
+    io.kompose.service: mysqldb-env
+  name: env
+
+
