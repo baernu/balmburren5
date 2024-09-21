@@ -50,13 +50,13 @@ spec:
                 - -u
                 - root
                 - -p$MYSQL_ROOT_PASSWORD  # Use the environment variable here
-#            exec:
-#              command:
-#                - mysqladmin ping -h localhost -u root --password=
+
             failureThreshold: 5
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
+
+
           name: mysqldb
           ports:
             - containerPort: 3306

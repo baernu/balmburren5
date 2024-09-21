@@ -19,7 +19,15 @@ spec:
         kompose.version: 1.34.0 (cbf2835db)
       labels:
         io.kompose.service: backend
+
+
     spec:
+
+      initContainers:
+        - name: wait-for-mysql
+          image: busybox
+          command: [ 'sh', '-c', 'until nc -z mysqldb 3307; do echo waiting for mysql; sleep 2; done;' ]
+
       containers:
         - env:
             - name: MYSQL_HOST
@@ -30,6 +38,8 @@ spec:
               value: "3307"
             - name: MYSQL_USER
               value: root
+
+
           image: baernu/balmburren_backend:v1.0.0
           name: backend
           ports:
