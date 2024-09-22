@@ -35,16 +35,33 @@ spec:
 
       containers:
         - env:
-            - name: MYSQL_HOST
-              value: mysqldb
-            - name: MYSQL_PASSWORD
-              value: secret
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: MYSQLDB_ROOT_PASSWORD
+                  name: env
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  key: MYSQLDB_DATABASE
+                  name: env
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: MYSQLDB_USER
+                  name: env
+#            - name: MYSQL_HOST
+#              value: mysql.default.svc.cluster.local
+#            - name: MYSQL_PASSWORD
+#              value: secret
             - name: MYSQL_PORT
               value: "3307"
-            - name: MYSQL_USER
-              value: root
-            - name: MYSQL_DATABASE
-              value: balmburren_db
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://pod-mysql:3307/balmburren_db?serverTimezone=UTC&allowPublicKeyRetrieval=true
+#            - name: MYSQL_USER
+#              value: root
+#            - name: MYSQL_DATABASE
+#              value: balmburren_db
 
 
           image: baernu/balmburren_backend:v1.0.0

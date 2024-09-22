@@ -48,7 +48,7 @@ spec:
             - name: mysql-initdb
               mountPath: /docker-entrypoint-initdb.d
             - mountPath: "/var/lib/mysql"
-              subPath: "mysql" #added
+#              subPath: "mysql" #added
               name: dbdata
       restartPolicy: Always
       volumes:
