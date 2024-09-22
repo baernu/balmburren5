@@ -11,10 +11,10 @@ spec:
 #  type: LoadBalancer #added
 #  ports:
 #    - name: "3307"
-#  type: NodePort
+  type: NodePort
   ports:
-#    - nodePort: 30033
-    - name: "pod-mysql"
+    - nodePort: 30033
+      name: "pod-mysql"
       port: 3307
       targetPort: 3306
       protocol: TCP

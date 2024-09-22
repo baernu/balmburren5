@@ -50,14 +50,14 @@ spec:
                 configMapKeyRef:
                   key: MYSQLDB_USER
                   name: env
-#            - name: MYSQL_HOST
-#              value: mysql.default.svc.cluster.local
+            - name: MYSQL_HOST
+              value: mysql.default.svc.cluster.local
 #            - name: MYSQL_PASSWORD
 #              value: secret
             - name: MYSQL_PORT
-              value: "3307"
+              value: "30033"
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://pod-mysql:3307/balmburren_db?serverTimezone=UTC&allowPublicKeyRetrieval=true
+              value: jdbc:mysql://192.168.58.2:30033/balmburren_db?serverTimezone=UTC&allowPublicKeyRetrieval=true
 #            - name: MYSQL_USER
 #              value: root
 #            - name: MYSQL_DATABASE
