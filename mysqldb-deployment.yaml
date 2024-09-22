@@ -24,48 +24,37 @@ spec:
     spec:
       containers:
         - env:
-            - name: MYSQL_DATABASE
-              valueFrom:
-                configMapKeyRef:
-                  key: MYSQLDB_DATABASE
-                  name: env
+#            - name: MYSQL_DATABASE
+#              valueFrom:
+#                configMapKeyRef:
+#                  key: MYSQLDB_DATABASE
+#                  name: env
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 configMapKeyRef:
                   key: MYSQLDB_ROOT_PASSWORD
                   name: env
-            - name: MYSQLDB_USER
-              valueFrom:
-                configMapKeyRef:
-                  key: MYSQLDB_USER
-                  name: env
+#            - name: MYSQLDB_USER
+#              valueFrom:
+#                configMapKeyRef:
+#                  key: MYSQLDB_USER
+#                  name: env
           image: mysql:8.0
-          livenessProbe:
-            exec:
-              command:
-                - mysqladmin
-                - ping
-                - -h
-                - localhost
-                - -u
-                - root
-                - -p$MYSQL_ROOT_PASSWORD  # Use the environment variable here
-
-            failureThreshold: 5
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            timeoutSeconds: 5
-
-
           name: mysqldb
           ports:
             - containerPort: 3306
               protocol: TCP
           volumeMounts:
-            - mountPath: /var/lib/mysql
+            - name: mysql-initdb
+              mountPath: /docker-entrypoint-initdb.d
+            - mountPath: "/var/lib/mysql"
+              subPath: "mysql" #added
               name: dbdata
       restartPolicy: Always
       volumes:
+        - name: mysql-initdb
+          configMap:
+            name: mysql-initdb-config
         - name: dbdata
           persistentVolumeClaim:
             claimName: dbdata

@@ -8,9 +8,15 @@ metadata:
     io.kompose.service: mysqldb
   name: mysqldb
 spec:
+#  type: LoadBalancer #added
+#  ports:
+#    - name: "3307"
+  type: NodePort
   ports:
-    - name: "3307"
+    - nodePort: 30033
+      name: "3307"
       port: 3307
       targetPort: 3306
+      protocol: TCP
   selector:
     io.kompose.service: mysqldb

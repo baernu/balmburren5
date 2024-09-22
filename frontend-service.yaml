@@ -8,9 +8,15 @@ metadata:
     io.kompose.service: frontend
   name: frontend
 spec:
+#  type: LoadBalancer #added
+#  ports:
+#    - name: "4200"
+  type: NodePort
   ports:
-    - name: "4200"
+    - nodePort: 30042
+      name: "4200"
       port: 4200
       targetPort: 80
+      protocol: TCP
   selector:
     io.kompose.service: frontend

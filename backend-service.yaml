@@ -8,10 +8,16 @@ metadata:
     io.kompose.service: backend
   name: backend
 spec:
+#  type: LoadBalancer #added
+#  ports:
+#    - name: "8081"
+  type: NodePort
   ports:
-    - name: "8081"
+    - nodePort: 30080
+      name: "8081"
       port: 8081
       targetPort: 8080
+      protocol: TCP
   selector:
     io.kompose.service: backend
 

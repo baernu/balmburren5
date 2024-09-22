@@ -23,10 +23,15 @@ spec:
 
     spec:
 
-      initContainers:
-        - name: wait-for-mysql
-          image: busybox
-          command: [ 'sh', '-c', 'until nc -z mysqldb 3307; do echo waiting for mysql; sleep 2; done;' ]
+
+#      initContainers:
+#        - name: wait-for-mysql
+#          image: busybox
+#          command: [ 'sh', '-c', 'until nc -z mysqldb 3307; do echo waiting for mysql; sleep 10; done;' ]
+
+#        - name: init-cont
+#          image: busybox:1.31
+#          command: [ 'sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z mysql 3307; do sleep 1; printf "-"; done; echo -e "  >> MySQL DB Server has started";' ]
 
       containers:
         - env:
@@ -38,6 +43,8 @@ spec:
               value: "3307"
             - name: MYSQL_USER
               value: root
+            - name: MYSQL_DATABASE
+              value: balmburren_db
 
 
           image: baernu/balmburren_backend:v1.0.0
@@ -45,4 +52,6 @@ spec:
           ports:
             - containerPort: 8080
               protocol: TCP
+
+
       restartPolicy: Always
