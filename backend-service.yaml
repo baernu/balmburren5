@@ -14,9 +14,10 @@ spec:
   type: NodePort
   ports:
     - nodePort: 30080
-      name: "8081"
-      port: 8081
-      targetPort: 8080
+      name: "8006"
+      port: 8006
+#      targetPort: 8080
+      targetPort: 8006
       protocol: TCP
   selector:
     io.kompose.service: backend

@@ -14,7 +14,7 @@ spec:
   type: NodePort
   ports:
     - nodePort: 30033
-      name: "pod-mysql"
+      name: "3307"
       port: 3307
       targetPort: 3306
       protocol: TCP

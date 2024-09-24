@@ -77,13 +77,26 @@ public class BackendIntegrationTests_InvoiceTest {
 
     @Test
     public void TestProduct() {
+        EntityExchangeResult<LoginResponse> loginResponse =
+                webClient.post().uri("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue("{\"password\": \"adminadmin\", \"username\": \"admin\" }")
+                        .exchange()
+                        .expectStatus()
+                        .isOk()
+                        .expectBody(LoginResponse.class)
+                        .returnResult();
+
+        String token = loginResponse.getResponseBody().getToken();
+        String finalToken = token;
+
         Product product = new Product();
         product.setName("milk");
         product.setId(1L);
         EntityExchangeResult<Product> result =
         webClient.post().uri("/pr/product/")
                 .contentType(MediaType.APPLICATION_JSON)
-//                        .headers(http -> http.setBearerAuth(token))
+                .headers(http -> http.setBearerAuth(finalToken))
                 .bodyValue(product)
                 .exchange()
                 .expectStatus()
@@ -260,6 +273,7 @@ public class BackendIntegrationTests_InvoiceTest {
         dates.get().setDate("21-08-2023");
         EntityExchangeResult<Optional<Dates>> resultDates =
                 webClient.post().uri("/tr/dates/")
+                        .headers(http -> http.setBearerAuth(finalToken))
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(dates)
                         .exchange()
@@ -276,6 +290,7 @@ public class BackendIntegrationTests_InvoiceTest {
         productBindInfos.get().setStartDate(dates.get());
         EntityExchangeResult<Optional<ProductBindProductDetails>> resultProductBindProductDetails =
                 webClient.post().uri("/pr/product/bind/infos/")
+                        .headers(http -> http.setBearerAuth(finalToken))
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(productBindInfos)
                         .exchange()
@@ -292,6 +307,7 @@ public class BackendIntegrationTests_InvoiceTest {
         tour.get().setNumber("1");
         EntityExchangeResult<Optional<Tour>> resultTour =
                 webClient.post().uri("/tr/tour/")
+                        .headers(http -> http.setBearerAuth(finalToken))
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(tour)
                         .exchange()
@@ -315,6 +331,7 @@ public class BackendIntegrationTests_InvoiceTest {
 
         EntityExchangeResult<Optional<Ordered>> result5 =
                 webClient.post().uri("/or/order/")
+                        .headers(http -> http.setBearerAuth(finalToken))
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(ordered)
                         .exchange()
@@ -392,6 +409,7 @@ public class BackendIntegrationTests_InvoiceTest {
         personBindInvoice.get().setDateTo(dates.get());
         EntityExchangeResult<Optional<PersonBindInvoice>> result2 =
                 webClient.post().uri("/bd/person/bind/invoice/")
+                        .headers(http -> http.setBearerAuth(finalToken))
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(personBindInvoice)
                         .exchange()
@@ -407,6 +425,7 @@ public class BackendIntegrationTests_InvoiceTest {
 
         EntityExchangeResult<Optional<List<PersonBindInvoice>>> result3 =
                 webClient.get().uri("/bd/person/bind/invoice/")
+                        .headers(http -> http.setBearerAuth(finalToken))
                         .exchange()
                         .expectStatus().isOk()
                         .expectBody(new ParameterizedTypeReference<Optional<List<PersonBindInvoice>>>() {})
@@ -419,6 +438,7 @@ public class BackendIntegrationTests_InvoiceTest {
 
         EntityExchangeResult<Optional<List<PersonBindInvoice>>> pbi1=
         webClient.get().uri("/bd/person/bind/invoice/invoice/" + userOptional.get().getUsername())
+                .headers(http -> http.setBearerAuth(finalToken))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -428,6 +448,7 @@ public class BackendIntegrationTests_InvoiceTest {
         Assertions.assertEquals(list.get(), pbi1.getResponseBody().get());
 
         webClient.get().uri("/bd/person/bind/invoice/" + dates.get().getDate())
+                .headers(http -> http.setBearerAuth(finalToken))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -435,6 +456,7 @@ public class BackendIntegrationTests_InvoiceTest {
                 .isEqualTo(list1);
 
         webClient.get().uri("/bd/person/bind/invoice/deliver/" + userOptional.get().getUsername())
+                .headers(http -> http.setBearerAuth(finalToken))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -443,6 +465,7 @@ public class BackendIntegrationTests_InvoiceTest {
 
         webClient.get().uri("/bd/person/bind/invoice/exist/" + dates.get().getId() + '/' + dates.get().getId() + '/' +
                         userOptional.get().getUsername() + '/' + userOptional.get().getUsername())
+                .headers(http -> http.setBearerAuth(finalToken))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -451,6 +474,7 @@ public class BackendIntegrationTests_InvoiceTest {
 
         webClient.get().uri("/bd/person/bind/invoice/" + dates.get().getId() + '/' + dates.get().getId() + '/' +
                         userOptional.get().getUsername() + '/' + userOptional.get().getUsername())
+                .headers(http -> http.setBearerAuth(finalToken))
                 .exchange()
                 .expectStatus()
                 .isOk()
@@ -459,12 +483,14 @@ public class BackendIntegrationTests_InvoiceTest {
 
         webClient.delete().uri("/bd/person/bind/invoice/" + dates.get().getId() + '/' + dates.get().getId() + '/' +
                         userOptional.get().getUsername() + '/' + userOptional.get().getUsername())
+                .headers(http -> http.setBearerAuth(finalToken))
                 .exchange()
                 .expectStatus()
                 .isOk();
 
         webClient.get().uri("/bd/person/bind/invoice/exist/" + dates.get().getId() + '/' + dates.get().getId() + '/' +
                         userOptional.get().getUsername() + '/' + userOptional.get().getUsername())
+                .headers(http -> http.setBearerAuth(finalToken))
                 .exchange()
                 .expectStatus()
                 .isOk()
