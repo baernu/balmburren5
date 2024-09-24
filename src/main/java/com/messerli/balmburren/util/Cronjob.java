@@ -26,7 +26,7 @@ public class Cronjob {
     private SendingEmail sendingEmail;
 
 //    @Scheduled(cron = "0 0 * * * ?")
-@Scheduled(cron = "0 54 15 * * *")
+@Scheduled(cron = "0 44 16 * * *")
     public void backup() {
     try {
         setupBackup();
@@ -63,13 +63,27 @@ public class Cronjob {
 //        properties.setProperty(MysqlExportService.EMAIL_START_TLS_ENABLED, "true");
 //
 ////set the outputs temp dir
-        properties.setProperty(MysqlExportService.TEMP_DIR, new File("external").getPath());
+        properties.setProperty(MysqlExportService.TEMP_DIR, "/tmp/mysql_dump");
+//        properties.setProperty(MysqlExportService.TEMP_DIR, new File("external").getPath());
+        byte[] byteArray = null;
+        try {
+            MysqlExportService mysqlExportService = new MysqlExportService(properties);
+            String generatedSql = mysqlExportService.getGeneratedSql();
+            if (generatedSql == null) {
+                log.info("No SQL generated. Check your database connection or export service.");
+            } else {
+                byteArray = generatedSql.getBytes(StandardCharsets.UTF_8);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("Error occurred during SQL export: " + e.getMessage());
+        }
 
-        MysqlExportService mysqlExportService = new MysqlExportService(properties);
-        //If we want to get the raw exported SQL dump as a String we only need to call this method:
-        String generatedSql = mysqlExportService.getGeneratedSql();
-        byte[] byteArray = generatedSql.getBytes(StandardCharsets.UTF_8);
-        log.info("byteArray: " + Arrays.toString(byteArray));
+//        MysqlExportService mysqlExportService = new MysqlExportService(properties);
+//        //If we want to get the raw exported SQL dump as a String we only need to call this method:
+//        String generatedSql = mysqlExportService.getGeneratedSql();
+//        byte[] byteArray = generatedSql.getBytes(StandardCharsets.UTF_8);
+//        log.info("byteArray: " + Arrays.toString(byteArray));
 
         sendingEmail.send("attachment", "balmburren@gmail.com", "Backup", "Neues Backup ist bereit", byteArray, "", "backup.txt");
 
