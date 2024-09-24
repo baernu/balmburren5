@@ -52,19 +52,22 @@ spec:
                   name: env
             - name: MYSQL_HOST
               value: mysql.default.svc.cluster.local
-#            - name: MYSQL_PASSWORD
-#              value: secret
+
             - name: MYSQL_PORT
               value: "30033"
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://192.168.58.2:30033/balmburren_db?serverTimezone=UTC&allowPublicKeyRetrieval=true
-#            - name: MYSQL_USER
-#              value: root
-#            - name: MYSQL_DATABASE
-#              value: balmburren_db
+            - name: SERVER_PORT
+              value: "8006"
+            - name: SERVER_SERVLET_CONTEXT_PATH
+              value: "/api"
+            - name: SECURITY_JWT_SECRET_KEY
+              value: "3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b"
+
 
 
           image: baernu/balmburren_backend:v1.0.0
+          imagePullPolicy: Always
           name: backend
           ports:
             - containerPort: 8080

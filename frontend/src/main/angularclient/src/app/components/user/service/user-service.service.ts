@@ -46,7 +46,6 @@ export class UserService {
   private readonly addressUrl: string;
   private readonly userBindAddress: string;
   private readonly baseUrl: string = 'http://localhost:8006/api/';
-
   // private readonly baseUrl: string = 'api/';
 
 

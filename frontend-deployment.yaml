@@ -21,8 +21,9 @@ spec:
         io.kompose.service: frontend
     spec:
       containers:
-        - image: baernu/balmburren_frontend:v1.0.0
-          name: frontend
+        - name: frontend
+          image: baernu/balmburren_frontend:v1.0.0
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
               protocol: TCP
