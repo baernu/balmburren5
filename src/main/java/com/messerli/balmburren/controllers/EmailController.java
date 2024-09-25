@@ -7,6 +7,7 @@ import com.messerli.balmburren.util.QRInvoice;
 import com.messerli.balmburren.services.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -74,15 +75,17 @@ public class EmailController {
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PatchMapping("send/backup/")
-    public ResponseEntity<?> sendBackup() {
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN')")
+    @PatchMapping("backup/send/")
+    public ResponseEntity<?> backupSend() {
         cronService.sendBackup();
         return ResponseEntity.ok().body("Backup sending...");
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PatchMapping("load/backup/")
-    public ResponseEntity<?> loadackup() {
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN')")
+    @PatchMapping("backup/tofile/")
+    public ResponseEntity<?> backupToFile() {
         cronService.writeBackupToFile();
         return ResponseEntity.ok().body("Backup write to file...");
     }

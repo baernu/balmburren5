@@ -15,6 +15,7 @@ export class EmailService {
   private readonly getQRCodeUrl: string;
   private readonly sendTourDataUrl: string;
   private readonly retourTourDataUrl: string;
+  private readonly backupUrl: string;
 
 
   constructor(private http: HttpClient) {
@@ -22,6 +23,7 @@ export class EmailService {
     this.getQRCodeUrl = this.baseUrl + 'em/qrcode';
     this.sendTourDataUrl = this.baseUrl + 'em/send/email/tourdata';
     this.retourTourDataUrl = this.baseUrl + 'em/send/retour/tourdata';
+    this.backupUrl = this.baseUrl + 'em/backup/';
 
   }
 
@@ -36,5 +38,11 @@ export class EmailService {
 
   public retourTourData(json: string):Observable<AndroidClientDTO[]> {
     return this.http.post<AndroidClientDTO[]>(this.retourTourDataUrl, json,{withCredentials: true});}
+
+  public backupSend():Observable<string> {
+    return this.http.patch<string>(this.backupUrl + 'send/',{withCredentials: true});}
+
+  public backupWriteToFile():Observable<string> {
+    return this.http.patch<string>(this.backupUrl + 'tofile/',{withCredentials: true});}
 
 }

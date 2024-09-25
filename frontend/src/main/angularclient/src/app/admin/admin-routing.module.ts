@@ -26,6 +26,7 @@ import {
 import {DriverWorkComponent} from "./components/driver/driver-work/driver-work.component";
 import {DriverOverviewComponent} from "./components/driver/driver-overview/driver-overview.component";
 import {DriverComponent} from "./components/driver/driver.component";
+import { BackupComponent } from './components/backup/backup.component';
 
 const routes: Routes = [
   {path: 'admin', component: AdminDashboardComponent,
@@ -74,6 +75,8 @@ const routes: Routes = [
   {path: 'driver_overview', component: DriverOverviewComponent,
     canActivate: [AuthGuardGuard]},
   {path: 'drivers', component: DriverComponent,
+    canActivate: [AuthGuardGuard]},
+  {path: 'backup', component: BackupComponent,
     canActivate: [AuthGuardGuard]},
 
 ];
