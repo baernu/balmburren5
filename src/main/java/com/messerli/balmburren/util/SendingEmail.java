@@ -4,6 +4,8 @@ package com.messerli.balmburren.util;
 import java.io.*;
 import java.util.Base64;
 import java.util.Objects;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -50,6 +52,11 @@ public class SendingEmail {
                     FileSystemResource file = new FileSystemResource(new File(pdfFilePath));
                     helper.addAttachment("Balmburren-PDF.pdf", file);
                 }
+                if (filename.endsWith(".zip")) {
+                    String zipFilePath = makeZip(byteArray, filename);  // Return the path where the file is created
+                    FileSystemResource file = new FileSystemResource(new File(zipFilePath));
+                    helper.addAttachment("Balmburren-Zip.zip", file);
+                }
                 mailSender.send(message);
 
             } catch (MessagingException e) {
@@ -70,6 +77,24 @@ public class SendingEmail {
         return filePath;  // Return the path to the created file
     }
 
+    private static String makeZip(byte[] data, String name) {
+        String filePath = "file.zip";  // Save to a local path
+        try (FileOutputStream fos = new FileOutputStream(filePath);
+             ZipOutputStream zos = new ZipOutputStream(fos)) {
+
+            // Use a generic name for the file inside the zip
+            ZipEntry zipEntry = new ZipEntry(name);
+            zos.putNextEntry(zipEntry);
+            zos.write(data);
+            zos.closeEntry();
+        } catch (FileNotFoundException ex) {
+            throw new RuntimeException(ex);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        return filePath;  // Return the path to the created file
+    }
+
     private static String makePDf(String base64String) {
         String filePath = "balmburren.pdf";  // Save to a local path
         System.out.println("Base64String: " + base64String);
@@ -84,5 +109,6 @@ public class SendingEmail {
         }
         return filePath;  // Return the path to the created file
     }
+
 }
 

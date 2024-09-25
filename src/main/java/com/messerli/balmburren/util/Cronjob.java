@@ -65,22 +65,26 @@ public class Cronjob implements CronService {
 //        properties.setProperty(MysqlExportService.EMAIL_SSL_PROTOCOLS, "TLSv1.2");
 //        properties.setProperty(MysqlExportService.EMAIL_SMTP_AUTH_ENABLED, "true");
 //        properties.setProperty(MysqlExportService.EMAIL_START_TLS_ENABLED, "true");
+        properties.setProperty(MysqlExportService.PRESERVE_GENERATED_ZIP, "true");
 //
 ////set the outputs temp dir
 //        properties.setProperty(MysqlExportService.TEMP_DIR, "/tmp/mysql_dump");
 //        writeToFile(null);
 //        properties.setProperty(MysqlExportService.TEMP_DIR, Paths.get("backup.txt").toString());
         properties.setProperty(MysqlExportService.TEMP_DIR, new File("external").getPath());
+
         try {
             mysqlExportService = new MysqlExportService(properties);
             mysqlExportService.export();
-            String generatedSql = mysqlExportService.getGeneratedSql();
-            if (generatedSql == null) {
+            File file = mysqlExportService.getGeneratedZipFile();
+//            String generatedSql = mysqlExportService.getGeneratedSql();
+            if (file == null) {
                 log.info("No SQL generated. Check your database connection or export service.");
             } else {
-                byteArray = generatedSql.getBytes(StandardCharsets.UTF_8);
+//                byteArray = generatedSql.getBytes(StandardCharsets.UTF_8);
                 writeToFile(byteArray);
                 log.info("Writing ByteArray for Backup...");
+                mysqlExportService.clearTempFiles();
             }
 
         } catch (Exception e) {
