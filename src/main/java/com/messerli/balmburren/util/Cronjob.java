@@ -5,9 +5,13 @@ import com.smattme.MysqlExportService;
 import com.smattme.MysqlImportService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -63,11 +67,22 @@ public class Cronjob implements CronService {
 //        properties.setProperty(MysqlExportService.EMAIL_START_TLS_ENABLED, "true");
 //
 ////set the outputs temp dir
-        properties.setProperty(MysqlExportService.TEMP_DIR, "/tmp/mysql_dump");
-//        properties.setProperty(MysqlExportService.TEMP_DIR, new File("external").getPath());
+//        properties.setProperty(MysqlExportService.TEMP_DIR, "/tmp/mysql_dump");
+//        writeToFile(null);
+//        properties.setProperty(MysqlExportService.TEMP_DIR, Paths.get("backup.txt").toString());
+        properties.setProperty(MysqlExportService.TEMP_DIR, new File("external").getPath());
         try {
             mysqlExportService = new MysqlExportService(properties);
             mysqlExportService.export();
+            String generatedSql = mysqlExportService.getGeneratedSql();
+            if (generatedSql == null) {
+                log.info("No SQL generated. Check your database connection or export service.");
+            } else {
+                byteArray = generatedSql.getBytes(StandardCharsets.UTF_8);
+                writeToFile(byteArray);
+                log.info("Writing ByteArray for Backup...");
+            }
+
         } catch (Exception e) {
             log.info("Error occurred during SQL export: " + e.getMessage());
         }
@@ -106,13 +121,15 @@ public class Cronjob implements CronService {
     }
 
     public void sendBackup(){
-        String generatedSql = mysqlExportService.getGeneratedSql();
-        if (generatedSql == null) {
-            log.info("No SQL generated. Check your database connection or export service.");
-        } else {
-            byteArray = generatedSql.getBytes(StandardCharsets.UTF_8);
-            sendingEmail.send("attachment", "balmburren@gmail.com", "Backup", "Neues Backup ist bereit", byteArray, "", "backup.txt");
-        }
+        sendingEmail.send("attachment", "balmburren@gmail.com", "Backup", "Neues Backup ist bereit", byteArray, "", "backup.txt");
+//        String generatedSql = mysqlExportService.getGeneratedSql();
+//        if (generatedSql == null) {
+//            log.info("No SQL generated. Check your database connection or export service.");
+//        } else {
+////            byteArray = generatedSql.getBytes(StandardCharsets.UTF_8);
+////            String fileName = writeToFile(byteArray);
+//            sendingEmail.send("attachment", "balmburren@gmail.com", "Backup", "Neues Backup ist bereit", byteArray, "", "backup.txt");
+//        }
     }
 
     private void importDatabase(){
@@ -141,6 +158,18 @@ public class Cronjob implements CronService {
             log.info("ClassNotFoundException building import" + e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    private static String writeToFile(byte[] bytes) {
+        String fileName = "backup.txt";  // Save to a local path
+        try (FileOutputStream fos = new FileOutputStream(fileName)) {
+            fos.write(bytes);
+        } catch (FileNotFoundException fileNotFoundException) {
+            log.info("TXT File not found!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fileName;  // Return the path to the created file
     }
 
 }
