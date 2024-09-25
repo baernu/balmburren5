@@ -38,6 +38,7 @@ public class EmailController {
 //    }
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @PostMapping("send/email/")
 
     public ResponseEntity<?> sendEmailAttachment(@RequestBody EmailData emailData) {
@@ -75,16 +76,16 @@ public class EmailController {
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN')")
-    @PatchMapping("backup/send/")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
+    @GetMapping("backup/send/")
     public ResponseEntity<?> backupSend() {
         cronService.sendBackup();
         return ResponseEntity.ok().body("Backup sending...");
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN')")
-    @PatchMapping("backup/tofile/")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
+    @GetMapping("backup/tofile/")
     public ResponseEntity<?> backupToFile() {
         cronService.writeBackupToFile();
         return ResponseEntity.ok().body("Backup write to file...");

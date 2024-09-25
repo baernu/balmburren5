@@ -40,9 +40,9 @@ export class EmailService {
     return this.http.post<AndroidClientDTO[]>(this.retourTourDataUrl, json,{withCredentials: true});}
 
   public backupSend():Observable<string> {
-    return this.http.patch<string>(this.backupUrl + 'send/',{withCredentials: true});}
+    return this.http.get<string>(this.backupUrl + 'send/',{withCredentials: true});}
 
   public backupWriteToFile():Observable<string> {
-    return this.http.patch<string>(this.backupUrl + 'tofile/',{withCredentials: true});}
+    return this.http.get<string>(this.backupUrl + 'tofile/',{withCredentials: true});}
 
 }
