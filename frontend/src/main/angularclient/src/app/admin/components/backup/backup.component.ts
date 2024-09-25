@@ -3,6 +3,7 @@ import {EmailService} from "../email/email-service/email.service";
 import {firstValueFrom} from "rxjs";
 
 
+
 @Component({
   selector: 'app-backup',
   templateUrl: './backup.component.html',
@@ -73,6 +74,10 @@ export class BackupComponent {
     if (fileList) {
       this.file = fileList[0];
       this.filename = fileList[0].name;
+      // var new_zip = new JSZip();
+      // new_zip.loadAsync(this.file);
+      // new_zip.files["doc.xml"].asText() // this give you the text in the file
+
     }
   }
 }
