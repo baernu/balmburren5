@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import {TourServiceService} from "../tour/service/tour-service.service";
-import {UserService} from "../../../components/user/service/user-service.service";
 import {EmailService} from "../email/email-service/email.service";
-import {ProductService} from "../product/service/product.service";
-import {OrderDTO} from "../../../components/user/service/orderDTO";
 import {firstValueFrom} from "rxjs";
+
 
 @Component({
   selector: 'app-backup',
@@ -14,6 +11,10 @@ import {firstValueFrom} from "rxjs";
 export class BackupComponent {
   error: string ="";
   success: string ="";
+  error1: string ="";
+  success1: string ="";
+  file: File | undefined;
+  filename: string = "";
 
   constructor(
     private emailService: EmailService,
@@ -62,5 +63,16 @@ export class BackupComponent {
       this.success = "";
       return;
     }, 1000);
+  }
+
+  async uploadFile(event: Event) {
+    this.success1 ="";
+    this.error1 = "";
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+    if (fileList) {
+      this.file = fileList[0];
+      this.filename = fileList[0].name;
+    }
   }
 }
