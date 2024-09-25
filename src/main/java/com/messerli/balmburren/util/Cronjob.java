@@ -1,47 +1,47 @@
 package com.messerli.balmburren.util;
 
+import com.messerli.balmburren.services.CronService;
 import com.smattme.MysqlExportService;
 import com.smattme.MysqlImportService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Properties;
 
 
-@Component
+
+
+@Service
 @Slf4j
-public class Cronjob {
+public class Cronjob implements CronService {
 
     @Autowired
     private SendingEmail sendingEmail;
 
-//    @Scheduled(cron = "0 0 * * * ?")
-@Scheduled(cron = "0 44 16 * * *")
-    public void backup() {
-    try {
-        setupBackup();
-    } catch (SQLException | IOException e) {
-        log.info("in the process of backup: RuntimeException...");
-        throw new RuntimeException(e);
-    } catch (ClassNotFoundException e) {
-        log.info("in the process of backup: ClassNotFoundException...");
-        throw new RuntimeException(e);
+    private static byte[] byteArray;
+    private static MysqlExportService mysqlExportService;
+
+    @Scheduled(cron = "0 40 23 * * *")
+    public void backupAutoWriteToFile() {
+        writeBackupToFile();
+        log.info("in the process of backupAutoWriteToFile");
     }
-    log.info("in the process of backup after exceptions...");
+
+    @Scheduled(cron = "59 59 23 * * *")
+    public void backupAutoSend() {
+        sendBackup();
+        log.info("in the process of backupAutoSend");
     }
 
 
-    private void setupBackup() throws SQLException, IOException, ClassNotFoundException {
+    public void writeBackupToFile() {
         Properties properties = new Properties();
         properties.setProperty(MysqlExportService.DB_NAME, "balmburren_db");
         properties.setProperty(MysqlExportService.DB_USERNAME, "root");
@@ -65,17 +65,10 @@ public class Cronjob {
 ////set the outputs temp dir
         properties.setProperty(MysqlExportService.TEMP_DIR, "/tmp/mysql_dump");
 //        properties.setProperty(MysqlExportService.TEMP_DIR, new File("external").getPath());
-        byte[] byteArray = null;
         try {
-            MysqlExportService mysqlExportService = new MysqlExportService(properties);
-            String generatedSql = mysqlExportService.getGeneratedSql();
-            if (generatedSql == null) {
-                log.info("No SQL generated. Check your database connection or export service.");
-            } else {
-                byteArray = generatedSql.getBytes(StandardCharsets.UTF_8);
-            }
+            mysqlExportService = new MysqlExportService(properties);
+            mysqlExportService.export();
         } catch (Exception e) {
-            e.printStackTrace();
             log.info("Error occurred during SQL export: " + e.getMessage());
         }
 
@@ -85,10 +78,10 @@ public class Cronjob {
 //        byte[] byteArray = generatedSql.getBytes(StandardCharsets.UTF_8);
 //        log.info("byteArray: " + Arrays.toString(byteArray));
 
-        sendingEmail.send("attachment", "balmburren@gmail.com", "Backup", "Neues Backup ist bereit", byteArray, "", "backup.txt");
+//        sendingEmail.send("attachment", "balmburren@gmail.com", "Backup", "Neues Backup ist bereit", byteArray, "", "backup.txt");
 
 
-//        mysqlExportService.export();
+
 //
 //
 //
@@ -112,23 +105,42 @@ public class Cronjob {
 //        properties.setProperty(MysqlExportService.PRESERVE_GENERATED_SQL_FILE, "true");
     }
 
-    private void importDatabase() throws SQLException, ClassNotFoundException, IOException {
-        String sql = new String(Files.readAllBytes(Paths.get("path/to/sql/dump/file.sql")));
-
-        boolean res = MysqlImportService.builder()
-                .setDatabase("balmburren_db")
-                .setSqlString(sql)
-                .setUsername("root")
-                .setPassword("secret")
-                .setHost("localhost")
-                .setPort("3307")
-                .setDeleteExisting(true)
-                .setDropExisting(true)
-                .importDatabase();
-
-        assertTrue(res);
+    public void sendBackup(){
+        String generatedSql = mysqlExportService.getGeneratedSql();
+        if (generatedSql == null) {
+            log.info("No SQL generated. Check your database connection or export service.");
+        } else {
+            byteArray = generatedSql.getBytes(StandardCharsets.UTF_8);
+            sendingEmail.send("attachment", "balmburren@gmail.com", "Backup", "Neues Backup ist bereit", byteArray, "", "backup.txt");
+        }
     }
 
-    private void assertTrue(boolean res) {
+    private void importDatabase(){
+        String sql = null;
+        try {
+            sql = new String(Files.readAllBytes(Paths.get("path/to/sql/dump/file.sql")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            boolean res = MysqlImportService.builder()
+                    .setDatabase("balmburren_db")
+                    .setSqlString(sql)
+                    .setUsername("root")
+                    .setPassword("secret")
+                    .setHost("localhost")
+                    .setPort("3307")
+                    .setDeleteExisting(true)
+                    .setDropExisting(true)
+                    .importDatabase();
+        } catch (SQLException e) {
+            log.info("SQLException building import" + e.getMessage());
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            log.info("ClassNotFoundException building import" + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
+
 }

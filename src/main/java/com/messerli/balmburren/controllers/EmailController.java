@@ -1,6 +1,7 @@
 package com.messerli.balmburren.controllers;
 
 import com.messerli.balmburren.android.Client;
+import com.messerli.balmburren.services.CronService;
 import com.messerli.balmburren.util.EmailData;
 import com.messerli.balmburren.util.QRInvoice;
 import com.messerli.balmburren.services.EmailService;
@@ -19,9 +20,11 @@ import java.util.List;
 public class EmailController {
 
     private final EmailService emailService;
+    private final CronService cronService;
 
-    public EmailController(EmailService emailService) {
+    public EmailController(EmailService emailService, CronService cronService) {
         this.emailService = emailService;
+        this.cronService = cronService;
     }
 
 //    @CrossOrigin( allowCredentials = "true")
@@ -68,6 +71,20 @@ public class EmailController {
         log.info("Tour data retour {}", list);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/send/retour/tourdata").toUriString());
         return ResponseEntity.created(uri).body(list);
+    }
+
+    @CrossOrigin( allowCredentials = "true")
+    @PatchMapping("send/backup/")
+    public ResponseEntity<?> sendBackup() {
+        cronService.sendBackup();
+        return ResponseEntity.ok().body("Backup sending...");
+    }
+
+    @CrossOrigin( allowCredentials = "true")
+    @PatchMapping("load/backup/")
+    public ResponseEntity<?> loadackup() {
+        cronService.writeBackupToFile();
+        return ResponseEntity.ok().body("Backup write to file...");
     }
 
 }

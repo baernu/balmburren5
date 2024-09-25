@@ -2,34 +2,20 @@ package com.messerli.balmburren;
 
 
 
-import com.fasterxml.jackson.databind.util.Annotations;
 import com.messerli.balmburren.dtos.LoginUserDto;
 import com.messerli.balmburren.dtos.RegisterUserDto;
 import com.messerli.balmburren.entities.*;
 import com.messerli.balmburren.repositories.RoleRepository;
-import com.messerli.balmburren.repositories.UserRepository;
 import com.messerli.balmburren.responses.LoginResponse;
-import com.messerli.balmburren.responses.StringResponse;
-import com.messerli.balmburren.services.JwtService;
 import jakarta.transaction.Transactional;
-//import org.junit.jupiter.api.Assertions;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
