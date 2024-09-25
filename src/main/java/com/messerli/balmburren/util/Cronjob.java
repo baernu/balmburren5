@@ -31,6 +31,7 @@ public class Cronjob implements CronService {
 
     private static byte[] byteArray;
     private static MysqlExportService mysqlExportService;
+    private static File file;
 
     @Scheduled(cron = "0 40 23 * * *")
     public void backupAutoWriteToFile() {
@@ -76,15 +77,16 @@ public class Cronjob implements CronService {
         try {
             mysqlExportService = new MysqlExportService(properties);
             mysqlExportService.export();
-            File file = mysqlExportService.getGeneratedZipFile();
+            file = mysqlExportService.getGeneratedZipFile();
 //            String generatedSql = mysqlExportService.getGeneratedSql();
             if (file == null) {
                 log.info("No SQL generated. Check your database connection or export service.");
             } else {
 //                byteArray = generatedSql.getBytes(StandardCharsets.UTF_8);
-                writeToFile(byteArray);
+//                writeToFile(byteArray);
                 log.info("Writing ByteArray for Backup...");
                 mysqlExportService.clearTempFiles();
+                log.info("Clearing TempFiles...");
             }
 
         } catch (Exception e) {
@@ -125,7 +127,13 @@ public class Cronjob implements CronService {
     }
 
     public void sendBackup(){
-        sendingEmail.send("attachment", "balmburren@gmail.com", "Backup", "Neues Backup ist bereit", byteArray, "", "backup.txt");
+        try {
+            byteArray = Files.readAllBytes(file.toPath());
+        } catch (IOException e) {
+            log.info("ReadallBytes from File throw exceptioo");
+            throw new RuntimeException(e);
+        }
+        sendingEmail.send("attachment", "balmburren@gmail.com", "Backup", "Neues Backup ist bereit", byteArray, "", "backup.zip");
 //        String generatedSql = mysqlExportService.getGeneratedSql();
 //        if (generatedSql == null) {
 //            log.info("No SQL generated. Check your database connection or export service.");
