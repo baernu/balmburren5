@@ -17,8 +17,6 @@ export class BackupComponent {
   success: string ="";
   error1: string ="";
   success1: string ="";
-  filename: string = "";
-  emaildata: EmailDataDTO | any = new EmailDataDTO();
 
   constructor(
     private emailService: EmailService,
@@ -85,11 +83,7 @@ export class BackupComponent {
 
       try {
 
-        // this.emaildata.byteArray = await this.fileToByteArray(file);
         let data= await this.fileToByteArray(file);
-        // this.emaildata.byteArray = data;
-        //
-        // // console.log("byte array: " + data);
         await firstValueFrom(this.emailService.backupImport(data));
 
       } catch (error: any) {
