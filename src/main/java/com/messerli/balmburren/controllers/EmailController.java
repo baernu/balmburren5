@@ -91,4 +91,12 @@ public class EmailController {
         return ResponseEntity.ok().body("Backup write to file...");
     }
 
+    @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
+    @PatchMapping("backup/import/")
+    public ResponseEntity<?> backupUImport(@RequestBody EmailData emailData) {
+        cronService.importDatabase(emailData.getByteArray());
+        return ResponseEntity.ok().body("Importing byte array");
+    }
+
 }

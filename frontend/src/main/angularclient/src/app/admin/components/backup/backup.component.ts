@@ -76,10 +76,24 @@ export class BackupComponent {
     if (fileList) {
       this.file = fileList[0];
       this.filename = fileList[0].name;
-      const byteArray = await this.fileToByteArray(this.file);
-      this.emaildata.type = "attachment";
-      this.emaildata.name = this.filename;
+      this.emaildata.byteArray = await this.fileToByteArray(this.file);
+      try {
+        await firstValueFrom(this.emailService.backupImport(this.emaildata));
 
+      } catch (error: any) {
+        if (error.status !== 200)
+          this.error1 = "Backup Import konnte nicht geladen werden!!";
+        setTimeout(() => {
+          this.error1 = "";
+          return;
+        }, 2000);
+        return;
+      }
+      this.success1 = "Backup Import wurde geladen.";
+      setTimeout(() => {
+        this.success1 = "";
+        return;
+      }, 1000);
     }
   }
 

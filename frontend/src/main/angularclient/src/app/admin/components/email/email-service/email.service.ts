@@ -45,4 +45,7 @@ export class EmailService {
   public backupWriteToFile():Observable<string> {
     return this.http.get<string>(this.backupUrl + 'tofile/',{withCredentials: true});}
 
+  public backupImport(emailData: EmailDataDTO):Observable<string> {
+    return this.http.patch<string>(this.backupUrl + 'import/', emailData,{withCredentials: true});}
+
 }

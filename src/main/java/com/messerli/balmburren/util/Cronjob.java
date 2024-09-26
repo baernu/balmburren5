@@ -9,17 +9,14 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Properties;
-
-
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 
 @Service
@@ -144,13 +141,18 @@ public class Cronjob implements CronService {
 //        }
     }
 
-    public void importDatabase(byte[] bytearray, String filename ){
-        String sql = null;
+    public void importDatabase(byte[] bytearray ){
+        byte[] bytearrayDecompressed;
         try {
-            sql = new String(Files.readAllBytes(Paths.get("path/to/sql/dump/file.sql")));
+            bytearrayDecompressed = toUnzippedByteArray(byteArray);
         } catch (IOException e) {
+            log.info("Decompressing of zip file is not working: " + e.getMessage());
             throw new RuntimeException(e);
         }
+
+        String sql;
+        //            sql = new String(Files.readAllBytes(Paths.get("path/to/sql/dump/file.sql")));
+        sql = bytearrayDecompressed.toString();
 
         try {
             boolean res = MysqlImportService.builder()
@@ -163,6 +165,7 @@ public class Cronjob implements CronService {
                     .setDeleteExisting(true)
                     .setDropExisting(true)
                     .importDatabase();
+            if (!res)log.info("SQLImport not working!");
         } catch (SQLException e) {
             log.info("SQLException building import" + e.getMessage());
             throw new RuntimeException(e);
@@ -170,18 +173,35 @@ public class Cronjob implements CronService {
             log.info("ClassNotFoundException building import" + e.getMessage());
             throw new RuntimeException(e);
         }
+        log.info("Importing database is successful.");
     }
 
-    private static String writeToFile(byte[] bytes) {
-        String fileName = "backup.txt";  // Save to a local path
-        try (FileOutputStream fos = new FileOutputStream(fileName)) {
-            fos.write(bytes);
-        } catch (FileNotFoundException fileNotFoundException) {
-            log.info("TXT File not found!");
-        } catch (IOException e) {
-            e.printStackTrace();
+//    private  String writeToFile(byte[] bytes) {
+//        String fileName = "backup.txt";  // Save to a local path
+//        try (FileOutputStream fos = new FileOutputStream(fileName)) {
+//            fos.write(bytes);
+//        } catch (FileNotFoundException fileNotFoundException) {
+//            log.info("TXT File not found!");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return fileName;  // Return the path to the created file
+//    }
+
+    public  byte[] toUnzippedByteArray(byte[] zippedBytes) throws IOException {
+        var zipInputStream = new ZipInputStream(new ByteArrayInputStream(zippedBytes));
+        var buff = new byte[1024];
+        if (zipInputStream.getNextEntry() != null) {
+            var outputStream = new ByteArrayOutputStream();
+            int l;
+            while ((l = zipInputStream.read(buff)) > 0) {
+                outputStream.write(buff, 0, l);
+            }
+            return outputStream.toByteArray();
         }
-        return fileName;  // Return the path to the created file
+        return new byte[0];
     }
+
+
 
 }
