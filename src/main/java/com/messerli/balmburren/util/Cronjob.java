@@ -144,7 +144,7 @@ public class Cronjob implements CronService {
 //        }
     }
 
-    private void importDatabase(){
+    public void importDatabase(byte[] bytearray, String filename ){
         String sql = null;
         try {
             sql = new String(Files.readAllBytes(Paths.get("path/to/sql/dump/file.sql")));

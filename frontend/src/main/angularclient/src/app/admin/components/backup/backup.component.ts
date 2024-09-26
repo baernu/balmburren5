@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {EmailService} from "../email/email-service/email.service";
 import {firstValueFrom} from "rxjs";
+import {EmailDataDTO} from "../email/email-service/EmailDataDTO";
 
 
 
@@ -16,6 +17,7 @@ export class BackupComponent {
   success1: string ="";
   file: File | undefined;
   filename: string = "";
+  emaildata: EmailDataDTO | any = new EmailDataDTO();
 
   constructor(
     private emailService: EmailService,
@@ -74,10 +76,16 @@ export class BackupComponent {
     if (fileList) {
       this.file = fileList[0];
       this.filename = fileList[0].name;
-      // var new_zip = new JSZip();
-      // new_zip.loadAsync(this.file);
-      // new_zip.files["doc.xml"].asText() // this give you the text in the file
+      const byteArray = await this.fileToByteArray(this.file);
+      this.emaildata.type = "attachment";
+      this.emaildata.name = this.filename;
 
     }
   }
+
+  async fileToByteArray(file: File) {
+    const arrayBuffer = await file.arrayBuffer();
+    return new Uint8Array(arrayBuffer); // Returning the byte array
+  }
+
 }
