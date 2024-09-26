@@ -6,6 +6,7 @@ import {OrderDTO} from "../../../components/user/service/orderDTO";
 
 
 
+
 @Component({
   selector: 'app-backup',
   templateUrl: './backup.component.html',
@@ -69,6 +70,8 @@ export class BackupComponent {
   }
 
   async importBackup(event: Event) {
+
+
     this.success1 ="";
     this.error1 = "";
     let file: File;
@@ -81,8 +84,13 @@ export class BackupComponent {
       filename = fileList[0].name;
 
       try {
-        this.emaildata.byteArray = await this.fileToByteArray(file);
-        await firstValueFrom(this.emailService.backupImport(this.emaildata));
+
+        // this.emaildata.byteArray = await this.fileToByteArray(file);
+        let data= await this.fileToByteArray(file);
+        // this.emaildata.byteArray = data;
+        //
+        // // console.log("byte array: " + data);
+        await firstValueFrom(this.emailService.backupImport(data));
 
       } catch (error: any) {
         if (error.status !== 200)

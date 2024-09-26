@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -142,17 +143,18 @@ public class Cronjob implements CronService {
     }
 
     public void importDatabase(byte[] bytearray ){
-        byte[] bytearrayDecompressed;
-        try {
-            bytearrayDecompressed = toUnzippedByteArray(byteArray);
-        } catch (IOException e) {
-            log.info("Decompressing of zip file is not working: " + e.getMessage());
-            throw new RuntimeException(e);
-        }
+//        byte[] bytearrayDecompressed;
+//        try {
+//            bytearrayDecompressed = toUnzippedByteArray(byteArray);
+//        } catch (IOException e) {
+//            log.info("Decompressing of zip file is not working: " + e.getMessage());
+//            throw new RuntimeException(e);
+//        }
 
         String sql;
-        //            sql = new String(Files.readAllBytes(Paths.get("path/to/sql/dump/file.sql")));
-        sql = bytearrayDecompressed.toString();
+        sql = Arrays.toString(bytearray);
+        //            sql = Arrays.toString(extractSqlFileFromZip(bytearray));
+//        log.info("SQL String: " + sql);
 
         try {
             boolean res = MysqlImportService.builder()
@@ -200,6 +202,49 @@ public class Cronjob implements CronService {
             return outputStream.toByteArray();
         }
         return new byte[0];
+    }
+
+    public byte[] extractSqlFileFromZip(byte[] zipByteArray) throws IOException {
+        byte[] sqlFileBytes = null;
+        try{
+            InputStream byteArrayInputStream = new ByteArrayInputStream(zipByteArray);
+            ZipInputStream zipInputStream = new ZipInputStream(byteArrayInputStream);
+
+            ZipEntry zipEntry;
+
+
+            // Iterate through the entries in the ZIP file
+            while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+                // Check if the entry is a .sql file
+                if (zipEntry.getName().endsWith(".sql")) {
+                    // Read the content of the .sql file into a byte array
+                    sqlFileBytes = extractFileFromZip(zipInputStream);
+                    break; // Exit the loop after finding the .sql file
+                }
+            }
+
+            // Close the streams
+            zipInputStream.close();
+            byteArrayInputStream.close();
+
+        }catch(Exception e) {
+            log.info("Decompressing of zip file not working: " + e.getMessage());
+        }
+
+        return sqlFileBytes; // Return the byte array of the .sql file content
+    }
+
+    private byte[] extractFileFromZip(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int length;
+
+        // Read the file content into the ByteArrayOutputStream
+        while ((length = inputStream.read(buffer)) > 0) {
+            byteArrayOutputStream.write(buffer, 0, length);
+        }
+
+        return byteArrayOutputStream.toByteArray(); // Convert to byte array
     }
 
 
