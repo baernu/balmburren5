@@ -19,11 +19,11 @@
       <form #Form1="ngForm">
         <div class="form-group">
           <div class="form-group">
-            <label for="file">File</label>
-            <input type="file" [(ngModel)]="file"
+            <label for="file">Import Zip File for Backup</label>
+            <input type="file" [(ngModel)]="emaildata.file"
                    class="form-control"
                    id="file"
-                   name="file" (change)="uploadFile($event)">
+                   name="file" (change)="importBackup($event)">
           </div>
         </div>
       </form>
