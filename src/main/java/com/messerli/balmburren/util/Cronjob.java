@@ -64,6 +64,10 @@ public class Cronjob implements CronService {
 //        properties.setProperty(MysqlExportService.EMAIL_SSL_PROTOCOLS, "TLSv1.2");
 //        properties.setProperty(MysqlExportService.EMAIL_SMTP_AUTH_ENABLED, "true");
 //        properties.setProperty(MysqlExportService.EMAIL_START_TLS_ENABLED, "true");
+
+//        properties.setProperty(MysqlExportService.DELETE_EXISTING_DATA, "true");
+//        properties.setProperty(MysqlExportService.DROP_TABLES, "true");
+
         properties.setProperty(MysqlExportService.PRESERVE_GENERATED_ZIP, "true");
 //
 ////set the outputs temp dir
