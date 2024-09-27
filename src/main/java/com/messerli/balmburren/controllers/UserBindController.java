@@ -343,4 +343,11 @@ public class UserBindController {
         boolean bool = userBindService.existPersonAndTour(getPeople(username).get(), getTour(tour).get());
         return ResponseEntity.ok().body(bool);}
 
+    @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER')")
+    @GetMapping ("person/bind/role/{username}")
+    ResponseEntity<List<UsersRole>>getAllPersonBindRoles(@PathVariable("username") String username) {
+        List<UsersRole> list = userBindService.getAllUserBindRoles(getPeople(username).get());
+        return ResponseEntity.ok().body(list);}
+
 }

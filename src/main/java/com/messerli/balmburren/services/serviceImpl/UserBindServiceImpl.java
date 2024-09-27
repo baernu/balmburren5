@@ -22,13 +22,16 @@ public class UserBindServiceImpl implements UserBindService {
     private final PersonBindPhoneRepo personBindPhoneRepo;
     private final DriverBindInvoiceRepo driverBindInvoiceRepo;
 
-    public UserBindServiceImpl(PersonBindTourRepo personBindTourRepo, PersonBindDeliverAddressRepo personBindDeliverAddressRepo, AddressRepo addressRepo, PersonBindInvoiceRepo personBindInvoiceRepo, PersonBindPhoneRepo personBindPhoneRepo, DriverBindInvoiceRepo driverBindInvoiceRepo) {
+    private final UsersRoleRepo usersRoleRepo;
+
+    public UserBindServiceImpl(PersonBindTourRepo personBindTourRepo, PersonBindDeliverAddressRepo personBindDeliverAddressRepo, AddressRepo addressRepo, PersonBindInvoiceRepo personBindInvoiceRepo, PersonBindPhoneRepo personBindPhoneRepo, DriverBindInvoiceRepo driverBindInvoiceRepo, UsersRoleRepo usersRoleRepo) {
         this.personBindTourRepo = personBindTourRepo;
         this.personBindDeliverAddressRepo = personBindDeliverAddressRepo;
         this.addressRepo = addressRepo;
         this.personBindInvoiceRepo = personBindInvoiceRepo;
         this.personBindPhoneRepo = personBindPhoneRepo;
         this.driverBindInvoiceRepo = driverBindInvoiceRepo;
+        this.usersRoleRepo = usersRoleRepo;
     }
 
     @Override
@@ -292,6 +295,13 @@ public class UserBindServiceImpl implements UserBindService {
     public Optional<List<PersonBindTour>> getAllPersonsForTour(Tour tour) {
         Optional<List<PersonBindTour>> list = personBindTourRepo.findAllByTour(tour);
         log.info("Get all Persons: {} for tour: {}", list.get(), tour);
+        return list;
+    }
+
+    @Override
+    public List<UsersRole> getAllUserBindRoles(User user) {
+        List<UsersRole>  list = usersRoleRepo.findAllByUser(user);
+        log.info("Get all UserBindRoles: {} ", list);
         return list;
     }
 

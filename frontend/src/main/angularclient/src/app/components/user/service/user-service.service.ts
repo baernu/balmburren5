@@ -45,6 +45,7 @@ export class UserService {
   private readonly userBindPhoneUrl: string;
   private readonly addressUrl: string;
   private readonly userBindAddress: string;
+  private readonly userBindRole: string;
   private readonly baseUrl: string = 'http://localhost:8006/api/';
   // private readonly baseUrl: string = 'api/';
 
@@ -69,6 +70,7 @@ export class UserService {
     this.userBindPhoneUrl = this.baseUrl + 'bd/person/bind/phone/';
     this.userBindAddress = this.baseUrl + 'bd/person/bind/deliveraddress/';
     this.addressUrl = this.baseUrl + 'bd/address/';
+    this.userBindRole = this.baseUrl + 'bd/person/bind/role/';
 
 
 
@@ -355,5 +357,8 @@ export class UserService {
   public putReference(reference: ReferenceDTO): Observable<ReferenceDTO>{
     return this.http.put<ReferenceDTO>(this.invoiceUrl + 'reference/', reference, {withCredentials : true});}
 
+
+  public getAllUserBindRoles(username: string): Observable<UserBindRoleDTO[]>{
+    return this.http.get<UserBindRoleDTO[]>(this.userBindRole + username, {withCredentials : true});}
 }
 

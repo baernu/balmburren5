@@ -53,4 +53,5 @@ public interface UserBindService {
     Optional<List<PersonBindTour>> getAllPersonsForTour(Tour tour);
 
 
+    List<UsersRole> getAllUserBindRoles(User user);
 }
