@@ -10,6 +10,7 @@ import com.messerli.balmburren.services.MyUserDetails;
 import com.messerli.balmburren.services.UserService;
 import com.messerli.balmburren.entities.Role;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ import java.util.stream.Stream;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-
+    @Autowired
     private final UsersRoleRepo usersRoleRepo;
 //    private final MyUserDetails myUserDetails;
     private final PasswordEncoder passwordEncoder;
@@ -155,7 +156,7 @@ public class UserServiceImpl implements UserService {
 
     public boolean isAdmin(String username) {
         Optional<User> optionalUser = findUser(username);
-        List<UsersRole> roles =  optionalUser.get().getRoles();
+        List<UsersRole> roles= usersRoleRepo.findAllByUser(optionalUser.get());
         roles = roles.stream().filter(urole -> urole.getRole().getName().name().equals(RoleEnum.ADMIN.name())).collect(Collectors.toSet()).stream().toList();
         return !roles.isEmpty();
     }
@@ -163,7 +164,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isBasic(String username) {
         Optional<User> optionalUser = findUser(username);
-        List<UsersRole> roles =  optionalUser.get().getRoles();
+        List<UsersRole> roles= usersRoleRepo.findAllByUser(optionalUser.get());
         roles = roles.stream().filter(role -> role.getRole().getName().name().equals(RoleEnum.USER.name())).collect(Collectors.toSet()).stream().toList();
         return !roles.isEmpty();
     }
@@ -171,7 +172,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isDriver(String username) {
         Optional<User> optionalUser = findUser(username);
-        List<UsersRole> roles =  optionalUser.get().getRoles();
+        List<UsersRole> roles= usersRoleRepo.findAllByUser(optionalUser.get());
         roles = roles.stream().filter(urole -> urole.getRole().getName().name().equals(RoleEnum.DRIVER.name())).collect(Collectors.toSet()).stream().toList();
         return !roles.isEmpty();
     }
@@ -179,7 +180,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isKathy(String username) {
         Optional<User> optionalUser = findUser(username);
-        List<UsersRole> roles =  optionalUser.get().getRoles();
+        List<UsersRole> roles= usersRoleRepo.findAllByUser(optionalUser.get());
         roles = roles.stream().filter(urole -> urole.getRole().getName().name().equals(RoleEnum.KATHY.name())).collect(Collectors.toSet()).stream().toList();
         return !roles.isEmpty();
     }
@@ -187,7 +188,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isUserKathy(String username) {
         Optional<User> optionalUser = findUser(username);
-        List<UsersRole> roles =  optionalUser.get().getRoles();
+        List<UsersRole> roles= usersRoleRepo.findAllByUser(optionalUser.get());
         roles = roles.stream().filter(role -> role.getRole().getName().name().equals(RoleEnum.USER_KATHY.name())).collect(Collectors.toSet()).stream().toList();
         return !roles.isEmpty();
     }

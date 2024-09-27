@@ -22,15 +22,15 @@ public class UsersRole {
 //    @JoinColumn(name = "user_id")
 //    @ToString.Exclude // Exclude user to prevent circular reference
 //    @EqualsAndHashCode.Exclude
-//    @ManyToOne
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "role_id")
-//    @ManyToOne
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id", nullable = false)
+    @ManyToOne
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 }

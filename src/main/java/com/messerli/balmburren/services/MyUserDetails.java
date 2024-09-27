@@ -3,6 +3,7 @@ package com.messerli.balmburren.services;
 import com.messerli.balmburren.entities.User;
 import com.messerli.balmburren.entities.UsersRole;
 import com.messerli.balmburren.repositories.UsersRoleRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
