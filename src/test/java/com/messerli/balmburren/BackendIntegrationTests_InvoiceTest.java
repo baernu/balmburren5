@@ -6,6 +6,8 @@ import com.messerli.balmburren.dtos.LoginUserDto;
 import com.messerli.balmburren.dtos.RegisterUserDto;
 import com.messerli.balmburren.entities.*;
 import com.messerli.balmburren.repositories.RoleRepository;
+import com.messerli.balmburren.repositories.UserRepository;
+import com.messerli.balmburren.repositories.UsersRoleRepo;
 import com.messerli.balmburren.responses.LoginResponse;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
@@ -41,6 +43,10 @@ public class BackendIntegrationTests_InvoiceTest {
     private Optional<Tour> tour;
     @Autowired
     private Optional<Ordered> ordered;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UsersRoleRepo usersRoleRepo;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -116,7 +122,14 @@ public class BackendIntegrationTests_InvoiceTest {
         if (optionalRole.isEmpty() || userRegistered == null) {
             return;
         }
-        userRegistered.getRoles().add(optionalRole.get());
+        UsersRole usersRole = new UsersRole();
+        usersRole.setRole(optionalRole.get());
+
+        User user = userRepository.findByUsername(userRegistered.getUsername()).get();
+        usersRole.setUser(user);
+        usersRole = usersRoleRepo.save(usersRole);
+
+        user.getRoles().add(usersRole);
 
         LoginUserDto loginUserDto = new LoginUserDto();
         loginUserDto.setUsername(userRegistered.getUsername()).setPassword("123");

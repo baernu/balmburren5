@@ -5,6 +5,7 @@ import com.messerli.balmburren.dtos.RegisterUserDto;
 import com.messerli.balmburren.entities.*;
 import com.messerli.balmburren.repositories.RoleRepository;
 import com.messerli.balmburren.repositories.UserRepository;
+import com.messerli.balmburren.repositories.UsersRoleRepo;
 import com.messerli.balmburren.services.AuthenticationService;
 import com.messerli.balmburren.services.DatesService;
 import com.messerli.balmburren.services.TourService;
@@ -17,10 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -40,6 +39,8 @@ public class UserServiceTest {
     private LoginUserDto loginUserDto;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private UsersRoleRepo usersRoleRepo;
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
@@ -56,10 +57,17 @@ public class UserServiceTest {
         if (optionalRole.isEmpty() || optionalUser.isPresent()) {
             return;
         }
+        UsersRole usersRole = new UsersRole();
+        usersRole.setUser(optionalUser.get());
+        usersRole.setRole(optionalRole.get());
+        usersRole = usersRoleRepo.save(usersRole);
 
-        Set<Role> roles = new HashSet<>();
-        roles.add(optionalRole.get());
-        roles.add(optionalRole1.get());
+        UsersRole usersRole1 = new UsersRole();
+        usersRole1.setUser(optionalUser.get());
+        usersRole1.setRole(optionalRole1.get());
+        usersRole1 = usersRoleRepo.save(usersRole1);
+
+
 //
         var user = new User();
         user.setFirstname(userDto.getFirstname());
@@ -70,6 +78,10 @@ public class UserServiceTest {
 //					user.setRoles(roles);
 
         User user1 = userRepository.save(user);
+
+        List<UsersRole> roles = usersRoleRepo.findAllByUser(user1);
+        roles.add(usersRole);
+        roles.add(usersRole1);
         user1.setRoles(roles);
         user1 = userRepository.save(user1);
     }
@@ -78,7 +90,7 @@ public class UserServiceTest {
 
         Optional<User> user = userService.findUser("admin");
 
-        assertEquals(roleRepository.findByName(RoleEnum.ADMIN), user.get().getRoles().stream().filter(e -> e.getName().equals(RoleEnum.ADMIN)).findFirst());
+        assertEquals(roleRepository.findByName(RoleEnum.ADMIN), user.get().getRoles().stream().filter(e -> e.getRole().getName().equals(RoleEnum.ADMIN)).findFirst());
 
     }
     @Test

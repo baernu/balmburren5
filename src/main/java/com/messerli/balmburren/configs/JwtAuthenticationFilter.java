@@ -1,7 +1,7 @@
 package com.messerli.balmburren.configs;
 
-import com.messerli.balmburren.entities.Role;
 import com.messerli.balmburren.entities.User;
+import com.messerli.balmburren.repositories.UsersRoleRepo;
 import com.messerli.balmburren.services.JwtService;
 import com.messerli.balmburren.services.MyUserDetails;
 import com.messerli.balmburren.services.UserService;
@@ -40,6 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserService userService;
     private String jwt;
+    private UsersRoleRepo usersRoleRepo;
 
     public JwtAuthenticationFilter(
             JwtService jwtService,
@@ -84,7 +85,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             final String userEmail = jwtService.extractUsername(jwt);
             Optional<User> user1 = userService.findUser(userEmail);
-            MyUserDetails myUserDetails1 = new MyUserDetails(user1.get());
+            MyUserDetails myUserDetails1 = new MyUserDetails(user1.get(), usersRoleRepo);
 
             Collection<? extends GrantedAuthority> roles = myUserDetails1.getAuthorities();
 //            Collection<? extends GrantedAuthority> roles = myUserDetails.getAuthorities();

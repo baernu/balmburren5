@@ -3,10 +3,7 @@ package com.messerli.balmburren.entities;
 
 import jakarta.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -56,26 +53,20 @@ public class User {
 
 
 
-//    @Override
-//    public String toString() {
-//        return "User{" +
-//                "id=" + id +
-//                ", firstname='" + firstname + '\'' +
-//                ", lastname='" + lastname + '\'' +
-//                ", email='" + username + '\'' +
-//                ", password='" + password + '\'' +
-//                ", createdAt=" + createdAt +
-//                ", updatedAt=" + updatedAt +
-//                '}';
-//    }
 
-    @Getter
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
+//    @Getter
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "users_roles",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id")
+//    )
+//    private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY)
+//    @ToString.Exclude // Exclude roles to prevent circular reference
+//    @EqualsAndHashCode.Exclude
+//    @OneToMany
+    private List<UsersRole> roles = new ArrayList<>();
 
 }

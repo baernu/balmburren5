@@ -1,10 +1,13 @@
 package com.messerli.balmburren.util;
 
+import com.messerli.balmburren.entities.RoleSeeder;
 import com.messerli.balmburren.services.CronService;
 import com.smattme.MysqlExportService;
 import com.smattme.MysqlImportService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
