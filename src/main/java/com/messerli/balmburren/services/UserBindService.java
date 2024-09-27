@@ -54,4 +54,8 @@ public interface UserBindService {
 
 
     List<UsersRole> getAllUserBindRoles(User user);
+
+    Optional<UsersRole> savePersonBindRole(UsersRole usersRole);
+
+    void deletePersonBindRole(UsersRole usersRole);
 }

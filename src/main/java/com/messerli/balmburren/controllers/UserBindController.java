@@ -350,4 +350,18 @@ public class UserBindController {
         List<UsersRole> list = userBindService.getAllUserBindRoles(getPeople(username).get());
         return ResponseEntity.ok().body(list);}
 
+    @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER')")
+    @PostMapping ("person/bind/role/")
+    ResponseEntity<Optional<UsersRole>> savePersonBindRole(@RequestBody UsersRole usersRole) {
+        Optional<UsersRole> usersRole1 = userBindService.savePersonBindRole(usersRole);
+        return ResponseEntity.ok().body(usersRole1);}
+
+    @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER')")
+    @PatchMapping("person/bind/role/")
+    ResponseEntity<Optional<UsersRole>> deletePersonBindRole(@RequestBody UsersRole usersRole) {
+         userBindService.deletePersonBindRole(usersRole);
+        return ResponseEntity.ok().body(Optional.ofNullable(usersRole));}
+
 }

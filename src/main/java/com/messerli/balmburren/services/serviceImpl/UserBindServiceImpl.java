@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -309,6 +308,16 @@ public class UserBindServiceImpl implements UserBindService {
 //        return usersRoles ;
 
         return usersRoleRepo.findAllByUser(user);
+    }
+
+    @Override
+    public Optional<UsersRole> savePersonBindRole(UsersRole usersRole) {
+        return Optional.of(usersRoleRepo.save(usersRole));
+    }
+
+    @Override
+    public void deletePersonBindRole(UsersRole usersRole) {
+        usersRoleRepo.delete(usersRole);
     }
 
 }

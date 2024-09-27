@@ -360,5 +360,9 @@ export class UserService {
 
   public getAllUserBindRoles(username: string): Observable<UserBindRoleDTO[]>{
     return this.http.get<UserBindRoleDTO[]>(this.userBindRole + username, {withCredentials : true});}
+  public saveUserBindRoles(userBindRoleDTO: UserBindRoleDTO): Observable<UserBindRoleDTO>{
+    return this.http.post<UserBindRoleDTO>(this.userBindRole, userBindRoleDTO, {withCredentials : true});}
+  public deleteUserBindRoles(userBindRoleDTO: UserBindRoleDTO): Observable<UserBindRoleDTO>{
+    return this.http.patch<UserBindRoleDTO>(this.userBindRole, userBindRoleDTO, {withCredentials : true});}
 }
 
