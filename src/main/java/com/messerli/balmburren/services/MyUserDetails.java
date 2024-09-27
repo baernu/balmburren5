@@ -3,6 +3,7 @@ package com.messerli.balmburren.services;
 import com.messerli.balmburren.entities.User;
 import com.messerli.balmburren.entities.UsersRole;
 import com.messerli.balmburren.repositories.UsersRoleRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,9 +15,11 @@ import java.util.Collection;
 import java.util.List;
 
 @Component
+@Slf4j
 public class MyUserDetails implements UserDetails {
 
     private final User user;
+    @Autowired
     private final UsersRoleRepo usersRoleRepo;
 
     public MyUserDetails(User user, UsersRoleRepo usersRoleRepo) {
@@ -26,9 +29,10 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(usersRoleRepo == null)log.info("UserRoleRepo in MyUserDetails is null");
         List<UsersRole> roles = usersRoleRepo.findAllByUser(user);
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-
+//        log.info("All UsersRoles: " + roles.get(0).toString());
         for (UsersRole usersRole : roles) {
             authorities.add(new SimpleGrantedAuthority(usersRole.getRole().getName().name()));
         }

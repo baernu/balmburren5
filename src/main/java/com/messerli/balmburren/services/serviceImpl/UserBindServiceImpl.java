@@ -5,8 +5,10 @@ import com.messerli.balmburren.repositories.*;
 import com.messerli.balmburren.services.UserBindService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +23,7 @@ public class UserBindServiceImpl implements UserBindService {
     private final PersonBindInvoiceRepo personBindInvoiceRepo;
     private final PersonBindPhoneRepo personBindPhoneRepo;
     private final DriverBindInvoiceRepo driverBindInvoiceRepo;
-
+    @Autowired
     private final UsersRoleRepo usersRoleRepo;
 
     public UserBindServiceImpl(PersonBindTourRepo personBindTourRepo, PersonBindDeliverAddressRepo personBindDeliverAddressRepo, AddressRepo addressRepo, PersonBindInvoiceRepo personBindInvoiceRepo, PersonBindPhoneRepo personBindPhoneRepo, DriverBindInvoiceRepo driverBindInvoiceRepo, UsersRoleRepo usersRoleRepo) {
@@ -300,9 +302,14 @@ public class UserBindServiceImpl implements UserBindService {
 
     @Override
     public List<UsersRole> getAllUserBindRoles(User user) {
-        List<UsersRole>  list = usersRoleRepo.findAllByUser(user);
-        log.info("Get all UserBindRoles: {} ", list);
-        return list;
+        List<UsersRole> usersRoles = new ArrayList<>();
+
+        usersRoleRepo.findAllByUser(user).forEach(usersRoles::add);
+        log.info("Get all UserBindRoles: {} ", usersRoles);
+        return usersRoles ;
+//        List<UsersRole>  list = usersRoleRepo.findAllByUser(user);
+//
+//        return list;
     }
 
 }
