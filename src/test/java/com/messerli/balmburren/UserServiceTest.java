@@ -57,18 +57,6 @@ public class UserServiceTest {
         if (optionalRole.isEmpty() || optionalUser.isPresent()) {
             return;
         }
-        UsersRole usersRole = new UsersRole();
-        usersRole.setUser(optionalUser.get());
-        usersRole.setRole(optionalRole.get());
-        usersRole = usersRoleRepo.save(usersRole);
-
-        UsersRole usersRole1 = new UsersRole();
-        usersRole1.setUser(optionalUser.get());
-        usersRole1.setRole(optionalRole1.get());
-        usersRole1 = usersRoleRepo.save(usersRole1);
-
-
-//
         var user = new User();
         user.setFirstname(userDto.getFirstname());
         user.setLastname(userDto.getLastname());
@@ -79,18 +67,34 @@ public class UserServiceTest {
 
         User user1 = userRepository.save(user);
 
-        List<UsersRole> roles = usersRoleRepo.findAllByUser(user1);
-        roles.add(usersRole);
-        roles.add(usersRole1);
-        user1.setRoles(roles);
-        user1 = userRepository.save(user1);
+        UsersRole usersRole = new UsersRole();
+        usersRole.setUser(user1);
+        usersRole.setRole(optionalRole.get());
+        usersRole = usersRoleRepo.save(usersRole);
+
+        UsersRole usersRole1 = new UsersRole();
+        usersRole1.setUser(user1);
+        usersRole1.setRole(optionalRole1.get());
+        usersRole1 = usersRoleRepo.save(usersRole1);
+
+
+//
+
+
+//        List<UsersRole> roles = usersRoleRepo.findAllByUser(user1);
+//        roles.add(usersRole);
+//        roles.add(usersRole1);
+//        user1.setRoles(roles);
+//        user1 = userRepository.save(user1);
     }
     @Test
     public void checkUserRole() {
 
         Optional<User> user = userService.findUser("admin");
+        List<UsersRole> list = usersRoleRepo.findAllByUser(user.get());
+        Optional<UsersRole> usersRole = list.stream().filter(e -> e.getRole().getName().equals(RoleEnum.ADMIN)).findFirst();
 
-        assertEquals(roleRepository.findByName(RoleEnum.ADMIN), user.get().getRoles().stream().filter(e -> e.getRole().getName().equals(RoleEnum.ADMIN)).findFirst());
+        assertEquals(roleRepository.findByName(RoleEnum.ADMIN), usersRole.get().getRole());
 
     }
     @Test

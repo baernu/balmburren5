@@ -64,9 +64,9 @@ public class User {
 //    private Set<Role> roles = new HashSet<>();
 
 //    @OneToMany(fetch = FetchType.LAZY)
-    @ToString.Exclude // Exclude roles to prevent circular reference
-    @EqualsAndHashCode.Exclude
-    @OneToMany
-    private List<UsersRole> roles = new ArrayList<>();
+//    @ToString.Exclude // Exclude roles to prevent circular reference
+//    @EqualsAndHashCode.Exclude
+//    @OneToMany
+//    private List<UsersRole> roles = new ArrayList<>();
 
 }

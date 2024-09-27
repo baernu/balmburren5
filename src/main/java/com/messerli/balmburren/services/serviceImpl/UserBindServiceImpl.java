@@ -302,14 +302,13 @@ public class UserBindServiceImpl implements UserBindService {
 
     @Override
     public List<UsersRole> getAllUserBindRoles(User user) {
-        List<UsersRole> usersRoles = new ArrayList<>();
-
-        usersRoleRepo.findAllByUser(user).forEach(usersRoles::add);
-        log.info("Get all UserBindRoles: {} ", usersRoles);
-        return usersRoles ;
-//        List<UsersRole>  list = usersRoleRepo.findAllByUser(user);
+//        List<UsersRole> usersRoles = new ArrayList<>();
 //
-//        return list;
+//        usersRoleRepo.findAllByUser(user).forEach(usersRoles::add);
+//        log.info("Get all UserBindRoles: {} ", usersRoles);
+//        return usersRoles ;
+
+        return usersRoleRepo.findAllByUser(user);
     }
 
 }

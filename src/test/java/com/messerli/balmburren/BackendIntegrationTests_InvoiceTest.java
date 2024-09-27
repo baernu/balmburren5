@@ -129,7 +129,7 @@ public class BackendIntegrationTests_InvoiceTest {
         usersRole.setUser(user);
         usersRole = usersRoleRepo.save(usersRole);
 
-        user.getRoles().add(usersRole);
+//        user.getRoles().add(usersRole);
 
         LoginUserDto loginUserDto = new LoginUserDto();
         loginUserDto.setUsername(userRegistered.getUsername()).setPassword("123");
