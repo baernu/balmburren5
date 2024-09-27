@@ -86,7 +86,7 @@ export class AddRoleComponent implements OnInit{
     // let user1 = await firstValueFrom(this.userService.updateUser(this.user));
     // console.log("user with deleted roles is: " + user1);
     let userBindRoles = await firstValueFrom(this.userService.getAllUserBindRoles(this.user.username));
-    let userBindRole = userBindRoles.find(e => e.role == role);
+    let userBindRole = userBindRoles.find(e => e.role.name == role.name);
     if(userBindRole) await firstValueFrom(this.userService.deleteUserBindRoles(userBindRole));
     await this.router.navigate(['/admin_users_role']);
   }
