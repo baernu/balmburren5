@@ -124,7 +124,7 @@ public class Cronjob implements CronService {
     }
     @Transactional
     public void importDatabase(byte[] bytearray ){
-        flywayService.resetTables();
+        flywayService.resetDatabase();
 
         String sql;
         sql = Arrays.toString(bytearray);

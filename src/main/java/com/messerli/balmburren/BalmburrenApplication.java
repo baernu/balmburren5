@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
@@ -26,6 +27,7 @@ import java.util.*;
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableScheduling
+//@SpringBootApplication(exclude = {FlywayAutoConfiguration.class})
 public class BalmburrenApplication  {
 	@Autowired
 	private RoleRepository roleRepository;
@@ -111,6 +113,8 @@ public class BalmburrenApplication  {
 				roleRepository.save(roleToCreate);
 			});
 		});
+
+
 	}
 }
 

@@ -1,5 +1,9 @@
 package com.messerli.balmburren.services;
 
+import jakarta.transaction.Transactional;
+
 public interface FlywayService {
-    void resetTables();
+    @Transactional
+    void resetDatabase();
+
 }
