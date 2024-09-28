@@ -50,6 +50,7 @@ public class UserController {
         return ResponseEntity.ok(optionalUser);
     }
 
+
     @CrossOrigin( allowCredentials = "true")
     @GetMapping ("byid/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'USER')")

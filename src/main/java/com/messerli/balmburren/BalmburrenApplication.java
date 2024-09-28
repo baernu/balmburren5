@@ -29,6 +29,7 @@ import java.util.*;
 public class BalmburrenApplication  {
 	@Autowired
 	private RoleRepository roleRepository;
+	@Autowired UserRepository userRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BalmburrenApplication.class, args);
@@ -41,6 +42,7 @@ public class BalmburrenApplication  {
 
 
 			loadRoles();
+
 			RegisterUserDto userDto = new RegisterUserDto();
 			userDto.setFirstname("Normal").setLastname("Admin").setUsername("admin").setPassword("adminadmin");
 
@@ -51,7 +53,8 @@ public class BalmburrenApplication  {
 			user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 			user.setEnabled(true);
 //					user.setRoles(roles);
-
+			if(userRepository.existsByUsername(userDto.getUsername()))
+				return;
 			User user1 = userRepository.save(user);
 
 

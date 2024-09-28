@@ -1,14 +1,11 @@
 package com.messerli.balmburren.services.serviceImpl;
 
-import com.messerli.balmburren.entities.RoleEnum;
-import com.messerli.balmburren.entities.User;
-import com.messerli.balmburren.entities.UsersRole;
+import com.messerli.balmburren.entities.*;
 import com.messerli.balmburren.repositories.RoleRepository;
 import com.messerli.balmburren.repositories.UserRepository;
 import com.messerli.balmburren.repositories.UsersRoleRepo;
 import com.messerli.balmburren.services.MyUserDetails;
 import com.messerli.balmburren.services.UserService;
-import com.messerli.balmburren.entities.Role;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -72,9 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean existUser(String username) {
-        Optional<User> optionalUser = userRepository.findByUsername(username);
-
-        return optionalUser.isPresent();
+        return userRepository.existsByUsername(username);
     }
 
     @Override
