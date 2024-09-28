@@ -15,11 +15,13 @@ export class ProductService {
   private readonly productUrl: string;
   private readonly productDetailsUrl: string;
   private readonly productBindDetailsUrl: string;
+  private readonly resetUrl: string;
 
   constructor(private http: HttpClient) {
     this.productUrl = this.baseUrl + 'pr/product/';
     this.productDetailsUrl = this.baseUrl + 'pr/product/details/';
     this.productBindDetailsUrl = this.baseUrl + 'pr/product/bind/infos/';
+    this.resetUrl = this.baseUrl + 're/reset/';
 
 
   }
@@ -83,4 +85,7 @@ export class ProductService {
 
   public getAllProductBindInfos():Observable<ProductBindInfosDTO[]> {
     return this.http.get<ProductBindInfosDTO[]>(this.productBindDetailsUrl, {withCredentials: true});}
+
+  public resetWithFlyway():Observable<string> {
+    return this.http.get<string>(this.resetUrl, {withCredentials: true});}
 }

@@ -71,7 +71,8 @@ public class SecurityConfiguration {
                                 "/or/**",
                                 "/wr/**",
                                 "/em/**",
-                                "/swagger-ui/**"
+                                "/swagger-ui/**",
+                                "/re/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

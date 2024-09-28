@@ -2,8 +2,10 @@ package com.messerli.balmburren.util;
 
 import com.messerli.balmburren.entities.RoleSeeder;
 import com.messerli.balmburren.services.CronService;
+import com.messerli.balmburren.services.FlywayService;
 import com.smattme.MysqlExportService;
 import com.smattme.MysqlImportService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -26,6 +28,8 @@ public class Cronjob implements CronService {
 
     @Autowired
     private SendingEmail sendingEmail;
+    @Autowired
+    private FlywayService flywayService;
 
     private static byte[] byteArray;
     private static MysqlExportService mysqlExportService;
@@ -43,8 +47,9 @@ public class Cronjob implements CronService {
         log.info("in the process of backupAutoSend");
     }
 
-
+    @Transactional
     public void writeBackupToFile() {
+
         Properties properties = new Properties();
         properties.setProperty(MysqlExportService.DB_NAME, "balmburren_db");
         properties.setProperty(MysqlExportService.DB_USERNAME, "root");
@@ -106,7 +111,7 @@ public class Cronjob implements CronService {
 //        properties.setProperty(MysqlExportService.JDBC_CONNECTION_STRING, "jdbc:mysql://localhost:3306/database-name");
 //        properties.setProperty(MysqlExportService.PRESERVE_GENERATED_SQL_FILE, "true");
     }
-
+    @Transactional
     public void sendBackup(){
         try {
             byteArray = Files.readAllBytes(file.toPath());
@@ -117,8 +122,9 @@ public class Cronjob implements CronService {
         sendingEmail.send("attachment", "balmburren@gmail.com", "Backup", "Neues Backup ist bereit", byteArray, "", "backup.zip");
 
     }
-
+    @Transactional
     public void importDatabase(byte[] bytearray ){
+        flywayService.resetTables();
 
         String sql;
         sql = Arrays.toString(bytearray);

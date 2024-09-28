@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS `ordered` (
+    `id` bigint NOT NULL,
+    `is_checked` bit(1) DEFAULT NULL,
+    `quantity_delivered` int NOT NULL,
+    `quantity_ordered` int NOT NULL,
+    `text` varchar(255) DEFAULT NULL,
+    `optlock` int NOT NULL DEFAULT '0',
+    `date_id` bigint DEFAULT NULL,
+    `deliver_people_id` bigint DEFAULT NULL,
+    `product_bind_infos_id` bigint DEFAULT NULL,
+    `tour_id` bigint DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_date_id` (`date_id`),
+    KEY `idx_user_id` (`deliver_people_id`),
+    KEY `idx_product_info_id` (`product_bind_infos_id`),
+    KEY `idx_tour_id` (`tour_id`),
+    CONSTRAINT `fk_ordered_user` FOREIGN KEY (`deliver_people_id`) REFERENCES `user` (`id`),
+    CONSTRAINT `fk_ordered_date` FOREIGN KEY (`date_id`) REFERENCES `dates` (`id`),
+    CONSTRAINT `fk_ordered_tour` FOREIGN KEY (`tour_id`) REFERENCES `tour` (`id`),
+    CONSTRAINT `fk_ordered_product_info` FOREIGN KEY (`product_bind_infos_id`) REFERENCES `product_bind_product_details` (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
