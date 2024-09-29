@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {EmailDataDTO} from "./EmailDataDTO";
 import {InvoiceQRDTO} from "./invoiceQRDTO";
 import {AndroidClientDTO} from "../../tour/service/androidClientDTO";
+import {ByteDTO} from "../../../../components/user/service/byteDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,7 @@ export class EmailService {
   public backupWriteToFile():Observable<string> {
     return this.http.get<string>(this.backupUrl + 'tofile/',{withCredentials: true});}
 
-  public backupImport(bytearray: Uint8Array):Observable<string> {
+  public backupImport(bytearray: ByteDTO):Observable<string> {
     return this.http.patch<string>(this.backupUrl + 'import/', bytearray,{withCredentials: true});}
 
 }

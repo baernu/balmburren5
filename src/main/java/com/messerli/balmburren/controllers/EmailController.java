@@ -1,6 +1,7 @@
 package com.messerli.balmburren.controllers;
 
 import com.messerli.balmburren.android.Client;
+import com.messerli.balmburren.entities.ByteDTO;
 import com.messerli.balmburren.services.CronService;
 import com.messerli.balmburren.util.EmailData;
 import com.messerli.balmburren.util.QRInvoice;
@@ -94,8 +95,8 @@ public class EmailController {
     @CrossOrigin( allowCredentials = "true")
     @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @PatchMapping("backup/import/")
-    public ResponseEntity<?> backupUImport(@RequestBody byte[] bytearray) {
-        cronService.importDatabase(bytearray);
+    public ResponseEntity<?> backupUImport(@RequestBody ByteDTO bytearray) {
+        cronService.importDatabase(bytearray.getBytearray());
         return ResponseEntity.ok().body("Importing byte array");
     }
 

@@ -3,6 +3,7 @@ import {EmailService} from "../email/email-service/email.service";
 import {firstValueFrom} from "rxjs";
 import {EmailDataDTO} from "../email/email-service/EmailDataDTO";
 import {OrderDTO} from "../../../components/user/service/orderDTO";
+import {ByteDTO} from "../../../components/user/service/byteDTO";
 
 
 
@@ -17,6 +18,7 @@ export class BackupComponent {
   success: string ="";
   error1: string ="";
   success1: string ="";
+  byteDTO: ByteDTO | any;
 
   constructor(
     private emailService: EmailService,
@@ -84,7 +86,8 @@ export class BackupComponent {
       try {
 
         let data= await this.fileToByteArray(file);
-        await firstValueFrom(this.emailService.backupImport(data));
+        this.byteDTO = data;
+        await firstValueFrom(this.emailService.backupImport(this.byteDTO));
 
       } catch (error: any) {
         if (error.status !== 200)

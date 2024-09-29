@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -141,10 +142,11 @@ public class Cronjob implements CronService {
     }
     @Transactional
     public void importDatabase(byte[] bytearray ){
-        flywayService.resetDatabase();
+//        flywayService.resetDatabase();
 
         String sql;
-        sql = Arrays.toString(bytearray);
+        sql = new String(bytearray, StandardCharsets.UTF_8);
+        log.info("SQL String: " + sql);
 
         try {
             boolean res = MysqlImportService.builder()
@@ -167,8 +169,9 @@ public class Cronjob implements CronService {
         }
         log.info("Importing database is successful.");
 
-        loadRoles();
-        createAdmin();
+//        flywayService.resetDatabase();
+//        loadRoles();
+//        createAdmin();
 
     }
 
