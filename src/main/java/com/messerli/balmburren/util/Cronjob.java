@@ -137,8 +137,8 @@ public class Cronjob implements CronService {
                     .setPassword("secret")
                     .setHost("localhost")
                     .setPort("3307")
-                    .setDeleteExisting(true)
-                    .setDropExisting(true)
+//                    .setDeleteExisting(true)
+//                    .setDropExisting(true)
                     .importDatabase();
             if (!res)log.info("SQLImport not working!");
         } catch (SQLException e) {

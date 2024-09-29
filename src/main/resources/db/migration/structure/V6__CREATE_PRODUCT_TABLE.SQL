@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `product` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `name` varchar(255) DEFAULT NULL,
     `optlock` int NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`)

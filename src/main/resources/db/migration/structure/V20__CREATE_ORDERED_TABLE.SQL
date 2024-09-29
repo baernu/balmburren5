@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `ordered` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `is_checked` bit(1) DEFAULT NULL,
     `quantity_delivered` int NOT NULL,
     `quantity_ordered` int NOT NULL,

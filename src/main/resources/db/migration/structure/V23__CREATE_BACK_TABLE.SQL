@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `back` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `quantity` int NOT NULL,
     `optlock` int NOT NULL DEFAULT '0',
     `date_id` bigint DEFAULT NULL,

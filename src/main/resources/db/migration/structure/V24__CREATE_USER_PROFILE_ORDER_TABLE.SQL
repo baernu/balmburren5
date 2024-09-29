@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `user_profile_order` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `first_week_order` int DEFAULT NULL,
     `second_week_order` int DEFAULT NULL,
     `optlock` int NOT NULL DEFAULT '0',

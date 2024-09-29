@@ -18,11 +18,11 @@ public class FlywayBean {
 //    }
 
 
-    @Bean
-    public FlywayMigrationStrategy clean() {
-        return flyway -> {
-            flyway.clean();
-            flyway.migrate();
-        };
-    }
+//    @Bean
+//    public FlywayMigrationStrategy clean() {
+//        return flyway -> {
+//            flyway.clean();
+//            flyway.migrate();
+//        };
+//    }
 }

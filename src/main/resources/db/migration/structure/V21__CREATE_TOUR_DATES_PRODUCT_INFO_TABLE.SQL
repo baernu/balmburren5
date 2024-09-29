@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `tour_bind_dates_productbindinfo` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `optlock` int NOT NULL DEFAULT '0',
     `dates_id` bigint DEFAULT NULL,
     `product_bind_infos_id` bigint DEFAULT NULL,

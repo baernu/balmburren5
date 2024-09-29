@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `work` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `description` varchar(255) DEFAULT NULL,
     `end_time` time(6) DEFAULT NULL,
     `start_time` time(6) DEFAULT NULL,

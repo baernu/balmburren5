@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `address` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `a_latitude` double NOT NULL,
     `a_longitude` double NOT NULL,
     `city` varchar(255) DEFAULT NULL,

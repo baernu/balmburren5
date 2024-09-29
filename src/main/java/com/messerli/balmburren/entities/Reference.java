@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
 import static jakarta.persistence.GenerationType.AUTO;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Data
@@ -15,7 +16,7 @@ import static jakarta.persistence.GenerationType.AUTO;
 @Table(name="reference")
 public class Reference {
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Version
     @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)

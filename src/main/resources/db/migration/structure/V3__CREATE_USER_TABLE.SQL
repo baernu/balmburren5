@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `user` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `created_at` datetime(6) DEFAULT NULL,
     `enabled` bit(1) NOT NULL,
     `firstname` varchar(255) NOT NULL,

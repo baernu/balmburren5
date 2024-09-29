@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `driver_and_invoice` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `is_checked` bit(1) DEFAULT NULL,
     `optlock` int NOT NULL DEFAULT '0',
     `date_from_id` bigint DEFAULT NULL,

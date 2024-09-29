@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `role` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `created_at` datetime(6) DEFAULT NULL,
     `description` varchar(255) NOT NULL,
     `name` enum('ADMIN','DRIVER','KATHY','SUPER_ADMIN','USER','USER_KATHY') NOT NULL,

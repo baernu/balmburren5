@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `invoice` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `amount` double NOT NULL,
     `is_paid` bit(1) DEFAULT NULL,
     `paid` double NOT NULL,

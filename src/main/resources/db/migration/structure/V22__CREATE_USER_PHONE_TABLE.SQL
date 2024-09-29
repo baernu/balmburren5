@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `user_and_phone` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `email` varchar(255) DEFAULT NULL,
     `phone` varchar(255) DEFAULT NULL,
     `optlock` int NOT NULL DEFAULT '0',

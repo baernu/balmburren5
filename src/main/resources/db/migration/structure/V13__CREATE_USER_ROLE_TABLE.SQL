@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `user_and_role` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `optlock` int NOT NULL DEFAULT '0',
     `role_id` bigint DEFAULT NULL,
     `user_id` bigint DEFAULT NULL,

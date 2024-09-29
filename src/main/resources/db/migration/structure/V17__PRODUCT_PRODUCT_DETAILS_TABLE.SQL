@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `product_bind_product_details` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `is_checked` bit(1) DEFAULT NULL,
     `optlock` int NOT NULL DEFAULT '0',
     `end_date_id` bigint DEFAULT NULL,

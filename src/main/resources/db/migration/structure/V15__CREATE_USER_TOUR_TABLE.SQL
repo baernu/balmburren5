@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `user_and_tour` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `position` int DEFAULT NULL,
     `optlock` int NOT NULL DEFAULT '0',
     `end_date_id` bigint DEFAULT NULL,

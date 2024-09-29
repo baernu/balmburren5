@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `wage_payment` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `optlock` int NOT NULL DEFAULT '0',
     `date_from_id` bigint DEFAULT NULL,
     `date_to_id` bigint DEFAULT NULL,

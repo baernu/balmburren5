@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `product_info` (
-    `id` bigint NOT NULL,
+    `id` bigint NOT NULL AUTO_INCREMENT,
     `category` varchar(255) DEFAULT NULL,
     `description` varchar(255) DEFAULT NULL,
     `price` double NOT NULL,
