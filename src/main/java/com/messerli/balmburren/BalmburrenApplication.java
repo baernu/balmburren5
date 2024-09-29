@@ -54,7 +54,6 @@ public class BalmburrenApplication  {
 			user.setUsername(userDto.getUsername());
 			user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 			user.setEnabled(true);
-//					user.setRoles(roles);
 			if(userRepository.existsByUsername(userDto.getUsername()))
 				return;
 			User user1 = userRepository.save(user);
@@ -62,7 +61,6 @@ public class BalmburrenApplication  {
 
 			Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
 			Optional<Role> optionalRole1 = roleRepository.findByName(RoleEnum.USER);
-//			Optional<User> optionalUser = userRepository.findByUsername(userDto.getUsername());
 			if (optionalRole.isEmpty() || optionalRole1.isEmpty() || user1.getUsername().isEmpty()) {
 				return;
 			}
@@ -71,22 +69,7 @@ public class BalmburrenApplication  {
 			usersRole.get().setUser(user1);
 			usersRole.get().setRole(optionalRole.get());
 			usersRoleRepo.save(usersRole.get());
-			usersRole = usersRoleRepo.findByUserAndRole(user1, optionalRole.get());
-
-			Optional<UsersRole> usersRole1 = Optional.of(new UsersRole());
-			usersRole1.get().setUser(user1);
-			usersRole1.get().setRole(optionalRole1.get());
-			usersRoleRepo.save(usersRole1.get());
-			usersRole1 = usersRoleRepo.findByUserAndRole(user1, optionalRole1.get());
-
-//			List<UsersRole> roles = usersRoleRepo.findAllByUser(user1);
-//			roles.add(usersRole.get());
-//			roles.add(usersRole1.get());
-//
-//			user1.setRoles(roles);
-			user1 = userRepository.save(user1);
-//			log.info("Created User is : " + user1);
-
+			userRepository.save(user1);
 		};
 	}
 

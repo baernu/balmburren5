@@ -1,6 +1,12 @@
 package com.messerli.balmburren.util;
 
-import com.messerli.balmburren.entities.RoleSeeder;
+import com.messerli.balmburren.entities.RoleEnum;
+import com.messerli.balmburren.dtos.RegisterUserDto;
+import com.messerli.balmburren.entities.*;
+import com.messerli.balmburren.repositories.ProductRepo;
+import com.messerli.balmburren.repositories.RoleRepository;
+import com.messerli.balmburren.repositories.UserRepository;
+import com.messerli.balmburren.repositories.UsersRoleRepo;
 import com.messerli.balmburren.services.CronService;
 import com.messerli.balmburren.services.FlywayService;
 import com.smattme.MysqlExportService;
@@ -8,15 +14,17 @@ import com.smattme.MysqlImportService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.event.ContextRefreshedEvent;
+
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -30,10 +38,19 @@ public class Cronjob implements CronService {
     private SendingEmail sendingEmail;
     @Autowired
     private FlywayService flywayService;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UsersRoleRepo usersRoleRepo;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private static byte[] byteArray;
     private static MysqlExportService mysqlExportService;
     private static File file;
+
 
     @Scheduled(cron = "0 40 23 * * *")
     public void backupAutoWriteToFile() {
@@ -149,65 +166,80 @@ public class Cronjob implements CronService {
             throw new RuntimeException(e);
         }
         log.info("Importing database is successful.");
+
+        loadRoles();
+        createAdmin();
+
     }
 
 
-    public  byte[] toUnzippedByteArray(byte[] zippedBytes) throws IOException {
-        var zipInputStream = new ZipInputStream(new ByteArrayInputStream(zippedBytes));
-        var buff = new byte[1024];
-        if (zipInputStream.getNextEntry() != null) {
-            var outputStream = new ByteArrayOutputStream();
-            int l;
-            while ((l = zipInputStream.read(buff)) > 0) {
-                outputStream.write(buff, 0, l);
-            }
-            return outputStream.toByteArray();
-        }
-        return new byte[0];
-    }
-
-//    public byte[] extractSqlFileFromZip(byte[] zipByteArray) throws IOException {
-//        byte[] sqlFileBytes = null;
-//        try{
-//            InputStream byteArrayInputStream = new ByteArrayInputStream(zipByteArray);
-//            ZipInputStream zipInputStream = new ZipInputStream(byteArrayInputStream);
-//
-//            ZipEntry zipEntry;
-//
-//
-//            // Iterate through the entries in the ZIP file
-//            while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-//                // Check if the entry is a .sql file
-//                if (zipEntry.getName().endsWith(".sql")) {
-//                    // Read the content of the .sql file into a byte array
-//                    sqlFileBytes = extractFileFromZip(zipInputStream);
-//                    break; // Exit the loop after finding the .sql file
-//                }
+//    public  byte[] toUnzippedByteArray(byte[] zippedBytes) throws IOException {
+//        var zipInputStream = new ZipInputStream(new ByteArrayInputStream(zippedBytes));
+//        var buff = new byte[1024];
+//        if (zipInputStream.getNextEntry() != null) {
+//            var outputStream = new ByteArrayOutputStream();
+//            int l;
+//            while ((l = zipInputStream.read(buff)) > 0) {
+//                outputStream.write(buff, 0, l);
 //            }
-//
-//            // Close the streams
-//            zipInputStream.close();
-//            byteArrayInputStream.close();
-//
-//        }catch(Exception e) {
-//            log.info("Decompressing of zip file not working: " + e.getMessage());
+//            return outputStream.toByteArray();
 //        }
-//
-//        return sqlFileBytes; // Return the byte array of the .sql file content
+//        return new byte[0];
 //    }
 
-//    private byte[] extractFileFromZip(InputStream inputStream) throws IOException {
-//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//        byte[] buffer = new byte[1024];
-//        int length;
-//
-//        // Read the file content into the ByteArrayOutputStream
-//        while ((length = inputStream.read(buffer)) > 0) {
-//            byteArrayOutputStream.write(buffer, 0, length);
-//        }
-//
-//        return byteArrayOutputStream.toByteArray(); // Convert to byte array
-//    }
+    private void loadRoles() {
+        RoleEnum[] roleNames = new RoleEnum[] { RoleEnum.USER, RoleEnum.ADMIN, RoleEnum.SUPER_ADMIN, RoleEnum.DRIVER, RoleEnum.KATHY, RoleEnum.USER_KATHY };
+        Map<RoleEnum, String> roleDescriptionMap = Map.of(
+                RoleEnum.USER, "Default user role",
+                RoleEnum.DRIVER, "Driver role",
+                RoleEnum.KATHY, "Helper role",
+                RoleEnum.USER_KATHY, "User administrated by Kathy",
+                RoleEnum.ADMIN, "Administrator role",
+                RoleEnum.SUPER_ADMIN, "Super Administrator role"
+        );
+
+        Arrays.stream(roleNames).forEach((roleName) -> {
+            Optional<Role> optionalRole = roleRepository.findByName(roleName);
+
+            optionalRole.ifPresentOrElse(System.out::println, () -> {
+                Role roleToCreate = new Role();
+
+                roleToCreate.setName(roleName);
+                roleToCreate.setDescription(roleDescriptionMap.get(roleName));
+
+                roleRepository.save(roleToCreate);
+            });
+        });
+    }
+
+    private void createAdmin(){
+        RegisterUserDto userDto = new RegisterUserDto();
+        userDto.setFirstname("Normal").setLastname("Admin").setUsername("admin").setPassword("adminadmin");
+
+        var user = new User();
+        user.setFirstname(userDto.getFirstname());
+        user.setLastname(userDto.getLastname());
+        user.setUsername(userDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setEnabled(true);
+        if(userRepository.existsByUsername(userDto.getUsername()))
+            return;
+        User user1 = userRepository.save(user);
+
+
+        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
+        Optional<Role> optionalRole1 = roleRepository.findByName(RoleEnum.USER);
+        if (optionalRole.isEmpty() || optionalRole1.isEmpty() || user1.getUsername().isEmpty()) {
+            return;
+        }
+
+        Optional<UsersRole> usersRole = Optional.of(new UsersRole());
+        usersRole.get().setUser(user1);
+        usersRole.get().setRole(optionalRole.get());
+        usersRoleRepo.save(usersRole.get());
+        userRepository.save(user1);
+    }
+
 
 
 

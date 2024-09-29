@@ -11,7 +11,7 @@ import lombok.*;
 @Table(name = "user_and_role")
 public class UsersRole {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
     @Version

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name="user_and_invoice")
 public class PersonBindInvoice {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Version
     @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
