@@ -142,7 +142,7 @@ public class Cronjob implements CronService {
         // Step 2: Convert byte[] to a String (assuming UTF-8 encoding)
         String decodedString = new String(decodedBytes, StandardCharsets.UTF_8);
 
-        flywayService.migrateDatabase();
+//        flywayService.migrateDatabase();
 
         String sql;
         sql = decodedString;
@@ -156,8 +156,8 @@ public class Cronjob implements CronService {
                     .setPassword("secret")
                     .setHost("localhost")
                     .setPort("3307")
-//                    .setDeleteExisting(true)
-//                    .setDropExisting(true)
+                    .setDeleteExisting(true)
+                    .setDropExisting(true)
                     .importDatabase();
             if (!res)log.info("SQLImport not working!");
         } catch (SQLException e) {
@@ -168,6 +168,8 @@ public class Cronjob implements CronService {
             throw new RuntimeException(e);
         }
         log.info("Importing database is successful.");
+
+        flywayService.migrateDatabase();
 
 //        flywayService.resetDatabase();
 //        loadRoles();
