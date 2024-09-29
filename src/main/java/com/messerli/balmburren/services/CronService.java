@@ -8,5 +8,5 @@ import java.util.List;
 public interface CronService {
     public void writeBackupToFile();
     public void sendBackup();
-    public void importDatabase(byte[] bytearray);
+    public void importDatabase(String bytearray);
 }

@@ -3,7 +3,6 @@ package com.messerli.balmburren.util;
 import com.messerli.balmburren.entities.RoleEnum;
 import com.messerli.balmburren.dtos.RegisterUserDto;
 import com.messerli.balmburren.entities.*;
-import com.messerli.balmburren.repositories.ProductRepo;
 import com.messerli.balmburren.repositories.RoleRepository;
 import com.messerli.balmburren.repositories.UserRepository;
 import com.messerli.balmburren.repositories.UsersRoleRepo;
@@ -23,12 +22,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.util.*;
 
 
 @Service
@@ -141,11 +135,17 @@ public class Cronjob implements CronService {
 
     }
     @Transactional
-    public void importDatabase(byte[] bytearray ){
-//        flywayService.resetDatabase();
+    public void importDatabase(String bytearray ){
+
+        byte[] decodedBytes = Base64.getDecoder().decode(bytearray);
+
+        // Step 2: Convert byte[] to a String (assuming UTF-8 encoding)
+        String decodedString = new String(decodedBytes, StandardCharsets.UTF_8);
+
+        flywayService.migrateDatabase();
 
         String sql;
-        sql = new String(bytearray, StandardCharsets.UTF_8);
+        sql = decodedString;
         log.info("SQL String: " + sql);
 
         try {

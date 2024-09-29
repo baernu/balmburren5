@@ -14,7 +14,7 @@ public class FlywayServiceImpl implements FlywayService {
 
     @Transactional
     @Override
-    public void resetDatabase() {
+    public void migrateDatabase() {
 
         flyway.migrate();
     }

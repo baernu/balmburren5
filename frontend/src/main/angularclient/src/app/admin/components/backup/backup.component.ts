@@ -18,7 +18,7 @@ export class BackupComponent {
   success: string ="";
   error1: string ="";
   success1: string ="";
-  byteDTO: ByteDTO | any;
+  byteDTO: ByteDTO = new ByteDTO();
 
   constructor(
     private emailService: EmailService,
@@ -85,7 +85,8 @@ export class BackupComponent {
 
       try {
         let data= await this.fileToByteArray(file);
-        this.byteDTO = data;
+        this.byteDTO.bytearray = this.byteToBase64(data);
+        console.log("Bytearray: " + this.byteDTO.bytearray);
         await firstValueFrom(this.emailService.backupImport(this.byteDTO));
 
       } catch (error: any) {
@@ -108,6 +109,13 @@ export class BackupComponent {
   async fileToByteArray(file: File) {
     const arrayBuffer = await file.arrayBuffer();
     return new Uint8Array(arrayBuffer); // Returning the byte array
+  }
+
+  byteToBase64(byteArray: Uint8Array) {
+    // Convert Uint8Array to base64 string
+    const base64String = btoa(String.fromCharCode(...byteArray));
+    return base64String;
+
   }
 
 

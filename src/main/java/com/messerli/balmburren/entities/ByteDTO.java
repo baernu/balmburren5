@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ByteDTO {
-    private byte[] bytearray;
+    private String bytearray;
 
 }

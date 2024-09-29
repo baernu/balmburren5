@@ -25,7 +25,7 @@ public class ResetController {
     @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @GetMapping("reset/")
     ResponseEntity<?> resetDB() {
-        flywayService.resetDatabase();
+        flywayService.migrateDatabase();
         return ResponseEntity.ok().body("Migrating database with flyway...");}
 
 

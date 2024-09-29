@@ -4,6 +4,6 @@ import jakarta.transaction.Transactional;
 
 public interface FlywayService {
     @Transactional
-    void resetDatabase();
+    void migrateDatabase();
 
 }

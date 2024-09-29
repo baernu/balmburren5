@@ -94,9 +94,9 @@ public class EmailController {
     @CrossOrigin( allowCredentials = "true")
     @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @PatchMapping("backup/import/")
-    public ResponseEntity<?> backupUImport(@RequestBody ByteDTO bytearray) {
-        cronService.importDatabase(bytearray.getBytearray());
-        return ResponseEntity.ok().body("Importing byte array");
+    public ResponseEntity<ByteDTO> backupUImport(@RequestBody ByteDTO byteDTO) {
+        cronService.importDatabase(byteDTO.getBytearray());
+        return ResponseEntity.ok().body(byteDTO);
     }
 
 }
