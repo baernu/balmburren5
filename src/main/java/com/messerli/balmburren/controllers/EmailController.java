@@ -91,7 +91,6 @@ public class EmailController {
         cronService.writeBackupToFile();
         return ResponseEntity.ok().body("Backup write to file...");
     }
-
     @CrossOrigin( allowCredentials = "true")
     @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @PatchMapping("backup/import/")

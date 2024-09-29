@@ -84,7 +84,6 @@ export class BackupComponent {
       filename = fileList[0].name;
 
       try {
-
         let data= await this.fileToByteArray(file);
         this.byteDTO = data;
         await firstValueFrom(this.emailService.backupImport(this.byteDTO));
