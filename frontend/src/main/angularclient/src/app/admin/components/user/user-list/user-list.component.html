@@ -6,6 +6,7 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
+        <th scope="col">ID</th>
         <th scope="col">Username</th>
         <th scope="col">Firstname</th>
         <th scope="col">Lastname</th>
@@ -16,6 +17,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let user of usersWithRole">
+        <td>{{user.id}}</td>
         <td (click)="userSettings(user)" title="User Settings">{{ user.username }}</td>
         <td (click)="userOrdered(user)" title="User Ordered">{{user.firstname}}</td>
         <td (click)="userOrder(user)" title="User Order">{{ user.lastname }}</td>

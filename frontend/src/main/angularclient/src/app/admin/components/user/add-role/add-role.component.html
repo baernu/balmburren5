@@ -39,11 +39,13 @@
       <thead class="thead-dark">
       <tr>
         <th scope="col">All Roles</th>
+        <th>ID</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let role of newRoles">
         <td (click)="addRole(role)">{{ role.name }}</td>
+        <td>{{role.id}}</td>
       </tr>
       </tbody>
     </table>

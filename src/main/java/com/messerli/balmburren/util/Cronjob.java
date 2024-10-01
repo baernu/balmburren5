@@ -142,7 +142,7 @@ public class Cronjob implements CronService {
         // Step 2: Convert byte[] to a String (assuming UTF-8 encoding)
         String decodedString = new String(decodedBytes, StandardCharsets.UTF_8);
 
-//        flywayService.migrateDatabase();
+        flywayService.clearDatabase();
 
         String sql;
         sql = decodedString;

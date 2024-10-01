@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS `role` (
     `updated_at` datetime(6) DEFAULT NULL,
     `optlock` int NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `unique_username` (`name`)
+    UNIQUE KEY `unique_rolename` (`name`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

@@ -6,4 +6,6 @@ public interface FlywayService {
     @Transactional
     void migrateDatabase();
 
+    @Transactional
+    void clearDatabase();
 }
