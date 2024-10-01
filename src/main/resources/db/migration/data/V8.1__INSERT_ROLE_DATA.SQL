@@ -25,4 +25,4 @@ VALUES
                          `updated_at` = VALUES(`updated_at`),
                          `optlock` = VALUES(`optlock`);
 
-ALTER TABLE `role` AUTO_INCREMENT = 10;
+# ALTER TABLE `role` AUTO_INCREMENT = 10;

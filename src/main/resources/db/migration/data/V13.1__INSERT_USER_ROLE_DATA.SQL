@@ -10,4 +10,4 @@ VALUES
     ON DUPLICATE KEY UPDATE
                          `optlock` = VALUES(`optlock`);
 
-ALTER TABLE `user_and_role` AUTO_INCREMENT = 10;
+# ALTER TABLE `user_and_role` AUTO_INCREMENT = 10;

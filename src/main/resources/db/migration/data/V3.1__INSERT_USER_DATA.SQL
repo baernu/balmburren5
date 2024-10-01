@@ -27,4 +27,4 @@ VALUES (1,'2024-09-28 09:19:07.918000', 1, 'Normal', 'Admin', '$2a$10$hX9k.0DH51
                          `username` = VALUES(`username`),
                          `optlock` = VALUES(`optlock`);
 
-ALTER TABLE `user` AUTO_INCREMENT = 10;
+# ALTER TABLE `user` AUTO_INCREMENT = 10;
