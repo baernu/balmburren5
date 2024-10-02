@@ -6,7 +6,7 @@
     <div class="input-group mb-3 w-100 h-25">
     <form (ngSubmit)="onSubmit()" #dataForm="ngForm">
       <div *ngFor="let index of [0,1,2,3,4,5,6,7,8,9,10,11]" class="form-group">
-        <label for="dates">Date{{index}}</label>
+        <label for="dates">Datum{{index}}</label>
         <input type="date"  [(ngModel)]="dates[index]"
                class="form-control"
                id="dates"
@@ -14,7 +14,7 @@
                required #Date="ngModel">
       </div>
       <button type="submit" [disabled]="!dataForm.form.valid"
-              class="btn btn-info">Submit</button>
+              class="btn btn-info">Senden</button>
     </form>
     </div>
   </div>

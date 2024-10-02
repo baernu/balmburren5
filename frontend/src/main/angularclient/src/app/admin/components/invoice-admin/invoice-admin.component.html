@@ -6,13 +6,13 @@
     <table class="table table-bordered table-striped  table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">All</th>
+        <th scope="col">Alle Ein/ Aus</th>
       </tr>
       </thead>
       <tbody>
       <tr>
         <td><div class="form-check">
-          <input class="form-check-input" type="checkbox" value="{{all}}" [(ngModel)]="all" (change)="check()" >
+          <input class="form-check-input" type="checkbox" value="{{all}}" [(ngModel)]="all" (change)="check()" title="Wähle alle User für neue Rechnungen1">
         </div></td>
       </tr>
       </tbody>
@@ -27,17 +27,17 @@
         <th scope="col">Check</th>
         <th scope="col">ID</th>
         <th scope="col">Username</th>
-        <th scope="col">Firstname</th>
-        <th scope="col">Lastname</th>
+        <th scope="col">Vorname</th>
+        <th scope="col">Nachname</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let invoice of invoices">
         <td><div class="form-check">
-          <input class="form-check-input" type="checkbox" value="{{invoice.isChecked}}" [(ngModel)]="invoice.isChecked">
+          <input class="form-check-input" type="checkbox" value="{{invoice.isChecked}}" [(ngModel)]="invoice.isChecked" title="Wähle User für neue Rechnungen1">
         </div></td>
         <td>{{ invoice.id }}</td>
-        <td (click)="showInvoices(invoice)" title="Show all Invoices for User">{{ invoice.username }}</td>
+        <td (click)="showInvoices(invoice)" title="Zeige alle Rechnungen für User"><ins>{{ invoice.username }}</ins></td>
         <td>{{invoice.firstname}}</td>
         <td>{{ invoice.lastname }}</td>
       </tr>
@@ -50,18 +50,24 @@
     <table class="table table-bordered table-striped  table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Date From</th>
-        <th scope="col">Date To</th>
+        <th scope="col">Start Datum</th>
+        <th scope="col">End Datum</th>
       </tr>
       </thead>
       <tbody>
       <tr>
-        <td><input type="date" [(ngModel)]="dateFrom.date"></td>
-        <td><input type="date" [(ngModel)]="dateTo.date"></td>
-        <button type="button" (click)='apply()' class="btn-light">apply</button>
+        <td><input type="date" [(ngModel)]="dateFrom.date" title="Wähle Start Datum für neue Rechnungen2"></td>
+        <td><input type="date" [(ngModel)]="dateTo.date" title="Wähle End Datum für neue Rechnungen3"></td>
+        <button type="button" (click)='apply()' class="btn-light" title="Neue Rechnung für gewählte User erstellen4">Neue Rechnung</button>
       </tr>
       </tbody>
     </table>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    <div *ngIf="success" class="alert alert-success">
+      {{ success }}
+    </div>
   </div>
 </div>
 <div class="card my-5">
@@ -69,12 +75,12 @@
     <table class="table table-bordered table-striped  table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Username Invoice</th>
-        <th scope="col">Username Deliver</th>
-        <th scope="col">Invoice Amount</th>
-        <th scope="col">Invoice Paid</th>
-        <th scope="col">Date From</th>
-        <th scope="col">Date To</th>
+        <th scope="col">Username Rechnung</th>
+        <th scope="col">Username Lieferung</th>
+        <th scope="col">Rechnung Betrag</th>
+        <th scope="col">Rechnung Bezahlt</th>
+        <th scope="col">Start Datum</th>
+        <th scope="col">End Datum</th>
       </tr>
       </thead>
       <tbody>
@@ -85,7 +91,7 @@
         <td>{{userBindInvoice.invoice.paid| number : '1.2-2'}}</td>
         <td>{{userBindInvoice.dateFrom.date| date:'fullDate' }}</td>
         <td>{{userBindInvoice.dateTo.date| date:'fullDate' }}</td>
-        <button type="button" (click)='delete(userBindInvoice)' class="btn-light">delete</button>
+        <button type="button" (click)='delete(userBindInvoice)' class="btn-light">Löschen</button>
       </tr>
       </tbody>
     </table>

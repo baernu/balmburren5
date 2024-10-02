@@ -28,6 +28,10 @@ export class UserOrderComponent {
   userProfileOrders2: UserProfileOrderDTO[] = [];
   productBindInfos: ProductBindInfosDTO[] = [];
   tours: TourDTO[] = [];
+  error: string = "";
+  success: string = "";
+  error1: string = "";
+  success1: string = "";
 
   constructor(private userService: UserService,
               private router: Router,
@@ -83,17 +87,17 @@ export class UserOrderComponent {
     }
   }
 
-  async apply() {
-    for (const order of this.orders) {
-      await this.putOrder(order);
-    }
-    await this.router.navigate(['admin_users_order'],
-      {
-        queryParams: {
-          param1: this.param1
-        }
-      });
-  }
+  // async apply() {
+  //   for (const order of this.orders) {
+  //     await this.putOrder(order);
+  //   }
+  //   await this.router.navigate(['admin_users_order'],
+  //     {
+  //       queryParams: {
+  //         param1: this.param1
+  //       }
+  //     });
+  // }
   private async putOrder(order: OrderDTO) {
     order.isChecked = true;
     let order1: OrderDTO = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
@@ -111,14 +115,41 @@ export class UserOrderComponent {
   private checkIfProductBindInfosActive(productBindInfos: ProductBindInfosDTO[]) {
     return productBindInfos.filter(productBindInfo =>  productBindInfo.endDate.date >= new Date().toISOString().split('T')[0]);
   }
+  // async save() {
+  //   for (const userProfileOrder of this.userProfileOrders1) {
+  //     let userProfileOrder1 = await firstValueFrom(this.userService.getUserProfileOrder(userProfileOrder.user, userProfileOrder.productBindProductDetails.product,
+  //       userProfileOrder.productBindProductDetails.productDetails, userProfileOrder.tour));
+  //     userProfileOrder.version = userProfileOrder1.version;
+  //     await firstValueFrom(this.userService.putUserProfileOrder(userProfileOrder));
+  //   }
+  //   await this.showList();
+  // }
+
   async save() {
-    for (const userProfileOrder of this.userProfileOrders1) {
-      let userProfileOrder1 = await firstValueFrom(this.userService.getUserProfileOrder(userProfileOrder.user, userProfileOrder.productBindProductDetails.product,
-        userProfileOrder.productBindProductDetails.productDetails, userProfileOrder.tour));
-      userProfileOrder.version = userProfileOrder1.version;
-      await firstValueFrom(this.userService.putUserProfileOrder(userProfileOrder));
+    try {
+      for(const userProfileOrder of this.userProfileOrders1) {
+        let userProfileOrder1 = await firstValueFrom(this.userService.getUserProfileOrder(userProfileOrder.user, userProfileOrder.productBindProductDetails.product,
+          userProfileOrder.productBindProductDetails.productDetails, userProfileOrder.tour));
+        userProfileOrder.version = userProfileOrder1.version;
+        await firstValueFrom(this.userService.putUserProfileOrder(userProfileOrder));
+      }
+
+    }catch(error: any){
+      if(error.status != 200){
+        this.error = "Speichern hat nicht funktioniert!";
+        setTimeout(async () => {
+          this.success = "";
+          this.error = "";
+          return;
+        }, 2000);
+      }
     }
-    await this.showList();
+    this.success = "Speichern hat funktioniert. Regelmässige Bestellung ist aktiviert.";
+    setTimeout(async () => {
+      this.success = "";
+      this.error = "";
+      await this.showList();
+    }, 2500);
   }
 
 
@@ -161,6 +192,29 @@ export class UserOrderComponent {
     this.orders = await firstValueFrom(this.userService.getAllOrderForPerson(this.user));
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.tour.number.localeCompare(t2.tour.number));
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.date.date.localeCompare(t2.date.date));
+  }
+
+  async saveOrder(order:OrderDTO){
+    try {
+      await this.putOrder(order);
+
+
+    }catch(error: any){
+      if(error.status != 200){
+        this.error1 = "Speichern hat nicht funktioniert!";
+        setTimeout(async () => {
+          this.success1 = "";
+          this.error1 = "";
+          return;
+        }, 2000);
+      }
+    }
+    this.success1 = "Speichern hat funktioniert.";
+    setTimeout(async () => {
+      this.success1 = "";
+      this.error1 = "";
+      return;
+    }, 800);
   }
 }
 

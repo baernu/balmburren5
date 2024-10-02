@@ -6,7 +6,7 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Produkt Nummer</th>
+        <th scope="col">Produkt ID</th>
         <th scope="col">Produkt Name</th>
       </tr>
       </thead>
@@ -32,6 +32,7 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
+        <th scope="col">Produkt-Info ID</th>
         <th scope="col">Kategorie</th>
         <th scope="col">Preis</th>
         <th scope="col">Grösse</th>
@@ -40,6 +41,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let  productDetail of productDetails">
+        <td>{{ productDetail.id}}</td>
         <td (click)="createProductBindDetail(productDetail)" title="Neue Kombi 2">{{ productDetail.category}}</td>
         <td>{{ productDetail.price}}</td>
         <td>{{ productDetail.size}} {{ productDetail.unit}}</td>
@@ -62,6 +64,7 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
+        <th scope="col">P-PI ID</th>
         <th scope="col">Produkt Name</th>
         <th scope="col">Kategorie</th>
         <th scope="col">Beschreibung</th>
@@ -74,6 +77,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let  productBindInfo of productBindInfos">
+        <td>{{productBindInfo.id}}</td>
         <td>{{ productBindInfo.product.name}}</td>
         <td>{{ productBindInfo.productDetails.category}}</td>
         <td>{{ productBindInfo.productDetails.description}}</td>

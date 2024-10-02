@@ -24,6 +24,8 @@ export class InvoiceAdminComponent {
   userBindInvoices: UserBindInvoiceDTO[] = [];
   userBindPhone: UserBindPhoneDTO = new UserBindPhoneDTO();
   all: Boolean = false;
+  success: string = "";
+  error: string = "";
 
   constructor(
     private tourService: TourServiceService,
@@ -73,15 +75,30 @@ export class InvoiceAdminComponent {
           userBindInvoice.invoice = invoice1;
           userBindInvoice.personInvoice = this.userBindPhone.invoicePerson;
           userBindInvoice.personDeliver = people;
-          userBindInvoice.dateFrom = this.dateFrom;
-          userBindInvoice.dateTo = this.dateTo;
+          userBindInvoice.dateFrom.date = this.dateFrom.date;
+          userBindInvoice.dateFrom = await firstValueFrom(this.tourService.createDates(userBindInvoice.dateFrom));
+          userBindInvoice.dateTo.date = this.dateTo.date;
+          userBindInvoice.dateTo = await firstValueFrom(this.tourService.createDates(userBindInvoice.dateTo));
           let bool = await firstValueFrom(this.userService.existUserBindInvoice(userBindInvoice.dateFrom, userBindInvoice.dateTo,
             userBindInvoice.personInvoice, userBindInvoice.personDeliver));
           // console.log("Bool existuserbindinvoice ", bool);
           if (!bool) {
-            await firstValueFrom(this.userService.createUserBindInvoice(userBindInvoice));
+            try{
+              await firstValueFrom(this.userService.createUserBindInvoice(userBindInvoice));
+            }catch(error: any){
+              if(error.status != 200) {
+                this.error = "Erstellen hat nicht geklappt!";
+                setTimeout(() => {
+                  this.error = "";
+                  return;}, 2000);
+              }
+            }
+            this.success = "Erstellen hat geklappt";
+            setTimeout(async () => {
+              this.success = "";
+              await this.router.navigate(['admin_invoice']);
+            }, 1000);
           }
-          await this.router.navigate(['admin_invoice']);
         }
       }
     }
@@ -89,14 +106,27 @@ export class InvoiceAdminComponent {
 
   async showInvoices(invoice: AdminInvoiceDTO) {
     let user: UserDTO = await firstValueFrom(this.userService.findUser(invoice.username));
-    this.userBindInvoices = await firstValueFrom(this.userService.getAllPersonBindInvoiceForDeliver(user));
-    // console.log("userbindinvoices: ", this.userBindInvoices);
+    let userBindInvoices = await firstValueFrom(this.userService.getAllPersonBindInvoiceForDeliver(user));
+    if(userBindInvoices) this.userBindInvoices = userBindInvoices;
   }
 
   async delete(userBindInvoice: UserBindInvoiceDTO) {
-    await firstValueFrom(this.userService.deleteUserBindInvoice(userBindInvoice.dateFrom, userBindInvoice.dateTo,
-      userBindInvoice.personInvoice, userBindInvoice.personDeliver));
-    this.userBindInvoices = await firstValueFrom(this.userService.getAllPersonBindInvoiceForDeliver(userBindInvoice.personDeliver));
+    try{
+      await firstValueFrom(this.userService.deleteUserBindInvoice(userBindInvoice.dateFrom, userBindInvoice.dateTo,
+        userBindInvoice.personInvoice, userBindInvoice.personDeliver));
+      this.userBindInvoices = await firstValueFrom(this.userService.getAllPersonBindInvoiceForDeliver(userBindInvoice.personDeliver));
+    }catch(error: any){
+      if(error.status != 200) {
+        this.error = "Löschen hat nicht geklappt!";
+        setTimeout(() => {
+          this.error = "";
+          return;}, 2000);
+      }
+    }
+    this.success = "Löschen hat geklappt";
+    setTimeout(() => {
+      this.success = "";
+      this.router.navigate(['/admin_user_bind_tour']);}, 1000);
   }
 
   check() {
