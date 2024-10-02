@@ -10,6 +10,8 @@ import {firstValueFrom, from} from "rxjs";
 })
 export class TourComponent {
   tour: TourDTO;
+  error: string = "";
+  success: string = "";
 
 
   constructor(
@@ -21,8 +23,21 @@ export class TourComponent {
 
 
   async onSubmit() {
-    if (!await this.checkIfExists(this.tour.number))
-      await firstValueFrom(this.tourService.createTour(this.tour));
+    try{
+      if (!await this.checkIfExists(this.tour.number.toString()))
+        await firstValueFrom(this.tourService.createTour(this.tour));
+    }catch(error: any){
+      if(error.status != 200) {
+        this.error = "Speichern hat nicht geklappt!";
+        setTimeout(() => {
+          this.error = "";
+          return;}, 2000);
+      }
+    }
+    this.success = "Speichern hat geklappt";
+    setTimeout(() => {
+      this.success = "";
+      return;}, 1000);
   }
 
   private async checkIfExists(number: string) {

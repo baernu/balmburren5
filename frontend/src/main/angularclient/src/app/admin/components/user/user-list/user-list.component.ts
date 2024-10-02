@@ -32,7 +32,7 @@ export class UserListComponent implements OnInit {
         let userWithRole: UserWithRoleDTO = new UserWithRoleDTO();
         // let userBindRoles: UserBindRoleDTO[] = await firstValueFrom(this.userService.findAllRolesForPerson(user.username));
         let userBindRoles: UserBindRoleDTO[] = await firstValueFrom(this.userService.getAllUserBindRoles(user1.username));
-        console.log("userbindroles :" + userBindRoles);
+        // console.log("userbindroles :" + userBindRoles);
         // user1.roles.forEach(e => {
         //   let userBindRole: UserBindRoleDTO = new UserBindRoleDTO();
         //   userBindRole.role = e;

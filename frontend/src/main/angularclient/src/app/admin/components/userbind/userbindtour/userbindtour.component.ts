@@ -8,6 +8,7 @@ import {TourDTO} from "../../tour/service/TourDTO";
 import {DatesDTO} from "../../tour/service/DatesDTO";
 import {UserBindTourDTOAdapted} from "../../../../components/user/service/userBindTourDTOAdapted";
 import { DatePipe } from '@angular/common';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-userbindtour',
@@ -24,9 +25,15 @@ export class UserbindtourComponent implements OnInit{
   actualTour: TourDTO = new TourDTO();
   dateNow: string = new Date().toISOString().split('T')[0];
   userBindToursAdapt: UserBindTourDTOAdapted[] | undefined;
+  error: string = "";
+  success: string = "";
 
 
-  constructor(private userService: UserService, private tourService: TourServiceService) {
+  constructor(private userService: UserService,
+              private tourService: TourServiceService,
+              private router: Router) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+      return false;};
   }
 
   async ngOnInit() {
@@ -69,10 +76,10 @@ export class UserbindtourComponent implements OnInit{
     this.tour = await firstValueFrom(this.tourService.getTour(this.actualTour.number));
     this.userBindTour.tour = this.tour;
     this.userBindTour.user = user1;
-    console.log("UserID: " + user1.id);
-    console.log("userBindTourUserID: " + this.userBindTour.user.id);
+    // console.log("UserID: " + user1.id);
+    // console.log("userBindTourUserID: " + this.userBindTour.user.id);
     if (!await firstValueFrom(this.userService.existPersonBindTour(this.userBindTour.user.username, this.userBindTour.tour.number))){
-      console.log("existPersonBindTour: false");
+      // console.log("existPersonBindTour: false");
       await firstValueFrom(this.userService.addPersonBindTour(this.userBindTour));
     }
 
@@ -115,14 +122,38 @@ export class UserbindtourComponent implements OnInit{
       dateDTO2.date = dateStringEndDate;
       userBindTour2.endDate = await firstValueFrom(this.tourService.createDates(dateDTO2));
     }
-    await firstValueFrom(this.userService.updatePersonBindTour(userBindTour2));
-
-
+    try{
+      await firstValueFrom(this.userService.updatePersonBindTour(userBindTour2));
+    }catch(error: any){
+      if(error.status != 200) {
+        this.error = "Speichern hat nicht geklappt!";
+        setTimeout(() => {
+          this.error = "";
+          return;}, 2000);
+      }
+    }
+    this.success = "Speichern hat geklappt";
+    setTimeout(() => {
+      this.success = "";
+      this.router.navigate(['/admin_user_bind_tour']);}, 1000);
 
   }
 
   async delete(userBindTour: UserBindTourDTOAdapted) {
-    await firstValueFrom(this.userService.deletePersonBindTour(userBindTour.user.username, userBindTour.tour.number));
+    try{
+      await firstValueFrom(this.userService.deletePersonBindTour(userBindTour.user.username, userBindTour.tour.number));
+    }catch(error: any){
+      if(error.status != 200) {
+        this.error = "Löschen hat nicht geklappt!";
+        setTimeout(() => {
+          this.error = "";
+          return;}, 2000);
+      }
+    }
+    this.success = "Löschen hat geklappt";
+    setTimeout(() => {
+      this.success = "";
+      this.router.navigate(['/admin_user_bind_tour']);}, 1000);
   }
 
   compareDate(userBindTour: UserBindTourDTOAdapted): boolean {

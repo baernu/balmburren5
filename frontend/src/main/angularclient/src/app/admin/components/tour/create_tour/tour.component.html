@@ -11,13 +11,19 @@
                class="form-control"
                id="numberTour"
                name="numberTour"
-               placeholder="Enter the number for the tour"
+               placeholder="Nummer"
                required #number="ngModel">
       </div>
-      <div [hidden]="!number.pristine" class="alert alert-danger">Number is required</div>
+      <div [hidden]="!number.pristine" class="alert alert-danger">Nummer wird benötigt</div>
       <button type="submit" [disabled]="!tourForm.form.valid"
-              class="btn btn-info">Submit</button>
+              class="btn btn-info">Senden</button>
     </form>
+    </div>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    <div *ngIf="success" class="alert alert-success">
+      {{ success }}
     </div>
   </div>
 </div>
