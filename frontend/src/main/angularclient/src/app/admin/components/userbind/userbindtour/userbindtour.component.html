@@ -14,7 +14,7 @@
       <tbody>
       <tr *ngFor="let user of users">
         <td>{{ user.id }}</td>
-        <td (click)="addPersonBindTour(user.username)" title="Add User to Tour">{{ user.username }}</td>
+        <td (click)="addPersonBindTour(user.username)" title="User zu Tour fügen2"><ins>{{ user.username }}</ins></td>
         <td>{{user.firstname}}  {{user.lastname}}</td>
       </tr>
       </tbody>
@@ -31,7 +31,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let tour of tours">
-        <td (click)="goTo(tour)">{{ tour.number }}</td>
+        <td (click)="goTo(tour)" title="Tour zeigen/ auswählen1"><ins>{{ tour.number }}</ins></td>
       </tr>
       </tbody>
     </table>
@@ -42,14 +42,14 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">#</th>
+        <th scope="col">ID User</th>
         <th scope="col">Name</th>
         <th scope="col">Tour Number: {{actualTour.number}}</th>
         <th scope="col">Tour-Position</th>
-        <th scope="col">Active</th>
-        <th scope="col">Inactive</th>
-        <th scope="col">Start-Date</th>
-        <th scope="col">End-Date</th>
+        <th scope="col">Aktiv</th>
+        <th scope="col">Inaktiv</th>
+        <th scope="col">Start-Datum</th>
+        <th scope="col">End-Datum</th>
       </tr>
       </thead>
       <tbody>
@@ -58,12 +58,12 @@
         <td>{{ userBindTour.user.username }}</td>
         <td>{{userBindTour.tour.number}}</td>
         <td><input type="number" step="0.01" [(ngModel)]="userBindTour.position"></td>
-        <td><div *ngIf="compareDate(userBindTour)">
+        <td [ngStyle]="{'color': 'green'}"><div *ngIf="compareDate(userBindTour)">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
           <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path>
         </svg></div>
         </td>
-        <td><div *ngIf="!compareDate(userBindTour)">
+        <td [ngStyle]="{'color': 'red'}"><div *ngIf="!compareDate(userBindTour)">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-square-fill" viewBox="0 0 16 16">
           <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm2.5 7.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1z"></path>
         </svg></div>
@@ -72,8 +72,8 @@
         <td><input type="date" [(ngModel)]="userBindTour.endDate"></td>
         <button type="button" (click)='delete(userBindTour)' class="btn-dark">Delete</button>
       </tr>
-      <button type="button" (click)='apply()' class="btn-light">Apply</button>
-      <button type="button" (click)='save()' class="btn-light">Save</button>
+      <button type="button" (click)='apply()' class="btn-light">Anwenden</button>
+      <button type="button" (click)='save()' class="btn-light">Sichern</button>
       </tbody>
     </table>
   </div>
