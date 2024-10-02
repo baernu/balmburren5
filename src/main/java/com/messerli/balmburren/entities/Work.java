@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @Table(name="work")
 public class Work {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Version
     @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)

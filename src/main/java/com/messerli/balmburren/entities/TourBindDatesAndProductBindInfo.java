@@ -13,7 +13,7 @@ import jakarta.persistence.*;
 @Table(name="tour_bind_dates_productbindinfo")
 public class TourBindDatesAndProductBindInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Version
     @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)

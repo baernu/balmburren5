@@ -15,7 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="dates")
 public class Dates {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Version
     @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)

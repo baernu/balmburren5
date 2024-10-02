@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 @Table(name="product_bind_product_details")
 public class ProductBindProductDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Version
     @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
