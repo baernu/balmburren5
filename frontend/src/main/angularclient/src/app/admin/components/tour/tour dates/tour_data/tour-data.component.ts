@@ -130,7 +130,9 @@ export class TourDataComponent implements OnInit{
     }catch(error: any){
       if(error.status != 200) {
           this.error = "Löschen hat nicht geklappt!";
-          return;
+          setTimeout(() => {
+            this.error = "";
+            return;}, 2000);
       }
     }
       this.success = "Löschen hat geklappt";
@@ -138,7 +140,7 @@ export class TourDataComponent implements OnInit{
         this.success = "";
         this.ngOnInit();
         // this.router.navigate(['/admin_tour_data']);}, 500);
-        return;}, 500);
+        return;}, 1000);
 
   }
 
