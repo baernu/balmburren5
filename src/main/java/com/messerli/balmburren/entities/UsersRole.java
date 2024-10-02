@@ -12,7 +12,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Table(name = "user_and_role")
 public class UsersRole {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Long id;
     @Version

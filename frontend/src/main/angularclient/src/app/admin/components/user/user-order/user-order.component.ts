@@ -148,7 +148,7 @@ export class UserOrderComponent {
     setTimeout(async () => {
       this.success = "";
       this.error = "";
-      await this.showList();
+      // await this.showList();
     }, 2500);
   }
 
@@ -164,9 +164,9 @@ export class UserOrderComponent {
     }
     for (const tDBI of this.tourDateBindInfosDTOs) {
       let order = new OrderDTO();
-      let date = new DatesDTO();
-      date.date = tDBI.dates.date;
-      order.date = await firstValueFrom(this.tourService.createDates(date));
+      // let date = new DatesDTO();
+      // date.date = tDBI.dates.date;
+      // order.date = await firstValueFrom(this.tourService.createDates(date));
       order.deliverPeople = this.user;
       order.productBindInfos = tDBI.productBindInfos;
       order.tour = tDBI.tour;
@@ -213,7 +213,12 @@ export class UserOrderComponent {
     setTimeout(async () => {
       this.success1 = "";
       this.error1 = "";
-      return;
+        await this.router.navigate(['admin_users_order'],
+          {
+            queryParams: {
+              param1: this.param1
+            }
+          });
     }, 800);
   }
 }
