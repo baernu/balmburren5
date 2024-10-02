@@ -20,6 +20,7 @@ export class AddRoleComponent implements OnInit{
   roles: RoleDTO[] = [];
   username:string = "";
   newRoles: RoleDTO[] =[];
+  boolClicked: boolean = false;
 
 
 
@@ -38,6 +39,8 @@ export class AddRoleComponent implements OnInit{
   }
 
   async goTo(user: UserDTO) {
+    this.newRoles = [];
+    this.boolClicked = false;
     // this.user = user;
     console.log("User is: {}", user);
     this.roles = [];
@@ -53,6 +56,8 @@ export class AddRoleComponent implements OnInit{
 
   async addRoles() {
     this.newRoles = await firstValueFrom(this.userService.findAllRoles());
+    if (this.boolClicked) this.boolClicked = false;
+    else this.boolClicked = true;
   }
 
   async addRole(role: RoleDTO) {
