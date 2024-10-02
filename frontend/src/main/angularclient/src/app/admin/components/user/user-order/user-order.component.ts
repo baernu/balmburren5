@@ -164,9 +164,9 @@ export class UserOrderComponent {
     }
     for (const tDBI of this.tourDateBindInfosDTOs) {
       let order = new OrderDTO();
-      // let date = new DatesDTO();
-      // date.date = tDBI.dates.date;
-      // order.date = await firstValueFrom(this.tourService.createDates(date));
+      let date = new DatesDTO();
+      date.date = tDBI.dates.date;
+      order.date = await firstValueFrom(this.tourService.createDates(date));
       order.deliverPeople = this.user;
       order.productBindInfos = tDBI.productBindInfos;
       order.tour = tDBI.tour;
