@@ -11,7 +11,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let user of users">
-        <td (click)="goTo(user)" title="Show Roles">{{ user.username }}</td>
+        <td (click)="goTo(user)" title="Zeige Rollen">{{ user.username }}</td>
         <td>{{ user.firstname }}</td>
         <td>{{ user.lastname }}</td>
       </tr>
@@ -24,7 +24,7 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Roles</th>
+        <th scope="col">Rollen</th>
         <th scope="col">{{username}}</th>
       </tr>
       </thead>
@@ -38,17 +38,17 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">All Roles</th>
+        <th scope="col">Alle Rollen</th>
         <th>ID</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let role of newRoles">
-        <td (click)="addRole(role)">{{ role.name }}</td>
+        <td (click)="addRole(role)" title="Rolle dazufügen">{{ role.name }}</td>
         <td>{{role.id}}</td>
       </tr>
       </tbody>
     </table>
-    <button type="button" (click)='addRoles()' class="btn-light">new Roles</button>
+    <button type="button" (click)='addRoles()' class="btn-light">Neue Rolle dazufügen</button>
   </div>
 </div>

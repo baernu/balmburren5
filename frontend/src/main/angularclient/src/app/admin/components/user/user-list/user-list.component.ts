@@ -44,6 +44,9 @@ export class UserListComponent implements OnInit {
           if (userBindRole.role.name == "ADMIN") userWithRole.adminIsChecked = true;
           if (userBindRole.role.name == "DRIVER") userWithRole.driverIsChecked = true;
           if (userBindRole.role.name == "USER") userWithRole.userIsChecked = true;
+          if (userBindRole.role.name == "USER_KATHY") userWithRole.userKathyIsChecked = true;
+          if (userBindRole.role.name == "KATHY") userWithRole.kathyIsChecked = true;
+          if (userBindRole.role.name == "SUPER_ADMIN") userWithRole.superadminIsChecked= true;
         });
         userWithRole.username = user.username;
         userWithRole.firstname = user.firstname;

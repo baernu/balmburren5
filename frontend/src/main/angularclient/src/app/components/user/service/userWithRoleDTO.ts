@@ -10,6 +10,9 @@ export class UserWithRoleDTO {
   adminIsChecked: boolean = false;
   driverIsChecked: boolean = false;
   userIsChecked: boolean = false;
+  userKathyIsChecked: boolean = false;
+  kathyIsChecked: boolean = false;
+  superadminIsChecked: boolean = false;
   roles: RoleDTO[]= [];
   updatedat: string = "";
   createdat: string = "";
