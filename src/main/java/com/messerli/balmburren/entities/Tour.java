@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name="tour")
 public class Tour {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String number;
     @Version
