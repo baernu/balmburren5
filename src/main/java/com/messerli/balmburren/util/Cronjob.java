@@ -193,7 +193,7 @@ public class Cronjob implements CronService {
             }
         }
         String filePath = dirPath + "/" + fileName;
-        try (FileWriter writer = new FileWriter(new File(filePath))) {
+        try (FileWriter writer = new FileWriter(new File(filePath), false)) {
             writer.write(sqlString);
             log.info("SQL file written to: " + filePath);
         } catch (IOException e) {

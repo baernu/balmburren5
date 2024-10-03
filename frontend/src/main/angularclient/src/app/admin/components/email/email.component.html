@@ -6,13 +6,13 @@
     <table class="table table-bordered table-striped  table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">All</th>
+        <th scope="col">Alle</th>
       </tr>
       </thead>
       <tbody>
       <tr>
         <td><div class="form-check">
-          <input class="form-check-input" type="checkbox" value="{{all}}" [(ngModel)]="all" (change)="check()" >
+          <input class="form-check-input" type="checkbox" value="{{all}}" [(ngModel)]="all" (change)="check()" title="An alle Email senden.">
         </div></td>
       </tr>
       </tbody>
@@ -27,15 +27,15 @@
         <th scope="col">Check</th>
         <th scope="col">Username</th>
         <th scope="col">Firstname</th>
-        <th scope="col">Lastname</th>
+        <th scope="col">Vorname</th>
         <th scope="col">Email</th>
-        <th scope="col">Phone</th>
+        <th scope="col">Telefon</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let emailUser of emailUsers">
         <td><div class="form-check">
-          <input class="form-check-input" type="checkbox" value="{{emailUser.isChecked}}" [(ngModel)]="emailUser.isChecked">
+          <input class="form-check-input" type="checkbox" value="{{emailUser.isChecked}}" [(ngModel)]="emailUser.isChecked" title="An {{ emailUser.user.username }} Email senden.">
         </div></td>
         <td>{{ emailUser.user.username }}</td>
         <td>{{ emailUser.user.firstname }}</td>
@@ -52,34 +52,34 @@
     <div class="input-group mb-3 w-100 h-25">
       <form (ngSubmit)="email()" #tourForm="ngForm">
         <div class="form-group">
-          <label for="subject">Subject</label>
+          <label for="subject">Betreff</label>
           <input type="text"  [(ngModel)]="emailData.subject"
                  class="form-control"
                  id="subject"
                  name="subject"
-                 placeholder="Enter the Subject"
+                 placeholder="Betreff"
                  required #subject="ngModel">
         </div>
-        <div [hidden]="!subject.pristine" class="alert alert-danger">Subject is required</div>
+        <div [hidden]="!subject.pristine" class="alert alert-danger">Betreff wird benötigt</div>
         <div class="form-group">
-          <label for="body">Body</label>
+          <label for="body">Nachricht</label>
           <input type="text" [(ngModel)]="emailData.body"
                  class="form-control"
                  id="body"
                  name="body"
-                 placeholder="Enter the Body"
+                 placeholder="Nachricht"
                  required #body="ngModel">
         </div>
-        <div [hidden]="!body.pristine" class="alert alert-danger">Body is required</div>
+        <div [hidden]="!body.pristine" class="alert alert-danger">Nachricht wird benötigt</div>
         <div class="form-group">
-          <label for="file">File</label>
+          <label for="file">Anhang (TXT, PDF)</label>
           <input type="file" [(ngModel)]="emailData.file"
                  class="form-control"
                  id="file"
                  name="file" (change)="uploadFile($event)">
         </div>
         <button type="submit" [disabled]="!tourForm.form.valid"
-                class="btn btn-info">Send all Email</button>
+                class="btn btn-info" title="Sendet an alle ausgewählte User Email mit obigem Inhalt">Email senden</button>
       </form>
     </div>
   </div>

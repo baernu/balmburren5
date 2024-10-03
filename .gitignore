@@ -38,3 +38,4 @@ src/test/resources/application-test.properties
 file.txt
 balmburren.pdf
 
+/src/main/resources/db/migration/data/V100_INSERT_UPDATE.SQL
