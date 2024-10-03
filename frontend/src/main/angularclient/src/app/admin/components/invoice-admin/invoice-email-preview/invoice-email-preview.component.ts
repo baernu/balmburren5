@@ -33,6 +33,8 @@ export class InvoiceEmailPreviewComponent {
   emailData: EmailDataDTO = new EmailDataDTO();
   userBindInvoice: UserBindInvoiceDTO = new UserBindInvoiceDTO();
   private reference: string = "";
+  success: string = "";
+  error: string = "";
 
   constructor(private userService: UserService,
               private tourService: TourServiceService,
@@ -71,7 +73,7 @@ export class InvoiceEmailPreviewComponent {
 
   async setOrders(user: UserDTO) {
     let userBindInvoices: UserBindInvoiceDTO[] = await firstValueFrom(this.userService.getAllPersonBindInvoiceForDeliver(this.user));
-    let userBindInvoice = userBindInvoices.find(userBindInvoice => userBindInvoice.dateFrom.date === this.param1);
+    let userBindInvoice = userBindInvoices.find(userBindInvoice => userBindInvoice.dateTo.date === this.param1);
     if (userBindInvoice) {
       this.userBindInvoice = userBindInvoice;
       this.orders = await firstValueFrom(this.userService.getAllOrderForPersonBetween(userBindInvoice.dateFrom, userBindInvoice.dateTo, user));
@@ -94,19 +96,47 @@ export class InvoiceEmailPreviewComponent {
     this.emailData.fromEmail = "balmburren@gmail.com";
     this.emailData.toEmail = userBindPhone.email;
     this.emailData.subject = "Rechnung Balmburren";
-    this.emailData.body ="Guten Tag " + this.user.firstname +' ' + this.user.lastname + " Balmburren sendet Ihnen die Rechnung im Anhang. \n Freundliche Grüsse Balmburren";
+    this.emailData.body ="Guten Tag " + this.user.firstname +' ' + this.user.lastname + " Balmburren sendet Ihnen die Rechnung im Anhang. \n Freundliche Grüsse Balmburren Team";
     this.emailData.filename = "Balmburren.pdf";
 
-    console.log("Email string: " + this.emailData.base64String);
-    await firstValueFrom(this.emailService.sendEmail(this.emailData));
+    try {
+      await firstValueFrom(this.emailService.sendEmail(this.emailData));
+    } catch (error: any) {
+      if (error.status != 200 || 201) this.error = "Email konnte nicht gesendet werden!";
+      setTimeout(() => {
+        this.error = "";
+        return;
+      }, 2000);
+    }
+    this.success = "Email konnte gesendet werden.";
+    setTimeout(() => {
+      this.success = "";
+      // return;
+    }, 2000);
+
+
     await this.sendQRInvoice();
-    await this.notsendEmail();
+    // await this.notsendEmail();
   }
 
   async notsendEmail() {
-    this.userBindInvoice.isChecked = Boolean(false);
-    await firstValueFrom(this.userService.putUserBindInvoice(this.userBindInvoice));
-    await this.ngOnInit();
+    try {
+      this.userBindInvoice.isChecked = Boolean(false);
+      await firstValueFrom(this.userService.putUserBindInvoice(this.userBindInvoice));
+      await this.ngOnInit();
+    } catch (error: any) {
+      if (error.status != 200) this.error = "Email wurde nicht gesendet, wie gewünscht.";
+      setTimeout(() => {
+        this.error = "";
+        return;
+      }, 2000);
+    }
+    this.success = "Etwas ging schief. Bitte Status der Rechnung prüfen..";
+    setTimeout(() => {
+      this.success = "";
+      return;
+    }, 2000);
+
   }
 
 
@@ -220,7 +250,23 @@ export class InvoiceEmailPreviewComponent {
     emailData.type = "attachment";
 
     console.log("Email string QR: " + this.emailData.base64String);
-    await firstValueFrom(this.emailService.sendEmail(emailData));
+    try {
+      await firstValueFrom(this.emailService.sendEmail(emailData));
+    } catch (error: any) {
+      if (error.status != 200 || 201) this.error = "Email mit QR Rechnung konnte nicht gesendet werden!";
+      setTimeout(() => {
+        this.error = "";
+        return;
+      }, 2000);
+    }
+    this.success = "Email mit QR Rechnung konnte gesendet werden.";
+    setTimeout(() => {
+      this.success = "";
+      return;
+    }, 2000);
+
+
+    // await firstValueFrom(this.emailService.sendEmail(emailData));
   }
 
   private xmlService(xml: string, filename: string) {
