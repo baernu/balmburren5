@@ -21,5 +21,6 @@ public class Invoice {
     private double amount;
     private double paid;
     private Boolean isPaid = false;
+    private Boolean isSent = false;
 
 }

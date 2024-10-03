@@ -4,4 +4,5 @@ export class InvoiceDTO {
   amount: number = 0;
   paid: number = 0;
   isPaid: Boolean = false;
+  isSent: Boolean = false;
 }

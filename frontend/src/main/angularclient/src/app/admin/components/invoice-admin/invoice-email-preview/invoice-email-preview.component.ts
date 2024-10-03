@@ -76,6 +76,7 @@ export class InvoiceEmailPreviewComponent {
     let userBindInvoice = userBindInvoices.find(userBindInvoice => userBindInvoice.dateTo.date === this.param1);
     if (userBindInvoice) {
       this.userBindInvoice = userBindInvoice;
+      this.invoice = this.userBindInvoice.invoice;
       this.orders = await firstValueFrom(this.userService.getAllOrderForPersonBetween(userBindInvoice.dateFrom, userBindInvoice.dateTo, user));
       this.orders = this.orders.filter(order => order.quantityDelivered > 0);
       this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.productBindInfos.product.name.localeCompare(t2.productBindInfos.product.name));
@@ -110,6 +111,8 @@ export class InvoiceEmailPreviewComponent {
       }, 2000);
     }
     this.success = "Email konnte gesendet werden.";
+    this.invoice.isSent = true;
+    await firstValueFrom(this.userService.putInvoice(this.invoice));
     setTimeout(() => {
       this.success = "";
       // return;

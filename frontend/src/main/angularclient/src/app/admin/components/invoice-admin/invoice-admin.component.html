@@ -32,6 +32,7 @@
       </tr>
       </thead>
       <tbody>
+      <div><p>Klicke auf den Username um dessen Rechnungen anzuzeigen.</p></div>
       <tr *ngFor="let invoice of invoices">
         <td><div class="form-check">
           <input class="form-check-input" type="checkbox" value="{{invoice.isChecked}}" [(ngModel)]="invoice.isChecked" title="Wähle User für neue Rechnungen1">
@@ -78,7 +79,9 @@
         <th scope="col">Username Rechnung</th>
         <th scope="col">Username Lieferung</th>
         <th scope="col">Rechnung Betrag</th>
-        <th scope="col">Rechnung Bezahlt</th>
+        <th scope="col">Summe Bezahlt</th>
+        <th scope="col">Alles Bezahlt</th>
+        <th scope="col">Rechnung gesendet</th>
         <th scope="col">Start Datum</th>
         <th scope="col">End Datum</th>
       </tr>
@@ -89,6 +92,8 @@
         <td>{{userBindInvoice.personDeliver.username}}</td>
         <td>{{userBindInvoice.invoice.amount| number : '1.2-2'}}</td>
         <td>{{userBindInvoice.invoice.paid| number : '1.2-2'}}</td>
+        <td>{{userBindInvoice.invoice.isPaid}}</td>
+        <td>{{userBindInvoice.invoice.isSent}}</td>
         <td>{{userBindInvoice.dateFrom.date| date:'fullDate' }}</td>
         <td>{{userBindInvoice.dateTo.date| date:'fullDate' }}</td>
         <button type="button" (click)='delete(userBindInvoice)' class="btn-light">Löschen</button>
