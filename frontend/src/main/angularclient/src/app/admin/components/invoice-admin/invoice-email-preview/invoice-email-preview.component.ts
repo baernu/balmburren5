@@ -91,16 +91,17 @@ export class InvoiceEmailPreviewComponent {
 
   async sendToEmail() {
     let userBindPhone : UserBindPhoneDTO = await firstValueFrom(this.userService.getUserBindPhone(this.user));
-    this.emailData.base64String = await this.Convert_HTML_To_PDF();
-
-    this.emailData.fromEmail = "balmburren@gmail.com";
-    this.emailData.toEmail = userBindPhone.email;
-    this.emailData.subject = "Rechnung Balmburren";
-    this.emailData.body ="Guten Tag " + this.user.firstname +' ' + this.user.lastname + " Balmburren sendet Ihnen die Rechnung im Anhang. \n Freundliche Grüsse Balmburren Team";
-    this.emailData.filename = "Balmburren.pdf";
+    let emailData = new EmailDataDTO();
+    emailData.base64String = await this.Convert_HTML_To_PDF();
+    emailData.type = "attachment";
+    emailData.fromEmail = "balmburren@gmail.com";
+    emailData.toEmail = userBindPhone.email;
+    emailData.subject = "Rechnung Balmburren";
+    emailData.body ="Guten Tag " + this.user.firstname +' ' + this.user.lastname + " Balmburren sendet Ihnen die Rechnung im Anhang. \n Freundliche Grüsse Balmburren Team";
+    emailData.filename = "Balmburren.pdf";
 
     try {
-      await firstValueFrom(this.emailService.sendEmail(this.emailData));
+      await firstValueFrom(this.emailService.sendEmail(emailData));
     } catch (error: any) {
       if (error.status != 200 || 201) this.error = "Email konnte nicht gesendet werden!";
       setTimeout(() => {
@@ -243,9 +244,9 @@ export class InvoiceEmailPreviewComponent {
 
     emailData.fromEmail = "balmburren@gmail.com";
     emailData.toEmail = userBindPhone.email;
-    emailData.subject = "Rechnung Balmburren";
+    emailData.subject = "QR Rechnung Balmburren";
     emailData.body ="Guten Tag " + this.user.firstname +' ' + this.user.lastname + " Balmburren sendet Ihnen den Einzahlungsschein im Anhang. \n Freundliche Grüsse Balmburren";
-    emailData.password = "123456";
+    // emailData.password = "123456";
     emailData.filename = "Balmburren_Einzahlungsschein.pdf";
     emailData.type = "attachment";
 
