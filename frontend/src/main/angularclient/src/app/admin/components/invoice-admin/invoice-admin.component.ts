@@ -114,7 +114,7 @@ export class InvoiceAdminComponent {
   }
 
   async delete(userBindInvoice: UserBindInvoiceDTO) {
-    if(this.count == 7){
+    if(this.count == 6){
       try{
         await firstValueFrom(this.userService.deleteUserBindInvoice(userBindInvoice.dateFrom, userBindInvoice.dateTo,
           userBindInvoice.personInvoice, userBindInvoice.personDeliver));
@@ -131,10 +131,10 @@ export class InvoiceAdminComponent {
       setTimeout(() => {
         this.success1 = "";
         this.count = 0;
-        this.router.navigate(['/admin_user_bind_tour']);}, 1000);
+        this.router.navigate(['/admin_invoice']);}, 1000);
     }else {
       this.count++;
-      this.error1 = "Noch "+ (8-this.count) + " mal klicken zum Löschen.";
+      this.error1 = "Noch "+ (7-this.count) + " mal klicken zum Löschen.";
       setTimeout(() => {
         this.error1 = "";
         return;}, 1000);
