@@ -91,14 +91,20 @@
         <td>{{userBindInvoice.personInvoice.username}}</td>
         <td>{{userBindInvoice.personDeliver.username}}</td>
         <td>{{userBindInvoice.invoice.amount| number : '1.2-2'}}</td>
-        <td>{{userBindInvoice.invoice.paid| number : '1.2-2'}}</td>
-        <td>{{userBindInvoice.invoice.isPaid}}</td>
-        <td>{{userBindInvoice.invoice.isSent}}</td>
+        <td><input type="number" value="{{userBindInvoice.invoice.paid| number : '1.2-2'}}" ([ngModel])="userBindInvoice.invoice.paid" (change)="saveInvoice(userBindInvoice)"></td>
+        <td><input type="checkbox" value="{{userBindInvoice.invoice.isPaid}}" [(ngModel)]="userBindInvoice.invoice.isPaid" (click)="saveInvoice1(userBindInvoice)"></td>
+        <td><input type="checkbox" value="{{userBindInvoice.invoice.isSent}}" [(ngModel)]="userBindInvoice.invoice.isSent" (click)="saveInvoice2(userBindInvoice)"></td>
         <td>{{userBindInvoice.dateFrom.date| date:'fullDate' }}</td>
         <td>{{userBindInvoice.dateTo.date| date:'fullDate' }}</td>
-        <button type="button" (click)='delete(userBindInvoice)' class="btn-light">Löschen</button>
+        <button type="button" (click)='delete(userBindInvoice)' class="btn-light" title="Bitte 7 mal klicken um zu löschen.">Löschen</button>
       </tr>
       </tbody>
     </table>
+    <div *ngIf="error1" class="alert alert-danger">
+      {{ error1 }}
+    </div>
+    <div *ngIf="success1" class="alert alert-success">
+      {{ success1 }}
+    </div>
   </div>
 </div>

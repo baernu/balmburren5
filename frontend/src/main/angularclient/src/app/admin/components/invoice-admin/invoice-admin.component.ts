@@ -26,6 +26,9 @@ export class InvoiceAdminComponent {
   all: Boolean = false;
   success: string = "";
   error: string = "";
+  success1: string = "";
+  error1: string = "";
+  count: number = 0;
 
   constructor(
     private tourService: TourServiceService,
@@ -111,22 +114,32 @@ export class InvoiceAdminComponent {
   }
 
   async delete(userBindInvoice: UserBindInvoiceDTO) {
-    try{
-      await firstValueFrom(this.userService.deleteUserBindInvoice(userBindInvoice.dateFrom, userBindInvoice.dateTo,
-        userBindInvoice.personInvoice, userBindInvoice.personDeliver));
-      this.userBindInvoices = await firstValueFrom(this.userService.getAllPersonBindInvoiceForDeliver(userBindInvoice.personDeliver));
-    }catch(error: any){
-      if(error.status != 200) {
-        this.error = "Löschen hat nicht geklappt!";
-        setTimeout(() => {
-          this.error = "";
-          return;}, 2000);
+    if(this.count == 7){
+      try{
+        await firstValueFrom(this.userService.deleteUserBindInvoice(userBindInvoice.dateFrom, userBindInvoice.dateTo,
+          userBindInvoice.personInvoice, userBindInvoice.personDeliver));
+        this.userBindInvoices = await firstValueFrom(this.userService.getAllPersonBindInvoiceForDeliver(userBindInvoice.personDeliver));
+      }catch(error: any){
+        if(error.status != 200) {
+          this.error1 = "Löschen hat nicht geklappt!";
+          setTimeout(() => {
+            this.error1 = "";
+            return;}, 2000);
+        }
       }
+      this.success1 = "Löschen hat geklappt";
+      setTimeout(() => {
+        this.success1 = "";
+        this.count = 0;
+        this.router.navigate(['/admin_user_bind_tour']);}, 1000);
+    }else {
+      this.count++;
+      this.error1 = "Noch "+ (8-this.count) + " mal klicken zum Löschen.";
+      setTimeout(() => {
+        this.error1 = "";
+        return;}, 1000);
     }
-    this.success = "Löschen hat geklappt";
-    setTimeout(() => {
-      this.success = "";
-      this.router.navigate(['/admin_user_bind_tour']);}, 1000);
+
   }
 
   check() {
@@ -139,6 +152,36 @@ export class InvoiceAdminComponent {
         invoice.isChecked = false;
       }
     }
+  }
+
+  saveInvoice1(userBindinvoice: UserBindInvoiceDTO) {
+    if(userBindinvoice.invoice.isPaid)userBindinvoice.invoice.isPaid = false;
+    else userBindinvoice.invoice.isPaid = true;
+    this.saveInvoice(userBindinvoice);
+  }
+  saveInvoice2(userBindinvoice: UserBindInvoiceDTO) {
+    if(userBindinvoice.invoice.isSent)userBindinvoice.invoice.isSent = false;
+    else userBindinvoice.invoice.isSent = true;
+    this.saveInvoice(userBindinvoice);
+  }
+
+  async saveInvoice(userBindInvoice: UserBindInvoiceDTO) {
+    try {
+      userBindInvoice.invoice = await firstValueFrom(this.userService.putInvoice(userBindInvoice.invoice));
+    } catch (error: any) {
+      if (error.status != 200) {
+        this.error1 = "Speichern hat nicht geklappt!";
+        setTimeout(() => {
+          this.error1 = "";
+          return;
+        }, 2000);
+      }
+    }
+    this.success1 = "Speichern hat geklappt.";
+    setTimeout(() => {
+      this.success1 = "";
+      return;
+    }, 1000);
   }
 }
 
