@@ -126,7 +126,7 @@
                  placeholder="Neues Passwort">
           <button type="button" (click)='showHidePassword()' class="btn-light"> Passwort {{ showPassword ? 'verdecken' : 'zeigen' }}</button>
           <span class="help-block">   Passwort mit 8 oder mehr Zeichen   </span>
-          <button type="button" (click)='savePassword()' class="btn-light">Passwort sichern</button>
+          <button type="button" (click)='savePassword()' class="btn-light">Passwort speichern</button>
         </div>
         <button type="submit" [disabled]="!userForm.form.valid" class="btn btn-info">Speichern</button>
       </form>
