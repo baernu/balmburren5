@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -142,32 +144,33 @@ public class Cronjob implements CronService {
         // Step 2: Convert byte[] to a String (assuming UTF-8 encoding)
         String decodedString = new String(decodedBytes, StandardCharsets.UTF_8);
 
-        flywayService.clearDatabase();
+//        flywayService.clearDatabase();
 
         String sql;
         sql = decodedString;
-        log.info("SQL String: " + sql);
-
-        try {
-            boolean res = MysqlImportService.builder()
-                    .setDatabase("balmburren_db")
-                    .setSqlString(sql)
-                    .setUsername("root")
-                    .setPassword("secret")
-                    .setHost("localhost")
-                    .setPort("3307")
-                    .setDeleteExisting(true)
-                    .setDropExisting(true)
-                    .importDatabase();
-            if (!res)log.info("SQLImport not working!");
-        } catch (SQLException e) {
-            log.info("SQLException building import" + e.getMessage());
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            log.info("ClassNotFoundException building import" + e.getMessage());
-            throw new RuntimeException(e);
-        }
-        log.info("Importing database is successful.");
+        writeSQLDataForFlyway(sql);
+//        log.info("SQL String: " + sql);
+//
+//        try {
+//            boolean res = MysqlImportService.builder()
+//                    .setDatabase("balmburren_db")
+//                    .setSqlString(sql)
+//                    .setUsername("root")
+//                    .setPassword("secret")
+//                    .setHost("localhost")
+//                    .setPort("3307")
+//                    .setDeleteExisting(true)
+//                    .setDropExisting(true)
+//                    .importDatabase();
+//            if (!res)log.info("SQLImport not working!");
+//        } catch (SQLException e) {
+//            log.info("SQLException building import" + e.getMessage());
+//            throw new RuntimeException(e);
+//        } catch (ClassNotFoundException e) {
+//            log.info("ClassNotFoundException building import" + e.getMessage());
+//            throw new RuntimeException(e);
+//        }
+//        log.info("Importing database is successful.");
 
         flywayService.migrateDatabase();
 
@@ -175,6 +178,27 @@ public class Cronjob implements CronService {
 //        loadRoles();
 //        createAdmin();
 
+    }
+
+    private void writeSQLDataForFlyway(String sqlString) {
+        String dirPath = "src/main/resources/db/migration/data";
+        String fileName = "V100_INSERT_UPDATE.SQL";
+        Path path = Paths.get(dirPath);
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectories(path);
+            } catch (IOException e) {
+                log.info("Failed to create directory: " + e.getMessage());
+                return;
+            }
+        }
+        String filePath = dirPath + "/" + fileName;
+        try (FileWriter writer = new FileWriter(new File(filePath))) {
+            writer.write(sqlString);
+            log.info("SQL file written to: " + filePath);
+        } catch (IOException e) {
+            log.info("Error writing file: " + e.getMessage());
+        }
     }
 
 
