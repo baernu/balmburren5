@@ -13,5 +13,6 @@ public interface PersonBindInvoiceRepo extends JpaRepository<PersonBindInvoice, 
     Optional<List<PersonBindInvoice>> getAllByPersonDeliver(User user);
     Optional<List<PersonBindInvoice>> getAllByPersonInvoice(User user);
     Optional<List<PersonBindInvoice>> getAllByDateFrom_Date(String dateFrom);
+    Optional<List<PersonBindInvoice>> getAllByDateTo_Date(String dateTo);
 
 }

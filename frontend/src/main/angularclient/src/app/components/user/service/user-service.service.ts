@@ -270,6 +270,9 @@ export class UserService {
   public getAllPersonBindInvoiceDateFrom(date: DatesDTO): Observable<UserBindInvoiceDTO[]>{
     return this.http.get<UserBindInvoiceDTO[]>(this.userBindInvoiceUrl + date.date,{withCredentials : true});}
 
+  public getAllPersonBindInvoiceDateTo(date: DatesDTO): Observable<UserBindInvoiceDTO[]>{
+    return this.http.get<UserBindInvoiceDTO[]>(this.userBindInvoiceUrl + 'dateto/' + date.date,{withCredentials : true});}
+
 
 
 

@@ -12,9 +12,12 @@ import {Router} from "@angular/router";
   styleUrls: ['./invoice-email.component.css']
 })
 export class InvoiceEmailComponent {
-  dateFrom: DatesDTO = new DatesDTO();
+  dateTo: DatesDTO = new DatesDTO();
+
   userBindInvoices: UserBindInvoiceDTO[] = [];
   all: Boolean = false;
+  error: string ="";
+  success: string ="";
 
   constructor(
     private router: Router,
@@ -28,7 +31,7 @@ export class InvoiceEmailComponent {
 
 
   async apply() {
-    this.userBindInvoices = await firstValueFrom(this.userService.getAllPersonBindInvoiceDateFrom(this.dateFrom));
+    this.userBindInvoices = await firstValueFrom(this.userService.getAllPersonBindInvoiceDateTo(this.dateTo));
   }
 
   check() {
@@ -50,7 +53,7 @@ export class InvoiceEmailComponent {
     await this.router.navigate(['admin_invoice_email_preview'],
      {
        queryParams: {
-         param1: this.dateFrom.date
+         param1: this.dateTo.date
        }
      });
   }

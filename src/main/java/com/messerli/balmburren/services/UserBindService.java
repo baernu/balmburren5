@@ -23,6 +23,7 @@ public interface UserBindService {
     Optional<List<PersonBindInvoice>> getAllPersonBindInvoiceForDeliver(User user);
     Optional<List<PersonBindInvoice>> getAllPersonBindInvoiceForInvoice(User user);
     Optional<List<PersonBindInvoice>> getAllPersonBindInvoiceForDateFrom(String dateFrom);
+    Optional<List<PersonBindInvoice>> getAllPersonBindInvoiceForDateTo(String dateTo);
     Optional<List<PersonBindInvoice>>getAllPersonBindInvoice();
     Optional<PersonBindInvoice> deletePersonBindInvoice(String dateFrom, String dateTo, User peopleInvoice, User peopleDeliver);
 
@@ -58,4 +59,5 @@ public interface UserBindService {
     Optional<UsersRole> savePersonBindRole(UsersRole usersRole);
 
     void deletePersonBindRole(UsersRole usersRole);
+
 }

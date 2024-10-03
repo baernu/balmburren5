@@ -144,6 +144,13 @@ public class UserBindServiceImpl implements UserBindService {
     }
 
     @Override
+    public Optional<List<PersonBindInvoice>> getAllPersonBindInvoiceForDateTo(String dateTo) {
+        Optional<List<PersonBindInvoice>> list = personBindInvoiceRepo.getAllByDateTo_Date(dateTo);
+        log.info("Get all PersonBindInvoice: {}", list.get());
+        return list;
+    }
+
+    @Override
     public Optional<List<PersonBindInvoice>> getAllPersonBindInvoice() {
         List<PersonBindInvoice> list = personBindInvoiceRepo.findAll();
         log.info("Get all PersonBindInvoice: {}", list);

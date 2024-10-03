@@ -168,6 +168,13 @@ public class UserBindController {
     ResponseEntity<Optional<List<PersonBindInvoice>>> getAllPersonBindInvoiceDateFrom(@PathVariable("dateFrom") String dateFrom) {
         return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoiceForDateFrom(dateFrom));}
 
+    @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
+    @GetMapping("person/bind/invoice/dateto/{dateTo}")
+    ResponseEntity<Optional<List<PersonBindInvoice>>> getAllPersonBindInvoiceDateTo(@PathVariable("dateTo") String dateTo) {
+        return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoiceForDateTo(dateTo));}
+
+
 
 
     @CrossOrigin( allowCredentials = "true")

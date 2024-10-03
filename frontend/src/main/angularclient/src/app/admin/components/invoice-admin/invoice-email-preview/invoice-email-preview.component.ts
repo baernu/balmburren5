@@ -57,7 +57,7 @@ export class InvoiceEmailPreviewComponent {
       date.date = this.param1;
     }
       date = await firstValueFrom(this.tourService.createDates(date));
-    this.userBindInvoices = await firstValueFrom(this.userService.getAllPersonBindInvoiceDateFrom(date));
+    this.userBindInvoices = await firstValueFrom(this.userService.getAllPersonBindInvoiceDateTo(date));
     this.userBindInvoices = this.userBindInvoices.filter(userBindInvoice => userBindInvoice.isChecked);
     if (this.userBindInvoices.length > 0) {
       this.user = this.userBindInvoices[0].personDeliver;

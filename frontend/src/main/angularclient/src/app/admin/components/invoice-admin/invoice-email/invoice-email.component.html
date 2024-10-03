@@ -6,13 +6,13 @@
     <table class="table table-bordered table-striped  table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Date From</th>
+        <th scope="col">End Datum</th>
       </tr>
       </thead>
       <tbody>
       <tr>
-        <td><input type="date" [(ngModel)]="dateFrom.date"></td>
-        <button type="button" (click)='apply()' class="btn-light">apply</button>
+        <td><input type="date" [(ngModel)]="dateTo.date" (change)="apply()"></td>
+<!--        <button type="button" (click)='apply()' class="btn-light">Anwenden</button>-->
       </tr>
       </tbody>
     </table>
@@ -23,7 +23,7 @@
     <table class="table table-bordered table-striped  table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">All</th>
+        <th scope="col" title="An Alle User die Rechnung per Email senden.">Alle</th>
       </tr>
       </thead>
       <tbody>
@@ -43,12 +43,15 @@
       <thead class="thead-dark">
       <tr>
         <th scope="col">Checked</th>
-        <th scope="col">Username Deliver</th>
-        <th scope="col">Firstname Deliver</th>
-        <th scope="col">Lastname Deliver</th>
-        <th scope="col">Username Invoice</th>
-        <th scope="col">Invoice Amount</th>
-        <th scope="col">Date From</th>
+        <th scope="col">Username Lieferung</th>
+        <th scope="col">Vorname Lieferung</th>
+        <th scope="col">Nachname Lieferung</th>
+        <th scope="col">Username Rechnung</th>
+        <th scope="col">Vorname Rechnung</th>
+        <th scope="col">Nachname Rechnung</th>
+        <th scope="col">Rechnung Betrag</th>
+        <th scope="col">Start Datum</th>
+        <th scope="col">End Datum</th>
       </tr>
       </thead>
       <tbody>
@@ -60,12 +63,21 @@
         <td>{{ userBindInvoice.personDeliver.firstname}}</td>
         <td>{{ userBindInvoice.personDeliver.lastname }}</td>
         <td>{{ userBindInvoice.personInvoice.username }}</td>
+        <td>{{ userBindInvoice.personInvoice.firstname }}</td>
+        <td>{{ userBindInvoice.personInvoice.lastname }}</td>
         <td>{{ userBindInvoice.invoice.amount | number : '1.2-2' }}</td>
         <td>{{ userBindInvoice.dateFrom.date | date:'fullDate'}}</td>
+        <td>{{ userBindInvoice.dateTo.date | date:'fullDate'}}</td>
       </tr>
-      <button type="button" (click)='email()' class="btn-light">Email preview</button>
+      <button type="button" (click)='email()' class="btn-light" title="Vorschau der Emails zeigen.">Email Vorschau</button>
       </tbody>
     </table>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    <div *ngIf="success" class="alert alert-success">
+      {{ success }}
+    </div>
   </div>
 </div>
 
