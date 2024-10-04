@@ -3,6 +3,8 @@
 <div class="card my-5">
   <div class="card-body">
     <span style="display:block; height:50px;"></span>
+    <div><p>Um einen User zu einer Tour zu fügen, zuerst auf die Tour klicken
+      <br>und dann auf den Username.</p></div>
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
@@ -23,6 +25,7 @@
 </div>
 <div class="card my-5">
   <div class="card-body">
+    <div><p>Um alle User für eine Tour anzuzeigen auf die gewünschte Tour klicken.</p></div>
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
@@ -39,6 +42,9 @@
 </div>
 <div class="card my-5">
   <div class="card-body">
+    <div><p>Um die Reihenfolge zu ändern die Tourposition als Kommazahl so wählen,
+      <br>dass sie kleiner ist als beim Nachfolger und grösser als beim Vorangehenden.<br>
+      Nun auf Anwenden drücken. Speichern.</p></div>
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
@@ -73,7 +79,7 @@
         <button type="button" (click)='delete(userBindTour)' class="btn-dark">Delete</button>
       </tr>
       <button type="button" (click)='apply()' class="btn-light">Anwenden</button>
-      <button type="button" (click)='save()' class="btn-light">Sichern</button>
+      <button type="button" (click)='save()' class="btn-light">Speichernchern</button>
       </tbody>
     </table>
     <div *ngIf="error" class="alert alert-danger">
