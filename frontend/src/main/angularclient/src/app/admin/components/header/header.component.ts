@@ -25,7 +25,7 @@ export class HeaderComponent {
     this.pathname = location.pathname;
   }
 
-  change() {
-    this.router.navigate(['admin']);
-  }
+  // change() {
+  //   this.router.navigate(['admin']);
+  // }
 }
