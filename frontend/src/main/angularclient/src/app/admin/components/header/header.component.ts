@@ -11,6 +11,7 @@ import {Router} from "@angular/router";
 })
 export class HeaderComponent {
   user: UserDTO = new UserDTO();
+  pathname: string = "";
 
   constructor(
     private userService: UserService,
@@ -21,6 +22,7 @@ export class HeaderComponent {
     // if (username)
     //   this.user = await firstValueFrom(this.userService.findUser(username));
     this.user = await firstValueFrom(this.userService.currentUser());
+    this.pathname = location.pathname;
   }
 
   change() {
