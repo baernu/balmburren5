@@ -47,8 +47,8 @@ export class DriverWorkComponent implements OnInit {
     this.work = new WorkDTO();
     this.dates.date = new Date(this.dates.date).toISOString().split('T')[0];
     this.dates = await firstValueFrom(this.tourService.createDates(this.dates));
-    let user = await firstValueFrom(this.userService.currentUser());
-    this.user = await firstValueFrom(this.userService.findUser(user.username));
+    // let user = await firstValueFrom(this.userService.currentUser());
+    // this.user = await firstValueFrom(this.userService.findUser(user.username));
     let work = await firstValueFrom(this.tourService.getWork(this.user.username, this.dates));
     if (work) {
       this.work = work;
@@ -64,37 +64,90 @@ export class DriverWorkComponent implements OnInit {
         this.work = await firstValueFrom(this.tourService.putWork(this.work));
       } catch (error: any) {
         if (error.status != 200) this.error= "Speichern hat nicht funktioniert!"
-        await this.router.navigate(['/work']);
-        return;
+        setTimeout(async () => {
+          this.error = "";
+          return;
+          // await this.router.navigate(['/work']);
+        }, 2000);
+        // await this.router.navigate(['/work']);
+        // return;
       }
       this.success = "Speichern hat funktioniert!"
-      return;
+      setTimeout(async () => {
+        this.success = "";
+        await this.router.navigate(['/driver_work'],
+          {
+            queryParams: {
+              param1: this.param1
+            }
+          });
+      }, 1000);
+      // return;
     }
     else {
       try{
         this.work = await firstValueFrom(this.tourService.createWork(this.work));
       }catch (error: any) {
         if (error.status != 200) this.error= "Speichern hat nicht funktioniert!"
-        await this.router.navigate(['/work']);
-        return;
+        setTimeout(async () => {
+          this.error = "";
+          // await this.router.navigate(['/work']);
+          return;
+        }, 1000);
+        // await this.router.navigate(['/work']);
+        // return;
       }
       this.success = "Speichern hat funktioniert!"
-      return;
+      setTimeout(async () => {
+        this.success = "";
+        await this.router.navigate(['/driver_work'],
+          {
+            queryParams: {
+              param1: this.param1
+            }
+          });
+      }, 1000);
     }
 
   }
 
   async clear() {
     if (this.counter == 6) {
-      await firstValueFrom(this.tourService.deleteWork(this.user.username, this.dates));
+      try {
+        await firstValueFrom(this.tourService.deleteWork(this.user.username, this.dates));
+      } catch (error: any) {
+        if (error.status != 200) this.error = "Arbeit konnte nicht gelöscht werden!";
+        setTimeout(() => {
+          this.error = "";
+          return;
+        }, 2000);
+      }
+      this.success = "Arbeit wurde gelöscht.";
+      setTimeout(async () => {
+        this.success = "";
+        await this.router.navigate(['/driver_work'],
+          {
+            queryParams: {
+              param1: this.param1
+            }
+          });
+      }, 1000);
+
+
+
+      // await firstValueFrom(this.tourService.deleteWork(this.user.username, this.dates));
       this.counter = 0;
-      this.success = "Arbeit wurde gelöscht!"
-      await this.router.navigate(['/work']);
-      return;
+      // this.success = "Arbeit wurde gelöscht!"
+
+      // return;
     }
     this.counter ++;
     let c = 7 - this.counter;
     this.error = "Tippe " + c +  " mal zum Löschen!";
+    setTimeout(() => {
+      this.error = "";
+      return;
+    }, 1000);
   }
 
   computeWorktime(){
