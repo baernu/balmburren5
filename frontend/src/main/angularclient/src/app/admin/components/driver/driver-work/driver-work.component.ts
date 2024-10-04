@@ -47,8 +47,6 @@ export class DriverWorkComponent implements OnInit {
     this.work = new WorkDTO();
     this.dates.date = new Date(this.dates.date).toISOString().split('T')[0];
     this.dates = await firstValueFrom(this.tourService.createDates(this.dates));
-    // let user = await firstValueFrom(this.userService.currentUser());
-    // this.user = await firstValueFrom(this.userService.findUser(user.username));
     let work = await firstValueFrom(this.tourService.getWork(this.user.username, this.dates));
     if (work) {
       this.work = work;
@@ -67,10 +65,7 @@ export class DriverWorkComponent implements OnInit {
         setTimeout(async () => {
           this.error = "";
           return;
-          // await this.router.navigate(['/work']);
         }, 2000);
-        // await this.router.navigate(['/work']);
-        // return;
       }
       this.success = "Speichern hat funktioniert!"
       setTimeout(async () => {
@@ -79,10 +74,8 @@ export class DriverWorkComponent implements OnInit {
           {
             queryParams: {
               param1: this.user.username
-            }
-          });
+            }});
       }, 1000);
-      // return;
     }
     else {
       try{
@@ -91,11 +84,8 @@ export class DriverWorkComponent implements OnInit {
         if (error.status != 200) this.error= "Speichern hat nicht funktioniert!"
         setTimeout(async () => {
           this.error = "";
-          // await this.router.navigate(['/work']);
           return;
         }, 1000);
-        // await this.router.navigate(['/work']);
-        // return;
       }
       this.success = "Speichern hat funktioniert!"
       setTimeout(async () => {
@@ -104,11 +94,9 @@ export class DriverWorkComponent implements OnInit {
           {
             queryParams: {
               param1: this.user.username
-            }
-          });
+            }});
       }, 1000);
     }
-
   }
 
   async clear() {
@@ -129,8 +117,7 @@ export class DriverWorkComponent implements OnInit {
           {
             queryParams: {
               param1: this.user.username
-            }
-          });
+            }});
       }, 1000);
 
       this.counter = 0;

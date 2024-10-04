@@ -80,14 +80,12 @@ export class DriverOverviewComponent {
         this.error = "";
         return;
       }, 2000);
-      // return;
     }
     this.success = "OK!";
     setTimeout(() => {
       this.success = "";
       return;
     }, 1000);
-    // return;
   }
 
   async showWork2() {
@@ -104,14 +102,12 @@ export class DriverOverviewComponent {
         this.error = "";
         return;
       }, 2000);
-      // return;
     }
     this.success = "OK!";
     setTimeout(() => {
       this.success = "";
       return;
     }, 1000);
-    // return;
   }
 
   computeTotalWork() {
@@ -133,7 +129,6 @@ export class DriverOverviewComponent {
             this.error = "";
             return;
           }, 2000);
-          // return;
         }
       }
       this.success = "Löschen hat geklappt";
@@ -143,11 +138,8 @@ export class DriverOverviewComponent {
           {
             queryParams: {
               param1: this.user.username
-            }
-          });
-        // this.ngOnInit();
-      }, 1000);
-      // setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
+            }});
+        }, 1000);
     }else {
       this.count ++;
       this.error = "Klicke noch " + (7-this.count) + " mal um zu löschen";
@@ -167,7 +159,6 @@ export class DriverOverviewComponent {
           this.error2 = "";
           return;
         }, 2000);
-        // return;
       }
     }
     this.success2 = "Lohn Auszahlung wurde akualisiert!";
@@ -177,38 +168,39 @@ export class DriverOverviewComponent {
         {
           queryParams: {
             param1: this.user.username
-          }
-        });
+          }});
     }, 1000);
-    // this.ngOnInit();
-    // setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
   }
 
   async deleteUserBindInvoice(driverBindInvoice: DriverBindInvoiceDTO) {
-    try{
-      await firstValueFrom(this.userService.deleteDriverBindInvoiceById(driverBindInvoice));
-    }catch(error:any){
-      if (error.status != 200) {
-        this.error2 = "Lohn Erfassung konnte nicht gelöscht werden!";
-        setTimeout(() => {
-          this.error2 = "";
-          return;
-        }, 2000);
-        // return;
+    if (this.count == 6){
+      try{
+        await firstValueFrom(this.userService.deleteDriverBindInvoiceById(driverBindInvoice));
+      }catch(error:any){
+        if (error.status != 200) {
+          this.error2 = "Lohn Erfassung konnte nicht gelöscht werden!";
+          setTimeout(() => {
+            this.error2 = "";
+            return;
+          }, 2000);
+        }
       }
+      this.success2 = "Lohn Erfassung wurde gelöscht!";
+      setTimeout(async () => {
+        this.success2 = "";
+        await this.router.navigate(['/driver_overview/'],
+          {
+            queryParams: {
+              param1: this.user.username
+            }});
+      }, 1000);
+    }else {
+      this.count ++;
+      this.error2 = "Klicke noch " + (7-this.count) + " mal um zu löschen";
+      setTimeout(() => {
+        this.error2 = "";
+        return;}, 1000);
     }
-    this.success2 = "Lohn Erfassung wurde gelöscht!";
-    setTimeout(async () => {
-      this.success2 = "";
-      await this.router.navigate(['/driver_overview/'],
-        {
-          queryParams: {
-            param1: this.user.username
-          }
-        });
-    }, 1000);
-    // this.ngOnInit();
-    // setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
   }
 
   async createDriverBindInvoice() {
@@ -232,7 +224,6 @@ export class DriverOverviewComponent {
           this.error2 = "";
           return;
         }, 2000);
-        // return;
       }
     }
     this.success2 = "Lohn Erfassung wurde erstellt!";
@@ -242,11 +233,8 @@ export class DriverOverviewComponent {
         {
           queryParams: {
             param1: this.user.username
-          }
-        });
+          }});
     }, 1000);
-    // this.ngOnInit();
-    // setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
   }
 }
 

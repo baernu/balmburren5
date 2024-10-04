@@ -71,12 +71,13 @@
 </div>
 <div class="card my-5">
   <div class="card-body">
+    <div><p>Um den Lohn Betrag zu speichern, den Lohn Betrag eingeben und Enter klicken.</p></div>
     <table class="table table-bordered table-striped  table-sm">
       <thead class="thead-dark">
       <tr>
         <th scope="col">Vorname</th>
         <th scope="col">Nachname</th>
-        <th scope="col">Lohn Betrag</th>
+        <th scope="col">Stunden</th>
         <th scope="col">Lohn Auszahlung</th>
         <th scope="col">Start Datum</th>
         <th scope="col">End Datum</th>
@@ -90,15 +91,16 @@
         <td><input type="number" [(ngModel)]="driverBindInvoice.invoice.paid" (change)="putInvoice(driverBindInvoice)"></td>
         <td>{{driverBindInvoice.dateFrom.date| date:'fullDate' }}</td>
         <td>{{driverBindInvoice.dateTo.date| date:'fullDate' }}</td>
-        <td><button type="button" (click)='deleteUserBindInvoice(driverBindInvoice)' class="btn-light">Löschen</button></td>
+        <td><button type="button" (click)='deleteUserBindInvoice(driverBindInvoice)' class="btn-light" title="Achtung: Lohn Auszahlung wird gelösch.">Löschen</button></td>
       </tr>
       </tbody>
     </table>
+    <div *ngIf="error2" class="alert alert-danger">
+      {{ error2 }}
+    </div>
+    <div *ngIf="success2" class="alert alert-success">
+      {{ success2 }}
+    </div>
   </div>
 </div>
-<div *ngIf="error2" class="alert alert-danger">
-  {{ error2 }}
-</div>
-<div *ngIf="success2" class="alert alert-success">
-  {{ success2 }}
-</div>
+
