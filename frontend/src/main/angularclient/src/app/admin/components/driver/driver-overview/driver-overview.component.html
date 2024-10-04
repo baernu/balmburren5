@@ -3,6 +3,12 @@
 <div class="card my-5">
   <div class="card-body">
     <span style="display:block; height:50px;"></span>
+    <div><p>Um einen User zu suchen, dessen Username eingeben und Enter drücken.
+      <br>Um alle Arbeitszeiten in einem bestimmten Zeitfenster anzuzeigen,
+      <br>zuerst das <b>Start Datum</b> wählen, dann das <b>End Datum</b> wählen.
+      <br>Wird kein End Datum gewählt, wird das aktuelle Datum genommen.
+      <br>Um Lohn Auszahlung zu erstellen, auf <b>Erstelle Lohn Auszahlung</b> klicken.
+      </p></div>
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
@@ -44,14 +50,14 @@
         <td>{{ work.endTime }}</td>
         <td>{{ work.workTime }}</td>
         <td>{{ work.description }}</td>
-        <td><button type="button" (click)='deleteWork(work)' class="btn-light">Löschen</button></td>
+        <td><button type="button" (click)='deleteWork(work)' class="btn-light" title="Achtung beim Löachen geht diese Arbeitszeiterfassung verloren!">Löschen</button></td>
       </tr>
       <tr>
         <td><b>Total Stunden</b></td>
         <td></td>
         <td></td>
         <td>{{ total }}</td>
-        <td><button type="button" (click)='createDriverBindInvoice()' class="btn-light">Erstelle Lohn Auszahlung</button></td>
+        <td><button type="button" (click)='createDriverBindInvoice()' class="btn-light" title="Es wird eine Lohn Auszahlung wie oben dargestellt erstellt.">Erstelle Lohn Auszahlung</button></td>
       </tr>
       </tbody>
     </table>
@@ -84,7 +90,7 @@
         <td><input type="number" [(ngModel)]="driverBindInvoice.invoice.paid" (change)="putInvoice(driverBindInvoice)"></td>
         <td>{{driverBindInvoice.dateFrom.date| date:'fullDate' }}</td>
         <td>{{driverBindInvoice.dateTo.date| date:'fullDate' }}</td>
-        <td><button type="button" (click)='deleteUserBindInvoice(driverBindInvoice)' class="btn-light">delete</button></td>
+        <td><button type="button" (click)='deleteUserBindInvoice(driverBindInvoice)' class="btn-light">Löschen</button></td>
       </tr>
       </tbody>
     </table>

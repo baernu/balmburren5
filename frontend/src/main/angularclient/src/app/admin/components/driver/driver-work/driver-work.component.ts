@@ -75,10 +75,10 @@ export class DriverWorkComponent implements OnInit {
       this.success = "Speichern hat funktioniert!"
       setTimeout(async () => {
         this.success = "";
-        await this.router.navigate(['/driver_work'],
+        await this.router.navigate(['/driver_work/'],
           {
             queryParams: {
-              param1: this.param1
+              param1: this.user.username
             }
           });
       }, 1000);
@@ -100,10 +100,10 @@ export class DriverWorkComponent implements OnInit {
       this.success = "Speichern hat funktioniert!"
       setTimeout(async () => {
         this.success = "";
-        await this.router.navigate(['/driver_work'],
+        await this.router.navigate(['/driver_work/'],
           {
             queryParams: {
-              param1: this.param1
+              param1: this.user.username
             }
           });
       }, 1000);
@@ -125,10 +125,10 @@ export class DriverWorkComponent implements OnInit {
       this.success = "Arbeit wurde gelöscht.";
       setTimeout(async () => {
         this.success = "";
-        await this.router.navigate(['/driver_work'],
+        await this.router.navigate(['/driver_work/'],
           {
             queryParams: {
-              param1: this.param1
+              param1: this.user.username
             }
           });
       }, 1000);
