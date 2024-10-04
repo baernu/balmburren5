@@ -22,6 +22,9 @@
 <div class="card my-5">
   <div class="card-body">
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <div><p>Klicke auf den <b>Username</b> um dessen Rechnungen anzuzeigen.
+        <br>Klicke auf die <b>Check-Box</b> um eine neue Rechnung für diesen User zu erstellen,
+        <br>und wähle dann <b>Start Datum</b> und <b>End Datum</b> und klicke <b>Neue Rechnung</b>.</p></div>
       <thead class="thead-dark">
       <tr>
         <th scope="col">Check</th>
@@ -32,8 +35,6 @@
       </tr>
       </thead>
       <tbody>
-      <div><p>Klicke auf den Username um dessen Rechnungen anzuzeigen. <br> Klicke auf die Box um eine neue Rechnung für diesen User zu erstellen, und wähle dann das Zeitfenster.</p></div>
-<!--            <p>Klicke auf die Box um eine neue Rechnung für diesen User zu erstellen.</p></div>-->
       <tr *ngFor="let invoice of invoices">
         <td><div class="form-check">
           <input class="form-check-input" type="checkbox" value="{{invoice.isChecked}}" [(ngModel)]="invoice.isChecked" title="Wähle User für neue Rechnungen1">
