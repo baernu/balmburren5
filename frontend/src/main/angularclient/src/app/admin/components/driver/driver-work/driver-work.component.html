@@ -35,11 +35,12 @@
       <button type="button" (click)='apply()' class="btn-light">Speichern</button>
       <button type="button" (click)='clear()' class="btn-light">Löschen</button>
     </table>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    <div *ngIf="success" class="alert alert-success">
+      {{ success }}
+    </div>
   </div>
 </div>
-<div *ngIf="error" class="alert alert-danger">
-  {{ error }}
-</div>
-<div *ngIf="success" class="alert alert-success">
-  {{ success }}
-</div>
+

@@ -133,21 +133,16 @@ export class DriverWorkComponent implements OnInit {
           });
       }, 1000);
 
-
-
-      // await firstValueFrom(this.tourService.deleteWork(this.user.username, this.dates));
       this.counter = 0;
-      // this.success = "Arbeit wurde gelöscht!"
-
-      // return;
+    } else {
+      this.counter ++;
+      let c = 7 - this.counter;
+      this.error = "Tippe " + c +  " mal zum Löschen!";
+      setTimeout(() => {
+        this.error = "";
+        return;
+      }, 1000);
     }
-    this.counter ++;
-    let c = 7 - this.counter;
-    this.error = "Tippe " + c +  " mal zum Löschen!";
-    setTimeout(() => {
-      this.error = "";
-      return;
-    }, 1000);
   }
 
   computeWorktime(){
