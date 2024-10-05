@@ -1,4 +1,4 @@
-package com.messerli.balmburren.entities;
+package com.messerli.balmburren.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

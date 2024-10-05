@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {ProductDTO} from "./ProductDTO";
 import {ProductDetailsDTO} from "./ProductDetailsDTO";
 import {ProductBindInfosDTO} from "./ProductBindInfosDTO";
+import {CardDTO} from "./cardDTO";
 
 
 @Injectable({
@@ -16,12 +17,14 @@ export class ProductService {
   private readonly productDetailsUrl: string;
   private readonly productBindDetailsUrl: string;
   private readonly resetUrl: string;
+  private readonly cardUrl: string;
 
   constructor(private http: HttpClient) {
     this.productUrl = this.baseUrl + 'pr/product/';
     this.productDetailsUrl = this.baseUrl + 'pr/product/details/';
     this.productBindDetailsUrl = this.baseUrl + 'pr/product/bind/infos/';
     this.resetUrl = this.baseUrl + 're/reset/';
+    this.cardUrl = this.baseUrl + 'cd/card/';
 
 
   }
@@ -91,4 +94,16 @@ export class ProductService {
 
   public resetWithFlyway():Observable<string> {
     return this.http.get<string>(this.resetUrl, {withCredentials: true});}
+
+  public saveCard(cardDTO: CardDTO):Observable<CardDTO> {
+    return this.http.post<CardDTO>(this.cardUrl, {withCredentials: true});}
+
+  public deleteCard(cardDTO: CardDTO):Observable<CardDTO> {
+    return this.http.patch<CardDTO>(this.cardUrl, {withCredentials: true});}
+
+  public findCard(header: string, subheader: string):Observable<CardDTO> {
+    return this.http.get<CardDTO>(this.cardUrl + header + '/' + subheader,{withCredentials: true});}
+
+  public edistCard(header: string, subheader: string):Observable<CardDTO> {
+    return this.http.get<CardDTO>(this.cardUrl + 'exist/' + header + '/' + subheader,{withCredentials: true});}
 }

@@ -1,7 +1,7 @@
 package com.messerli.balmburren.controllers;
 
 import com.messerli.balmburren.android.Client;
-import com.messerli.balmburren.entities.ByteDTO;
+import com.messerli.balmburren.dtos.ByteDTO;
 import com.messerli.balmburren.services.CronService;
 import com.messerli.balmburren.util.EmailData;
 import com.messerli.balmburren.util.QRInvoice;
