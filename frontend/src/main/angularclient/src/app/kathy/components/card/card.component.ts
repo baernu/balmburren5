@@ -9,4 +9,13 @@ import {CardDTO} from "../../../admin/components/product/service/cardDTO";
 export class CardComponent {
   card: CardDTO = new CardDTO();
 
+
+  async cardSend() {
+
+  }
+
+  async uploadFile(event: Event) {
+  }
+
+
 }

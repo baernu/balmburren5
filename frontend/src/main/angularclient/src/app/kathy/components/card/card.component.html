@@ -3,7 +3,7 @@
 <div class="card">
 <div class="card-body">
   <div class="input-group mb-3 w-100 h-25">
-    <form (ngSubmit)="card()" #cardForm="ngForm">
+    <form (ngSubmit)="cardSend()" #cardForm="ngForm">
       <div class="form-group">
         <label for="header">Titel</label>
         <input type="text"  [(ngModel)]="card.header"
