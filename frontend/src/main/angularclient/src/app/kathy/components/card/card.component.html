@@ -1,0 +1,57 @@
+<app-kathy-header></app-kathy-header>
+<router-outlet></router-outlet>
+<div class="card">
+<div class="card-body">
+  <div class="input-group mb-3 w-100 h-25">
+    <form (ngSubmit)="card()" #cardForm="ngForm">
+      <div class="form-group">
+        <label for="header">Titel</label>
+        <input type="text"  [(ngModel)]="card.header"
+               class="form-control"
+               id="header"
+               name="header"
+               placeholder="Titel"
+               required #header="ngModel">
+      </div>
+      <div [hidden]="!header.pristine" class="alert alert-danger">Titel wird benötigt</div>
+      <div class="form-group">
+        <label for="subheader">Untertitel</label>
+        <input type="text"  [(ngModel)]="card.subheader"
+               class="form-control"
+               id="subheader"
+               name="subheader"
+               placeholder="Untertitel">
+
+      </div>
+      <div class="form-group">
+        <label for="body">Text</label>
+        <input type="text"  [(ngModel)]="card.text"
+               class="form-control"
+               id="body"
+               name="body"
+               placeholder="Text"
+               required #body="ngModel">
+      </div>
+      <div [hidden]="!body.pristine" class="alert alert-danger">Text wird benötigt</div>
+      <div class="form-group">
+        <label for="subtext">Subtext</label>
+        <input type="text"  [(ngModel)]="card.subtext"
+               class="form-control"
+               id="subtext"
+               name="subtext"
+               placeholder="Subtext">
+
+      </div>
+      <div class="form-group">
+        <label for="file">Bild (JPEG)</label>
+        <input type="file" [(ngModel)]="card.base64"
+               class="form-control"
+               id="file"
+               name="file" (change)="uploadFile($event)">
+      </div>
+      <button type="submit" [disabled]="!cardForm.form.valid"
+              class="btn btn-info" title="JPEG Bild hochladen.">Bild hochladen</button>
+    </form>
+  </div>
+</div>
+</div>

@@ -15,7 +15,7 @@ public class CardServiceImpl implements CardService {
 
     private final CardRepo cardRepo;
 
-    public CardServiceImpl(CardService cardService, CardRepo cardRepo) {
+    public CardServiceImpl( CardRepo cardRepo) {
         this.cardRepo = cardRepo;
     }
 

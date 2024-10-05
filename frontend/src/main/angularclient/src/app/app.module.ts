@@ -29,6 +29,7 @@ import { PricesComponent } from './links/prices/prices.component';
 import { DeliveryComponent } from './links/delivery/delivery.component';
 import { ActualComponent } from './links/actual/actual.component';
 import { ContactComponent } from './links/contact/contact.component';
+import { CardComponent } from './kathy/components/card/card.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { ContactComponent } from './links/contact/contact.component';
     DeliveryComponent,
     ActualComponent,
     ContactComponent,
+    CardComponent,
 
   ],
     imports: [
