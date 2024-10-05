@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 @Transactional
@@ -26,7 +27,13 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public Optional<Card> existByHeaderAndSubheader(String header, String subheader) {
+    public List<Card> findAllActive(boolean isactive) {
+
+        return cardRepo.findAllByIsactive(isactive);
+    }
+
+    @Override
+    public boolean existByHeaderAndSubheader(String header, String subheader) {
 
         return cardRepo.existsByHeaderAndSubheader(header, subheader);
     }

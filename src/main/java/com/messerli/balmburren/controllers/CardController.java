@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -43,7 +44,13 @@ public class CardController {
 
     @CrossOrigin( allowCredentials = "true")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
+    @GetMapping("card/isactive/{isactive}")
+    ResponseEntity<List<Card>> findAllActive(@PathVariable("isactive") boolean isactive) {
+        return ResponseEntity.ok().body(cardService.findAllActive(isactive));}
+
+    @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @GetMapping("card/exist/{header}/{subheader}")
-    ResponseEntity<Optional<Card>> existCardbyHeaderAndSubheader(@PathVariable("header") String header, @PathVariable("subheader") String subheader) {
+    ResponseEntity<Boolean> existCardbyHeaderAndSubheader(@PathVariable("header") String header, @PathVariable("subheader") String subheader) {
         return ResponseEntity.ok().body(cardService.existByHeaderAndSubheader(header, subheader));}
 }

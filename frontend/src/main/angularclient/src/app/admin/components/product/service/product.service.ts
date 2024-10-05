@@ -104,6 +104,9 @@ export class ProductService {
   public findCard(header: string, subheader: string):Observable<CardDTO> {
     return this.http.get<CardDTO>(this.cardUrl + header + '/' + subheader,{withCredentials: true});}
 
-  public edistCard(header: string, subheader: string):Observable<CardDTO> {
-    return this.http.get<CardDTO>(this.cardUrl + 'exist/' + header + '/' + subheader,{withCredentials: true});}
+  public findAllActiveCards(isactive: boolean):Observable<CardDTO[]> {
+    return this.http.get<CardDTO[]>(this.cardUrl  + 'isactive/' + isactive,{withCredentials: true});}
+
+  public existCard(header: string, subheader: string):Observable<Boolean> {
+    return this.http.get<Boolean>(this.cardUrl + 'exist/' + header + '/' + subheader,{withCredentials: true});}
 }

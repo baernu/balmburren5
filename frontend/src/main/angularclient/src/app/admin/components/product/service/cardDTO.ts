@@ -6,5 +6,6 @@ export class CardDTO {
   text: string = "";
   subtext: string = "";
   base64: string = "";
+  isactive: boolean = false;
 
 }

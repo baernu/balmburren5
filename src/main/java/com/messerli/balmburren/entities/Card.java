@@ -22,5 +22,6 @@ public class Card {
     private String subheader;
     private String text;
     private String subtext;
+    private boolean isactive;
 
 }
