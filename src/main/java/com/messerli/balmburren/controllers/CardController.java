@@ -25,31 +25,31 @@ public class CardController {
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN','KATHY')")
     @PostMapping("card/")
     ResponseEntity<Optional<Card>> createCard(@RequestBody Card card) {
         return ResponseEntity.ok().body(cardService.saveCard(card));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN','KATHY')")
     @PatchMapping("card/")
     ResponseEntity<Optional<Card>> deleteCard(@RequestBody Card card) {
         return ResponseEntity.ok().body(cardService.delete(card));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'KATHY')")
     @GetMapping("card/{header}/{subheader}")
     ResponseEntity<Optional<Card>> findCardbyHeaderAndSubheader(@PathVariable("header") String header, @PathVariable("subheader") String subheader) {
         return ResponseEntity.ok().body(cardService.findByHeaderAndSubheader(header, subheader));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN','KATHY')")
     @GetMapping("card/isactive/{isactive}")
     ResponseEntity<List<Card>> findAllActive(@PathVariable("isactive") boolean isactive) {
         return ResponseEntity.ok().body(cardService.findAllActive(isactive));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN','KATHY')")
     @GetMapping("card/exist/{header}/{subheader}")
     ResponseEntity<Boolean> existCardbyHeaderAndSubheader(@PathVariable("header") String header, @PathVariable("subheader") String subheader) {
         return ResponseEntity.ok().body(cardService.existByHeaderAndSubheader(header, subheader));}

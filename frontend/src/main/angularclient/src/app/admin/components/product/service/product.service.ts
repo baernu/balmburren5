@@ -96,10 +96,10 @@ export class ProductService {
     return this.http.get<string>(this.resetUrl, {withCredentials: true});}
 
   public saveCard(cardDTO: CardDTO):Observable<CardDTO> {
-    return this.http.post<CardDTO>(this.cardUrl, {withCredentials: true});}
+    return this.http.post<CardDTO>(this.cardUrl, cardDTO,{withCredentials: true});}
 
   public deleteCard(cardDTO: CardDTO):Observable<CardDTO> {
-    return this.http.patch<CardDTO>(this.cardUrl, {withCredentials: true});}
+    return this.http.patch<CardDTO>(this.cardUrl, cardDTO,{withCredentials: true});}
 
   public findCard(header: string, subheader: string):Observable<CardDTO> {
     return this.http.get<CardDTO>(this.cardUrl + header + '/' + subheader,{withCredentials: true});}

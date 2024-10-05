@@ -53,5 +53,11 @@
               class="btn btn-info" title="JPEG Bild hochladen.">Bild hochladen</button>
     </form>
   </div>
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+  <div *ngIf="success" class="alert alert-success">
+    {{ success }}
+  </div>
 </div>
 </div>

@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import {CardDTO} from "../../../admin/components/product/service/cardDTO";
 
+import {Router} from "@angular/router";
+import {ProductService} from "../../../admin/components/product/service/product.service";
+import {firstValueFrom} from "rxjs";
+
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -8,49 +12,58 @@ import {CardDTO} from "../../../admin/components/product/service/cardDTO";
 })
 export class CardComponent {
   card: CardDTO = new CardDTO();
+  error: string = "";
+  success: string = "";
+
+  constructor(
+    private productService: ProductService,
+    private router: Router){
+    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+      return false;
+    };
+  }
 
 
   async cardSend() {
-
+    try {
+      await firstValueFrom(this.productService.saveCard(this.card));
+    }catch(error: any){
+      if(error.status != 200){
+        this.error = "Speichern hat nicht funktioniert!";
+        setTimeout(async () => {
+          this.success = "";
+          this.error = "";
+          return;
+        }, 2000);
+      }
+    }
+    this.success = "Speichern hat funktioniert.";
+    setTimeout(async () => {
+      this.success = "";
+      this.error = "";
+      return;
+    }, 1000);
   }
 
   async uploadFile(event: Event) {
-    const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];  // Get the first file (JPEG file in this case)
-
-      const base64String = await this.convertArrayBufferToBase64(file);
-      this.card.base64 = base64String;
-
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+    if (fileList) {
+      this.card.base64 = <string>await this.returnBase64String(fileList[0]);
     }
   }
 
-  private convertArrayBufferToBase64(file: File): Promise<string> {
+  async returnBase64String(file: File) {
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.readAsArrayBuffer(file);
-
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
       reader.onload = () => {
-        const arrayBuffer = reader.result as ArrayBuffer;
-        const base64String = this.arrayBufferToBase64(arrayBuffer);
-        resolve(base64String);
+        resolve(reader.result);
       };
-
-      reader.onerror = (error) => {
-        reject(error);
-      };
-    });
+      reader.onerror = reject;
+    })
   }
 
-  private arrayBufferToBase64(buffer: ArrayBuffer): string {
-    const bytes = new Uint8Array(buffer);
-    let binary = '';
-    for (let i = 0; i < bytes.byteLength; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return btoa(binary);  // Convert binary string to base64
-  }
+
 
 }
