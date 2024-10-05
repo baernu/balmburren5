@@ -15,6 +15,11 @@ import {DriverComponent} from "./driver/components/driver/driver.component";
 import {DriverGuard} from "./guard/driver_guard/driver.guard";
 import {WorkComponent} from "./driver/components/work/work.component";
 import {WagepaymentComponent} from "./driver/components/wagepayment/wagepayment.component";
+import {ProductsComponent} from "./links/products/products.component";
+import {PricesComponent} from "./links/prices/prices.component";
+import {DeliveryComponent} from "./links/delivery/delivery.component";
+import {ContactComponent} from "./links/contact/contact.component";
+import {ActualComponent} from "./links/actual/actual.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
@@ -22,6 +27,11 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
   { path: 'logout', component: LogoutComponent},
+  { path: 'products', component: ProductsComponent},
+  { path: 'prices', component: PricesComponent},
+  { path: 'delivery', component: DeliveryComponent},
+  { path: 'contact', component: ContactComponent},
+  { path: 'actual', component: ActualComponent},
   {path: 'admin', component: AdminDashboardComponent,
     canActivate: [AuthGuardGuard]},
   {path: 'basic_order', component: OrderComponent,

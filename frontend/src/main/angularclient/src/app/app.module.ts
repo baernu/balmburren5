@@ -24,6 +24,11 @@ import {KathyModule} from "./kathy/kathy/kathy.module";
 import { WorkComponent } from './driver/components/work/work.component';
 import { WagepaymentComponent } from './driver/components/wagepayment/wagepayment.component';
 import { FrontComponent } from './components/front/front.component';
+import { ProductsComponent } from './links/products/products.component';
+import { PricesComponent } from './links/prices/prices.component';
+import { DeliveryComponent } from './links/delivery/delivery.component';
+import { ActualComponent } from './links/actual/actual.component';
+import { ContactComponent } from './links/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +47,11 @@ import { FrontComponent } from './components/front/front.component';
     WorkComponent,
     WagepaymentComponent,
     FrontComponent,
+    ProductsComponent,
+    PricesComponent,
+    DeliveryComponent,
+    ActualComponent,
+    ContactComponent,
 
   ],
     imports: [
