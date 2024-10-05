@@ -7,7 +7,6 @@ import {firstValueFrom} from "rxjs";
 import {ProductService} from "../../admin/components/product/service/product.service";
 import {UserDTO} from "../user/service/userDTO";
 import {TourDTO} from "../../admin/components/tour/service/TourDTO";
-import {ErrorHandlingService} from "../error_handling/error-handling.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
@@ -28,7 +27,6 @@ export class UserorderprofileComponent {
     private tourService: TourServiceService,
     private userService: UserService,
     private productService: ProductService,
-    private errorHandlingService: ErrorHandlingService,
     private route: ActivatedRoute,
     private router: Router,
     ){

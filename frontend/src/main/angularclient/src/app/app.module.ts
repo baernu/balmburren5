@@ -23,6 +23,7 @@ import {DriverModule} from "./driver/driver/driver.module";
 import {KathyModule} from "./kathy/kathy/kathy.module";
 import { WorkComponent } from './driver/components/work/work.component';
 import { WagepaymentComponent } from './driver/components/wagepayment/wagepayment.component';
+import { FrontComponent } from './components/front/front.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,8 @@ import { WagepaymentComponent } from './driver/components/wagepayment/wagepaymen
     SettingsComponent,
     WorkComponent,
     WagepaymentComponent,
+    FrontComponent,
+
   ],
     imports: [
         BrowserModule,

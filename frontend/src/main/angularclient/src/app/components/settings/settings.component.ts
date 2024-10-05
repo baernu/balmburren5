@@ -3,7 +3,6 @@ import {UserBindPhoneDTO} from "../user/service/UserBindPhoneDTO";
 import {AddressDTO} from "../user/service/addressDTO";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../user/service/user-service.service";
-import {ErrorHandlingService} from "../error_handling/error-handling.service";
 import {UserDTO} from "../user/service/userDTO";
 import {firstValueFrom} from "rxjs";
 import {UserBindDeliverAddressDTO} from "../user/service/userBindDeliverAddressDTO";
@@ -31,7 +30,6 @@ export class SettingsComponent {
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    private errorHandlingService: ErrorHandlingService,
     private emailService: EmailService,
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => {

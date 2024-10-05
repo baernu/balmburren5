@@ -2,9 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../../components/user/service/user-service.service';
 import { UserDTO } from '../../../../components/user/service/userDTO';
-import {AuthenticateDTO} from "../../../../components/user/service/authenticateDTO";
 import {firstValueFrom} from "rxjs";
-import {ErrorHandlingService} from "../../../../components/error_handling/error-handling.service";
 
 @Component({
   selector: 'app-user-form',
