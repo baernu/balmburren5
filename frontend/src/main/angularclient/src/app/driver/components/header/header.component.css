@@ -3,3 +3,22 @@
   text-align: center;
   color: white;
 }
+.dropdown-menu {
+  display: none;
+  position: absolute; /* Ensure it overlays properly */
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+  transition: visibility 0s, opacity 0.15s linear;
+}
+/* Show dropdown on hover */
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0; /* Ensure the dropdown appears in the right place */
+}
+
+/* Optional: Adjust the caret or the dropdown-toggle class to indicate hover */
+.nav-item.dropdown .dropdown-toggle::after {
+  display: none; /* Remove the caret if needed */
+}

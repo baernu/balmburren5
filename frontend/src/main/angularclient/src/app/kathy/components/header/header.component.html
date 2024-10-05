@@ -1,5 +1,5 @@
 <div class = "page-header bg-dark">
-  <h4>Balmburren</h4><p>{{user.username}}</p>
+  <h4>Balmburren</h4><p>{{user.username}} {{pathname}}</p>
 </div>
 <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Fourth navbar example">
   <div class="container-fluid">
@@ -27,7 +27,7 @@
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle show" href="admin" data-bs-toggle="dropdown" aria-expanded="true" (click)="change()">User Settings</a>
+          <a class="nav-link dropdown-toggle show" href="admin" data-bs-toggle="dropdown" aria-expanded="true">User Settings</a>
           <ul class="dropdown-menu show" data-bs-popper="static">
             <li><a class="dropdown-item" href="kathy_user_list">List user</a></li>
           </ul>

@@ -11,18 +11,20 @@ import {Router} from "@angular/router";
 })
 export class HeaderComponent {
   user: UserDTO = new UserDTO();
+  pathname: string = "";
 
   constructor(
     private userService: UserService,
     private router: Router){}
 
   async ngOnInit(): Promise<void> {
-    let username = localStorage.getItem('username');
-    if (username)
-      this.user = await firstValueFrom(this.userService.findUser(username));
+    let user = await firstValueFrom(this.userService.currentUser());
+    if (user.username)
+      this.user = user;
+    this.pathname = location.pathname;
   }
 
-  change() {
-    this.router.navigate(['driver']);
-  }
+  // change() {
+  //   this.router.navigate(['driver']);
+  // }
 }

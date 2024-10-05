@@ -21,7 +21,8 @@ export class HeaderComponent {
     // let username = localStorage.getItem("username");
     // if (username)
     //   this.user = await firstValueFrom(this.userService.findUser(username));
-    this.user = await firstValueFrom(this.userService.currentUser());
+    let user = await firstValueFrom(this.userService.currentUser());
+    if (user.username)this.user = user;
     this.pathname = location.pathname;
   }
 
