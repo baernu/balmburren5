@@ -28,7 +28,6 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'logout', component: LogoutComponent},
   { path: 'products', component: ProductsComponent},
-  { path: 'prices', component: PricesComponent},
   { path: 'delivery', component: DeliveryComponent},
   { path: 'contact', component: ContactComponent},
   { path: 'actual', component: ActualComponent},

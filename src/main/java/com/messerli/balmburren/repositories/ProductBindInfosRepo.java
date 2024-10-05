@@ -13,5 +13,6 @@ public interface ProductBindInfosRepo extends JpaRepository<ProductBindProductDe
     boolean existsByProductAndProductDetails(Product product, ProductDetails productDetails);
     Optional<List<ProductBindProductDetails>> findAllByProduct(Product product);
     Optional<ProductBindProductDetails> findById(Long id);
+    List<ProductBindProductDetails> findAllByIsChecked(boolean bool);
 
 }

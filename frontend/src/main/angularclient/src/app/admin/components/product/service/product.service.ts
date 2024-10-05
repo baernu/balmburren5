@@ -68,6 +68,9 @@ export class ProductService {
   public putProductBindInfos(productBindInfos: ProductBindInfosDTO):Observable<ProductBindInfosDTO> {
     return this.http.put<ProductBindInfosDTO>(this.productBindDetailsUrl, productBindInfos,{withCredentials: true});}
 
+  public getProductBindInfosisChecked(bool: boolean):Observable<ProductBindInfosDTO[]> {
+    return this.http.get<ProductBindInfosDTO[]>(this.productBindDetailsUrl + 'ischecked/' + bool , {withCredentials: true});}
+
   public getProductBindInfos(product: ProductDTO, productDetails: ProductDetailsDTO):Observable<ProductBindInfosDTO> {
     return this.http.get<ProductBindInfosDTO>(this.productBindDetailsUrl + product.name + '/' + productDetails.id , {withCredentials: true});}
 

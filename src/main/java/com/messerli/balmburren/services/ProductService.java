@@ -16,6 +16,10 @@ public interface ProductService {
     Optional<ProductDetails> saveProductDetails(ProductDetails productDetails);
     Optional<ProductDetails> getProductDetails(Long id);
     Optional<List<ProductDetails>> getAllProductDetailsForCategory(String category);
+
+
+    List<ProductBindProductDetails> getAllProductDetailsisChecked(boolean bool);
+
     Optional<List<ProductDetails>> getAllProductDetails();
 
 

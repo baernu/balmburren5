@@ -141,6 +141,11 @@ public class ProductController {
         return ResponseEntity.ok().body(getProductBindInfo(name, id, 1));}
 
     @CrossOrigin( allowCredentials = "true")
+    @GetMapping("product/bind/infos/ischecked/{bool}")
+    ResponseEntity<List<ProductBindProductDetails>> getProductBindInfosisChecked(@PathVariable("bool") Boolean bool) {
+        return ResponseEntity.ok().body(productService.getAllProductDetailsisChecked(bool));}
+
+    @CrossOrigin( allowCredentials = "true")
     @PreAuthorize("isAuthenticated()")
     @GetMapping("product/bind/infos/exist/{product}/{productdetails}")
     ResponseEntity<Boolean> isProductBindInfos(@PathVariable("product") String name, @PathVariable("productdetails") Long id) {

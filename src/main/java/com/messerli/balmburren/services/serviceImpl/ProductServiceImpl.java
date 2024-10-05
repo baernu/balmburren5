@@ -24,6 +24,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDetailsRepo productDetailsRepo;
     private final ProductBindInfosRepo productBindInfosRepo;
 
+
+
     public ProductServiceImpl(ProductRepo productRepo, ProductDetailsRepo productDetailsRepo, ProductBindInfosRepo productBindInfosRepo) {
         this.productRepo = productRepo;
         this.productDetailsRepo = productDetailsRepo;
@@ -81,6 +83,12 @@ public class ProductServiceImpl implements ProductService {
     public Optional<List<ProductDetails>> getAllProductDetailsForCategory(String category) {
         Optional<List<ProductDetails>> list = productDetailsRepo.findAllByCategory(category);
         log.info("Get all ProductDetails: {} for Category: {}", list.get(), category);
+        return list;
+    }
+
+    @Override
+    public List<ProductBindProductDetails> getAllProductDetailsisChecked(boolean bool) {
+        List<ProductBindProductDetails> list = productBindInfosRepo.findAllByIsChecked(bool);
         return list;
     }
 
