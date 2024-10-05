@@ -7,4 +7,14 @@ import { Component } from '@angular/core';
 })
 export class FrontComponent {
 
+
+
+  products(){
+  }
+  prices(){
+  }
+  actual(){
+  }
+  contact(){
+  }
 }
