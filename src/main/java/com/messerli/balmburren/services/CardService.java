@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface CardService {
     Optional<Card> findByHeaderAndSubheader(String header, String subheader);
 
+    Optional<Card> findById(Long id);
+
     List<Card> findAllActive(boolean isactive);
 
     boolean existByHeaderAndSubheader(String header, String subheader);
@@ -15,4 +17,6 @@ public interface CardService {
     Optional<Card> saveCard(Card card);
 
     Optional<Card> delete(Card card);
+
+    List<Card> findAll();
 }

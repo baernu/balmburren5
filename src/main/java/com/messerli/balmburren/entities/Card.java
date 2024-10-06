@@ -17,11 +17,12 @@ public class Card {
     @Version
     @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
     private Long version = 0L;
-    private String base64;
     private String header;
     private String subheader;
     private String text;
     private String subtext;
+    private String url;
+    private String imageText;
     private boolean isactive;
 
 }

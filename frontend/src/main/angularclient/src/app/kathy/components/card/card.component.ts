@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {CardDTO} from "../../../admin/components/product/service/cardDTO";
 
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ProductService} from "../../../admin/components/product/service/product.service";
 import {firstValueFrom} from "rxjs";
 
@@ -14,17 +14,25 @@ export class CardComponent {
   card: CardDTO = new CardDTO();
   error: string = "";
   success: string = "";
+  param1: string | null = "";
 
   constructor(
     private productService: ProductService,
-    private router: Router){
+    private router: Router,
+    private route: ActivatedRoute){
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
   }
 
+  async ngOnInit(): Promise<void> {
 
-  async cardSend() {
+    this.param1 = this.route.snapshot.queryParamMap.get('param1');
+    if (this.param1 != null) this.card = await firstValueFrom(this.productService.findCardById(this.param1));
+  }
+
+
+  async cardPut() {
     try {
       await firstValueFrom(this.productService.saveCard(this.card));
     }catch(error: any){
@@ -43,25 +51,6 @@ export class CardComponent {
       this.error = "";
       return;
     }, 1000);
-  }
-
-  async uploadFile(event: Event) {
-    const element = event.currentTarget as HTMLInputElement;
-    let fileList: FileList | null = element.files;
-    if (fileList) {
-      this.card.base64 = <string>await this.returnBase64String(fileList[0]);
-    }
-  }
-
-  async returnBase64String(file: File) {
-    return new Promise((resolve, reject) => {
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.onerror = reject;
-    })
   }
 
 

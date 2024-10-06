@@ -27,6 +27,12 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
+    public Optional<Card> findById(Long id) {
+
+        return cardRepo.findById(id);
+    }
+
+    @Override
     public List<Card> findAllActive(boolean isactive) {
 
         return cardRepo.findAllByIsactive(isactive);
@@ -48,5 +54,10 @@ public class CardServiceImpl implements CardService {
     public Optional<Card> delete(Card card) {
         cardRepo.delete(card);
         return Optional.of(card);
+    }
+
+    @Override
+    public List<Card> findAll() {
+        return cardRepo.findAll();
     }
 }

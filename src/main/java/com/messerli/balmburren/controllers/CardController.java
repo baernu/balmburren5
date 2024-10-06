@@ -37,10 +37,21 @@ public class CardController {
         return ResponseEntity.ok().body(cardService.delete(card));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN','KATHY')")
+    @GetMapping("card/")
+    ResponseEntity<List<Card>> getAllCards() {
+        return ResponseEntity.ok().body(cardService.findAll());}
+
+    @CrossOrigin( allowCredentials = "true")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'KATHY')")
     @GetMapping("card/{header}/{subheader}")
     ResponseEntity<Optional<Card>> findCardbyHeaderAndSubheader(@PathVariable("header") String header, @PathVariable("subheader") String subheader) {
         return ResponseEntity.ok().body(cardService.findByHeaderAndSubheader(header, subheader));}
+    @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'KATHY')")
+    @GetMapping("card/{id}")
+    ResponseEntity<Optional<Card>> findCardbyId( @PathVariable("id") String id) {
+        return ResponseEntity.ok().body(cardService.findById(Long.valueOf(id)));}
 
     @CrossOrigin( allowCredentials = "true")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN','KATHY')")

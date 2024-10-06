@@ -5,7 +5,8 @@ export class CardDTO {
   subheader: string = "";
   text: string = "";
   subtext: string = "";
-  base64: string = "";
+  url: string = "";
+  imageText: string = "";
   isactive: boolean = false;
 
 }

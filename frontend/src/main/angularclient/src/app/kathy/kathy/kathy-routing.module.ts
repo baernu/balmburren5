@@ -6,6 +6,7 @@ import {UserSettingsComponent} from "../components/user-settings/user-settings.c
 import {UserorderedKathyComponent} from "../components/user-settings/userordered-kathy/userordered-kathy.component";
 import {UserorderKathyComponent} from "../components/user-settings/userorder-kathy/userorder-kathy.component";
 import {CardComponent} from "../components/card/card.component";
+import {CardOverviewComponent} from "../components/card-overview/card-overview.component";
 
 const routes: Routes = [
   {path: 'kathy', component: KathyComponent,
@@ -17,6 +18,8 @@ const routes: Routes = [
   {path: 'kathy_users_order', component: UserorderKathyComponent,
     canActivate: [KathyGuard]},
   {path: 'kathy_card', component: CardComponent,
+    canActivate: [KathyGuard]},
+  {path: 'kathy_card_overview', component: CardOverviewComponent,
     canActivate: [KathyGuard]},
 ];
 
