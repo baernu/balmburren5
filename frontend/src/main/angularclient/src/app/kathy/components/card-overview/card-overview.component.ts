@@ -19,4 +19,24 @@ export class CardOverviewComponent {
   async ngOnInit() {
     this.cards = await firstValueFrom(this.productService.findAllCards());
   }
+
+  async update(card: CardDTO) {
+    this.router.navigate(['kathy_card/'],
+      {
+        queryParams: {
+          param1: card.id
+        }
+      });
+  }
+
+  async delete(card: CardDTO) {
+    await firstValueFrom(this.productService.deleteCard(card));
+    this.router.navigate(['kathy_card_overview']);
+  }
+
+  async save(card: CardDTO){
+    if(card.isactive)card.isactive = false;
+    else card.isactive = true;
+    card = await firstValueFrom(this.productService.saveCard(card));
+  }
 }

@@ -93,7 +93,7 @@
         <td>{{userBindInvoice.personInvoice.username}}</td>
         <td>{{userBindInvoice.personDeliver.username}}</td>
         <td>{{userBindInvoice.invoice.amount| number : '1.2-2'}}</td>
-        <td><input type="number" value="{{userBindInvoice.invoice.paid| number : '1.2-2'}}" ([ngModel])="userBindInvoice.invoice.paid" (change)="saveInvoice(userBindInvoice)"></td>
+        <td><input type="number" value="{{userBindInvoice.invoice.paid| number : '1.2-2'}}" [(ngModel)]="userBindInvoice.invoice.paid" (change)="saveInvoice(userBindInvoice)"></td>
         <td><input type="checkbox" value="{{userBindInvoice.invoice.isPaid}}" [(ngModel)]="userBindInvoice.invoice.isPaid" (click)="saveInvoice1(userBindInvoice)"></td>
         <td><input type="checkbox" value="{{userBindInvoice.invoice.isSent}}" [(ngModel)]="userBindInvoice.invoice.isSent" (click)="saveInvoice2(userBindInvoice)"></td>
         <td>{{userBindInvoice.dateFrom.date| date:'fullDate' }}</td>
