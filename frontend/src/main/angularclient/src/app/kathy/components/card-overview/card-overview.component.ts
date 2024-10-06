@@ -31,7 +31,8 @@ export class CardOverviewComponent {
 
   async delete(card: CardDTO) {
     await firstValueFrom(this.productService.deleteCard(card));
-    this.router.navigate(['kathy_card_overview']);
+    this.ngOnInit();
+    // this.router.navigate(['kathy_card_overview']);
   }
 
   async save(card: CardDTO){
