@@ -62,10 +62,16 @@ export class UserTourComponent {
   async ngOnInit(): Promise<void> {
     this.tours = await firstValueFrom(this.tourService.getTours());
     let productBindInfos = await firstValueFrom(this.productService.getAllProductBindInfos());
-    productBindInfos = this.checkIfProductBindInfosActive(productBindInfos);
-    for (let pBI of productBindInfos){
-      // pBI = await firstValueFrom(this.productService.getProductBindInfosById(parseInt(pBI.id)));
+    let productBindInfos1 = this.checkIfProductBindInfosActive(productBindInfos);
+    for (let pBI of productBindInfos1){
+      pBI = await firstValueFrom(this.productService.getProductBindInfosById(parseInt(pBI.id)));
       pBI.isChecked = true;
+      await firstValueFrom(this.productService.putProductBindInfos(pBI));
+    }
+    let productBindInfosPassive = this.checkIfProductBindInfosPassive(productBindInfos);
+    for (let pBI of productBindInfosPassive){
+      pBI = await firstValueFrom(this.productService.getProductBindInfosById(parseInt(pBI.id)));
+      pBI.isChecked = false;
       await firstValueFrom(this.productService.putProductBindInfos(pBI));
     }
   }
@@ -368,8 +374,14 @@ export class UserTourComponent {
   }
 
   checkIfProductBindInfosActive(productBindInfos: ProductBindInfosDTO[]) {
-    return productBindInfos.filter(productBindInfo =>  productBindInfo.endDate.date >= new Date().toISOString().split('T')[0]);
+    return productBindInfos.filter(productBindInfo =>  this.compare(new Date(productBindInfo.endDate.date)));
   }
+
+  checkIfProductBindInfosPassive(productBindInfos: ProductBindInfosDTO[]) {
+    // return productBindInfos.filter(productBindInfo =>  productBindInfo.endDate.date < new Date().toISOString().split('T')[0]);
+    return productBindInfos.filter(productBindInfo =>  !this.compare(new Date(productBindInfo.endDate.date)));
+  }
+
 
 
   private async putOrder(order: OrderDTO) {
