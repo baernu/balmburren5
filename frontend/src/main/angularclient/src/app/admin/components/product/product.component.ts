@@ -113,7 +113,7 @@ export class ProductComponent {
         productBindInfo.startDate = await firstValueFrom(this.tourService.createDates(productBindInfo.startDate));
         productBindInfo.endDate = await firstValueFrom(this.tourService.createDates(productBindInfo.endDate));
         await firstValueFrom(this.productService.putProductBindInfos(productBindInfo));
-        // await this.ngOnInit();
+        await this.ngOnInit();
       }
     }catch(error: any){
       if(error.status != 200 || 201){
