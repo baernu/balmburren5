@@ -168,4 +168,11 @@ export class ProductComponent {
     }, 2000);
   }
 
+  async savePBI(productBindInfo: ProductBindInfosDTO){
+    if(productBindInfo.isChecked)productBindInfo.isChecked = false;
+    else productBindInfo.isChecked = true;
+    await firstValueFrom(this.productService.putProductBindInfos(productBindInfo));
+    this.ngOnInit();
+  }
+
 }

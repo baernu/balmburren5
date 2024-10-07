@@ -54,6 +54,7 @@
         </tbody>
       </div>
       <button type="button" (click)='apply()' class="btn-light">Speichern</button>
+      <div><button type="button"(click)='reset()' class="btn-light">Alle zurücksetzen</button></div>
     </table>
   </div>
 <!--</div>-->
@@ -83,63 +84,63 @@
       </tr>
       </tbody>
     </table>
-    <div><button type="button"(click)='reset()' class="btn-light">Alle zurücksetzen</button></div>
+<!--    <div><button type="button"(click)='reset()' class="btn-light">Alle zurücksetzen</button></div>-->
   </div>
 <!--</div>-->
-<div *ngIf="error1" class="alert alert-danger">
-  {{ error1 }}
-</div>
-<div *ngIf="success1" class="alert alert-success">
-  {{ success1 }}
-</div>
-<!--<div class="card my-5">-->
-  <div class="card-body">
-    <div class="input-group mb-3 w-100 h-25">
-      <form (ngSubmit)="onSubmit()" #Form="ngForm">
-        <div class="form-group">
-          <label for="toEmail">Email an</label>
-          <input type="text" [(ngModel)]="emailData.toEmail"
-                 class="form-control"
-                 id="toEmail"
-                 name="toEmail"
-                 placeholder="Email an"
-                 required #toEmail="ngModel">
-        </div>
-        <div [hidden]="!toEmail.pristine" class="alert alert-danger">Email an ist nötig</div>
-        <button type="submit" [disabled]="!Form.form.valid"
-                class="btn btn-info">Email senden</button>
-      </form>
-    </div>
-  </div>
+<!--<div *ngIf="error1" class="alert alert-danger">-->
+<!--  {{ error1 }}-->
 <!--</div>-->
-<div *ngIf="error2" class="alert alert-danger">
-  {{ error2 }}
-</div>
-<div *ngIf="success2" class="alert alert-success">
-  {{ success2 }}
-</div>
+<!--<div *ngIf="success1" class="alert alert-success">-->
+<!--  {{ success1 }}-->
+<!--</div>-->
 <!--<div class="card my-5">-->
-  <div class="card-body">
-    <div class="input-group mb-3 w-100 h-25">
-      <form #Form1="ngForm">
-        <div class="form-group">
-          <div class="form-group">
-            <label for="file">Datei</label>
-            <input type="file" [(ngModel)]="emailData.file"
-                   class="form-control"
-                   id="file"
-                   name="file" (change)="uploadFile($event)">
-          </div>
-        </div>
-      </form>
-    </div>
-    <div *ngIf="error3" class="alert alert-danger">
-      {{ error3 }}
-    </div>
-    <div *ngIf="success3" class="alert alert-success">
-      {{ success3 }}
-    </div>
-  </div>
-</div>
+<!--  <div class="card-body">-->
+<!--    <div class="input-group mb-3 w-100 h-25">-->
+<!--      <form (ngSubmit)="onSubmit()" #Form="ngForm">-->
+<!--        <div class="form-group">-->
+<!--          <label for="toEmail">Email an</label>-->
+<!--          <input type="text" [(ngModel)]="emailData.toEmail"-->
+<!--                 class="form-control"-->
+<!--                 id="toEmail"-->
+<!--                 name="toEmail"-->
+<!--                 placeholder="Email an"-->
+<!--                 required #toEmail="ngModel">-->
+<!--        </div>-->
+<!--        <div [hidden]="!toEmail.pristine" class="alert alert-danger">Email an ist nötig</div>-->
+<!--        <button type="submit" [disabled]="!Form.form.valid"-->
+<!--                class="btn btn-info">Email senden</button>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--<div *ngIf="error2" class="alert alert-danger">-->
+<!--  {{ error2 }}-->
+<!--</div>-->
+<!--<div *ngIf="success2" class="alert alert-success">-->
+<!--  {{ success2 }}-->
+<!--</div>-->
+<!--&lt;!&ndash;<div class="card my-5">&ndash;&gt;-->
+<!--  <div class="card-body">-->
+<!--    <div class="input-group mb-3 w-100 h-25">-->
+<!--      <form #Form1="ngForm">-->
+<!--        <div class="form-group">-->
+<!--          <div class="form-group">-->
+<!--            <label for="file">Datei</label>-->
+<!--            <input type="file" [(ngModel)]="emailData.file"-->
+<!--                   class="form-control"-->
+<!--                   id="file"-->
+<!--                   name="file" (change)="uploadFile($event)">-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--    <div *ngIf="error3" class="alert alert-danger">-->
+<!--      {{ error3 }}-->
+<!--    </div>-->
+<!--    <div *ngIf="success3" class="alert alert-success">-->
+<!--      {{ success3 }}-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 
 

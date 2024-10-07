@@ -38,11 +38,11 @@ export class UserTourComponent {
   counter: number = 0;
   count: number = 0;
   error: string ="";
-  error1: string ="";
+  // error1: string ="";
   error2: string ="";
   error3: string ="";
   success: string ="";
-  success1: string ="";
+  // success1: string ="";
   success2: string ="";
   success3: string ="";
   updatedOrder: boolean = false;
@@ -156,122 +156,122 @@ export class UserTourComponent {
     this.showGroup();
   }
 
-  async onSubmit() {
-    // this.success2 ="";
-    // this.error2 = "";
-    let count: number = 0;
-    let androidClients: AndroidClientDTO[] = [];
-    for (const userOrderTourAddress of this.userOrderTourAddress) {
-      let order = userOrderTourAddress.order;
-      let androidClient: AndroidClientDTO = new AndroidClientDTO();
-      let client = androidClients.find(client => client.name === order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname);
-      if (client) {
-        if (order.productBindInfos.product.name === "Eier")
-          client.eggs = order.quantityOrdered.toString();
-        if (order.productBindInfos.product.name === "Milch")
-          client.milk = order.quantityOrdered.toString();
-        client.keys = client.keys.concat(";").concat(order.productBindInfos.id);
-      } else {
-        let userBindAddress: UserBindDeliverAddressDTO = await firstValueFrom(this.userService.getUserBindAddress(order.deliverPeople));
-        androidClient.keys = order.deliverPeople.id + ";" + order.tour.number + ";" + order.productBindInfos.id;
-        androidClient.date = order.date.date;
-        androidClient.name = order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
-        androidClient.position = count.toString();
-        androidClient.address = userBindAddress.address.street + ' ' + userBindAddress.address.number + ', ' +
-            userBindAddress.address.plz + ' ' + userBindAddress.address.city;
-        if (order.productBindInfos.product.name === "Eier")
-          androidClient.eggs = order.quantityOrdered.toString();
-        if (order.productBindInfos.product.name === "Milch")
-          androidClient.milk = order.quantityOrdered.toString();
-        androidClient.geopoint = userBindAddress.address.alatitude + ',' + userBindAddress.address.alongitude;
-        androidClient.isDelivered = "0";
-        androidClient.text = "";
-        androidClients.push(androidClient);
-        count++;
-      }
-
-    }
-    let string = await firstValueFrom(this.emailService.sendTourData(androidClients));
-    this.emailData.filename = "tourData.txt";
-    this.emailData.type = "attachment";
-    string = JSON.stringify(string);
-    const byteArray = new TextEncoder().encode(string);
-    this.handleChunk(byteArray);
-    this.emailData.fromEmail = "balmburren@gmail.com";
-    this.emailData.subject = "Tour-Daten";
-    this.emailData.body = "Guten Tag \n Sende Ihnen im Anhang die Tour-Daten.";
-    try {
-      await firstValueFrom(this.emailService.sendEmail(this.emailData));
-    } catch (error: any) {
-      if (error.status != 200) this.error2 = "Email konnte nicht gesendet werden!";
-    }
-    this.success2 = "Email konnte gesendet werden!";
-    setTimeout(() => {
-      this.success2 = "";
-      return;
-    }, 1000);
-  }
-
-  handleChunk(buf: Uint8Array) {
-    let fileByteArray = [];
-    for (let i = 0; i < buf.length; i++) {
-      fileByteArray.push(buf[i]);
-    }
-    this.emailData.byteArray = fileByteArray;
-  }
-
-  async uploadFile(event: Event) {
-    this.success3 ="";
-    this.error3 = "";
-    let file: File;
-    let filename: string;
-    const element = event.currentTarget as HTMLInputElement;
-    let fileList: FileList | null = element.files;
-    if (fileList) {
-      let orders: OrderDTO[] = [];
-      file = fileList[0];
-      filename = fileList[0].name;
-
-      const fileData: string = await this.fileToString(file);
-      console.log("filedata " + fileData);
-      if (fileData) {
-        let clients: AndroidClientDTO[] = await firstValueFrom(this.emailService.retourTourData(fileData));
-        let dateDTO: DatesDTO = new DatesDTO();
-        dateDTO.date = clients[0].date;
-        dateDTO = await firstValueFrom(this.tourService.createDates(dateDTO));
-        this.dates = dateDTO;
-        let bool: boolean = true;
-        for (const client of clients) {
-          let keys: string = client.keys;
-          let str: string[] = keys.split(';');
-          let tour: TourDTO = await firstValueFrom(this.tourService.getTour(str[1]));
-          if (bool) {
-            this.tour = tour;
-            bool = false;
-          }
-          const [, ...rest1] = str;
-          const [, ...rest] = rest1;
-          for (const id of rest) {
-            try {
-              let productbindinfo: ProductBindInfosDTO = await firstValueFrom(this.productService.getProductBindInfosById(Number(id)));
-              let user: UserDTO = await firstValueFrom(this.userService.findUserById(Number(str[0])));
-              let order: OrderDTO = await firstValueFrom(this.userService.getOrder(user, productbindinfo.product,
-                  productbindinfo.productDetails, dateDTO, tour));
-              if (client.isDelivered === "2" && order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
-                order.quantityDelivered = Number(client.milk);
-              if (client.isDelivered === "2" && order.productBindInfos.product.name === "Eier")
-                order.quantityDelivered = Number(client.eggs);
-              if (client.text)
-                order.text = client.text;
-              orders.push(order);
-            }catch(error: any) {
-              if (error.status != 200) this.error3 = "Upload hat nicht funktioniert!";
-            }
-          }
-        }
-      }
-    }
-  }
+  // async onSubmit() {
+  //   // this.success2 ="";
+  //   // this.error2 = "";
+  //   let count: number = 0;
+  //   let androidClients: AndroidClientDTO[] = [];
+  //   for (const userOrderTourAddress of this.userOrderTourAddress) {
+  //     let order = userOrderTourAddress.order;
+  //     let androidClient: AndroidClientDTO = new AndroidClientDTO();
+  //     let client = androidClients.find(client => client.name === order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname);
+  //     if (client) {
+  //       if (order.productBindInfos.product.name === "Eier")
+  //         client.eggs = order.quantityOrdered.toString();
+  //       if (order.productBindInfos.product.name === "Milch")
+  //         client.milk = order.quantityOrdered.toString();
+  //       client.keys = client.keys.concat(";").concat(order.productBindInfos.id);
+  //     } else {
+  //       let userBindAddress: UserBindDeliverAddressDTO = await firstValueFrom(this.userService.getUserBindAddress(order.deliverPeople));
+  //       androidClient.keys = order.deliverPeople.id + ";" + order.tour.number + ";" + order.productBindInfos.id;
+  //       androidClient.date = order.date.date;
+  //       androidClient.name = order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
+  //       androidClient.position = count.toString();
+  //       androidClient.address = userBindAddress.address.street + ' ' + userBindAddress.address.number + ', ' +
+  //           userBindAddress.address.plz + ' ' + userBindAddress.address.city;
+  //       if (order.productBindInfos.product.name === "Eier")
+  //         androidClient.eggs = order.quantityOrdered.toString();
+  //       if (order.productBindInfos.product.name === "Milch")
+  //         androidClient.milk = order.quantityOrdered.toString();
+  //       androidClient.geopoint = userBindAddress.address.alatitude + ',' + userBindAddress.address.alongitude;
+  //       androidClient.isDelivered = "0";
+  //       androidClient.text = "";
+  //       androidClients.push(androidClient);
+  //       count++;
+  //     }
+  //
+  //   }
+  //   let string = await firstValueFrom(this.emailService.sendTourData(androidClients));
+  //   this.emailData.filename = "tourData.txt";
+  //   this.emailData.type = "attachment";
+  //   string = JSON.stringify(string);
+  //   const byteArray = new TextEncoder().encode(string);
+  //   this.handleChunk(byteArray);
+  //   this.emailData.fromEmail = "balmburren@gmail.com";
+  //   this.emailData.subject = "Tour-Daten";
+  //   this.emailData.body = "Guten Tag \n Sende Ihnen im Anhang die Tour-Daten.";
+  //   try {
+  //     await firstValueFrom(this.emailService.sendEmail(this.emailData));
+  //   } catch (error: any) {
+  //     if (error.status != 200) this.error2 = "Email konnte nicht gesendet werden!";
+  //   }
+  //   this.success2 = "Email konnte gesendet werden!";
+  //   setTimeout(() => {
+  //     this.success2 = "";
+  //     return;
+  //   }, 1000);
+  // }
+  //
+  // handleChunk(buf: Uint8Array) {
+  //   let fileByteArray = [];
+  //   for (let i = 0; i < buf.length; i++) {
+  //     fileByteArray.push(buf[i]);
+  //   }
+  //   this.emailData.byteArray = fileByteArray;
+  // }
+  //
+  // async uploadFile(event: Event) {
+  //   this.success3 ="";
+  //   this.error3 = "";
+  //   let file: File;
+  //   let filename: string;
+  //   const element = event.currentTarget as HTMLInputElement;
+  //   let fileList: FileList | null = element.files;
+  //   if (fileList) {
+  //     let orders: OrderDTO[] = [];
+  //     file = fileList[0];
+  //     filename = fileList[0].name;
+  //
+  //     const fileData: string = await this.fileToString(file);
+  //     console.log("filedata " + fileData);
+  //     if (fileData) {
+  //       let clients: AndroidClientDTO[] = await firstValueFrom(this.emailService.retourTourData(fileData));
+  //       let dateDTO: DatesDTO = new DatesDTO();
+  //       dateDTO.date = clients[0].date;
+  //       dateDTO = await firstValueFrom(this.tourService.createDates(dateDTO));
+  //       this.dates = dateDTO;
+  //       let bool: boolean = true;
+  //       for (const client of clients) {
+  //         let keys: string = client.keys;
+  //         let str: string[] = keys.split(';');
+  //         let tour: TourDTO = await firstValueFrom(this.tourService.getTour(str[1]));
+  //         if (bool) {
+  //           this.tour = tour;
+  //           bool = false;
+  //         }
+  //         const [, ...rest1] = str;
+  //         const [, ...rest] = rest1;
+  //         for (const id of rest) {
+  //           try {
+  //             let productbindinfo: ProductBindInfosDTO = await firstValueFrom(this.productService.getProductBindInfosById(Number(id)));
+  //             let user: UserDTO = await firstValueFrom(this.userService.findUserById(Number(str[0])));
+  //             let order: OrderDTO = await firstValueFrom(this.userService.getOrder(user, productbindinfo.product,
+  //                 productbindinfo.productDetails, dateDTO, tour));
+  //             if (client.isDelivered === "2" && order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
+  //               order.quantityDelivered = Number(client.milk);
+  //             if (client.isDelivered === "2" && order.productBindInfos.product.name === "Eier")
+  //               order.quantityDelivered = Number(client.eggs);
+  //             if (client.text)
+  //               order.text = client.text;
+  //             orders.push(order);
+  //           }catch(error: any) {
+  //             if (error.status != 200) this.error3 = "Upload hat nicht funktioniert!";
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   updateOrders(orders: OrderDTO[]) {
     for(const order of orders) {
@@ -314,6 +314,11 @@ export class UserTourComponent {
 
        let productBindInfos = await firstValueFrom(this.productService.getAllProductBindInfos());
        productBindInfos = this.checkIfProductBindInfosActive(productBindInfos);
+       for (let pBI of productBindInfos){
+         pBI = await firstValueFrom(this.productService.getProductBindInfosById(parseInt(pBI.id)));
+         pBI.isChecked = true;
+         await firstValueFrom(this.productService.putProductBindInfos(pBI));
+       }
 
         for (const pBI of productBindInfos) {
           let userProfileOrder = new UserProfileOrderDTO();
@@ -359,6 +364,7 @@ export class UserTourComponent {
     return productBindInfos.filter(productBindInfo =>  productBindInfo.endDate.date >= new Date().toISOString().split('T')[0]);
   }
 
+
   private async putOrder(order: OrderDTO) {
     order.isChecked = true;
     let order1: OrderDTO = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
@@ -369,8 +375,8 @@ export class UserTourComponent {
 
 
   async reset() {
-    this.success1 ="";
-    this.error1 = "";
+    this.success ="";
+    this.error = "";
     this.counter++;
     if (this.counter == 7){
       for (let userOrderTourAddress of this.userOrderTourAddress) {
@@ -381,21 +387,21 @@ export class UserTourComponent {
         try {
           userOrderTourAddress.order = await firstValueFrom(this.userService.putOrder(order));
         } catch (error:any) {
-          if (error.status !== 200) this.error1 = "Das Zurücksetzen hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
+          if (error.status !== 200) this.error = "Das Zurücksetzen hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
           return;
         }
-        this.success1 = "Reset war erfolgreich!";
+        this.success = "Reset war erfolgreich!";
         setTimeout(() => {
-          this.success1 = "";
+          this.success = "";
           return;
         }, 1000);
         this.apply();
       }
       this.counter ++;
     }
-    this.error1 = "Klicke noch " + (7-this.counter) + " mal um zu löschen";
+    this.error = "Klicke noch " + (7-this.counter) + " mal um zu löschen";
     setTimeout(() => {
-      this.error1 = "";
+      this.error = "";
       return;}, 1000);
   }
 

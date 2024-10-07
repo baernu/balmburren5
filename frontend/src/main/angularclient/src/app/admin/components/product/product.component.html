@@ -67,6 +67,7 @@
       <thead class="thead-dark">
       <tr>
         <th scope="col">P-PI ID</th>
+        <th scope="col">Aktiviert</th>
         <th scope="col">Produkt Name</th>
         <th scope="col">Kategorie</th>
         <th scope="col">Beschreibung</th>
@@ -80,6 +81,7 @@
       <tbody>
       <tr *ngFor="let  productBindInfo of productBindInfos">
         <td>{{productBindInfo.id}}</td>
+        <td><input class="form-check-input" type="checkbox" name="{{productBindInfo.isChecked}}" [(ngModel)]="productBindInfo.isChecked" (click)="savePBI(productBindInfo)"></td>
         <td>{{ productBindInfo.product.name}}</td>
         <td>{{ productBindInfo.productDetails.category}}</td>
         <td>{{ productBindInfo.productDetails.description}}</td>
