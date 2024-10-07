@@ -15,6 +15,8 @@ export class UserSettingsComponent implements OnInit {
 
   users: UserDTO[] | undefined;
   usersWithRole: UserWithRoleDTO[] = [];
+  error: string = "";
+  success: string = "";
 
   constructor(private userService: UserService,
               private router: Router) {
@@ -57,6 +59,13 @@ export class UserSettingsComponent implements OnInit {
             param1: user.username
           }
         });
+    else {
+      this.error = "Keine Berechtigung für diese Anzeige!";
+      setTimeout(async () => {
+        this.error = "";
+        return;
+      }, 2000);
+    }
   }
 
   userOrdered(user: UserWithRoleDTO) {

@@ -44,5 +44,11 @@
       </tr>
       </tbody>
     </table>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    <div *ngIf="success" class="alert alert-success">
+      {{ success }}
+    </div>
   </div>
 </div>
