@@ -59,7 +59,7 @@ export class DriverOverviewComponent {
 
   async startSetting() {
     this.driverBindInvoices = await firstValueFrom(this.userService.getAllDriverBindInvoiceForInvoice(this.user));
-    this.driverBindInvoices = this.driverBindInvoices.sort((e1 , e2) => e1.dateTo.date.localeCompare(e2.dateTo.date));
+    this.driverBindInvoices = this.driverBindInvoices.sort((e1 , e2) => e2.dateTo.date.localeCompare(e1.dateTo.date));
   }
 
   async showWork1() {
