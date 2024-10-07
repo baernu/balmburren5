@@ -42,8 +42,6 @@ export class DriverWorkComponent implements OnInit {
   }
 
   async showWork() {
-    this.error = "";
-    this.success = "";
     this.work = new WorkDTO();
     this.dates.date = new Date(this.dates.date).toISOString().split('T')[0];
     this.dates = await firstValueFrom(this.tourService.createDates(this.dates));

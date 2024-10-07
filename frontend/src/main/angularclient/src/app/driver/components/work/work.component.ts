@@ -5,7 +5,7 @@ import {TourServiceService} from "../../../admin/components/tour/service/tour-se
 import {WorkDTO} from "../../../admin/components/tour/service/workDTO";
 import {UserDTO} from "../../../components/user/service/userDTO";
 import {UserService} from "../../../components/user/service/user-service.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import * as moment from 'moment';
 
 
@@ -15,42 +15,46 @@ import * as moment from 'moment';
   styleUrls: ['./work.component.css']
 })
 export class WorkComponent {
-
   dates: DatesDTO = new DatesDTO();
   work: WorkDTO = new WorkDTO();
   user: UserDTO = new UserDTO();
   counter: number = 0;
   success: string = "";
   error: string = "";
+  param1: string | null = "";
 
-  constructor(
-    private tourService: TourServiceService,
-    private userService: UserService,
-    private router: Router,
-  ) {
+  constructor(private userService: UserService,
+              private tourService: TourServiceService,
+              private router: Router,
+              private route: ActivatedRoute) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
-      return false;
-    };
+      return false;}
   }
 
-
-  async showWork() {
-    this.error = "";
-    this.success = "";
-    this.work = new WorkDTO();
-    this.dates.date = new Date(this.dates.date).toISOString().split('T')[0];
-    this.dates = await firstValueFrom(this.tourService.createDates(this.dates));
+  async ngOnInit(){
     let user = await firstValueFrom(this.userService.currentUser());
     this.user = await firstValueFrom(this.userService.findUser(user.username));
+
+  }
+
+  async showWork() {
     if(this.compare(new Date(this.dates.date))){
-      console.log("Id Dates: " + this.dates.id);
+      this.work = new WorkDTO();
+      this.dates.date = new Date(this.dates.date).toISOString().split('T')[0];
+      this.dates = await firstValueFrom(this.tourService.createDates(this.dates));
       let work = await firstValueFrom(this.tourService.getWork(this.user.username, this.dates));
       if (work) {
         this.work = work;
-        // this.success = "Arbeit wurde gespeichert!"
       }
       else return;
-    } else this.error ="Datum liegt in der Vergangenheit: Keine Berechtigung!"
+    }else {
+      this.error = "Keine Berechtigung: Datum liegt in der Vergangenheit!"
+      setTimeout(async () => {
+        this.error = "";
+        return;
+      }, 2000);
+    }
+
   }
 
   async apply() {
@@ -61,37 +65,72 @@ export class WorkComponent {
         this.work = await firstValueFrom(this.tourService.putWork(this.work));
       } catch (error: any) {
         if (error.status != 200) this.error= "Speichern hat nicht funktioniert!"
-        await this.router.navigate(['/work']);
-        return;
+        setTimeout(async () => {
+          this.error = "";
+          return;
+        }, 2000);
       }
       this.success = "Speichern hat funktioniert!"
-      return;
+      setTimeout(async () => {
+        this.success = "";
+        await this.router.navigate(['/work']);
+      }, 1000);
     }
     else {
       try{
         this.work = await firstValueFrom(this.tourService.createWork(this.work));
       }catch (error: any) {
         if (error.status != 200) this.error= "Speichern hat nicht funktioniert!"
-        await this.router.navigate(['/work']);
-        return;
+        setTimeout(async () => {
+          this.error = "";
+          return;
+        }, 1000);
       }
       this.success = "Speichern hat funktioniert!"
-      return;
+      setTimeout(async () => {
+        this.success = "";
+        await this.router.navigate(['/work']);
+      }, 1000);
     }
-
   }
 
   async clear() {
     if (this.counter == 6) {
-      await firstValueFrom(this.tourService.deleteWork(this.user.username, this.dates));
+      try {
+        await firstValueFrom(this.tourService.deleteWork(this.user.username, this.dates));
+      } catch (error: any) {
+        if (error.status != 200) this.error = "Arbeit konnte nicht gelöscht werden!";
+        setTimeout(() => {
+          this.error = "";
+          return;
+        }, 2000);
+      }
+      this.success = "Arbeit wurde gelöscht.";
+      setTimeout(async () => {
+        this.success = "";
+        await this.router.navigate(['/work']);
+      }, 1000);
+
       this.counter = 0;
-      this.success = "Arbeit wurde gelöscht!"
-      await this.router.navigate(['/work']);
-      return;
+    } else {
+      this.counter ++;
+      let c = 7 - this.counter;
+      this.error = "Tippe " + c +  " mal zum Löschen!";
+      setTimeout(() => {
+        this.error = "";
+        return;
+      }, 1000);
     }
-    this.counter ++;
-    let c = 7 - this.counter;
-    this.error = "Tippe " + c +  " mal zum Löschen!";
+  }
+
+  computeWorktime(){
+    let total: number = 0;
+    let arr = this.work.endTime.split(':');
+    let arr2 = this.work.startTime.split(':');
+    total = parseInt(arr[0]) - parseInt(arr2[0]);
+    total = total + (parseFloat(arr[1]) - parseFloat(arr2[1]))/60;
+    let str = total.toFixed(2);
+    this.work.workTime = str;
   }
 
   compare(date: Date): boolean {
@@ -99,20 +138,4 @@ export class WorkComponent {
     date = new Date(date);
     return date.toISOString().split('T')[0] >= now1;
   }
-
-  computeWorktime(){
-    let total: number = 0;
-    let arr = this.work.endTime.split(':');
-    let arr2 = this.work.startTime.split(':');
-    // console.log("arr: " + arr[0] + '/ ' + arr[1]);
-    // console.log("arr2: " + arr2[0] + '/ ' + arr2[1]);
-    total = parseInt(arr[0]) - parseInt(arr2[0]);
-    // console.log("total: " + total);
-    total = total + (parseFloat(arr[1]) - parseFloat(arr2[1]))/60;
-    let str = total.toFixed(2);
-    // console.log("startZeit: " + this.work.startTime);
-    // console.log("Total: " + str);
-    this.work.workTime = str;
-  }
-
 }
