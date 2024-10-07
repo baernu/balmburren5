@@ -4,9 +4,10 @@ import {WorkDTO} from "../../../admin/components/tour/service/workDTO";
 import {UserDTO} from "../../../components/user/service/userDTO";
 import {TourServiceService} from "../../../admin/components/tour/service/tour-service.service";
 import {UserService} from "../../../components/user/service/user-service.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {firstValueFrom} from "rxjs";
 import { DriverBindInvoiceDTO } from 'src/app/components/user/service/driverBindInvoiceDTO';
+import {InvoiceDTO} from "../../../components/user/service/invoiceDTO";
 
 @Component({
   selector: 'app-wagepayment',
@@ -23,6 +24,8 @@ export class WagepaymentComponent {
   actualdate: DatesDTO = new DatesDTO();
   success: string = "";
   error: string = "";
+  success2: string = "";
+  error2: string = "";
   total: string= "";
   count: number = 0;
 
@@ -37,21 +40,19 @@ export class WagepaymentComponent {
   }
 
   async ngOnInit(): Promise<void> {
-    this.user = await firstValueFrom(this.userService.currentUser());
-    this.user = await firstValueFrom(this.userService.findUser(this.user.username));
+    let user = await firstValueFrom(this.userService.currentUser());
+    this.user = await firstValueFrom(this.userService.findUser(user.username));
     this.actualdate.date = new Date().toISOString().split('T')[0];
     this.actualdate = await firstValueFrom(this.tourService.createDates(this.actualdate));
     this.startSetting();
   }
+
   async startSetting() {
     this.driverBindInvoices = await firstValueFrom(this.userService.getAllDriverBindInvoiceForInvoice(this.user));
     this.driverBindInvoices = this.driverBindInvoices.sort((e1 , e2) => e1.dateTo.date.localeCompare(e2.dateTo.date));
   }
 
-
   async showWork1() {
-    this.error = "";
-    this.success = "";
     this.startSetting();
     try {
       this.startdate.date = new Date(this.startdate.date).toISOString().split('T')[0];
@@ -65,27 +66,38 @@ export class WagepaymentComponent {
       this.driverBindInvoices = this.driverBindInvoices.filter(e => e.dateTo.date.localeCompare(date1));
     }catch(error: any){
       if(error.status != 200)this.error = "Etwas lief schief!";
-      return;
+      setTimeout(() => {
+        this.error = "";
+        return;
+      }, 2000);
     }
     this.success = "OK!";
-    return;
+    setTimeout(() => {
+      this.success = "";
+      return;
+    }, 1000);
   }
 
   async showWork2() {
-    this.error = "";
-    this.success = "";
     try {
       this.enddate.date = new Date(this.enddate.date).toISOString().split('T')[0];
       this.enddate = await firstValueFrom(this.tourService.createDates(this.enddate));
       this.works = await firstValueFrom(this.tourService.getAllWorksForUserandIntervall(this.user.username, this.startdate, this.enddate));
       this.works.sort((e1: WorkDTO, e2: WorkDTO) => e1.date.date.localeCompare(e2.date.date));
       this.total = this.computeTotalWork();
+      this.driverBindInvoices = this.driverBindInvoices.filter(e => e.dateTo.date.localeCompare(this.enddate.date));
     }catch(error: any){
       if(error.status != 200)this.error = "Etwas lief schief!";
-      return;
+      setTimeout(() => {
+        this.error = "";
+        return;
+      }, 2000);
     }
     this.success = "OK!";
-    return;
+    setTimeout(() => {
+      this.success = "";
+      return;
+    }, 1000);
   }
 
   computeTotalWork() {
@@ -96,25 +108,4 @@ export class WagepaymentComponent {
     return total.toFixed(2);;
   }
 
-  async deleteWork(work:WorkDTO) {
-    this.error = "";
-    this.success = "";
-    if (this.count == 6){
-      try{
-        await firstValueFrom(this.tourService.deleteWorkById(work));
-      }catch(error: any) {
-        if (error.status != 200) {
-          this.error = "Löschen hat nicht geklappt";
-          return;
-        }
-      }
-      this.success = "Löschen hat geklappt";
-      setTimeout(() => { this.router.navigate(['/wage_payment']);}, 1000);
-    }
-    this.count ++;
-    this.error = "Klicke noch " + (7-this.count) + " mal um zu löschen";
-    setTimeout(() => {
-      this.error = "";
-      return;}, 1000);
-  }
 }
