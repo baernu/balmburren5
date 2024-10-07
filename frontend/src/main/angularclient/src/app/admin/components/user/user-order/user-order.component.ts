@@ -156,6 +156,14 @@ export class UserOrderComponent {
 
 
   async showList() {
+    let date = new Date();
+    let dateNow = new DatesDTO()
+    let dayPlus21 = new DatesDTO();
+
+    dateNow.date = new Date().toISOString().split('T')[0];
+    dayPlus21.date = new Date(date.setDate(date.getDate() + 21)).toISOString().split('T')[0];
+    dateNow = await firstValueFrom(this.tourService.createDates(dateNow));
+    dayPlus21 = await firstValueFrom(this.tourService.createDates(dayPlus21));
     //second part of html
     this.tourDateBindInfosDTOs = [];
     if (this.user.username)
@@ -191,7 +199,7 @@ export class UserOrderComponent {
         await this.putOrder(order);
       }
     }
-    this.orders = await firstValueFrom(this.userService.getAllOrderForPerson(this.user));
+    this.orders = await firstValueFrom(this.userService.getAllOrderForPersonBetween(dateNow, dayPlus21, this.user));
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.tour.number.localeCompare(t2.tour.number));
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.date.date.localeCompare(t2.date.date));
     this.showGroup();
