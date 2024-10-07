@@ -40,6 +40,19 @@ export class ProductComponent {
     this.productDetails.sort((p1: ProductDetailsDTO, p2: ProductDetailsDTO) => p1.category.localeCompare(p2.category));
     this.productDetails.sort((p1: ProductDetailsDTO, p2: ProductDetailsDTO) => { return p1.size - p2.size});
     this.productBindInfos = await firstValueFrom(this.productService.getAllProductBindInfos());
+    let productBindInfos = this.checkIfProductBindInfosActive(this.productBindInfos);
+    for (let pBI of productBindInfos){
+      pBI = await firstValueFrom(this.productService.getProductBindInfosById(parseInt(pBI.id)));
+      pBI.isChecked = true;
+      await firstValueFrom(this.productService.putProductBindInfos(pBI));
+    }
+    let productBindInfosPassive = this.checkIfProductBindInfosPassive(this.productBindInfos);
+    for (let pBI of productBindInfosPassive){
+      pBI = await firstValueFrom(this.productService.getProductBindInfosById(parseInt(pBI.id)));
+      pBI.isChecked = false;
+      await firstValueFrom(this.productService.putProductBindInfos(pBI));
+    }
+    this.productBindInfos = await firstValueFrom(this.productService.getAllProductBindInfos());
     this.productBindInfos.sort((p1:ProductBindInfosDTO, p2:ProductBindInfosDTO) => p1.product.name.localeCompare(p2.product.name));
     this.productBindInfos.sort((p1:ProductBindInfosDTO, p2:ProductBindInfosDTO) => p2.productDetails.price - p1.productDetails.price);
   }
@@ -168,11 +181,26 @@ export class ProductComponent {
     }, 2000);
   }
 
-  async savePBI(productBindInfo: ProductBindInfosDTO){
-    if(productBindInfo.isChecked)productBindInfo.isChecked = false;
-    else productBindInfo.isChecked = true;
-    await firstValueFrom(this.productService.putProductBindInfos(productBindInfo));
-    this.ngOnInit();
+  // async savePBI(productBindInfo: ProductBindInfosDTO){
+  //   if(productBindInfo.isChecked)productBindInfo.isChecked = false;
+  //   else productBindInfo.isChecked = true;
+  //   await firstValueFrom(this.productService.putProductBindInfos(productBindInfo));
+  //   this.ngOnInit();
+  // }
+
+  checkIfProductBindInfosActive(productBindInfos: ProductBindInfosDTO[]) {
+    return productBindInfos.filter(productBindInfo =>  this.compare(new Date(productBindInfo.endDate.date)));
+  }
+
+  checkIfProductBindInfosPassive(productBindInfos: ProductBindInfosDTO[]) {
+    // return productBindInfos.filter(productBindInfo =>  productBindInfo.endDate.date < new Date().toISOString().split('T')[0]);
+    return productBindInfos.filter(productBindInfo =>  !this.compare(new Date(productBindInfo.endDate.date)));
+  }
+
+  compare(date: Date): boolean {
+    let now1 = new Date().toISOString().split('T')[0]
+    date = new Date(date);
+    return date.toISOString().split('T')[0] >= now1;
   }
 
 }

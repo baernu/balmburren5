@@ -61,6 +61,13 @@ export class UserTourComponent {
 
   async ngOnInit(): Promise<void> {
     this.tours = await firstValueFrom(this.tourService.getTours());
+    let productBindInfos = await firstValueFrom(this.productService.getAllProductBindInfos());
+    productBindInfos = this.checkIfProductBindInfosActive(productBindInfos);
+    for (let pBI of productBindInfos){
+      // pBI = await firstValueFrom(this.productService.getProductBindInfosById(parseInt(pBI.id)));
+      pBI.isChecked = true;
+      await firstValueFrom(this.productService.putProductBindInfos(pBI));
+    }
   }
 
   async apply() {
@@ -314,11 +321,11 @@ export class UserTourComponent {
 
        let productBindInfos = await firstValueFrom(this.productService.getAllProductBindInfos());
        productBindInfos = this.checkIfProductBindInfosActive(productBindInfos);
-       for (let pBI of productBindInfos){
-         pBI = await firstValueFrom(this.productService.getProductBindInfosById(parseInt(pBI.id)));
-         pBI.isChecked = true;
-         await firstValueFrom(this.productService.putProductBindInfos(pBI));
-       }
+       // for (let pBI of productBindInfos){
+       //   pBI = await firstValueFrom(this.productService.getProductBindInfosById(parseInt(pBI.id)));
+       //   pBI.isChecked = true;
+       //   await firstValueFrom(this.productService.putProductBindInfos(pBI));
+       // }
 
         for (const pBI of productBindInfos) {
           let userProfileOrder = new UserProfileOrderDTO();

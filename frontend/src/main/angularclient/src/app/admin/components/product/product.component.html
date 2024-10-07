@@ -81,7 +81,11 @@
       <tbody>
       <tr *ngFor="let  productBindInfo of productBindInfos">
         <td>{{productBindInfo.id}}</td>
-        <td><input class="form-check-input" type="checkbox" name="{{productBindInfo.isChecked}}" [(ngModel)]="productBindInfo.isChecked" (click)="savePBI(productBindInfo)"></td>
+        <td><div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{productBindInfo.isChecked}}" onclick="return false" [(ngModel)]="productBindInfo.isChecked">
+        </div></td>
+<!--        <td type="checkbox" value="productBindInfo.isChecked"></td>-->
+<!--        <td><input class="form-check-input" type="checkbox" value="{{productBindInfo.isChecked}}" ></td>-->
         <td>{{ productBindInfo.product.name}}</td>
         <td>{{ productBindInfo.productDetails.category}}</td>
         <td>{{ productBindInfo.productDetails.description}}</td>
