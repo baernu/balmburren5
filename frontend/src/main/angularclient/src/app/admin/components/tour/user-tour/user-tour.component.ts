@@ -6,13 +6,9 @@ import {firstValueFrom} from "rxjs";
 import {TourDTO} from "../service/TourDTO";
 import {DatesDTO} from "../service/DatesDTO";
 import {UserBindTourDTO} from "../../../../components/user/service/userBindTourDTO";
-import {AndroidClientDTO} from "../service/androidClientDTO";
 import {UserBindDeliverAddressDTO} from "../../../../components/user/service/userBindDeliverAddressDTO";
-import {EmailService} from "../../email/email-service/email.service";
-import {EmailDataDTO} from "../../email/email-service/EmailDataDTO";
 import {ProductBindInfosDTO} from "../../product/service/ProductBindInfosDTO";
 import {ProductService} from "../../product/service/product.service";
-import {UserDTO} from "../../../../components/user/service/userDTO";
 import {TourDateBindInfosDTO} from "../service/TourDateBindInfosDTO";
 import {UserProfileOrderDTO} from "../../../../components/user/service/userProfileOrderDTO";
 import {groupebyDTO} from "../../../../components/user/service/groupbyDTO";
@@ -32,20 +28,11 @@ export class UserTourComponent {
   dates: DatesDTO = new DatesDTO();
   userBindTours: UserBindTourDTO[] = [];
   userBindTour: UserBindTourDTO = new UserBindTourDTO();
-  emailData: EmailDataDTO = new EmailDataDTO();
-  totalMilk: number = 0;
-  totalEggs: number = 0;
+
+
   counter: number = 0;
-  count: number = 0;
   error: string ="";
-  // error1: string ="";
-  error2: string ="";
-  error3: string ="";
   success: string ="";
-  // success1: string ="";
-  success2: string ="";
-  success3: string ="";
-  updatedOrder: boolean = false;
   categories: groupebyDTO[] = [];
   userBindAddress: UserBindDeliverAddressDTO[] = [];
   userOrderTourAddress: UserOrderTourAddressDTO[] = [];
@@ -55,7 +42,6 @@ export class UserTourComponent {
   constructor(
       private tourService: TourServiceService,
       private userService: UserService,
-      private emailService: EmailService,
       private productService: ProductService) {
   }
 
@@ -77,8 +63,6 @@ export class UserTourComponent {
   }
 
   async apply() {
-    this.success ="";
-    this.error = "";
     for (const userOrderTourAddress of this.userOrderTourAddress) {
       let order = userOrderTourAddress.order;
       let order1: OrderDTO = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
@@ -88,9 +72,13 @@ export class UserTourComponent {
         await firstValueFrom(this.userService.putOrder(userOrderTourAddress.order));
 
       } catch (error: any) {
-        if (error.status !== 200)
+        if (error.status !== 200) {
           this.error = "Order wurde nicht upgedated, Name: " + order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
-        return;
+          setTimeout(() => {
+            this.error = "";
+            return;
+          }, 1000);
+        }
       }
     }
     this.success = "Orders wurden gespeichert!";
@@ -123,8 +111,6 @@ export class UserTourComponent {
 
     }
 
-    // let eggs: number = 0;
-    // let milks: number = 0;
     let productBindProductInfos = await firstValueFrom(this.productService.getProductBindInfosisChecked(true));
     for (const order of this.orders) {
       for (const productBindInfo of productBindProductInfos) {
@@ -140,13 +126,7 @@ export class UserTourComponent {
           }
         }
       }
-      // if (order.productBindInfos.productDetails.category === "Eier")
-      //   eggs += order.quantityOrdered;
-      // if (order.productBindInfos.productDetails.category === "Milch")
-      //   milks += order.quantityOrdered;
     }
-    // this.totalMilk = milks;
-    // this.totalEggs = eggs;
     await this.pushUserOrderTourAddress();
 
   }
@@ -169,147 +149,6 @@ export class UserTourComponent {
     this.showGroup();
   }
 
-  // async onSubmit() {
-  //   // this.success2 ="";
-  //   // this.error2 = "";
-  //   let count: number = 0;
-  //   let androidClients: AndroidClientDTO[] = [];
-  //   for (const userOrderTourAddress of this.userOrderTourAddress) {
-  //     let order = userOrderTourAddress.order;
-  //     let androidClient: AndroidClientDTO = new AndroidClientDTO();
-  //     let client = androidClients.find(client => client.name === order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname);
-  //     if (client) {
-  //       if (order.productBindInfos.product.name === "Eier")
-  //         client.eggs = order.quantityOrdered.toString();
-  //       if (order.productBindInfos.product.name === "Milch")
-  //         client.milk = order.quantityOrdered.toString();
-  //       client.keys = client.keys.concat(";").concat(order.productBindInfos.id);
-  //     } else {
-  //       let userBindAddress: UserBindDeliverAddressDTO = await firstValueFrom(this.userService.getUserBindAddress(order.deliverPeople));
-  //       androidClient.keys = order.deliverPeople.id + ";" + order.tour.number + ";" + order.productBindInfos.id;
-  //       androidClient.date = order.date.date;
-  //       androidClient.name = order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
-  //       androidClient.position = count.toString();
-  //       androidClient.address = userBindAddress.address.street + ' ' + userBindAddress.address.number + ', ' +
-  //           userBindAddress.address.plz + ' ' + userBindAddress.address.city;
-  //       if (order.productBindInfos.product.name === "Eier")
-  //         androidClient.eggs = order.quantityOrdered.toString();
-  //       if (order.productBindInfos.product.name === "Milch")
-  //         androidClient.milk = order.quantityOrdered.toString();
-  //       androidClient.geopoint = userBindAddress.address.alatitude + ',' + userBindAddress.address.alongitude;
-  //       androidClient.isDelivered = "0";
-  //       androidClient.text = "";
-  //       androidClients.push(androidClient);
-  //       count++;
-  //     }
-  //
-  //   }
-  //   let string = await firstValueFrom(this.emailService.sendTourData(androidClients));
-  //   this.emailData.filename = "tourData.txt";
-  //   this.emailData.type = "attachment";
-  //   string = JSON.stringify(string);
-  //   const byteArray = new TextEncoder().encode(string);
-  //   this.handleChunk(byteArray);
-  //   this.emailData.fromEmail = "balmburren@gmail.com";
-  //   this.emailData.subject = "Tour-Daten";
-  //   this.emailData.body = "Guten Tag \n Sende Ihnen im Anhang die Tour-Daten.";
-  //   try {
-  //     await firstValueFrom(this.emailService.sendEmail(this.emailData));
-  //   } catch (error: any) {
-  //     if (error.status != 200) this.error2 = "Email konnte nicht gesendet werden!";
-  //   }
-  //   this.success2 = "Email konnte gesendet werden!";
-  //   setTimeout(() => {
-  //     this.success2 = "";
-  //     return;
-  //   }, 1000);
-  // }
-  //
-  // handleChunk(buf: Uint8Array) {
-  //   let fileByteArray = [];
-  //   for (let i = 0; i < buf.length; i++) {
-  //     fileByteArray.push(buf[i]);
-  //   }
-  //   this.emailData.byteArray = fileByteArray;
-  // }
-  //
-  // async uploadFile(event: Event) {
-  //   this.success3 ="";
-  //   this.error3 = "";
-  //   let file: File;
-  //   let filename: string;
-  //   const element = event.currentTarget as HTMLInputElement;
-  //   let fileList: FileList | null = element.files;
-  //   if (fileList) {
-  //     let orders: OrderDTO[] = [];
-  //     file = fileList[0];
-  //     filename = fileList[0].name;
-  //
-  //     const fileData: string = await this.fileToString(file);
-  //     console.log("filedata " + fileData);
-  //     if (fileData) {
-  //       let clients: AndroidClientDTO[] = await firstValueFrom(this.emailService.retourTourData(fileData));
-  //       let dateDTO: DatesDTO = new DatesDTO();
-  //       dateDTO.date = clients[0].date;
-  //       dateDTO = await firstValueFrom(this.tourService.createDates(dateDTO));
-  //       this.dates = dateDTO;
-  //       let bool: boolean = true;
-  //       for (const client of clients) {
-  //         let keys: string = client.keys;
-  //         let str: string[] = keys.split(';');
-  //         let tour: TourDTO = await firstValueFrom(this.tourService.getTour(str[1]));
-  //         if (bool) {
-  //           this.tour = tour;
-  //           bool = false;
-  //         }
-  //         const [, ...rest1] = str;
-  //         const [, ...rest] = rest1;
-  //         for (const id of rest) {
-  //           try {
-  //             let productbindinfo: ProductBindInfosDTO = await firstValueFrom(this.productService.getProductBindInfosById(Number(id)));
-  //             let user: UserDTO = await firstValueFrom(this.userService.findUserById(Number(str[0])));
-  //             let order: OrderDTO = await firstValueFrom(this.userService.getOrder(user, productbindinfo.product,
-  //                 productbindinfo.productDetails, dateDTO, tour));
-  //             if (client.isDelivered === "2" && order.productBindInfos.product.name === "Milch" || "Wiesenmilch")
-  //               order.quantityDelivered = Number(client.milk);
-  //             if (client.isDelivered === "2" && order.productBindInfos.product.name === "Eier")
-  //               order.quantityDelivered = Number(client.eggs);
-  //             if (client.text)
-  //               order.text = client.text;
-  //             orders.push(order);
-  //           }catch(error: any) {
-  //             if (error.status != 200) this.error3 = "Upload hat nicht funktioniert!";
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
-  updateOrders(orders: OrderDTO[]) {
-    for(const order of orders) {
-      let userOrderTourAddress = this.userOrderTourAddress.find(e => e.order.id === order.id);
-      if(userOrderTourAddress) userOrderTourAddress.order = order;
-      else {
-        this.error3 = "Upload hat nicht funktioniert!"
-        return;
-      }
-    }
-    this.success3 = "Upload hat funktioniert!";
-    setTimeout(() => {
-      this.success3 = "";
-      return;
-    }, 1000);
-    this.success ="";
-  }
-
-
-  async fileToString(file: File) {
-    const fileToBlob = async (file: any) => new Blob([new Uint8Array(await file.arrayBuffer())], {type: file.type});
-    let blob = await fileToBlob(file);
-    return blob.text();
-  }
-
 
 
   async updateAutomatedOrder(tour: TourDTO) {
@@ -327,11 +166,6 @@ export class UserTourComponent {
 
        let productBindInfos = await firstValueFrom(this.productService.getAllProductBindInfos());
        productBindInfos = this.checkIfProductBindInfosActive(productBindInfos);
-       // for (let pBI of productBindInfos){
-       //   pBI = await firstValueFrom(this.productService.getProductBindInfosById(parseInt(pBI.id)));
-       //   pBI.isChecked = true;
-       //   await firstValueFrom(this.productService.putProductBindInfos(pBI));
-       // }
 
         for (const pBI of productBindInfos) {
           let userProfileOrder = new UserProfileOrderDTO();
@@ -378,7 +212,6 @@ export class UserTourComponent {
   }
 
   checkIfProductBindInfosPassive(productBindInfos: ProductBindInfosDTO[]) {
-    // return productBindInfos.filter(productBindInfo =>  productBindInfo.endDate.date < new Date().toISOString().split('T')[0]);
     return productBindInfos.filter(productBindInfo =>  !this.compare(new Date(productBindInfo.endDate.date)));
   }
 
@@ -394,8 +227,6 @@ export class UserTourComponent {
 
 
   async reset() {
-    this.success ="";
-    this.error = "";
     this.counter++;
     if (this.counter == 7){
       for (let userOrderTourAddress of this.userOrderTourAddress) {
@@ -407,7 +238,10 @@ export class UserTourComponent {
           userOrderTourAddress.order = await firstValueFrom(this.userService.putOrder(order));
         } catch (error:any) {
           if (error.status !== 200) this.error = "Das Zurücksetzen hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
-          return;
+          setTimeout(() => {
+            this.error = "";
+            return;
+          }, 2000);
         }
         this.success = "Reset war erfolgreich!";
         setTimeout(() => {
@@ -472,15 +306,6 @@ export class UserTourComponent {
 
   }
 
-  // changeValue(userOrderTourAddress: UserOrderTourAddressDTO) {
-  //   userOrderTourAddress.order.quantityDelivered = userOrderTourAddress.order.quantityOrdered;
-  //
-  //
-  //   // this.save(userOrderTourAddress);
-  //
-  //
-  //   return userOrderTourAddress.order.quantityOrdered;
-  // }
 
   async  save1(userOrderTourAddress: UserOrderTourAddressDTO) {
     this.error = "";
@@ -524,7 +349,5 @@ export class UserTourComponent {
         }
       }
     }
-
-
   }
 }

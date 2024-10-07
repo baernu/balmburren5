@@ -12,6 +12,8 @@
         <th scope="col">Tour</th>
         <th scope="col">Produkt</th>
         <th scope="col">Grösse</th>
+        <th scope="col">Preis</th>
+        <th scope="col">Beschreibung</th>
         <th scope="col">Anzahl Mo-Mi</th>
         <th scope="col">Anzahl Do-Sa</th>
       </tr>
@@ -21,6 +23,8 @@
         <td>{{ userProfileOrder.tour.number}}</td>
         <td>{{ userProfileOrder.productBindProductDetails.product.name }}</td>
         <td>{{ userProfileOrder.productBindProductDetails.productDetails.size }}  {{ userProfileOrder.productBindProductDetails.productDetails.unit }}</td>
+        <td>{{ userProfileOrder.productBindProductDetails.productDetails.price}}</td>
+        <td>{{ userProfileOrder.productBindProductDetails.productDetails.description}}</td>
         <td><input type="number"  min="0" [(ngModel)]="userProfileOrder.firstWeekOrder"></td>
         <td><input type="number"  min="0" [(ngModel)]="userProfileOrder.secondWeekOrder"></td>
       </tr>
