@@ -2,7 +2,6 @@
 <router-outlet></router-outlet>
 <div class="card">
   <div class="card-body">
-    <span style="display:block; height:50px;"></span>
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
@@ -19,19 +18,13 @@
         <span><b>{{child.category | date:'fullDate'}}</b></span>
         <tbody>
         <tr *ngFor="let order of child.products">
-<!--      <tbody>-->
-<!--      <tr *ngFor="let order of orders">-->
-<!--        <td *ngIf="!name.value" >{{ order.date.date | date:'fullDate' }}</td>-->
-<!--        <td *ngIf="!name.value" >{{order.tour.number}}</td>-->
         <td *ngIf="!name.value" >{{ order.productBindInfos.product.name }}</td>
         <td *ngIf="!name.value" >{{ order.productBindInfos.productDetails.size }}</td>
         <td *ngIf="!name.value" ><input type="number"  min="0" [(ngModel)]="order.quantityOrdered" (change)="save(order)"></td>
       </tr>
-<!--      <button type="button" (click)='apply()' class="btn-light">Speichern</button>-->
       </tbody>
       </div>
     </table>
-<!--    <button type="button" (click)='apply()' class="btn-light">Speichern</button>-->
     <div *ngIf="error" class="alert alert-danger">
       {{ error }}
     </div>

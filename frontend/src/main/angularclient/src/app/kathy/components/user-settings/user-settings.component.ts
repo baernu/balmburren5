@@ -30,19 +30,15 @@ export class UserSettingsComponent implements OnInit {
       for (const user of this.users) {
         let user1: UserDTO = await firstValueFrom(this.userService.findUser(user.username));
         let userWithRole: UserWithRoleDTO = new UserWithRoleDTO();
-        // let userBindRoles: UserBindRoleDTO[] = await firstValueFrom(this.userService.findAllRolesForPerson(user.username));
         let userBindRoles: UserBindRoleDTO[] = await firstValueFrom(this.userService.getAllUserBindRoles(user1.username));
-        // user1.roles.forEach(e => {
-        //   let userBindRole: UserBindRoleDTO = new UserBindRoleDTO();
-        //   userBindRole.role = e;
-        //   userBindRole.user = user1;
-        //   userBindRoles.push(userBindRole);
-        // })
 
         userBindRoles.forEach(userBindRole => {
           if (userBindRole.role.name == "ADMIN") userWithRole.adminIsChecked = true;
           if (userBindRole.role.name == "DRIVER") userWithRole.driverIsChecked = true;
           if (userBindRole.role.name == "USER") userWithRole.userIsChecked = true;
+          if (userBindRole.role.name == "USER_KATHY") userWithRole.userKathyIsChecked = true;
+          if (userBindRole.role.name == "KATHY") userWithRole.kathyIsChecked = true;
+          if (userBindRole.role.name == "SUPER_ADMIN") userWithRole.superadminIsChecked= true;
         });
         userWithRole.username = user.username;
         userWithRole.firstname = user.firstname;
@@ -70,7 +66,5 @@ export class UserSettingsComponent implements OnInit {
           param1: user.username
         }
       });
-
-
   }
 }

@@ -11,6 +11,7 @@ import {TourServiceService} from "../../tour/service/tour-service.service";
 import {DatesDTO} from "../../tour/service/DatesDTO";
 import {ProductBindInfosDTO} from "../../product/service/ProductBindInfosDTO";
 import {ProductService} from "../../product/service/product.service";
+import {groupebyDTO} from "../../../../components/user/service/groupbyDTO";
 
 @Component({
   selector: 'app-user-order',
@@ -28,6 +29,7 @@ export class UserOrderComponent {
   userProfileOrders2: UserProfileOrderDTO[] = [];
   productBindInfos: ProductBindInfosDTO[] = [];
   tours: TourDTO[] = [];
+  categories: groupebyDTO[] = [];
   error: string = "";
   success: string = "";
   error1: string = "";
@@ -46,7 +48,7 @@ export class UserOrderComponent {
   async ngOnInit(): Promise<void> {
     this.param1= this.route.snapshot.queryParamMap.get('param1');
     if (this.param1 != null) this.user = await firstValueFrom(this.userService.findUser(this.param1));
-    //first part of html
+
     let tours : TourDTO[] = [];
     this.tours = await firstValueFrom(this.tourService.getTours());
     for (const tour of this.tours) {
@@ -125,7 +127,7 @@ export class UserOrderComponent {
   //   await this.showList();
   // }
 
-  async save() {
+  async saveProfile() {
     try {
       for(const userProfileOrder of this.userProfileOrders1) {
         let userProfileOrder1 = await firstValueFrom(this.userService.getUserProfileOrder(userProfileOrder.user, userProfileOrder.productBindProductDetails.product,
@@ -192,6 +194,7 @@ export class UserOrderComponent {
     this.orders = await firstValueFrom(this.userService.getAllOrderForPerson(this.user));
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.tour.number.localeCompare(t2.tour.number));
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.date.date.localeCompare(t2.date.date));
+    this.showGroup();
   }
 
   async saveOrder(order:OrderDTO){
@@ -221,6 +224,46 @@ export class UserOrderComponent {
           });
     }, 800);
   }
+
+  showGroup() {
+    const group = this.orders.reduce((acc: any, curr) => {
+      let key = curr.date.date;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(curr);
+      return acc;
+    }, {});
+
+    //Get the categories and product related.
+    this.categories = Object.keys(group).map(key => ({
+      category: key,
+      products: group[key],
+    }));
+  }
+
+  async save(order: OrderDTO){
+    try {
+      await this.putOrder(order);
+    }catch(error: any){
+      if(error.status != 200){
+        this.error = "Speichern hat nicht funktioniert!";
+        setTimeout(async () => {
+          this.success = "";
+          this.error = "";
+          return;
+        }, 1000);
+      }
+    }
+    this.success = "Speichern hat funktioniert.";
+    setTimeout(async () => {
+      this.success = "";
+      this.error = "";
+      return;
+      // await this.router.navigate(['basic_order']);
+    }, 1000);
+  }
+
 }
 
 

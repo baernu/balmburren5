@@ -2,6 +2,8 @@
 <router-outlet></router-outlet>
 <div class="card">
   <div class="card-body">
+    <div><p>Um die Lieferungen anzuzeigen, auf den Vorname klicken.
+    <br>Um die Bestellungen anzuzeigen, auf den Nachname klicken.</p></div>
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
@@ -11,13 +13,16 @@
         <th scope="col">Admin</th>
         <th scope="col">Driver</th>
         <th scope="col">User</th>
+        <th scope="col">UserKathy</th>
+        <th scope="col">Kathy</th>
+        <th scope="col">SuperAdmin</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let user of usersWithRole">
         <td>{{ user.username }}</td>
-        <td (click)="userOrdered(user)" title="User Ordered">{{user.firstname}}</td>
-        <td (click)="userOrder(user)" title="User Order">{{ user.lastname }}</td>
+        <td (click)="userOrdered(user)" title="Zeigt die Lieferungen vom User an"><ins>{{user.firstname}}</ins></td>
+        <td (click)="userOrder(user)"  title="Zeigt die Bestellungen vom User an."><ins>{{user.lastname}}</ins></td>
         <td><div class="form-check">
           <input class="form-check-input" type="checkbox" value="{{user.driverIsChecked}}" onclick="return false" [ngModel]="user.adminIsChecked">
         </div></td>
@@ -26,6 +31,15 @@
         </div></td>
         <td><div class="form-check">
           <input class="form-check-input" type="checkbox" value="{{user.userIsChecked}}" onclick="return false" [(ngModel)]="user.userIsChecked">
+        </div></td>
+        <td><div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{user.userKathyIsChecked}}" onclick="return false" [(ngModel)]="user.userKathyIsChecked">
+        </div></td>
+        <td><div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{user.kathyIsChecked}}" onclick="return false" [(ngModel)]="user.kathyIsChecked">
+        </div></td>
+        <td><div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{user.superadminIsChecked}}" onclick="return false" [(ngModel)]="user.superadminIsChecked">
         </div></td>
       </tr>
       </tbody>
