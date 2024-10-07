@@ -89,17 +89,6 @@ export class UserOrderComponent {
     }
   }
 
-  // async apply() {
-  //   for (const order of this.orders) {
-  //     await this.putOrder(order);
-  //   }
-  //   await this.router.navigate(['admin_users_order'],
-  //     {
-  //       queryParams: {
-  //         param1: this.param1
-  //       }
-  //     });
-  // }
   private async putOrder(order: OrderDTO) {
     order.isChecked = true;
     let order1: OrderDTO = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
@@ -117,15 +106,7 @@ export class UserOrderComponent {
   private checkIfProductBindInfosActive(productBindInfos: ProductBindInfosDTO[]) {
     return productBindInfos.filter(productBindInfo =>  productBindInfo.endDate.date >= new Date().toISOString().split('T')[0]);
   }
-  // async save() {
-  //   for (const userProfileOrder of this.userProfileOrders1) {
-  //     let userProfileOrder1 = await firstValueFrom(this.userService.getUserProfileOrder(userProfileOrder.user, userProfileOrder.productBindProductDetails.product,
-  //       userProfileOrder.productBindProductDetails.productDetails, userProfileOrder.tour));
-  //     userProfileOrder.version = userProfileOrder1.version;
-  //     await firstValueFrom(this.userService.putUserProfileOrder(userProfileOrder));
-  //   }
-  //   await this.showList();
-  // }
+
 
   async saveProfile() {
     try {

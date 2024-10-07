@@ -2,54 +2,69 @@
 <router-outlet></router-outlet>
 <div class="card">
   <div class="card-body">
-    <span style="display:block; height:50px;"></span>
+    <div><h5>User: {{ user.firstname}} {{user.lastname}}</h5></div>
+    <div><p>Falls Sie regelmässig die gleichen Produkte bestellen möchten, geben Sie die gewünschte Anzahl ein. <br />
+      Diese Angaben dienen als Grundeinstellungen und können dann jeweils noch geändert werden.
+    </p></div>
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
         <th scope="col">Tour</th>
-        <th scope="col">Product</th>
-        <th scope="col">Category</th>
-        <th scope="col">Number First</th>
-        <th scope="col">Number Second</th>
+        <th scope="col">Produkt</th>
+        <th scope="col">Grösse</th>
+        <th scope="col">Anzahl Mo-Mi</th>
+        <th scope="col">Anzahl Do-Sa</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let userProfileOrder of userProfileOrders1">
         <td>{{ userProfileOrder.tour.number}}</td>
         <td>{{ userProfileOrder.productBindProductDetails.product.name }}</td>
-        <td>{{ userProfileOrder.productBindProductDetails.productDetails.category }}</td>
+        <td>{{ userProfileOrder.productBindProductDetails.productDetails.size }}  {{ userProfileOrder.productBindProductDetails.productDetails.unit }}</td>
         <td><input type="number"  min="0" [(ngModel)]="userProfileOrder.firstWeekOrder"></td>
         <td><input type="number"  min="0" [(ngModel)]="userProfileOrder.secondWeekOrder"></td>
       </tr>
-      <button type="button" (click)='save()' class="btn-light">save</button>
-      <button type="button" (click)='showList()' class="btn-light">show List</button>
       </tbody>
+      <button type="button" (click)='saveProfile()' class="btn-light">Speichern</button>
+      <button type="button" (click)='showList()' class="btn-light">Bestellungen anzeigen</button>
     </table>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    <div *ngIf="success" class="alert alert-success">
+      {{ success }}
+    </div>
   </div>
-</div>
-<div class="card my-5">
   <div class="card-body">
-    <span style="display:block; height:50px;"></span>
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Dates</th>
         <th scope="col">Tour</th>
-        <th scope="col">Product</th>
-        <th scope="col">Category</th>
-        <th scope="col">Number</th>
+        <th scope="col">Produkt</th>
+        <th scope="col">Einheit</th>
+        <th scope="col">Anzahl</th>
       </tr>
       </thead>
-      <tbody>
-      <tr *ngFor="let order of orders">
-        <td>{{ order.date.date | date:'fullDate' }}</td>
-        <td>{{order.tour.number}}</td>
-        <td>{{ order.productBindInfos.product.name }}</td>
-        <td>{{ order.productBindInfos.productDetails.category }}</td>
-        <td><input type="number"  min="0" [(ngModel)]="order.quantityOrdered"></td>
-      </tr>
-      <button type="button" (click)='apply()' class="btn-light">apply</button>
-      </tbody>
+      <div *ngFor="let child of categories">
+        <span><input class="form-check-input" type="checkbox" name="{{child.category}}" #name="ngModel" ngModel></span>
+        <span style="display:block; width:50px;"></span>
+        <span><b>{{child.category | date:'fullDate'}}</b></span>
+        <tbody>
+        <tr *ngFor="let order of child.products">
+          <td *ngIf="!name.value" >{{ order.tour.number}}</td>
+          <td *ngIf="!name.value" >{{ order.productBindInfos.product.name }}</td>
+          <td *ngIf="!name.value" >{{ order.productBindInfos.productDetails.size }}</td>
+          <td *ngIf="!name.value" ><input type="number"  min="0" [(ngModel)]="order.quantityOrdered" (change)="save(order)"></td>
+        </tr>
+        </tbody>
+      </div>
     </table>
+    <div *ngIf="error1" class="alert alert-danger">
+      {{ error1 }}
+    </div>
+    <div *ngIf="success1" class="alert alert-success">
+      {{ success1 }}
+    </div>
   </div>
 </div>
+

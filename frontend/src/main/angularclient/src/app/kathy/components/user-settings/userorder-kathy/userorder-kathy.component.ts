@@ -11,6 +11,7 @@ import {TourServiceService} from "../../../../admin/components/tour/service/tour
 import {ProductService} from "../../../../admin/components/product/service/product.service";
 import {firstValueFrom} from "rxjs";
 import {DatesDTO} from "../../../../admin/components/tour/service/DatesDTO";
+import {groupebyDTO} from "../../../../components/user/service/groupbyDTO";
 
 @Component({
   selector: 'app-userorder-kathy',
@@ -18,7 +19,6 @@ import {DatesDTO} from "../../../../admin/components/tour/service/DatesDTO";
   styleUrls: ['./userorder-kathy.component.css']
 })
 export class UserorderKathyComponent {
-
   param1: string | null = "";
   user: UserDTO = new UserDTO();
   tourDateBindInfosDTOs: TourDateBindInfosDTO[] = [];
@@ -28,6 +28,11 @@ export class UserorderKathyComponent {
   userProfileOrders2: UserProfileOrderDTO[] = [];
   productBindInfos: ProductBindInfosDTO[] = [];
   tours: TourDTO[] = [];
+  categories: groupebyDTO[] = [];
+  error: string = "";
+  success: string = "";
+  error1: string = "";
+  success1: string = "";
 
   constructor(private userService: UserService,
               private router: Router,
@@ -42,20 +47,20 @@ export class UserorderKathyComponent {
   async ngOnInit(): Promise<void> {
     this.param1= this.route.snapshot.queryParamMap.get('param1');
     if (this.param1 != null) this.user = await firstValueFrom(this.userService.findUser(this.param1));
-    //first part of html
+
     let tours : TourDTO[] = [];
     this.tours = await firstValueFrom(this.tourService.getTours());
     for (const tour of this.tours) {
       if (await firstValueFrom(this.userService.existPersonBindTour(this.user.username, tour.number)))
         tours.push(tour);
     }
-    console.log("Tours: ", this.tours);
+    // console.log("Tours: ", this.tours);
     this.productBindInfos = await firstValueFrom(this.productService.getAllProductBindInfos());
     this.productBindInfos = this.checkIfProductBindInfosActive(this.productBindInfos);
     this.productBindInfos.sort((p1:ProductBindInfosDTO, p2:ProductBindInfosDTO) => p1.product.name.localeCompare(p2.product.name));
     this.productBindInfos.sort((p1:ProductBindInfosDTO, p2:ProductBindInfosDTO) => p1.productDetails.category.localeCompare(p2.productDetails.category));
     for (const tour of tours) {
-      console.log("ProductBindInfos: ", this.productBindInfos);
+      // console.log("ProductBindInfos: ", this.productBindInfos);
       for (const pBI of this.productBindInfos) {
         let userProfileOrder = new UserProfileOrderDTO();
         userProfileOrder.tour = tour;
@@ -83,24 +88,11 @@ export class UserorderKathyComponent {
     }
   }
 
-  async apply() {
-    for (const order of this.orders) {
-      await this.putOrder(order);
-    }
-    await this.router.navigate(['kathy_users_ordered'],
-      {
-        queryParams: {
-          param1: this.param1
-        }
-      });
-  }
   private async putOrder(order: OrderDTO) {
     order.isChecked = true;
     let order1: OrderDTO = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
       order.productBindInfos.productDetails, order.date, order.tour));
     order.version = order1.version;
-    let bool = await firstValueFrom(this.userService.isUserKathy(order.deliverPeople.username));
-    if (bool)
     await firstValueFrom(this.userService.putOrder(order));
   }
 
@@ -113,17 +105,45 @@ export class UserorderKathyComponent {
   private checkIfProductBindInfosActive(productBindInfos: ProductBindInfosDTO[]) {
     return productBindInfos.filter(productBindInfo =>  productBindInfo.endDate.date >= new Date().toISOString().split('T')[0]);
   }
-  async save() {
-    let bool = await firstValueFrom(this.userService.isUserKathy(this.param1));
-    if (bool)
-      for (const userProfileOrder of this.userProfileOrders1) {
+
+
+  async saveProfile() {
+    try {
+      for(const userProfileOrder of this.userProfileOrders1) {
+        let userProfileOrder1 = await firstValueFrom(this.userService.getUserProfileOrder(userProfileOrder.user, userProfileOrder.productBindProductDetails.product,
+          userProfileOrder.productBindProductDetails.productDetails, userProfileOrder.tour));
+        userProfileOrder.version = userProfileOrder1.version;
         await firstValueFrom(this.userService.putUserProfileOrder(userProfileOrder));
       }
-    await this.showList();
+
+    }catch(error: any){
+      if(error.status != 200){
+        this.error = "Speichern hat nicht funktioniert!";
+        setTimeout(async () => {
+          this.success = "";
+          this.error = "";
+          return;
+        }, 2000);
+      }
+    }
+    this.success = "Speichern hat funktioniert. Regelmässige Bestellung ist aktiviert.";
+    setTimeout(async () => {
+      this.success = "";
+      this.error = "";
+      // await this.showList();
+    }, 2500);
   }
 
 
   async showList() {
+    let date = new Date();
+    let dateNow = new DatesDTO()
+    let dayPlus21 = new DatesDTO();
+
+    dateNow.date = new Date().toISOString().split('T')[0];
+    dayPlus21.date = new Date(date.setDate(date.getDate() + 21)).toISOString().split('T')[0];
+    dateNow = await firstValueFrom(this.tourService.createDates(dateNow));
+    dayPlus21 = await firstValueFrom(this.tourService.createDates(dayPlus21));
     //second part of html
     this.tourDateBindInfosDTOs = [];
     if (this.user.username)
@@ -156,14 +176,81 @@ export class UserorderKathyComponent {
           if (new Date(order.date.date).getDay() > 3 && userProfileOrder)
             order.quantityOrdered = userProfileOrder.secondWeekOrder;
         }
-        let bool = await firstValueFrom(this.userService.isUserKathy(this.param1));
-        if (bool)
         await this.putOrder(order);
       }
     }
-    this.orders = await firstValueFrom(this.userService.getAllOrderForPerson(this.user));
+    this.orders = await firstValueFrom(this.userService.getAllOrderForPersonBetween(dateNow, dayPlus21, this.user));
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.tour.number.localeCompare(t2.tour.number));
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.date.date.localeCompare(t2.date.date));
+    this.showGroup();
   }
+
+  async saveOrder(order:OrderDTO){
+    try {
+      await this.putOrder(order);
+
+
+    }catch(error: any){
+      if(error.status != 200){
+        this.error1 = "Speichern hat nicht funktioniert!";
+        setTimeout(async () => {
+          this.success1 = "";
+          this.error1 = "";
+          return;
+        }, 2000);
+      }
+    }
+    this.success1 = "Speichern hat funktioniert.";
+    setTimeout(async () => {
+      this.success1 = "";
+      this.error1 = "";
+      await this.router.navigate(['kathy_users_ordered'],
+        {
+          queryParams: {
+            param1: this.param1
+          }
+        });
+    }, 800);
+  }
+
+  showGroup() {
+    const group = this.orders.reduce((acc: any, curr) => {
+      let key = curr.date.date;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(curr);
+      return acc;
+    }, {});
+
+    //Get the categories and product related.
+    this.categories = Object.keys(group).map(key => ({
+      category: key,
+      products: group[key],
+    }));
+  }
+
+  async save(order: OrderDTO){
+    try {
+      await this.putOrder(order);
+    }catch(error: any){
+      if(error.status != 200){
+        this.error = "Speichern hat nicht funktioniert!";
+        setTimeout(async () => {
+          this.success = "";
+          this.error = "";
+          return;
+        }, 1000);
+      }
+    }
+    this.success = "Speichern hat funktioniert.";
+    setTimeout(async () => {
+      this.success = "";
+      this.error = "";
+      return;
+      // await this.router.navigate(['basic_order']);
+    }, 1000);
+  }
+
 }
 
