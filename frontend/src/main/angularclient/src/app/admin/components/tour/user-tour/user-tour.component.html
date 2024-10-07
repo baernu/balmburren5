@@ -2,7 +2,6 @@
 <router-outlet></router-outlet>
 <div class="card">
   <div class="card-body">
-<!--    <span style="display:block; height:50px;"></span>-->
     <div><p>Zum wählen einer Tour, bei der gewünschten Tour das Datum eingeben.</p></div>
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
@@ -54,18 +53,20 @@
       <div><button type="button"(click)='reset()' class="btn-light">Alle zurücksetzen</button></div>
     </table>
   </div>
-<div *ngIf="error" class="alert alert-danger">
-  {{ error }}
-</div>
-<div *ngIf="success" class="alert alert-success">
-  {{ success }}
-</div>
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+  <div *ngIf="success" class="alert alert-success">
+    {{ success }}
+  </div>
   <div class="card-body">
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
         <th scope="col">Produkt</th>
         <th scope="col">Kategorie</th>
+        <th scope="col">Preis</th>
+        <th scope="col">Beschreibung</th>
         <th scope="col">Datum</th>
         <th scope="col">Anzahl</th>
       </tr>
@@ -74,12 +75,17 @@
       <tr *ngFor="let productBindInfoCount of productBindInfoCounts">
         <td>{{ productBindInfoCount.productbindinfos.product.name}}</td>
         <td>{{ productBindInfoCount.productbindinfos.productDetails.category}}</td>
+        <td>{{ productBindInfoCount.productbindinfos.productDetails.price}}</td>
+        <td>{{ productBindInfoCount.productbindinfos.productDetails.description}}</td>
         <td>{{ dates.date |date: 'fullDate'}}</td>
-        <td>{{ productBindInfoCount.counter}}</td>
+        <td [ngStyle]="{'color': 'brown'}"><b>{{ productBindInfoCount.counter}}</b></td>
       </tr>
       </tbody>
     </table>
   </div>
 </div>
+
+
+
 
 
