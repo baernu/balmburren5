@@ -17,6 +17,7 @@ import {TourDateBindInfosDTO} from "../service/TourDateBindInfosDTO";
 import {UserProfileOrderDTO} from "../../../../components/user/service/userProfileOrderDTO";
 import {groupebyDTO} from "../../../../components/user/service/groupbyDTO";
 import {UserOrderTourAddressDTO} from "../../../../components/user/service/userOrderTourAddressDTO";
+import {ProductBindInfoCountDTO} from "../../product/service/productBindInfoCountDTO";
 
 @Component({
   selector: 'app-user-tour',
@@ -48,6 +49,7 @@ export class UserTourComponent {
   categories: groupebyDTO[] = [];
   userBindAddress: UserBindDeliverAddressDTO[] = [];
   userOrderTourAddress: UserOrderTourAddressDTO[] = [];
+  productBindInfoCounts: ProductBindInfoCountDTO[] = [];
 
 
   constructor(
@@ -108,16 +110,30 @@ export class UserTourComponent {
 
     }
 
-    let eggs: number = 0;
-    let milks: number = 0;
+    // let eggs: number = 0;
+    // let milks: number = 0;
+    let productBindProductInfos = await firstValueFrom(this.productService.getProductBindInfosisChecked(true));
     for (const order of this.orders) {
-      if (order.productBindInfos.productDetails.category === "Eier")
-        eggs += order.quantityOrdered;
-      if (order.productBindInfos.productDetails.category === "Milch")
-        milks += order.quantityOrdered;
+      for (const productBindInfo of productBindProductInfos) {
+        if(productBindInfo.id == order.productBindInfos.id){
+          let element = this.productBindInfoCounts.find(e => e.productbindinfos.id == order.productBindInfos.id);
+          if(element == null){
+            let pBIC = new ProductBindInfoCountDTO();
+            pBIC.productbindinfos = productBindInfo;
+            pBIC.counter = order.quantityOrdered;
+            this.productBindInfoCounts.push(pBIC);
+          }else {
+            element.counter += order.quantityOrdered;
+          }
+        }
+      }
+      // if (order.productBindInfos.productDetails.category === "Eier")
+      //   eggs += order.quantityOrdered;
+      // if (order.productBindInfos.productDetails.category === "Milch")
+      //   milks += order.quantityOrdered;
     }
-    this.totalMilk = milks;
-    this.totalEggs = eggs;
+    // this.totalMilk = milks;
+    // this.totalEggs = eggs;
     await this.pushUserOrderTourAddress();
 
   }
@@ -141,8 +157,8 @@ export class UserTourComponent {
   }
 
   async onSubmit() {
-    this.success2 ="";
-    this.error2 = "";
+    // this.success2 ="";
+    // this.error2 = "";
     let count: number = 0;
     let androidClients: AndroidClientDTO[] = [];
     for (const userOrderTourAddress of this.userOrderTourAddress) {

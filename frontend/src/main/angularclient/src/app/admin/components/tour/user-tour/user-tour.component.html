@@ -68,16 +68,18 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Total Milch</th>
-        <th scope="col">Total Eier</th>
+        <th scope="col">Produkt</th>
+        <th scope="col">Kategorie</th>
         <th scope="col">Datum</th>
+        <th scope="col">Anzahl</th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>{{ totalMilk}}</td>
-        <td>{{ totalEggs}}</td>
+      <tr *ngFor="let productBindInfoCount of productBindInfoCounts">
+        <td>{{ productBindInfoCount.productbindinfos.product.name}}</td>
+        <td>{{ productBindInfoCount.productbindinfos.productDetails.category}}</td>
         <td>{{ dates.date |date: 'fullDate'}}</td>
+        <td>{{ productBindInfoCount.counter}}</td>
       </tr>
       </tbody>
     </table>
