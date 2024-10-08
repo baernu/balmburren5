@@ -2,7 +2,9 @@
 <router-outlet></router-outlet>
 <div class="card">
   <div class="card-body">
-    <span style="display:block; height:50px;"></span>
+    <div><p>Um die Lieferungen in einem bestimmten Zeitfenster anzuzeigen:
+      <br>zuerst <b>Start Datum</b> auswählen und dann <b>End Datum</b> auswählen.
+      <br>Nun <b>Anwenden</b> klicken.</p></div>
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
@@ -18,13 +20,12 @@
       </tr>
       </tbody>
     </table>
-  </div>
-  <div class="card-body">
+    <!--  </div>-->
+    <!--  <div class="card-body">-->
+    <div><p>Mit der Check-Box können die Auflistungen ein- und ausgeblendet werden.</p></div>
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-<!--        <th scope="col">Datum</th>-->
-<!--        <th scope="col">Tour</th>-->
         <th scope="col">Produkt</th>
         <th scope="col">Grösse</th>
         <th scope="col">Lieferung</th>
@@ -37,20 +38,16 @@
         <span><b>{{child.category | date:'fullDate'}}</b></span>
         <tbody>
         <tr *ngFor="let order of child.products">
-<!--      <tbody>-->
-<!--      <tr *ngFor="let order of orders">-->
-<!--        <td>{{ order.date.date | date:'fullDate' }}</td>-->
-<!--        <td>{{order.tour.number}}</td>-->
-        <td *ngIf="!name.value" >{{ order.productBindInfos.product.name }}</td>
-        <td *ngIf="!name.value" >{{ order.productBindInfos.productDetails.size}}  {{ order.productBindInfos.productDetails.unit}}</td>
-        <td [ngStyle]="{'color': 'brown'}" *ngIf="!name.value" >{{ order.quantityDelivered}}</td>
-        <td *ngIf="!name.value" >{{ order.productBindInfos.productDetails.price * order.quantityDelivered | number : '1.2-2'}} CHF</td>
-      </tr>
-      </tbody>
+          <td *ngIf="!name.value" >{{ order.productBindInfos.product.name }}</td>
+          <td *ngIf="!name.value" >{{ order.productBindInfos.productDetails.size}}  {{ order.productBindInfos.productDetails.unit}}</td>
+          <td [ngStyle]="{'color': 'brown'}" *ngIf="!name.value" >{{ order.quantityDelivered}}</td>
+          <td *ngIf="!name.value" >{{ order.productBindInfos.productDetails.price * order.quantityDelivered | number : '1.2-2'}} CHF</td>
+        </tr>
+        </tbody>
       </div>
     </table>
-  </div>
-  <div class="card-body">
+    <!--  </div>-->
+    <!--  <div class="card-body">-->
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
@@ -65,4 +62,3 @@
     </table>
   </div>
 </div>
-

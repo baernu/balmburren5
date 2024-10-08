@@ -6,6 +6,7 @@ import {firstValueFrom} from "rxjs";
 import {UserDTO} from "../user/service/userDTO";
 import {DatesDTO} from "../../admin/components/tour/service/DatesDTO";
 import {groupebyDTO} from "../user/service/groupbyDTO";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-invoice',
@@ -23,13 +24,18 @@ export class InvoiceComponent {
 
   constructor(
     private tourService: TourServiceService,
-    private userService: UserService){}
-
-  async ngOnInit(): Promise<void> {
-
-    this.user = await firstValueFrom(this.userService.currentUser());
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private router: Router){
+    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+      return false;
+    };
   }
 
+  async ngOnInit(): Promise<void> {
+    let user = await firstValueFrom(this.userService.currentUser());
+    if(user)this.user = await firstValueFrom(this.userService.findUser(user.username))
+  }
 
   async apply() {
     this.dateFrom.date = new Date(this.dateFrom.date).toISOString().split('T')[0];
