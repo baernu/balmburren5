@@ -53,8 +53,15 @@ export class LoginComponent {
       this.success = "";
       this.error = "";
       await firstValueFrom(this.userService.setTokenCookie(this.token));
-      let msg = await firstValueFrom(this.userService.createUser(this.user.username));
-      await this.router.navigate(['home']);
+      let roles = await firstValueFrom(this.userService.getAllUserBindRolesMe());
+      let admin = roles.find(e => e.role.name == "ADMIN");
+      if(admin) if(await firstValueFrom(this.userService.isAdmin(this.user.username)))await this.router.navigate(['/admin']);
+      let driver = roles.find(e => e.role.name =="DRIVER")
+      if(driver) if(await firstValueFrom(this.userService.isDriver(this.user.username)))await this.router.navigate(['/driver']);
+      let kathy = roles.find(e => e.role.name == "KATHY");
+      if(kathy) if(await firstValueFrom(this.userService.isKathy(this.user.username)))await this.router.navigate(['/kathy']);
+      let user = roles.find(e => e.role.name == "USER");
+      if(user) if(await firstValueFrom(this.userService.isBasic(this.user.username)))await this.router.navigate(['home']);
 
     }, 1000);
 

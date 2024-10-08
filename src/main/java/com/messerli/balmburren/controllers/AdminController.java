@@ -43,7 +43,6 @@ public class AdminController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> createUser(@RequestBody String username) {
         boolean var = userService.createUser(username);
-
         return ResponseEntity.ok(var);
     }
 

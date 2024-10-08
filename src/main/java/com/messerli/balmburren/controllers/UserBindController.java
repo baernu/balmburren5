@@ -3,14 +3,13 @@ package com.messerli.balmburren.controllers;
 
 import com.messerli.balmburren.entities.*;
 import com.messerli.balmburren.exceptions.NoSuchElementFoundException;
-import com.messerli.balmburren.services.DatesService;
-import com.messerli.balmburren.services.TourService;
-import com.messerli.balmburren.services.UserBindService;
-import com.messerli.balmburren.services.UserService;
+import com.messerli.balmburren.services.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -349,6 +348,15 @@ public class UserBindController {
     ResponseEntity<Boolean> existTourForPerson(@PathVariable("username") String username, @PathVariable("tour") String tour) {
         boolean bool = userBindService.existPersonAndTour(getPeople(username).get(), getTour(tour).get());
         return ResponseEntity.ok().body(bool);}
+
+    @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping ("person/bind/role/me")
+    ResponseEntity<List<UsersRole>>getAllPersonBindRolesMe() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails currentUser = (MyUserDetails) authentication.getPrincipal();
+        List<UsersRole> list = userBindService.getAllUserBindRoles(getPeople(currentUser.getUsername()).get());
+        return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER')")

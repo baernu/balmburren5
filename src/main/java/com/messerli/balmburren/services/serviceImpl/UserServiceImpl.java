@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -136,6 +135,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> enableUser(User user) {
+        user.setEnabled(true);
+        return Optional.of(userRepository.save(user));
+    }
+
+    @Override
+    public Optional<User> dissableUser(User user) {
+        user.setEnabled(false);
+        return Optional.of(userRepository.save(user));
+    }
+
+    @Override
     public Optional<User> updateUser(User user) {
         Optional<User> user1 = findUser(user.getUsername());
         user.setVersion(user1.get().getVersion());
@@ -148,6 +159,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return Optional.of(userRepository.save(user));
     }
+
 
     public boolean isAdmin(String username) {
         Optional<User> optionalUser = findUser(username);

@@ -360,7 +360,8 @@ export class UserService {
   public putReference(reference: ReferenceDTO): Observable<ReferenceDTO>{
     return this.http.put<ReferenceDTO>(this.invoiceUrl + 'reference/', reference, {withCredentials : true});}
 
-
+  public getAllUserBindRolesMe(): Observable<UserBindRoleDTO[]>{
+    return this.http.get<UserBindRoleDTO[]>(this.userBindRole + 'me', {withCredentials : true});}
   public getAllUserBindRoles(username: string): Observable<UserBindRoleDTO[]>{
     return this.http.get<UserBindRoleDTO[]>(this.userBindRole + username, {withCredentials : true});}
   public saveUserBindRoles(userBindRoleDTO: UserBindRoleDTO): Observable<UserBindRoleDTO>{
