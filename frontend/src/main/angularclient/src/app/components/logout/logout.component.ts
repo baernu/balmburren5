@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../user/service/user-service.service";
 import {firstValueFrom} from "rxjs";
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -11,7 +11,6 @@ import {firstValueFrom} from "rxjs";
 })
 export class LogoutComponent {
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private userService: UserService) {
 

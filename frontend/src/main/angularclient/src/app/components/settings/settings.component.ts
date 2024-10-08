@@ -60,15 +60,17 @@ export class SettingsComponent {
       }catch(error: any) {
         if (error.status != 200){
           this.error = "Adresse konnte nicht gespeichert werden!";
+          setTimeout( () => {
+            this.error = "";
+          }, 1000);
+          return;
         }
       }
       this.success = "Adresse wurde gespeichert."
-      setTimeout(async () => {
-        this.error = "";
+      setTimeout( () => {
         this.success = "";
-        return;
       }, 1000);
-
+      return;
     }
     else {
       try {
@@ -77,14 +79,17 @@ export class SettingsComponent {
       }catch(error: any) {
         if (error.status != 200){
           this.error = "Adresse konnte nicht gespeichert werden!";
+          setTimeout( () => {
+            this.error = "";
+          }, 1000);
+          return;
         }
       }
       this.success = "Adresse wurde gespeichert."
-      setTimeout(async () => {
-        this.error = "";
+      setTimeout( () => {
         this.success = "";
-        return;
       }, 1000);
+      return;
     }
     if(!await firstValueFrom(this.userService.existUserBindPhone(this.user))) {
       try {
@@ -92,20 +97,27 @@ export class SettingsComponent {
         this.userBindPhone.invoicePerson = this.user;
         this.userBindPhone = await firstValueFrom(this.userService.createUserBindPhone(this.userBindPhone));
       }catch(error:any) {
-        if(error.staus != 200)this.error = "Telefonnummer konnte nicht kreiert werden!"
+        if(error.staus != 200)this.error = "Telefonnummer konnte nicht kreiert werden!";
+        setTimeout( () => {
+          this.error = "";
+        }, 1000);
+        return;
       }
 
     } else {
       try {
         this.userBindPhone = await firstValueFrom(this.userService.putUserBindPhone(this.userBindPhone));
       }catch(error:any){
-        if(error.staus != 200)this.error = "Telefonnummer konnte nicht gespeichert werden!"
+        if(error.staus != 200)this.error = "Telefonnummer konnte nicht gespeichert werden!";
+        setTimeout( () => {
+          this.error = "";
+        }, 1000);
+        return;
       }
 
     }
     this.success = "Daten wurden gespeichert.";
     setTimeout(async () => {
-      this.error = "";
       this.success = "";
       await this.router.navigate(['settings']);
     }, 1000);
@@ -122,10 +134,22 @@ export class SettingsComponent {
         await firstValueFrom(this.userService.update1User(this.user));
       }catch(error: any) {
         if(error.status != 200)this.error1 = "Passwort konnte nicht gespeichert werden!";
+        setTimeout( () => {
+          this.error1 = "";
+        }, 1000);
+        return;
       }
-      this.success = "Passwort wurde gespeichert.";
+      this.success1 = "Passwort wurde gespeichert.";
+      setTimeout( () => {
+        this.success1 = "";
+      }, 1000);
+      return;
     } else {
       this.error1 = "Passwort ist zu kurz!";
+      setTimeout( () => {
+        this.error1 = "";
+      }, 1000);
+      return;
     }
     setTimeout(async () => {
       this.error1 = "";

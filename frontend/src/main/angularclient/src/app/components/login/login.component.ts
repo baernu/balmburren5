@@ -105,16 +105,16 @@ export class LoginComponent {
         setTimeout(() => {
           this.success = "";
           this.error = "";
-          return;
         }, 1000);
+        return;
       }
     }
     this.success = "Passwort wurde gesendet. Bitte schauen Sie in Ihrem Email Postfach nach."
     setTimeout(() => {
       this.success = "";
       this.error = "";
-      return;
     }, 3000);
+    return;
   }
 
   randomString(length:number, chars:string) {

@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import {UserService} from "../user/service/user-service.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {TourServiceService} from "../../admin/components/tour/service/tour-service.service";
-import {ProductService} from "../../admin/components/product/service/product.service";
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-front',
@@ -11,12 +9,7 @@ import {ProductService} from "../../admin/components/product/service/product.ser
 })
 export class FrontComponent {
   constructor(
-              private router: Router,
-              ) {
-    // this.router.routeReuseStrategy.shouldReuseRoute = () => {
-    //   return false;
-    // };
-  }
+    private router: Router,) {}
 
 
   async login() {

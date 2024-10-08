@@ -7,7 +7,7 @@ import {firstValueFrom} from "rxjs";
 import {ProductService} from "../../admin/components/product/service/product.service";
 import {UserDTO} from "../user/service/userDTO";
 import {TourDTO} from "../../admin/components/tour/service/TourDTO";
-import {ActivatedRoute, Router} from "@angular/router";
+import { Router} from "@angular/router";
 
 @Component({
   selector: 'app-userorderprofile',
@@ -15,7 +15,6 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./userorderprofile.component.css']
 })
 export class UserorderprofileComponent {
-  // showPassword: boolean = false;
   userProfileOrders: UserProfileOrderDTO[] = [];
   productBindInfos: ProductBindInfosDTO[] = [];
   user: UserDTO = new UserDTO();
@@ -27,7 +26,6 @@ export class UserorderprofileComponent {
     private tourService: TourServiceService,
     private userService: UserService,
     private productService: ProductService,
-    private route: ActivatedRoute,
     private router: Router,
     ){
     this.user = new UserDTO();
@@ -79,17 +77,15 @@ export class UserorderprofileComponent {
     }catch(error: any){
       if(error.status != 200){
         this.error = "Speichern hat nicht funktioniert!";
-        setTimeout(async () => {
-          this.success = "";
+        setTimeout(() => {
           this.error = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success = "Speichern hat funktioniert. Regelmässige Bestellung ist aktiviert.";
     setTimeout(async () => {
       this.success = "";
-      this.error = "";
       await this.router.navigate(['basic_order_profil']);
     }, 4000);
   }

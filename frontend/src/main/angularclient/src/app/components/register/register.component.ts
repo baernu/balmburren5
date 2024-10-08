@@ -43,19 +43,19 @@ export class RegisterComponent {
 
     if (bool) {
       this.error = "Username ist besetzt, bitte neu bestimmen.";
-      setTimeout(async () => {
+      setTimeout( () => {
         this.success = "";
         this.error = "";
-        return;
       }, 2000);
+      return;
     }
     if (this.user.password.length < 8) {
       this.error = "Passswort ist zu kurz.";
-      setTimeout(async () => {
+      setTimeout( () => {
         this.success = "";
         this.error = "";
-        return;
       }, 2000);
+      return;
     }
 
     if (!bool && this.user.password.length > 7) {
@@ -66,11 +66,11 @@ export class RegisterComponent {
       }catch(error: any){
         if(error.status != 200 || 201) {
           this.error = "Registrierung  Email/ Phone hat nicht geklappt!";
-          setTimeout(async () => {
+          setTimeout( () => {
             this.success = "";
             this.error = "";
-            return;
           }, 2000);
+          return;
         }
       }
       try {
@@ -80,25 +80,15 @@ export class RegisterComponent {
       }catch(error: any){
         if(error.status != 200 || 201){
           this.error = "Registrierung Adresse hat nicht geklappt!";
-          setTimeout(async () => {
+          setTimeout( () => {
             this.success = "";
             this.error = "";
-            return;
           }, 2000);
+          return;
         }
       }
       this.success = "Bitte schauen sie in den nächsten Minuten in Ihrem Email Postfach.";
       this.sendRegisterMessage();
-      // setTimeout(async () => {
-      //   this.success = "";
-      //   this.error = "";
-      //   return;
-      //   // await this.sendRegisterMessage();
-      //   // await this.router.navigate(['login']);
-      // }, 2000);
-      // await this.sendRegisterMessage();
-      // this.sendRegisterMessage();
-      // await this.router.navigate(['login']);
     }
   }
 
@@ -122,8 +112,8 @@ export class RegisterComponent {
         setTimeout(() => {
           this.success = "";
           this.error = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success = "Registrierungsmail wurde gesendet. Bitte lesen Sie die Mail. Sie werden zum Login weitergleitet."
