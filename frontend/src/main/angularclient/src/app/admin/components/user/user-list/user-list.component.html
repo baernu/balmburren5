@@ -9,6 +9,7 @@
       <thead class="thead-dark">
       <tr>
         <th scope="col">ID</th>
+        <th scope="col">Aktiv</th>
         <th scope="col">Username</th>
         <th scope="col">Vorname</th>
         <th scope="col">Nachname</th>
@@ -23,6 +24,9 @@
       <tbody>
       <tr *ngFor="let user of usersWithRole">
         <td>{{user.id}}</td>
+        <td><div class="form-check">
+          <input class="form-check-input" type="checkbox" value="{{user.enabled}}" onclick="return false" [(ngModel)]="user.enabled">
+        </div></td>
         <td (click)="userSettings(user)" title="User Einstellungen"><ins>{{ user.username }}</ins></td>
         <td (click)="userOrdered(user)" title="User Lieferungen"><ins>{{user.firstname}}</ins></td>
         <td (click)="userOrder(user)" title="User Bestellungen"><ins>{{ user.lastname }}</ins></td>
