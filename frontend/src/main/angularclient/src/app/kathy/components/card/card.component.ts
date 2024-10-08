@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {CardDTO} from "../../../admin/components/product/service/cardDTO";
-
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductService} from "../../../admin/components/product/service/product.service";
 import {firstValueFrom} from "rxjs";
@@ -38,21 +37,15 @@ export class CardComponent {
     }catch(error: any){
       if(error.status != 200){
         this.error = "Speichern hat nicht funktioniert!";
-        setTimeout(async () => {
-          this.success = "";
+        setTimeout( () => {
           this.error = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success = "Speichern hat funktioniert.";
-    setTimeout(async () => {
+    setTimeout( () => {
       this.success = "";
-      this.error = "";
-      return;
     }, 1000);
   }
-
-
-
 }

@@ -119,18 +119,15 @@ export class UserorderKathyComponent {
     }catch(error: any){
       if(error.status != 200){
         this.error = "Speichern hat nicht funktioniert!";
-        setTimeout(async () => {
-          this.success = "";
+        setTimeout( () => {
           this.error = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success = "Speichern hat funktioniert. Regelmässige Bestellung ist aktiviert.";
-    setTimeout(async () => {
+    setTimeout( () => {
       this.success = "";
-      this.error = "";
-      // await this.showList();
     }, 2500);
   }
 
@@ -193,17 +190,15 @@ export class UserorderKathyComponent {
     }catch(error: any){
       if(error.status != 200){
         this.error1 = "Speichern hat nicht funktioniert!";
-        setTimeout(async () => {
-          this.success1 = "";
+        setTimeout( () => {
           this.error1 = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success1 = "Speichern hat funktioniert.";
     setTimeout(async () => {
       this.success1 = "";
-      this.error1 = "";
       await this.router.navigate(['kathy_users_ordered'],
         {
           queryParams: {
@@ -236,21 +231,16 @@ export class UserorderKathyComponent {
     }catch(error: any){
       if(error.status != 200){
         this.error = "Speichern hat nicht funktioniert!";
-        setTimeout(async () => {
-          this.success = "";
+        setTimeout( () => {
           this.error = "";
-          return;
         }, 1000);
+        return;
       }
     }
     this.success = "Speichern hat funktioniert.";
-    setTimeout(async () => {
+    setTimeout(() => {
       this.success = "";
-      this.error = "";
-      return;
-      // await this.router.navigate(['basic_order']);
     }, 1000);
   }
-
 }
 

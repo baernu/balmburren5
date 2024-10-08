@@ -63,7 +63,6 @@ export class UserSettingsComponent implements OnInit {
       this.error = "Keine Berechtigung für diese Anzeige!";
       setTimeout(async () => {
         this.error = "";
-        return;
       }, 2000);
     }
   }

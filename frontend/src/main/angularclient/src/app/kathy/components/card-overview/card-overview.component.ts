@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {CardDTO} from "../../../admin/components/product/service/cardDTO";
 import {firstValueFrom} from "rxjs";
-import {UserService} from "../../../components/user/service/user-service.service";
 import {Router} from "@angular/router";
 import {ProductService} from "../../../admin/components/product/service/product.service";
 
@@ -32,7 +31,6 @@ export class CardOverviewComponent {
   async delete(card: CardDTO) {
     await firstValueFrom(this.productService.deleteCard(card));
     this.ngOnInit();
-    // this.router.navigate(['kathy_card_overview']);
   }
 
   async save(card: CardDTO){
