@@ -16,7 +16,6 @@ import { AdminDashboardComponent} from "./admin/components/admin-dashboard/admin
 import {AdminModule} from "./admin/admin.module";
 import {DatePipe, LocationStrategy, PathLocationStrategy} from "@angular/common";
 import { OrderComponent } from './components/order/order.component';
-import { UserorderprofileComponent } from './components/userorderprofile/userorderprofile.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import {DriverModule} from "./driver/driver/driver.module";
@@ -42,7 +41,6 @@ import { ContactComponent } from './links/contact/contact.component';
     LogoutComponent,
     AdminDashboardComponent,
     OrderComponent,
-    UserorderprofileComponent,
     InvoiceComponent,
     SettingsComponent,
     WorkComponent,

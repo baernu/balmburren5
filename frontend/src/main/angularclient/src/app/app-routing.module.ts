@@ -7,7 +7,6 @@ import {LogoutComponent} from "./components/logout/logout.component";
 import {AuthGuardGuard} from "./guard/auth.guard.guard";
 import {AdminDashboardComponent} from "./admin/components/admin-dashboard/admin-dashboard.component";
 import {OrderComponent} from "./components/order/order.component";
-import {UserorderprofileComponent} from "./components/userorderprofile/userorderprofile.component";
 import {InvoiceComponent} from "./components/invoice/invoice.component";
 import {SettingsComponent} from "./components/settings/settings.component";
 import {BasicGuard} from "./guard/basic_guard/basic.guard";
@@ -16,7 +15,6 @@ import {DriverGuard} from "./guard/driver_guard/driver.guard";
 import {WorkComponent} from "./driver/components/work/work.component";
 import {WagepaymentComponent} from "./driver/components/wagepayment/wagepayment.component";
 import {ProductsComponent} from "./links/products/products.component";
-import {PricesComponent} from "./links/prices/prices.component";
 import {DeliveryComponent} from "./links/delivery/delivery.component";
 import {ContactComponent} from "./links/contact/contact.component";
 import {ActualComponent} from "./links/actual/actual.component";
@@ -34,8 +32,6 @@ const routes: Routes = [
   {path: 'admin', component: AdminDashboardComponent,
     canActivate: [AuthGuardGuard]},
   {path: 'basic_order', component: OrderComponent,
-    canActivate: [BasicGuard]},
-  {path: 'basic_order_profil', component: UserorderprofileComponent,
     canActivate: [BasicGuard]},
   {path: 'basic_invoice', component: InvoiceComponent,
     canActivate: [BasicGuard]},
