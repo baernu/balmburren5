@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {TourServiceService} from "../tour/service/tour-service.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {ProductDTO} from "./service/ProductDTO";
 import {ProductDetailsDTO} from "./service/ProductDetailsDTO";
 import {ProductBindInfosDTO} from "./service/ProductBindInfosDTO";
@@ -31,7 +31,6 @@ export class ProductComponent {
   constructor(
     private tourService: TourServiceService,
     private productService: ProductService,
-    private route: ActivatedRoute,
     private router: Router){}
 
   async ngOnInit() {
@@ -90,21 +89,16 @@ export class ProductComponent {
       if(error.status != 200){
         this.error2 = "Löschen hat nicht funktioniert!";
         setTimeout(async () => {
-          this.success2 = "";
           this.error2 = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success2 = "Löschen hat funktioniert.";
     setTimeout(async () => {
       this.success2 = "";
-      this.error2 = "";
       this.ngOnInit();
-      return;
     }, 2000);
-
-    // await this.ngOnInit();
   }
 
   async save() {
@@ -118,21 +112,17 @@ export class ProductComponent {
     }catch(error: any){
       if(error.status != 200 || 201){
         this.error2 = "Speichern hat nicht funktioniert!";
-        setTimeout(async () => {
-          this.success2 = "";
+        setTimeout( () => {
           this.error2 = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success2 = "Daten wurden gespeichert.";
     setTimeout(async () => {
       this.success2 = "";
-      this.error2 = "";
       await this.ngOnInit();
-      return;
     }, 2000);
-
   }
 
   async deleteProductDetail(productDetail: ProductDetailsDTO) {
@@ -142,19 +132,15 @@ export class ProductComponent {
       if(error.status != 200){
         this.error1 = "Löschen hat nicht funktioniert!";
         setTimeout(async () => {
-          this.success1 = "";
           this.error1 = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success1 = "Löschen hat funktioniert.";
     setTimeout(async () => {
       this.success1 = "";
-      this.error1 = "";
       this.ngOnInit();
-      return;
-      // await this.router.navigate(['admin_product']);
     }, 2000);
   }
 
@@ -164,29 +150,19 @@ export class ProductComponent {
     }catch(error: any){
       if(error.status != 200){
         this.error = "Löschen hat nicht funktioniert!";
-        setTimeout(async () => {
-          this.success = "";
+        setTimeout( () => {
           this.error = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success = "Löschen hat funktioniert.";
     setTimeout(async () => {
       this.success = "";
-      this.error = "";
       this.ngOnInit();
-      return;
-      // await this.router.navigate(['admin_product']);
     }, 2000);
   }
 
-  // async savePBI(productBindInfo: ProductBindInfosDTO){
-  //   if(productBindInfo.isChecked)productBindInfo.isChecked = false;
-  //   else productBindInfo.isChecked = true;
-  //   await firstValueFrom(this.productService.putProductBindInfos(productBindInfo));
-  //   this.ngOnInit();
-  // }
 
   checkIfProductBindInfosActive(productBindInfos: ProductBindInfosDTO[]) {
     return productBindInfos.filter(productBindInfo =>  this.compare(new Date(productBindInfo.endDate.date)));

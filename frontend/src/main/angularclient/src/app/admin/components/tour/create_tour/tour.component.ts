@@ -31,13 +31,14 @@ export class TourComponent {
         this.error = "Speichern hat nicht geklappt!";
         setTimeout(() => {
           this.error = "";
-          return;}, 2000);
+         }, 2000);
+        return;
       }
     }
     this.success = "Speichern hat geklappt";
     setTimeout(() => {
       this.success = "";
-      return;}, 1000);
+     }, 1000);
   }
 
   private async checkIfExists(number: string) {

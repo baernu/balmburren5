@@ -92,8 +92,8 @@ export class InvoiceAdminComponent {
               if(error.status != 200) {
                 this.error = "Erstellen hat nicht geklappt!";
                 setTimeout(() => {
-                  this.error = "";
-                  return;}, 2000);
+                  this.error = "";}, 2000);
+                return;
               }
             }
             this.success = "Erstellen hat geklappt";
@@ -124,7 +124,8 @@ export class InvoiceAdminComponent {
           this.error1 = "Löschen hat nicht geklappt!";
           setTimeout(() => {
             this.error1 = "";
-            return;}, 2000);
+           }, 2000);
+          return;
         }
       }
       this.success1 = "Löschen hat geklappt";
@@ -132,14 +133,14 @@ export class InvoiceAdminComponent {
         this.success1 = "";
         this.count = 0;
         this.router.navigate(['/admin_invoice']);}, 1000);
+        return;
     }else {
       this.count++;
       this.error1 = "Noch "+ (7-this.count) + " mal klicken zum Löschen.";
       setTimeout(() => {
         this.error1 = "";
-        return;}, 1000);
+        }, 1000);
     }
-
   }
 
   check() {
@@ -173,14 +174,13 @@ export class InvoiceAdminComponent {
         this.error1 = "Speichern hat nicht geklappt!";
         setTimeout(() => {
           this.error1 = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success1 = "Speichern hat geklappt.";
     setTimeout(() => {
       this.success1 = "";
-      return;
     }, 1000);
   }
 }

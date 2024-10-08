@@ -21,7 +21,6 @@ export class InvoiceEmailComponent {
 
   constructor(
     private router: Router,
-    private tourService: TourServiceService,
     private userService: UserService) {
   }
 

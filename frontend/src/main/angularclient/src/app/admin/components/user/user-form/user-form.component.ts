@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { UserService } from '../../../../components/user/service/user-service.service';
 import { UserDTO } from '../../../../components/user/service/userDTO';
 import {firstValueFrom} from "rxjs";
@@ -16,7 +16,6 @@ export class UserFormComponent {
   error: any;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
   ) {
@@ -32,10 +31,16 @@ export class UserFormComponent {
 
     if (bool) {
       this.error = "Username ist besetzt, bitte neu bestimmen.";
+      setTimeout( () => {
+        this.error = "";
+      }, 2000);
       return;
     }
     if (this.user.password.length < 8) {
       this.error = "Passswort ist zu kurz.";
+      setTimeout( () => {
+        this.error = "";
+      }, 2000);
       return;
     }
 
@@ -45,9 +50,12 @@ export class UserFormComponent {
       return;
     }
 
-    await this.router.navigate(['admin_users_add']);
-    this.error ="Unspezifischer Fehler.";
 
+    this.error ="Unspezifischer Fehler.";
+    setTimeout( () => {
+      this.error = "";
+    }, 2000);
+    await this.router.navigate(['admin_users_add']);
   }
 
   showHidePassword() {

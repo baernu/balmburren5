@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {EmailService} from "../email/email-service/email.service";
 import {firstValueFrom} from "rxjs";
-import {EmailDataDTO} from "../email/email-service/EmailDataDTO";
 import {OrderDTO} from "../../../components/user/service/orderDTO";
 import {ByteDTO} from "../../../components/user/service/byteDTO";
 
@@ -21,8 +20,7 @@ export class BackupComponent {
   byteDTO: ByteDTO = new ByteDTO();
 
   constructor(
-    private emailService: EmailService,
-    ) {
+    private emailService: EmailService,) {
   }
 
   async backupToFile() {
@@ -30,18 +28,17 @@ export class BackupComponent {
       await firstValueFrom(this.emailService.backupWriteToFile());
 
     } catch (error: any) {
-      if (error.status !== 200)
+      if (error.status !== 200) {
         this.error = "Backup konnte nicht geladen werden!";
-      setTimeout(() => {
-        this.error = "";
+        setTimeout(() => {
+          this.error = "";
+        }, 2000);
         return;
-      }, 2000);
-      return;
+      }
     }
     this.success = "Backup wurde geladen.";
     setTimeout(() => {
       this.success = "";
-      return;
     }, 1000);
   }
 
@@ -54,7 +51,6 @@ export class BackupComponent {
         this.error = "Backup konnte nicht gesendet werden!";
         setTimeout(() => {
           this.error = "";
-          return;
         }, 2000);
         return;
       }
@@ -62,7 +58,6 @@ export class BackupComponent {
     this.success = "Backup wurde gesendet.";
     setTimeout(() => {
       this.success = "";
-      return;
     }, 1000);
   }
 
@@ -87,7 +82,6 @@ export class BackupComponent {
           this.error1 = "Backup Import konnte nicht geladen werden!!";
           setTimeout(() => {
             this.error1 = "";
-            return;
           }, 2000);
           return;
         }
@@ -95,7 +89,6 @@ export class BackupComponent {
       this.success1 = "Backup Import wurde geladen.";
       setTimeout(() => {
         this.success1 = "";
-        return;
       }, 1000);
     }
   }
@@ -111,6 +104,4 @@ export class BackupComponent {
     return base64String;
 
   }
-
-
 }

@@ -61,7 +61,6 @@ export class UserOrderComponent {
     this.productBindInfos.sort((p1:ProductBindInfosDTO, p2:ProductBindInfosDTO) => p1.product.name.localeCompare(p2.product.name));
     this.productBindInfos.sort((p1:ProductBindInfosDTO, p2:ProductBindInfosDTO) => p1.productDetails.category.localeCompare(p2.productDetails.category));
     for (const tour of tours) {
-      // console.log("ProductBindInfos: ", this.productBindInfos);
       for (const pBI of this.productBindInfos) {
         let userProfileOrder = new UserProfileOrderDTO();
         userProfileOrder.tour = tour;
@@ -120,8 +119,7 @@ export class UserOrderComponent {
     }catch(error: any){
       if(error.status != 200){
         this.error = "Speichern hat nicht funktioniert!";
-        setTimeout(async () => {
-          this.success = "";
+        setTimeout( () => {
           this.error = "";
         }, 2000);
         return;
@@ -130,7 +128,6 @@ export class UserOrderComponent {
     this.success = "Speichern hat funktioniert. Regelmässige Bestellung ist aktiviert.";
     setTimeout(async () => {
       this.success = "";
-      this.error = "";
     }, 2500);
   }
 
@@ -188,13 +185,10 @@ export class UserOrderComponent {
   async saveOrder(order:OrderDTO){
     try {
       await this.putOrder(order);
-
-
     }catch(error: any){
       if(error.status != 200){
         this.error1 = "Speichern hat nicht funktioniert!";
         setTimeout(async () => {
-          this.success1 = "";
           this.error1 = "";
         }, 2000);
         return;
@@ -203,7 +197,6 @@ export class UserOrderComponent {
     this.success1 = "Speichern hat funktioniert.";
     setTimeout(async () => {
       this.success1 = "";
-      this.error1 = "";
         await this.router.navigate(['admin_users_order'],
           {
             queryParams: {
@@ -237,7 +230,6 @@ export class UserOrderComponent {
       if(error.status != 200){
         this.error = "Speichern hat nicht funktioniert!";
         setTimeout(async () => {
-          this.success = "";
           this.error = "";
         }, 1000);
         return;
@@ -246,8 +238,6 @@ export class UserOrderComponent {
     this.success = "Speichern hat funktioniert.";
     setTimeout(async () => {
       this.success = "";
-      this.error = "";
-      return;
     }, 1000);
   }
 }

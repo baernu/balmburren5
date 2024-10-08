@@ -37,8 +37,7 @@ export class DriverWorkComponent implements OnInit {
     else this.success = "User gefunden!";
     setTimeout(() => {
       this.error = "";
-      this.success = "";
-      return;}, 1000);
+      this.success = "";}, 1000);
   }
 
   async showWork() {
@@ -59,11 +58,13 @@ export class DriverWorkComponent implements OnInit {
       try {
         this.work = await firstValueFrom(this.tourService.putWork(this.work));
       } catch (error: any) {
-        if (error.status != 200) this.error= "Speichern hat nicht funktioniert!"
-        setTimeout(async () => {
-          this.error = "";
+        if (error.status != 200) {
+          this.error = "Speichern hat nicht funktioniert!"
+          setTimeout(() => {
+            this.error = "";
+          }, 2000);
           return;
-        }, 2000);
+        }
       }
       this.success = "Speichern hat funktioniert!"
       setTimeout(async () => {
@@ -80,10 +81,10 @@ export class DriverWorkComponent implements OnInit {
         this.work = await firstValueFrom(this.tourService.createWork(this.work));
       }catch (error: any) {
         if (error.status != 200) this.error= "Speichern hat nicht funktioniert!"
-        setTimeout(async () => {
+        setTimeout( () => {
           this.error = "";
-          return;
         }, 1000);
+        return;
       }
       this.success = "Speichern hat funktioniert!"
       setTimeout(async () => {
@@ -102,11 +103,13 @@ export class DriverWorkComponent implements OnInit {
       try {
         await firstValueFrom(this.tourService.deleteWork(this.user.username, this.dates));
       } catch (error: any) {
-        if (error.status != 200) this.error = "Arbeit konnte nicht gelöscht werden!";
-        setTimeout(() => {
-          this.error = "";
+        if (error.status != 200) {
+          this.error = "Arbeit konnte nicht gelöscht werden!";
+          setTimeout(() => {
+            this.error = "";
+          }, 2000);
           return;
-        }, 2000);
+        }
       }
       this.success = "Arbeit wurde gelöscht.";
       setTimeout(async () => {
@@ -125,7 +128,6 @@ export class DriverWorkComponent implements OnInit {
       this.error = "Tippe " + c +  " mal zum Löschen!";
       setTimeout(() => {
         this.error = "";
-        return;
       }, 1000);
     }
   }

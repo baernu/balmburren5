@@ -50,8 +50,7 @@ export class DriverOverviewComponent {
     else this.success = "User gefunden!";
     setTimeout(() => {
       this.error = "";
-      this.success = "";
-      return;}, 1000);
+      this.success = "";}, 1000);
     this.actualdate.date = new Date().toISOString().split('T')[0];
     this.actualdate = await firstValueFrom(this.tourService.createDates(this.actualdate));
     this.startSetting();
@@ -75,16 +74,17 @@ export class DriverOverviewComponent {
       this.total = this.computeTotalWork();
       this.driverBindInvoices = this.driverBindInvoices.filter(e => e.dateTo.date.localeCompare(date1));
     }catch(error: any){
-      if(error.status != 200)this.error = "Etwas lief schief!";
-      setTimeout(() => {
-        this.error = "";
+      if(error.status != 200) {
+        this.error = "Etwas lief schief!";
+        setTimeout(() => {
+          this.error = "";
+        }, 2000);
         return;
-      }, 2000);
+      }
     }
     this.success = "OK!";
     setTimeout(() => {
       this.success = "";
-      return;
     }, 1000);
   }
 
@@ -97,16 +97,17 @@ export class DriverOverviewComponent {
       this.total = this.computeTotalWork();
       this.driverBindInvoices = this.driverBindInvoices.filter(e => e.dateTo.date.localeCompare(this.enddate.date));
     }catch(error: any){
-      if(error.status != 200)this.error = "Etwas lief schief!";
-      setTimeout(() => {
-        this.error = "";
+      if(error.status != 200) {
+        this.error = "Etwas lief schief!";
+        setTimeout(() => {
+          this.error = "";
+        }, 2000);
         return;
-      }, 2000);
+      }
     }
     this.success = "OK!";
     setTimeout(() => {
       this.success = "";
-      return;
     }, 1000);
   }
 
@@ -127,8 +128,8 @@ export class DriverOverviewComponent {
           this.error = "Löschen hat nicht geklappt";
           setTimeout(() => {
             this.error = "";
-            return;
           }, 2000);
+          return;
         }
       }
       this.success = "Löschen hat geklappt";
@@ -140,12 +141,12 @@ export class DriverOverviewComponent {
               param1: this.user.username
             }});
         }, 1000);
+        return;
     }else {
       this.count ++;
       this.error = "Klicke noch " + (7-this.count) + " mal um zu löschen";
       setTimeout(() => {
-        this.error = "";
-        return;}, 1000);
+        this.error = "";}, 1000);
     }
   }
 
@@ -157,8 +158,8 @@ export class DriverOverviewComponent {
         this.error2 = "Lohn Auszahlung konnte nicht aktualisiert werden!";
         setTimeout(() => {
           this.error2 = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success2 = "Lohn Auszahlung wurde akualisiert!";
@@ -181,8 +182,8 @@ export class DriverOverviewComponent {
           this.error2 = "Lohn Erfassung konnte nicht gelöscht werden!";
           setTimeout(() => {
             this.error2 = "";
-            return;
           }, 2000);
+          return;
         }
       }
       this.success2 = "Lohn Erfassung wurde gelöscht!";
@@ -193,19 +194,18 @@ export class DriverOverviewComponent {
             queryParams: {
               param1: this.user.username
             }});
-      }, 1000);
+        }, 1000);
+        return;
+
     }else {
       this.count ++;
       this.error2 = "Klicke noch " + (7-this.count) + " mal um zu löschen";
       setTimeout(() => {
-        this.error2 = "";
-        return;}, 1000);
+        this.error2 = "";}, 1000);
     }
   }
 
   async createDriverBindInvoice() {
-    this.success2 = "";
-    this.error2 = "";
     let driverBindInvoice: DriverBindInvoiceDTO = new DriverBindInvoiceDTO();
     let invoice: InvoiceDTO = new InvoiceDTO();
     try{
@@ -222,8 +222,8 @@ export class DriverOverviewComponent {
         this.error2 = "Lohn Erfassung konnte nicht erstellt werden!";
         setTimeout(() => {
           this.error2 = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success2 = "Lohn Erfassung wurde erstellt!";

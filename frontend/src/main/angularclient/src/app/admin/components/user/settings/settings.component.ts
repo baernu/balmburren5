@@ -52,10 +52,9 @@ export class SettingsComponent {
       if(error.status != 200) {
         this.error = "Update User hat nicht geklappt!";
         setTimeout(async () => {
-          this.success = "";
           this.error = "";
-          return;
         }, 1000);
+        return;
       }
     }
     this.user.password = "";
@@ -82,16 +81,14 @@ export class SettingsComponent {
       if(error.status != 200) {
         this.error = "Update Adresse/ Telefon hat nicht geklappt!";
         setTimeout(async () => {
-          this.success = "";
           this.error = "";
-          return;
         }, 1000);
+        return;
       }
     }
     this.success = "Die Daten wurden gespeichert";
     setTimeout(async () => {
       this.success = "";
-      this.error = "";
       await this.router.navigate(['admin_users_settings/'],
         {
           queryParams: {
@@ -99,7 +96,6 @@ export class SettingsComponent {
           }
         });
     }, 1000);
-
   }
   showHidePassword() {
     this.showPassword = !this.showPassword;
@@ -111,19 +107,15 @@ export class SettingsComponent {
     }catch(error: any){
       if(error.status != 200) {
         this.error = "Passwort wurde nicht gespeichert!!";
-        setTimeout(async () => {
-          this.success = "";
+        setTimeout( () => {
           this.error = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success = "Passwort wurde gespeichert."
     setTimeout(async () => {
       this.success = "";
-      this.error = "";
-      return;
     }, 1000);
-
   }
 }

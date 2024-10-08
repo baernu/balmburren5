@@ -63,7 +63,6 @@ export class InvoiceEmailPreviewComponent {
     this.userBindInvoices = this.userBindInvoices.filter(userBindInvoice => userBindInvoice.isChecked);
     if (this.userBindInvoices.length > 0) {
       this.user = this.userBindInvoices[0].personDeliver;
-      console.log("user is: ", this.user);
       await this.setOrders(this.user);
     }
     else {
@@ -107,20 +106,18 @@ export class InvoiceEmailPreviewComponent {
       if (error.status != 200 || 201) this.error = "Email konnte nicht gesendet werden!";
       setTimeout(() => {
         this.error = "";
-        return;
       }, 2000);
+      return;
     }
     this.success = "Email konnte gesendet werden.";
     this.invoice.isSent = true;
     await firstValueFrom(this.userService.putInvoice(this.invoice));
     setTimeout(() => {
       this.success = "";
-      // return;
     }, 2000);
 
-
     await this.sendQRInvoice();
-    // await this.notsendEmail();
+
   }
 
   async notsendEmail() {
@@ -132,15 +129,13 @@ export class InvoiceEmailPreviewComponent {
       if (error.status != 200) this.error = "Email wurde nicht gesendet, wie gewünscht.";
       setTimeout(() => {
         this.error = "";
-        return;
       }, 2000);
+      return;
     }
     this.success = "Etwas ging schief. Bitte Status der Rechnung prüfen..";
     setTimeout(() => {
       this.success = "";
-      return;
     }, 2000);
-
   }
 
 
@@ -257,20 +252,19 @@ export class InvoiceEmailPreviewComponent {
     try {
       await firstValueFrom(this.emailService.sendEmail(emailData));
     } catch (error: any) {
-      if (error.status != 200 || 201) this.error = "Email mit QR Rechnung konnte nicht gesendet werden!";
-      setTimeout(() => {
-        this.error = "";
+      if (error.status != 200 || 201) {
+        this.error = "Email mit QR Rechnung konnte nicht gesendet werden!";
+        setTimeout(() => {
+          this.error = "";
+        }, 2000);
         return;
-      }, 2000);
+      }
     }
     this.success = "Email mit QR Rechnung konnte gesendet werden.";
     setTimeout(() => {
       this.success = "";
-      return;
     }, 2000);
 
-
-    // await firstValueFrom(this.emailService.sendEmail(emailData));
   }
 
   private xmlService(xml: string, filename: string) {

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {firstValueFrom} from "rxjs";
 import {ProductService} from "../service/product.service";
 import {ProductDTO} from "../service/ProductDTO";
-import {ActivatedRoute, Router} from "@angular/router";
+import { Router} from "@angular/router";
 
 @Component({
   selector: 'app-create',
@@ -13,7 +13,6 @@ export class CreateComponent {
   product: ProductDTO = new ProductDTO();
   constructor(
     private productService: ProductService,
-    private route: ActivatedRoute,
     private router: Router){}
 
 
@@ -23,5 +22,4 @@ export class CreateComponent {
       await firstValueFrom(this.productService.createProduct(this.product));
     await this.router.navigate(['admin_product']);
   }
-
 }

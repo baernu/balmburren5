@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {ProductDTO} from "../service/ProductDTO";
 import {ProductService} from "../service/product.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {firstValueFrom} from "rxjs";

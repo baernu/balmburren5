@@ -29,14 +29,7 @@ export class DriverComponent implements OnInit {
       for (const user of this.users) {
         let user1: UserDTO = await firstValueFrom(this.userService.findUser(user.username));
         let userWithRole: UserWithRoleDTO = new UserWithRoleDTO();
-        // let userBindRoles: UserBindRoleDTO[] = await firstValueFrom(this.userService.findAllRolesForPerson(user.username));
         let userBindRoles: UserBindRoleDTO[] = await firstValueFrom(this.userService.getAllUserBindRoles(user1.username));
-        // user1.roles.forEach(e => {
-        //   let userBindRole: UserBindRoleDTO = new UserBindRoleDTO();
-        //   userBindRole.role = e;
-        //   userBindRole.user = user1;
-        //   userBindRoles.push(userBindRole);
-        // })
 
         userBindRoles.forEach(userBindRole => {
           if (userBindRole.role.name == "ADMIN") userWithRole.adminIsChecked = true;

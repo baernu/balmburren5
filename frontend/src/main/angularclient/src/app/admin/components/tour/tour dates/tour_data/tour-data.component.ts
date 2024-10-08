@@ -9,7 +9,6 @@ import {ProductService} from "../../../product/service/product.service";
 import {TourDateBindInfosDTO} from "../../service/TourDateBindInfosDTO";
 import {DatesDTO} from "../../service/DatesDTO";
 import {groupebyDTO} from "../../../../../components/user/service/groupbyDTO";
-import {UserOrderTourAddressDTO} from "../../../../../components/user/service/userOrderTourAddressDTO";
 
 @Component({
   selector: 'app-tour-data',
@@ -91,7 +90,6 @@ export class TourDataComponent implements OnInit{
       }
     }
     await this.ngOnInit();
-    // this.router.navigate(['/admin_tour_data']);
   }
 
   async updateDateArray() {
@@ -118,12 +116,9 @@ export class TourDataComponent implements OnInit{
     let p0 = await firstValueFrom(this.productService.getProductBindInfos(p.product, p.productDetails));
     p.version = p0.version;
     let p1 = await firstValueFrom(this.productService.putProductBindInfos(p));
-    // console.log(p1.isChecked);
   }
 
   async del(tourDateBindInfo: TourDateBindInfosDTO) {
-    this.error = "";
-    this.success = "";
     try{
         await firstValueFrom(this.tourService.deleteTourDatesBindInfosById(tourDateBindInfo));
         this.tourDatesBindInfos = this.tourDatesBindInfos.filter(t => t != tourDateBindInfo);
@@ -132,16 +127,15 @@ export class TourDataComponent implements OnInit{
           this.error = "Löschen hat nicht geklappt!";
           setTimeout(() => {
             this.error = "";
-            return;}, 2000);
+            }, 2000);
+          return;
       }
     }
       this.success = "Löschen hat geklappt";
       setTimeout(() => {
         this.success = "";
         this.ngOnInit();
-        // this.router.navigate(['/admin_tour_data']);}, 500);
-        return;}, 1000);
-
+        }, 1000);
   }
 
  async addInfos(date: Date) {
@@ -151,8 +145,7 @@ export class TourDataComponent implements OnInit{
       if (p.startDate.date <= dateString && p.endDate.date >= dateString)
         this.addTourDateBindInfo(p, dateString)
     });
-    // await this.ngOnInit();
-   // await this.router.navigate(['/admin_tour_data']);
+
    await this.router.navigate(['admin_tour_data/'],
      {
        queryParams: {
@@ -170,8 +163,6 @@ export class TourDataComponent implements OnInit{
     if (!await firstValueFrom(this.tourService.existTourDatesBindInfos(tourDateBindInfo.tour,tourDateBindInfo.dates,
       tourDateBindInfo.productBindInfos.product, tourDateBindInfo.productBindInfos.productDetails)))
         await firstValueFrom(this.tourService.createTourDateBindInfos(tourDateBindInfo));
-    // await this.ngOnInit();
-    // await this.router.navigate(['/admin_tour_data']);
   }
 
     compare(date: Date): boolean {

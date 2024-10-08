@@ -7,7 +7,6 @@ import {TourServiceService} from "../../tour/service/tour-service.service";
 import {TourDTO} from "../../tour/service/TourDTO";
 import {DatesDTO} from "../../tour/service/DatesDTO";
 import {UserBindTourDTOAdapted} from "../../../../components/user/service/userBindTourDTOAdapted";
-import { DatePipe } from '@angular/common';
 import {Router} from "@angular/router";
 
 @Component({
@@ -38,9 +37,6 @@ export class UserbindtourComponent implements OnInit{
 
   async ngOnInit() {
     this.users = await firstValueFrom(this.userService.findAll());
-    // await this.userService.findAll().subscribe((data: UserDTO[] | undefined) => {
-    //   this.users = data;
-    // });
     this.tours = await firstValueFrom(this.tourService.getTours());
   }
 
@@ -76,13 +72,9 @@ export class UserbindtourComponent implements OnInit{
     this.tour = await firstValueFrom(this.tourService.getTour(this.actualTour.number));
     this.userBindTour.tour = this.tour;
     this.userBindTour.user = user1;
-    // console.log("UserID: " + user1.id);
-    // console.log("userBindTourUserID: " + this.userBindTour.user.id);
     if (!await firstValueFrom(this.userService.existPersonBindTour(this.userBindTour.user.username, this.userBindTour.tour.number))){
-      // console.log("existPersonBindTour: false");
       await firstValueFrom(this.userService.addPersonBindTour(this.userBindTour));
     }
-
     await this.goTo(this.actualTour);
   }
 
@@ -129,14 +121,14 @@ export class UserbindtourComponent implements OnInit{
         this.error = "Speichern hat nicht geklappt!";
         setTimeout(() => {
           this.error = "";
-          return;}, 2000);
+          }, 2000);
+        return;
       }
     }
     this.success = "Speichern hat geklappt";
     setTimeout(() => {
       this.success = "";
       this.router.navigate(['/admin_user_bind_tour']);}, 1000);
-
   }
 
   async delete(userBindTour: UserBindTourDTOAdapted) {
@@ -147,7 +139,8 @@ export class UserbindtourComponent implements OnInit{
         this.error = "Löschen hat nicht geklappt!";
         setTimeout(() => {
           this.error = "";
-          return;}, 2000);
+          }, 2000);
+        return;
       }
     }
     this.success = "Löschen hat geklappt";

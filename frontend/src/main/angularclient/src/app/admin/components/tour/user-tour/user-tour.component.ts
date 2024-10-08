@@ -76,15 +76,14 @@ export class UserTourComponent {
           this.error = "Order wurde nicht upgedated, Name: " + order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
           setTimeout(() => {
             this.error = "";
-            return;
           }, 1000);
+          return;
         }
       }
     }
     this.success = "Orders wurden gespeichert!";
     setTimeout(() => {
       this.success = "";
-      return;
       }, 1000);
   }
 
@@ -240,22 +239,22 @@ export class UserTourComponent {
           if (error.status !== 200) this.error = "Das Zurücksetzen hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
           setTimeout(() => {
             this.error = "";
-            return;
           }, 2000);
+          return;
         }
         this.success = "Reset war erfolgreich!";
         setTimeout(() => {
           this.success = "";
-          return;
         }, 1000);
         this.apply();
       }
-      this.counter ++;
+      this.counter = 0;
+    } else {
+      this.error = "Klicke noch " + (7 - this.counter) + " mal um zu löschen";
+      setTimeout(() => {
+        this.error = "";
+      }, 1000);
     }
-    this.error = "Klicke noch " + (7-this.counter) + " mal um zu löschen";
-    setTimeout(() => {
-      this.error = "";
-      return;}, 1000);
   }
 
   compare(date: Date): boolean {
@@ -321,7 +320,6 @@ export class UserTourComponent {
         this.error = "Order wurde nicht upgedated, Name: " + order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
         setTimeout(() => {
           this.error = "";
-          return;
         }, 1000);
       }
     }
@@ -338,13 +336,11 @@ export class UserTourComponent {
       userOrderTourAddress.order.quantityDelivered = userOrderTourAddress.order.quantityOrdered;
       try {
         await firstValueFrom(this.userService.putOrder(userOrderTourAddress.order));
-
       } catch (error: any) {
         if (error.status !== 200) {
           this.error = "Order wurde nicht upgedated, Name: " + order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
           setTimeout(() => {
             this.error = "";
-            return;
           }, 1000);
         }
       }
