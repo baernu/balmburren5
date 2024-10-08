@@ -145,8 +145,23 @@ public class BackendIntegrationTests_InvoiceTest {
                         .exchange()
                         .expectStatus().isOk().expectBody(LoginResponse.class).returnResult();
 
-        String token = loginResponse.getResponseBody().getToken();
+        String token1 = loginResponse.getResponseBody().getToken();
+        String finalToken1 = token1;
+
+        EntityExchangeResult<LoginResponse> loginResponse0 =
+                webClient.post().uri("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue("{\"password\": \"adminadmin\", \"username\": \"admin\" }")
+                        .exchange()
+                        .expectStatus()
+                        .isOk()
+                        .expectBody(LoginResponse.class)
+                        .returnResult();
+
+        String token = loginResponse0.getResponseBody().getToken();
         String finalToken = token;
+
+
         EntityExchangeResult<User> result1 =
                 webClient.put().uri("/admins/update/user")
                         .contentType(MediaType.APPLICATION_JSON)
