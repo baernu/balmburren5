@@ -6,7 +6,6 @@ import {WorkDTO} from "../../../admin/components/tour/service/workDTO";
 import {UserDTO} from "../../../components/user/service/userDTO";
 import {UserService} from "../../../components/user/service/user-service.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import * as moment from 'moment';
 
 
 @Component({
@@ -25,8 +24,7 @@ export class WorkComponent {
 
   constructor(private userService: UserService,
               private tourService: TourServiceService,
-              private router: Router,
-              private route: ActivatedRoute) {
+              private router: Router,) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;}
   }
@@ -49,12 +47,10 @@ export class WorkComponent {
       else return;
     }else {
       this.error = "Keine Berechtigung: Datum liegt in der Vergangenheit!"
-      setTimeout(async () => {
+      setTimeout( () => {
         this.error = "";
-        return;
       }, 2000);
     }
-
   }
 
   async apply() {
@@ -65,26 +61,29 @@ export class WorkComponent {
         this.work = await firstValueFrom(this.tourService.putWork(this.work));
       } catch (error: any) {
         if (error.status != 200) this.error= "Speichern hat nicht funktioniert!"
-        setTimeout(async () => {
+        setTimeout(() => {
           this.error = "";
-          return;
         }, 2000);
+        return;
       }
       this.success = "Speichern hat funktioniert!"
       setTimeout(async () => {
         this.success = "";
         await this.router.navigate(['/work']);
       }, 1000);
+      return;
     }
     else {
       try{
         this.work = await firstValueFrom(this.tourService.createWork(this.work));
       }catch (error: any) {
-        if (error.status != 200) this.error= "Speichern hat nicht funktioniert!"
-        setTimeout(async () => {
-          this.error = "";
+        if (error.status != 200) {
+          this.error = "Speichern hat nicht funktioniert!"
+          setTimeout( () => {
+            this.error = "";
+          }, 1000);
           return;
-        }, 1000);
+        }
       }
       this.success = "Speichern hat funktioniert!"
       setTimeout(async () => {
@@ -99,11 +98,13 @@ export class WorkComponent {
       try {
         await firstValueFrom(this.tourService.deleteWork(this.user.username, this.dates));
       } catch (error: any) {
-        if (error.status != 200) this.error = "Arbeit konnte nicht gelöscht werden!";
-        setTimeout(() => {
-          this.error = "";
+        if (error.status != 200) {
+          this.error = "Arbeit konnte nicht gelöscht werden!";
+          setTimeout(() => {
+            this.error = "";
+          }, 2000);
           return;
-        }, 2000);
+        }
       }
       this.success = "Arbeit wurde gelöscht.";
       setTimeout(async () => {
@@ -118,7 +119,6 @@ export class WorkComponent {
       this.error = "Tippe " + c +  " mal zum Löschen!";
       setTimeout(() => {
         this.error = "";
-        return;
       }, 1000);
     }
   }

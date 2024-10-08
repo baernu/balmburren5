@@ -6,13 +6,9 @@ import {UserBindTourDTO} from "../../../components/user/service/userBindTourDTO"
 import {TourServiceService} from "../../../admin/components/tour/service/tour-service.service";
 import {UserService} from "../../../components/user/service/user-service.service";
 import {firstValueFrom} from "rxjs";
-import {EmailDataDTO} from "../../../admin/components/email/email-service/EmailDataDTO";
-import {EmailService} from "../../../admin/components/email/email-service/email.service";
-import {AndroidClientDTO} from "../../../admin/components/tour/service/androidClientDTO";
 import {UserBindDeliverAddressDTO} from "../../../components/user/service/userBindDeliverAddressDTO";
 import {ProductService} from "../../../admin/components/product/service/product.service";
 import {ProductBindInfosDTO} from "../../../admin/components/product/service/ProductBindInfosDTO";
-import {UserDTO} from "../../../components/user/service/userDTO";
 import {TourDateBindInfosDTO} from "../../../admin/components/tour/service/TourDateBindInfosDTO";
 import {UserProfileOrderDTO} from "../../../components/user/service/userProfileOrderDTO";
 import { groupebyDTO } from 'src/app/components/user/service/groupbyDTO';
@@ -84,15 +80,14 @@ export class ActualTourComponent {
           this.error = "Order wurde nicht upgedated, Name: " + order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
           setTimeout(() => {
             this.error = "";
-            return;
           }, 2000);
+          return;
         }
       }
     }
     this.success = "Orders wurden gespeichert!";
     setTimeout(() => {
       this.success = "";
-      return;
     }, 1000);
   }
 
@@ -103,6 +98,7 @@ export class ActualTourComponent {
         this.error = "";
         this.router.navigate(['/driver_actual_tour']);
       }, 2000);
+      return;
     }
 
     if ( tour && this.compare(new Date(this.dates.date))) {
@@ -243,8 +239,6 @@ export class ActualTourComponent {
 
 
   async reset() {
-    this.success ="";
-    this.error = "";
     this.counter++;
     if (this.counter == 7){
       for (let userOrderTourAddress of this.userOrderTourAddress) {
@@ -255,22 +249,27 @@ export class ActualTourComponent {
         try {
           userOrderTourAddress.order = await firstValueFrom(this.userService.putOrder(order));
         } catch (error:any) {
-          if (error.status !== 200) this.error = "Das Zurücksetzen hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
-          return;
+          if (error.status !== 200) {
+            this.error = "Das Zurücksetzen hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
+            setTimeout(() => {
+              this.error = "";
+            }, 1000);
+            return;
+          }
         }
         this.success = "Reset war erfolgreich!";
         setTimeout(() => {
           this.success = "";
-          return;
         }, 1000);
         this.apply();
       }
-      this.counter ++;
+      this.counter = 0;
+    }else {
+      this.error = "Klicke noch " + (7-this.counter) + " mal um zu löschen";
+      setTimeout(() => {
+        this.error = "";
+        }, 1000);
     }
-    this.error = "Klicke noch " + (7-this.counter) + " mal um zu löschen";
-    setTimeout(() => {
-      this.error = "";
-      return;}, 1000);
   }
 
   compare(date: Date): boolean {
@@ -336,7 +335,6 @@ export class ActualTourComponent {
         this.error = "Order wurde nicht upgedated, Name: " + order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
         setTimeout(() => {
           this.error = "";
-          return;
         }, 1000);
       }
     }
@@ -359,7 +357,6 @@ export class ActualTourComponent {
           this.error = "Order wurde nicht upgedated, Name: " + order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
           setTimeout(() => {
             this.error = "";
-            return;
           }, 1000);
         }
       }

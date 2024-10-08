@@ -4,7 +4,7 @@ import {WorkDTO} from "../../../admin/components/tour/service/workDTO";
 import {UserDTO} from "../../../components/user/service/userDTO";
 import {TourServiceService} from "../../../admin/components/tour/service/tour-service.service";
 import {UserService} from "../../../components/user/service/user-service.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import { Router} from "@angular/router";
 import {firstValueFrom} from "rxjs";
 import { DriverBindInvoiceDTO } from 'src/app/components/user/service/driverBindInvoiceDTO';
 import {InvoiceDTO} from "../../../components/user/service/invoiceDTO";
@@ -68,13 +68,12 @@ export class WagepaymentComponent {
       if(error.status != 200)this.error = "Etwas lief schief!";
       setTimeout(() => {
         this.error = "";
-        return;
       }, 2000);
+      return;
     }
     this.success = "OK!";
     setTimeout(() => {
       this.success = "";
-      return;
     }, 1000);
   }
 
@@ -90,13 +89,12 @@ export class WagepaymentComponent {
       if(error.status != 200)this.error = "Etwas lief schief!";
       setTimeout(() => {
         this.error = "";
-        return;
       }, 2000);
+      return;
     }
     this.success = "OK!";
     setTimeout(() => {
       this.success = "";
-      return;
     }, 1000);
   }
 
