@@ -18,10 +18,6 @@ public interface UserService {
     boolean createDriver(String username);
     boolean createUser(String username);
 
-    Optional<User> enableUser(User user);
-
-    Optional<User> dissableUser(User user);
-
     Optional<User> updateUser(User user);
     Optional<User> newPassword(User user);
 

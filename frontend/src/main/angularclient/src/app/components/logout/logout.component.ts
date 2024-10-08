@@ -17,7 +17,7 @@ export class LogoutComponent {
 
   }
   async ngOnInit() {
-      await firstValueFrom(this.userService.deleteTokenCookie());
-      // localStorage.setItem('username', "");
+    await firstValueFrom(this.userService.deleteTokenCookie());
+    await this.router.navigate(['home']);
   }
 }

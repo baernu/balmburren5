@@ -134,17 +134,6 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    @Override
-    public Optional<User> enableUser(User user) {
-        user.setEnabled(true);
-        return Optional.of(userRepository.save(user));
-    }
-
-    @Override
-    public Optional<User> dissableUser(User user) {
-        user.setEnabled(false);
-        return Optional.of(userRepository.save(user));
-    }
 
     @Override
     public Optional<User> updateUser(User user) {

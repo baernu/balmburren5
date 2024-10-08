@@ -38,33 +38,49 @@ export class LoginComponent {
   async onSubmit() {
     try{
         this.token = await firstValueFrom(this.userService.login(this.user));
-    }catch(error:any){
+        console.log("User is: " + this.user);
+    }catch(error:any) {
+      if (error.status === 403){
+        this.error = "Keine Berechtigung: Sie sind nicht aktiv als User."
+        setTimeout( () => {
+          this.success = "";
+          this.error = "";
+        }, 2000);
+        return;
+      }
       if (error.status === 401 || 404){
         this.error = "Username Passwort sind nicht korrekt."
         setTimeout(() => {
           this.success = "";
           this.error = "";
-          return;
-        }, 1000);
+        }, 2000);
+        return;
       }
     }
-    this.success = "Login passt, sie sind angemeldet."
-    setTimeout(async () => {
-      this.success = "";
-      this.error = "";
-      await firstValueFrom(this.userService.setTokenCookie(this.token));
-      let roles = await firstValueFrom(this.userService.getAllUserBindRolesMe());
-      let admin = roles.find(e => e.role.name == "ADMIN");
-      if(admin) if(await firstValueFrom(this.userService.isAdmin(this.user.username)))await this.router.navigate(['/admin']);
-      let driver = roles.find(e => e.role.name =="DRIVER")
-      if(driver) if(await firstValueFrom(this.userService.isDriver(this.user.username)))await this.router.navigate(['/driver']);
-      let kathy = roles.find(e => e.role.name == "KATHY");
-      if(kathy) if(await firstValueFrom(this.userService.isKathy(this.user.username)))await this.router.navigate(['/kathy']);
-      let user = roles.find(e => e.role.name == "USER");
-      if(user) if(await firstValueFrom(this.userService.isBasic(this.user.username)))await this.router.navigate(['home']);
+      this.success = "Login passt, sie sind angemeldet."
+      setTimeout(async () => {
+        await firstValueFrom(this.userService.setTokenCookie(this.token));
+        let roles = await firstValueFrom(this.userService.getAllUserBindRolesMe());
+        let admin = roles.find(e => e.role.name == "ADMIN");
+        if (admin) if (await firstValueFrom(this.userService.isAdmin(this.user.username))) {
+          await this.router.navigate(['/admin']);
+          return;
+        }
+        let driver = roles.find(e => e.role.name == "DRIVER")
+        if (driver) if (await firstValueFrom(this.userService.isDriver(this.user.username))) {
+          await this.router.navigate(['/driver']);
+          return;
+        }
+        let kathy = roles.find(e => e.role.name == "KATHY");
+        if (kathy) if (await firstValueFrom(this.userService.isKathy(this.user.username))) {
+          await this.router.navigate(['/kathy']);
+          return;
+        }
+        let user = roles.find(e => e.role.name == "USER");
+        if (user) if (await firstValueFrom(this.userService.isBasic(this.user.username))) await this.router.navigate(['home']);
+        return;
 
-    }, 1000);
-
+      }, 1000);
   }
   showHidePassword() {
     this.showPassword = !this.showPassword;

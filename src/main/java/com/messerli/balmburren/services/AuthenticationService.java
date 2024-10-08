@@ -75,15 +75,7 @@ public class AuthenticationService {
         );
         MyUserDetails myUserDetails = new MyUserDetails(userRepository.findByUsername(input.getUsername()).orElseThrow(), usersRoleRepo);
 
-//        return userRepository.findByUsername(input.getUsername()).orElseThrow();
         return myUserDetails;
     }
 
-//    public List<User> allUsers() {
-//        List<User> users = new ArrayList<>();
-//
-//        userRepository.findAll().forEach(users::add);
-//
-//        return users;
-//    }
 }
