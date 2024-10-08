@@ -2,11 +2,47 @@
 <router-outlet></router-outlet>
 <div class="card">
   <div class="card-body">
+    <div><p>Falls Sie regelmässig die gleichen Produkte bestellen möchten, geben Sie die gewünschte Anzahl ein. <br />
+      Diese Angaben dienen als Grundeinstellungen und können dann jeweils noch geändert werden.
+    </p></div>
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-<!--        <th scope="col">Daten</th>-->
-<!--        <th scope="col">Tour</th>-->
+        <th scope="col">Tour</th>
+        <th scope="col">Produkt</th>
+        <th scope="col">Grösse</th>
+        <th scope="col">Preis</th>
+        <th scope="col">Beschreibung</th>
+        <th scope="col">Anzahl Mo-Mi</th>
+        <th scope="col">Anzahl Do-Sa</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let userProfileOrder of userProfileOrders1">
+        <td>{{ userProfileOrder.tour.number}}</td>
+        <td>{{ userProfileOrder.productBindProductDetails.product.name }}</td>
+        <td>{{ userProfileOrder.productBindProductDetails.productDetails.size }}  {{ userProfileOrder.productBindProductDetails.productDetails.unit }}</td>
+        <td>{{ userProfileOrder.productBindProductDetails.productDetails.price}}</td>
+        <td>{{ userProfileOrder.productBindProductDetails.productDetails.description}}</td>
+        <td><input type="number"  min="0" [(ngModel)]="userProfileOrder.firstWeekOrder"></td>
+        <td><input type="number"  min="0" [(ngModel)]="userProfileOrder.secondWeekOrder"></td>
+      </tr>
+      </tbody>
+      <button type="button" (click)='saveProfile()' class="btn-light">Speichern</button>
+      <button type="button" (click)='showList()' class="btn-light">Bestellungen anzeigen</button>
+    </table>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    <div *ngIf="success" class="alert alert-success">
+      {{ success }}
+    </div>
+  </div>
+  <div class="card-body">
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Tour</th>
         <th scope="col">Produkt</th>
         <th scope="col">Einheit</th>
         <th scope="col">Anzahl</th>
@@ -18,20 +54,20 @@
         <span><b>{{child.category | date:'fullDate'}}</b></span>
         <tbody>
         <tr *ngFor="let order of child.products">
-        <td *ngIf="!name.value" >{{ order.productBindInfos.product.name }}</td>
-        <td *ngIf="!name.value" >{{ order.productBindInfos.productDetails.size }}</td>
-        <td *ngIf="!name.value" ><input type="number"  min="0" [(ngModel)]="order.quantityOrdered" (change)="save(order)"></td>
-      </tr>
-      </tbody>
+          <td *ngIf="!name.value" >{{ order.tour.number}}</td>
+          <td *ngIf="!name.value" >{{ order.productBindInfos.product.name }}</td>
+          <td *ngIf="!name.value" >{{ order.productBindInfos.productDetails.size }}</td>
+          <td *ngIf="!name.value" ><input type="number"  min="0" [(ngModel)]="order.quantityOrdered" (change)="save(order)"></td>
+        </tr>
+        </tbody>
       </div>
     </table>
-    <div *ngIf="error" class="alert alert-danger">
-      {{ error }}
+    <div *ngIf="error1" class="alert alert-danger">
+      {{ error1 }}
     </div>
-    <div *ngIf="success" class="alert alert-success">
-      {{ success }}
+    <div *ngIf="success1" class="alert alert-success">
+      {{ success1 }}
     </div>
   </div>
 </div>
-
 

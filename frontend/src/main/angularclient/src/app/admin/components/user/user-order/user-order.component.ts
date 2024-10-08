@@ -123,15 +123,14 @@ export class UserOrderComponent {
         setTimeout(async () => {
           this.success = "";
           this.error = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success = "Speichern hat funktioniert. Regelmässige Bestellung ist aktiviert.";
     setTimeout(async () => {
       this.success = "";
       this.error = "";
-      // await this.showList();
     }, 2500);
   }
 
@@ -197,8 +196,8 @@ export class UserOrderComponent {
         setTimeout(async () => {
           this.success1 = "";
           this.error1 = "";
-          return;
         }, 2000);
+        return;
       }
     }
     this.success1 = "Speichern hat funktioniert.";
@@ -240,8 +239,8 @@ export class UserOrderComponent {
         setTimeout(async () => {
           this.success = "";
           this.error = "";
-          return;
         }, 1000);
+        return;
       }
     }
     this.success = "Speichern hat funktioniert.";
@@ -249,10 +248,8 @@ export class UserOrderComponent {
       this.success = "";
       this.error = "";
       return;
-      // await this.router.navigate(['basic_order']);
     }, 1000);
   }
-
 }
 
 
