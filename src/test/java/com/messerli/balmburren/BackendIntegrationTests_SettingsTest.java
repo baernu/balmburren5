@@ -5,15 +5,22 @@ import com.messerli.balmburren.entities.PersonBindDeliverAddress;
 import com.messerli.balmburren.entities.PersonBindPhone;
 import com.messerli.balmburren.entities.User;
 import com.messerli.balmburren.responses.LoginResponse;
+import com.messerli.balmburren.services.serviceImpl.FlywayServiceImpl;
 import jakarta.transaction.Transactional;
 
 import com.messerli.balmburren.entities.Address;
 
+import org.flywaydb.core.Flyway;
+import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -21,15 +28,20 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-@Transactional
+//@Transactional
 @ActiveProfiles("test")
 @AutoConfigureWebTestClient
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class BackendIntegrationTests_SettingsTest {
     @Autowired
     private WebTestClient webClient;
+    @MockBean
+    private FlywayServiceImpl flywayService;
+
+
     @Test
     void createAddressAndSoOn() {
+
         EntityExchangeResult<LoginResponse> loginResponse =
                 webClient.post().uri("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)

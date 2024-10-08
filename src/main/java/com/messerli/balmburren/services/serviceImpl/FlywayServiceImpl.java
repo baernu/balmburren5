@@ -4,6 +4,7 @@ import com.messerli.balmburren.services.FlywayService;
 import jakarta.transaction.Transactional;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,6 +28,7 @@ public class FlywayServiceImpl implements FlywayService {
         flyway.clean();
 //        flyway.migrate();
     }
+
 
 
 }

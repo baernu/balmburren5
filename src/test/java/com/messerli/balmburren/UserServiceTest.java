@@ -10,12 +10,14 @@ import com.messerli.balmburren.services.AuthenticationService;
 import com.messerli.balmburren.services.DatesService;
 import com.messerli.balmburren.services.TourService;
 import com.messerli.balmburren.services.UserService;
+import com.messerli.balmburren.services.serviceImpl.FlywayServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -28,6 +30,8 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 @ActiveProfiles("test")
 public class UserServiceTest {
+    @MockBean
+    private FlywayServiceImpl flywayService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -94,7 +98,7 @@ public class UserServiceTest {
         List<UsersRole> list = usersRoleRepo.findAllByUser(user.get());
         Optional<UsersRole> usersRole = list.stream().filter(e -> e.getRole().getName().equals(RoleEnum.ADMIN)).findFirst();
 
-        assertEquals(roleRepository.findByName(RoleEnum.ADMIN), usersRole.get().getRole());
+        assertEquals(roleRepository.findByName(RoleEnum.ADMIN), Optional.of(usersRole.get().getRole()));
 
     }
     @Test

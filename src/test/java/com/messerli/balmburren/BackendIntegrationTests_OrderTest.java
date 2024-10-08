@@ -3,6 +3,7 @@ package com.messerli.balmburren;
 
 import com.messerli.balmburren.entities.*;
 import com.messerli.balmburren.responses.LoginResponse;
+import com.messerli.balmburren.services.serviceImpl.FlywayServiceImpl;
 import jakarta.transaction.Transactional;
 
 import org.junit.jupiter.api.Assertions;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
 import org.springframework.test.annotation.DirtiesContext;
@@ -27,6 +29,8 @@ import java.util.List;
 public class BackendIntegrationTests_OrderTest {
     @Autowired
     private WebTestClient webClient;
+    @MockBean
+    private FlywayServiceImpl flywayService;
 
 
     @Test

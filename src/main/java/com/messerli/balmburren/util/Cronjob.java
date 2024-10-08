@@ -9,7 +9,6 @@ import com.messerli.balmburren.repositories.UsersRoleRepo;
 import com.messerli.balmburren.services.CronService;
 import com.messerli.balmburren.services.FlywayService;
 import com.smattme.MysqlExportService;
-import com.smattme.MysqlImportService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.*;
 
 
