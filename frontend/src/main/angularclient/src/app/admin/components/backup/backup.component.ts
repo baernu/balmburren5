@@ -26,8 +26,6 @@ export class BackupComponent {
   }
 
   async backupToFile() {
-    this.success ="";
-    this.error = "";
     try {
       await firstValueFrom(this.emailService.backupWriteToFile());
 
@@ -48,19 +46,18 @@ export class BackupComponent {
   }
 
   async backupSend() {
-    this.success ="";
-    this.error = "";
     try {
       await firstValueFrom(this.emailService.backupSend());
 
     } catch (error: any) {
-      if (error.status !== 200)
+      if (error.status !== 200) {
         this.error = "Backup konnte nicht gesendet werden!";
-      setTimeout(() => {
-        this.error = "";
+        setTimeout(() => {
+          this.error = "";
+          return;
+        }, 2000);
         return;
-      }, 2000);
-      return;
+      }
     }
     this.success = "Backup wurde gesendet.";
     setTimeout(() => {
@@ -70,10 +67,6 @@ export class BackupComponent {
   }
 
   async importBackup(event: Event) {
-
-
-    this.success1 ="";
-    this.error1 = "";
     let file: File;
     let filename: string;
     const element = event.currentTarget as HTMLInputElement;
@@ -90,13 +83,14 @@ export class BackupComponent {
         await firstValueFrom(this.emailService.backupImport(this.byteDTO));
 
       } catch (error: any) {
-        if (error.status !== 200)
+        if (error.status !== 200) {
           this.error1 = "Backup Import konnte nicht geladen werden!!";
-        setTimeout(() => {
-          this.error1 = "";
+          setTimeout(() => {
+            this.error1 = "";
+            return;
+          }, 2000);
           return;
-        }, 2000);
-        return;
+        }
       }
       this.success1 = "Backup Import wurde geladen.";
       setTimeout(() => {
