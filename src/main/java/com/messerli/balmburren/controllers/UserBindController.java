@@ -248,7 +248,6 @@ public class UserBindController {
         return ResponseEntity.ok().body(userBindService.getAllDriverBindInvoiceForDateFrom(dateFrom));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("person/bind/phone/")
     ResponseEntity<Optional<PersonBindPhone>> createPersonBindPhone(@RequestBody PersonBindPhone personBindPhone) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/person/bind/phone").toUriString());

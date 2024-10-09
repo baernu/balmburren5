@@ -41,7 +41,6 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
         User registeredUser = authenticationService.signup(registerUserDto);
-
         return ResponseEntity.ok(registeredUser);
     }
     @CrossOrigin( allowCredentials = "true")

@@ -56,55 +56,55 @@
                  required #email="ngModel">
         </div>
         <div [hidden]="!email.pristine" class="alert alert-warning">Email wird benötigt</div>
-        <div class="form-group">
-          <label for="street">Strasse</label>
-          <input type="text" [(ngModel)]="userBindAddress.address.street"
-                 class="form-control"
-                 id="street"
-                 name="street"
-                 placeholder="Strasse"
-                 required #street="ngModel">
-        </div>
-        <div [hidden]="!street.pristine" class="alert alert-warning">Strasse wird benötigt</div>
-        <div class="form-group">
-          <label for="number">Strassen Nummer</label>
-          <input type="text" [(ngModel)]="userBindAddress.address.number"
-                 class="form-control"
-                 id="number"
-                 name="number"
-                 placeholder="Strassen Nummer"
-                 required #number="ngModel">
-        </div>
-        <div [hidden]="!number.pristine" class="alert alert-warning">Strassen Nummer wird benötigt</div>
-        <div class="form-group">
-          <label for="city">Ort</label>
-          <input type="text" [(ngModel)]="userBindAddress.address.city"
-                 class="form-control"
-                 id="city"
-                 name="city"
-                 placeholder="Ort"
-                 required #city="ngModel">
-        </div>
-        <div [hidden]="!city.pristine" class="alert alert-warning">Ort wird benötigt</div>
-        <div class="form-group">
-          <label for="plz">PLZ</label>
-          <input type="number" [(ngModel)]="userBindAddress.address.plz"
-                 class="form-control"
-                 id="plz"
-                 name="plz"
-                 placeholder="PLZ"
-                 required #plz="ngModel">
-        </div>
-        <div [hidden]="!plz.pristine" class="alert alert-warning">PLZ wird benötigt</div>
-        <div class="form-group">
-          <label for="phone">Telefon Nummer</label>
-          <input type="text" [(ngModel)]="userBindPhone.phone"
-                 class="form-control"
-                 id="phone"
-                 name="phone"
-                 placeholder="Telefon Nummer">
-          <!--                 required #phone="ngModel">-->
-        </div>
+<!--        <div class="form-group">-->
+<!--          <label for="street">Strasse</label>-->
+<!--          <input type="text" [(ngModel)]="userBindAddress.address.street"-->
+<!--                 class="form-control"-->
+<!--                 id="street"-->
+<!--                 name="street"-->
+<!--                 placeholder="Strasse"-->
+<!--                 required #street="ngModel">-->
+<!--        </div>-->
+<!--        <div [hidden]="!street.pristine" class="alert alert-warning">Strasse wird benötigt</div>-->
+<!--        <div class="form-group">-->
+<!--          <label for="number">Strassen Nummer</label>-->
+<!--          <input type="text" [(ngModel)]="userBindAddress.address.number"-->
+<!--                 class="form-control"-->
+<!--                 id="number"-->
+<!--                 name="number"-->
+<!--                 placeholder="Strassen Nummer"-->
+<!--                 required #number="ngModel">-->
+<!--        </div>-->
+<!--        <div [hidden]="!number.pristine" class="alert alert-warning">Strassen Nummer wird benötigt</div>-->
+<!--        <div class="form-group">-->
+<!--          <label for="city">Ort</label>-->
+<!--          <input type="text" [(ngModel)]="userBindAddress.address.city"-->
+<!--                 class="form-control"-->
+<!--                 id="city"-->
+<!--                 name="city"-->
+<!--                 placeholder="Ort"-->
+<!--                 required #city="ngModel">-->
+<!--        </div>-->
+<!--        <div [hidden]="!city.pristine" class="alert alert-warning">Ort wird benötigt</div>-->
+<!--        <div class="form-group">-->
+<!--          <label for="plz">PLZ</label>-->
+<!--          <input type="number" [(ngModel)]="userBindAddress.address.plz"-->
+<!--                 class="form-control"-->
+<!--                 id="plz"-->
+<!--                 name="plz"-->
+<!--                 placeholder="PLZ"-->
+<!--                 required #plz="ngModel">-->
+<!--        </div>-->
+<!--        <div [hidden]="!plz.pristine" class="alert alert-warning">PLZ wird benötigt</div>-->
+<!--        <div class="form-group">-->
+<!--          <label for="phone">Telefon Nummer</label>-->
+<!--          <input type="text" [(ngModel)]="userBindPhone.phone"-->
+<!--                 class="form-control"-->
+<!--                 id="phone"-->
+<!--                 name="phone"-->
+<!--                 placeholder="Telefon Nummer">-->
+<!--          &lt;!&ndash;                 required #phone="ngModel">&ndash;&gt;-->
+<!--        </div>-->
         <!--        <div [hidden]="userBindPhone.phone !=''" class="alert alert-warning">Telefon Nummer wird benötigt</div>-->
       <button type="submit" [disabled]="!userForm.form.valid"
               class="btn btn-info">Senden</button>

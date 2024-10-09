@@ -54,7 +54,6 @@ public class CardController {
         return ResponseEntity.ok().body(cardService.findById(Long.valueOf(id)));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN','KATHY')")
     @GetMapping("card/isactive/{isactive}")
     ResponseEntity<List<Card>> findAllActive(@PathVariable("isactive") boolean isactive) {
         return ResponseEntity.ok().body(cardService.findAllActive(isactive));}

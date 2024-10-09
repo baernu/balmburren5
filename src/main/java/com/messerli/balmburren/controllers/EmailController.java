@@ -33,12 +33,18 @@ public class EmailController {
     @CrossOrigin( allowCredentials = "true")
     @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @PostMapping("send/email/")
-
     public ResponseEntity<?> sendEmailAttachment(@RequestBody EmailData emailData) {
         emailService.sendEmailAttachment(emailData.getType(), emailData.getToEmail(), emailData.getSubject(), emailData.getBody(), emailData.getByteArray(), emailData.getBase64String(), emailData.getFilename());
 //        log.info("Sending email with attachment: {}", emailData);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/send/email/attachment").toUriString());
         return ResponseEntity.created(uri).body(emailData);
+    }
+
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping("send/email/register/{email}")
+    public ResponseEntity<?> sendEmailRegister(@PathVariable("email") String email) {
+        emailService.sendEmailRegister(email);
+        return ResponseEntity.ok().body("Sending Register Email.");
     }
 
     @CrossOrigin( allowCredentials = "true")

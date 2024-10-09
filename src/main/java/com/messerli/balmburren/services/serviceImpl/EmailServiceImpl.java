@@ -65,4 +65,11 @@ public class EmailServiceImpl implements EmailService {
         return null;
     }
 
+    @Override
+    public void sendEmailRegister(String email) {
+        String subject = "Registrierung Balmburren";
+        String body = "Guten Tag\nSie haben sich neu bei Balmburren registriert. Bitte antworten Sie auf diese Mail und bestätigen kurz,\nbei Balmburren als Kunde * in online bestellen zu wollen.\nVielen Dank.";
+        sendingEmail.send("normal",email, subject, body, null, null, "");
+    }
+
 }

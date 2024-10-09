@@ -31,6 +31,9 @@ export class EmailService {
   public sendEmail(email: EmailDataDTO):Observable<EmailDataDTO> {
     return this.http.post<EmailDataDTO>(this.emailUrl, email,{withCredentials: true});}
 
+  public sendRegisterEmail(email: string):Observable<string> {
+    return this.http.get<string>(this.emailUrl + 'register/'+ email,{withCredentials: true});}
+
   public createInvoiceQR(invoiceQR: InvoiceQRDTO):Observable<string> {
     return this.http.post<string>(this.getQRCodeUrl, invoiceQR,{withCredentials: true});}
 

@@ -68,7 +68,7 @@ public class TourController {
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @PostMapping("dates/")
     ResponseEntity<Optional<Dates>> createDates(@RequestBody Dates dates) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/dates").toUriString());

@@ -12,4 +12,6 @@ public interface EmailService {
     String getQRInvoice(QRInvoice qrInvoice);
     String sendTourData(Client[] clients);
     List<Client> retourTourData(String json);
+
+    void sendEmailRegister(String email);
 }
