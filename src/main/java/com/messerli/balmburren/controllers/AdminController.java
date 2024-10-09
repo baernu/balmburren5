@@ -22,7 +22,7 @@ public class AdminController {
     }
     @CrossOrigin( allowCredentials = "true")
     @PostMapping("/create_admin")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     public ResponseEntity<?> createAdministrator(@RequestBody String username) {
         boolean var = userService.createAdministrator(username);
 
@@ -31,7 +31,7 @@ public class AdminController {
 
     @CrossOrigin( allowCredentials = "true")
     @PutMapping("/create/driver")
-    @PreAuthorize("hasAnyAuthority('DRIVER','ADMIN','SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     public ResponseEntity<?> createDriver(@RequestBody String username) {
         boolean var = userService.createDriver(username);
 
@@ -40,7 +40,7 @@ public class AdminController {
 
     @CrossOrigin( allowCredentials = "true")
     @PutMapping("/create/user")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     public ResponseEntity<?> createUser(@RequestBody String username) {
         boolean var = userService.createUser(username);
         return ResponseEntity.ok(var);
@@ -57,7 +57,6 @@ public class AdminController {
     @CrossOrigin( allowCredentials = "true")
     @PutMapping("/update1/user")
     @PreAuthorize("hasAnyAuthority('USER','ADMIN','SUPER_ADMIN')")
-//    @PreAuthorize("isAuthenticated()")'SUPER_ADMIN'
     public ResponseEntity<Optional<User>> update1User(@RequestBody User user) {
         return ResponseEntity.ok().body(userService.newPassword(user));
     }

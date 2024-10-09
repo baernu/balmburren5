@@ -7,6 +7,7 @@ import com.messerli.balmburren.services.*;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -39,17 +40,20 @@ public class OrderController {
     }
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','USER','KATHY')")
     @PostMapping("order/")
     ResponseEntity<Optional<Ordered>> createOrder(@RequestBody Ordered ordered) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/order").toUriString());
         return ResponseEntity.created(uri).body(orderService.saveOrder(ordered));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','USER','KATHY')")
     @PutMapping("order/")
     ResponseEntity<Optional<Ordered>> putOrder(@RequestBody Ordered ordered) {
         return ResponseEntity.ok().body(orderService.putOrder(ordered));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','USER','KATHY')")
     @GetMapping("order/{username}/{product}/{productdetails}/{date}/{tour}")
     ResponseEntity<Optional<Ordered>> getOrder(@PathVariable("username") String username,
                                      @PathVariable("product") String product, @PathVariable("productdetails") Long id,
@@ -57,6 +61,7 @@ public class OrderController {
         return ResponseEntity.ok().body(getOrdered(username, product, id, date, tour, 1));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @DeleteMapping("order/{username}/{product}/{productdetails}/{date}/{tour}")
     ResponseEntity<Optional<Ordered>> deleteOrder(@PathVariable("username") String username,
                                      @PathVariable("product") String product, @PathVariable("productdetails") Long id,
@@ -64,6 +69,7 @@ public class OrderController {
         return ResponseEntity.ok().body(getOrdered(username, product, id, date, tour,0));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','USER','KATHY')")
     @GetMapping("order/exist/{username}/{product}/{productdetails}/{date}/{tour}")
     ResponseEntity<Boolean> existOrder(@PathVariable("username") String username,
                                      @PathVariable("product") String product, @PathVariable("productdetails") Long id,
@@ -76,6 +82,7 @@ public class OrderController {
         return ResponseEntity.ok().body(orderService.existOrderForDatePeopleAndProductBindInfosAndTour(dates.get().getDate(),user.get(),productBindProductDetails.get(), getTour(tour).get()));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','USER','KATHY')")
     @GetMapping("order/{username}")
     ResponseEntity<Optional<List<Ordered>>> getAllOrderForPerson(@PathVariable("username") String username) {
         Optional<User> user = userService.findUser(username);
@@ -84,6 +91,7 @@ public class OrderController {
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','USER','KATHY')")
     @GetMapping("order/between/{startDate}/{endDate}/{username}")
     ResponseEntity<Optional<List<Ordered>>> getAllOrderForPersonBetween(@PathVariable("startDate") Long startDate, @PathVariable("endDate") Long endDate,
                                                               @PathVariable("username") String username) {
@@ -93,24 +101,28 @@ public class OrderController {
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','DRIVER')")
     @GetMapping("order/{tour}/{date}")
     ResponseEntity<Optional<List<Ordered>>> getAllOrderForTourAndDate(@PathVariable("tour") String tour, @PathVariable("date") Long date) {
         Optional<List<Ordered>> list = orderService.getAllOrderForTourAndDate(getTour(tour).get(), getDates(date).get().getDate());
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','USER','KATHY','USER_KATHY')")
     @PostMapping("order/person/profile/")
     ResponseEntity<Optional<PersonProfileOrder>> createPersonProfileOrder(@RequestBody PersonProfileOrder personProfileOrder) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/order/person/profile").toUriString());
         return ResponseEntity.created(uri).body(orderService.savePersonProfileOrder(personProfileOrder));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','USER','KATHY','USER_KATHY')")
     @PutMapping("order/person/profile/")
     ResponseEntity<Optional<PersonProfileOrder>> putPersonProfileOrder(@RequestBody PersonProfileOrder personProfileOrder) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/order/person/profile").toUriString());
         return ResponseEntity.created(uri).body(orderService.putPersonProfileOrder(personProfileOrder));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @DeleteMapping("order/person/profile/{username}/{product}/{productdetails}/{tour}")
     ResponseEntity<Optional<PersonProfileOrder>> deletePersonProfileOrder(@PathVariable("username") String username,
                                      @PathVariable("product") String product, @PathVariable("productdetails") Long id, @PathVariable("tour") String tour) {
@@ -119,6 +131,7 @@ public class OrderController {
         return ResponseEntity.ok().body(personProfileOrder);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','USER','KATHY','USER_KATHY')")
     @GetMapping("order/person/profile/{username}/{product}/{productdetails}/{tour}")
     ResponseEntity<Optional<PersonProfileOrder>> getPersonProfileOrder(@PathVariable("username") String username,
                                                              @PathVariable("product") String product, @PathVariable("productdetails") Long id, @PathVariable("tour") String tour) {
@@ -126,6 +139,7 @@ public class OrderController {
         return ResponseEntity.ok().body(personProfileOrder);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','USER','KATHY','USER_KATHY')")
     @GetMapping("order/person/profile/exist/{username}/{product}/{productdetails}/{tour}")
     ResponseEntity<Boolean> existPersonProfileOrder(@PathVariable("username") String username,
                                                              @PathVariable("product") String product, @PathVariable("productdetails") Long id, @PathVariable("tour") String tour) {
@@ -133,12 +147,14 @@ public class OrderController {
         return ResponseEntity.ok().body(bool);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','USER','KATHY','USER_KATHY')")
     @GetMapping("order/person/profile/{username}")
     ResponseEntity<Optional<List<PersonProfileOrder>>> getAllPersonProfileOrderForPerson(@PathVariable("username") String username) {
         Optional<List<PersonProfileOrder>> list = orderService.getAllPersonProfileOrderForPerson(getPerson(username).get());
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @GetMapping("order/person/profile/")
     ResponseEntity<Optional<List<PersonProfileOrder>>> getAllPersonProfileOrder() {
         Optional<List<PersonProfileOrder>> list = orderService.getAllPersonProfileOrder();

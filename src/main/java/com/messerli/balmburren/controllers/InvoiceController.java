@@ -7,6 +7,7 @@ import com.messerli.balmburren.services.InvoiceService;
 import com.messerli.balmburren.entities.Reference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,12 +27,14 @@ public class InvoiceController {
     }
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @PostMapping("invoice/")
     ResponseEntity<Optional<Invoice>> createInvoice(@RequestBody Invoice invoice) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/invoice").toUriString());
         return ResponseEntity.created(uri).body(invoiceService.saveInvoice(invoice));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @PutMapping("invoice/")
     ResponseEntity<Optional<Invoice>> putInvoice(@RequestBody Invoice invoice) {
         Optional<Invoice> invoice1 = invoiceService.getInvoice(invoice.getId());
@@ -40,6 +43,7 @@ public class InvoiceController {
         return ResponseEntity.ok().body(invoiceService.putInvoice(invoice));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','USER')")
     @GetMapping("invoice/{id}")
     ResponseEntity<Optional<Invoice>> getInvoice(@PathVariable("id") Long id ) {
         Optional<Invoice> invoice= invoiceService.getInvoice(id);
@@ -47,6 +51,7 @@ public class InvoiceController {
         return ResponseEntity.ok().body(invoice);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @DeleteMapping("invoice/{id}")
     ResponseEntity<Optional<Invoice>> deleteInvoice(@PathVariable("id") Long id ) {
         Optional<Invoice> invoice= invoiceService.getInvoice(id);
@@ -54,11 +59,13 @@ public class InvoiceController {
         else return ResponseEntity.ok().body(invoiceService.deleteInvoice(invoice.get()));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @DeleteMapping("invoice/exist/{id}")
     ResponseEntity<Boolean> existInvoice(@PathVariable("id") Long id ) {
         return ResponseEntity.ok().body(invoiceService.existInvoice(id));}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @GetMapping("invoice/reference/{val}")
     ResponseEntity<Optional<Reference>> getInvoiceReference(@PathVariable("val") Long val) {
         Optional<Reference> reference = invoiceService.findByVal(val);
@@ -66,6 +73,7 @@ public class InvoiceController {
         return ResponseEntity.ok().body(reference);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @PostMapping("invoice/reference/")
     ResponseEntity<Optional<Reference>> postInvoiceReference(@RequestBody Reference reference ) {
         Optional<Reference> reference1 = invoiceService.createReference(reference);
@@ -73,6 +81,7 @@ public class InvoiceController {
         return ResponseEntity.created(uri).body(reference1);}
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
     @PutMapping("invoice/reference/")
     ResponseEntity<Optional<Reference>> putInvoiceReference(@RequestBody Reference reference ) {
         Optional<Reference> reference1 = invoiceService.createReference(reference);

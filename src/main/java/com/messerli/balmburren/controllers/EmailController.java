@@ -29,14 +29,6 @@ public class EmailController {
         this.cronService = cronService;
     }
 
-//    @CrossOrigin( allowCredentials = "true")
-//    @PostMapping("send/email/normal")
-//    public ResponseEntity<?> sendEmailNormal(@RequestBody EmailData emailData) {
-//        emailService.sendEmailNormal(emailData.getFromEmail(), emailData.getToEmail(), emailData.getSubject(), emailData.getPassword(), emailData.getBody());
-//        log.info("Sending email: {}", emailData);
-//        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/send/email/normal").toUriString());
-//        return ResponseEntity.created(uri).body(emailData);
-//    }
 
     @CrossOrigin( allowCredentials = "true")
     @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
@@ -92,7 +84,7 @@ public class EmailController {
         return ResponseEntity.ok().body("Backup write to file...");
     }
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @PatchMapping("backup/import/")
     public ResponseEntity<ByteDTO> backupUImport(@RequestBody ByteDTO byteDTO) {
         cronService.importDatabase(byteDTO.getBytearray());
