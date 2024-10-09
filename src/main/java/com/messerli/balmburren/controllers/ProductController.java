@@ -49,13 +49,6 @@ public class ProductController {
         return product;
     }
 
-//    @CrossOrigin( allowCredentials = "true")
-//    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
-//    @DeleteMapping("product/{name}")
-//    ResponseEntity<Optional<Product>> deleteProduct(@PathVariable("name") String name) {
-//        Optional<Product> product = productService.deleteProduct(name);
-//        if (product.isEmpty()) throw new NoSuchElementFoundException("Product not found");
-//        return ResponseEntity.ok().body(product);}
 
     @CrossOrigin( allowCredentials = "true")
     @PreAuthorize("isAuthenticated()")
@@ -67,7 +60,6 @@ public class ProductController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @PatchMapping("product/")
     ResponseEntity<Optional<Product>> deleteProduct(@RequestBody Product product) {
-//        productService.deleteProduct(product);
         return ResponseEntity.ok().body(productService.deleteProduct(product));}
 
     @CrossOrigin( allowCredentials = "true")
@@ -118,7 +110,6 @@ public class ProductController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @PatchMapping("product/details/")
     ResponseEntity<Optional<ProductDetails>> deleteProductDetails(@RequestBody ProductDetails productDetails) {
-//        productService.deleteProductDetails(productDetails);
         return ResponseEntity.ok().body(productService.deleteProductDetails(productDetails));}
 
     @CrossOrigin( allowCredentials = "true")

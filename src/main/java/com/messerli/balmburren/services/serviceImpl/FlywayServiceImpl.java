@@ -16,7 +16,6 @@ public class FlywayServiceImpl implements FlywayService {
     @Transactional
     @Override
     public void migrateDatabase() {
-//        flyway.clean();
         flyway.repair();
         flyway.migrate();
 
@@ -26,7 +25,6 @@ public class FlywayServiceImpl implements FlywayService {
     @Override
     public void clearDatabase() {
         flyway.clean();
-//        flyway.migrate();
     }
 
 

@@ -93,35 +93,7 @@ public class Cronjob implements CronService {
             log.info("Error occurred during SQL export: " + e.getMessage());
         }
 
-//        MysqlExportService mysqlExportService = new MysqlExportService(properties);
-//        //If we want to get the raw exported SQL dump as a String we only need to call this method:
-//        String generatedSql = mysqlExportService.getGeneratedSql();
-//        byte[] byteArray = generatedSql.getBytes(StandardCharsets.UTF_8);
-//        log.info("byteArray: " + Arrays.toString(byteArray));
 
-//        sendingEmail.send("attachment", "balmburren@gmail.com", "Backup", "Neues Backup ist bereit", byteArray, "", "backup.txt");
-
-
-
-
-//        //get the generated file as a Java File object
-//        properties.setProperty(MysqlExportService.PRESERVE_GENERATED_ZIP, "true");
-//
-//        //This property instructs mysql-backup4j to preserve the generated zip file so that we can access it:
-//        File file = mysqlExportService.getGeneratedZipFile();
-//
-//        //Once we’re done, we have to manually clear the zip file from the TEMP_DIR by calling:
-//        //mysqlExportService.clearTempFiles(false);
-//
-//        //If we want to get the raw exported SQL dump as a String we only need to call this method:
-//        String generatedSql = mysqlExportService.getGeneratedSql();
-//
-//        properties.setProperty(MysqlExportService.DELETE_EXISTING_DATA, "true");
-//        properties.setProperty(MysqlExportService.DROP_TABLES, "true");
-//        properties.setProperty(MysqlExportService.ADD_IF_NOT_EXISTS, "true");
-//        properties.setProperty(MysqlExportService.JDBC_DRIVER_NAME, "root.ss");
-//        properties.setProperty(MysqlExportService.JDBC_CONNECTION_STRING, "jdbc:mysql://localhost:3306/database-name");
-//        properties.setProperty(MysqlExportService.PRESERVE_GENERATED_SQL_FILE, "true");
     }
     @Transactional
     public void sendBackup(){
@@ -142,39 +114,15 @@ public class Cronjob implements CronService {
         // Step 2: Convert byte[] to a String (assuming UTF-8 encoding)
         String decodedString = new String(decodedBytes, StandardCharsets.UTF_8);
 
-//        flywayService.clearDatabase();
+
 
         String sql;
         sql = decodedString;
         writeSQLDataForFlyway(sql);
-//        log.info("SQL String: " + sql);
-//
-//        try {
-//            boolean res = MysqlImportService.builder()
-//                    .setDatabase("balmburren_db")
-//                    .setSqlString(sql)
-//                    .setUsername("root")
-//                    .setPassword("secret")
-//                    .setHost("localhost")
-//                    .setPort("3307")
-//                    .setDeleteExisting(true)
-//                    .setDropExisting(true)
-//                    .importDatabase();
-//            if (!res)log.info("SQLImport not working!");
-//        } catch (SQLException e) {
-//            log.info("SQLException building import" + e.getMessage());
-//            throw new RuntimeException(e);
-//        } catch (ClassNotFoundException e) {
-//            log.info("ClassNotFoundException building import" + e.getMessage());
-//            throw new RuntimeException(e);
-//        }
-//        log.info("Importing database is successful.");
+
 
         flywayService.migrateDatabase();
 
-//        flywayService.resetDatabase();
-//        loadRoles();
-//        createAdmin();
 
     }
 
@@ -199,20 +147,6 @@ public class Cronjob implements CronService {
         }
     }
 
-
-//    public  byte[] toUnzippedByteArray(byte[] zippedBytes) throws IOException {
-//        var zipInputStream = new ZipInputStream(new ByteArrayInputStream(zippedBytes));
-//        var buff = new byte[1024];
-//        if (zipInputStream.getNextEntry() != null) {
-//            var outputStream = new ByteArrayOutputStream();
-//            int l;
-//            while ((l = zipInputStream.read(buff)) > 0) {
-//                outputStream.write(buff, 0, l);
-//            }
-//            return outputStream.toByteArray();
-//        }
-//        return new byte[0];
-//    }
 
     private void loadRoles() {
         RoleEnum[] roleNames = new RoleEnum[] { RoleEnum.USER, RoleEnum.ADMIN, RoleEnum.SUPER_ADMIN, RoleEnum.DRIVER, RoleEnum.KATHY, RoleEnum.USER_KATHY };
