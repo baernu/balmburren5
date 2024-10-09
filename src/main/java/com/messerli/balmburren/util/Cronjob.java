@@ -45,6 +45,7 @@ public class Cronjob implements CronService {
     private static byte[] byteArray;
     private static MysqlExportService mysqlExportService;
     private static File file;
+    private static String filename;
 
 
     @Scheduled(cron = "0 40 23 * * *")
@@ -132,7 +133,7 @@ public class Cronjob implements CronService {
 
     private void writeSQLDataForFlyway(String sqlString) {
         String dirPath = "src/main/resources/db/migration/data";
-        String fileName = "V100.1__INSERT_UPDATE.SQL";
+        String fileName = "V40__INSERT_BACKUP.SQL";
         Path path = Paths.get(dirPath);
         if (!Files.exists(path)) {
             try {

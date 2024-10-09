@@ -8,6 +8,7 @@ import com.messerli.balmburren.repositories.RoleRepository;
 import com.messerli.balmburren.repositories.UserRepository;
 import com.messerli.balmburren.repositories.UsersRoleRepo;
 import lombok.extern.slf4j.Slf4j;
+import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -32,6 +33,8 @@ public class BalmburrenApplication  {
 	@Autowired
 	private RoleRepository roleRepository;
 	@Autowired UserRepository userRepository;
+	@Autowired
+	private Flyway flyway;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BalmburrenApplication.class, args);
@@ -41,8 +44,6 @@ public class BalmburrenApplication  {
 	@Bean
 	CommandLineRunner init(RoleRepository roleRepository,UsersRoleRepo usersRoleRepo,UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
-
-
 			loadRoles();
 
 			RegisterUserDto userDto = new RegisterUserDto();

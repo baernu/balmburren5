@@ -41,3 +41,5 @@ balmburren.pdf
 /src/main/resources/db/migration/data/V100_INSERT_UPDATE.SQL
 /src/main/resources/db/migration/data/V100.1__INSERT_UPDATE.SQL
 /src/main/resources/db/migration/data/V13.1__INSERT_USER_ROLE_DATA.SQL
+/src/main/resources/db/migration/data/R__BACKUP_DATA.SQL
+/src/main/resources/db/migration/data/R__INSERT_UPDATE.SQL
