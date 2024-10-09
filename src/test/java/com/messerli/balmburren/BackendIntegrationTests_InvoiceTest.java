@@ -383,6 +383,7 @@ public class BackendIntegrationTests_InvoiceTest {
         EntityExchangeResult<Optional<Dates>> resultDates =
                 webClient.post().uri("/tr/dates/")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .headers(http -> http.setBearerAuth(finalToken))
                         .bodyValue(dates)
                         .exchange()
                         .expectBody(new ParameterizedTypeReference<Optional<Dates>>() {})
@@ -410,6 +411,7 @@ public class BackendIntegrationTests_InvoiceTest {
         EntityExchangeResult<Optional<Invoice>> result1 =
                 webClient.post().uri("/ic/invoice/")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .headers(http -> http.setBearerAuth(finalToken))
                         .bodyValue(invoice)
                         .exchange()
                         .expectStatus()

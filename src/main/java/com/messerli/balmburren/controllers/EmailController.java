@@ -42,6 +42,7 @@ public class EmailController {
     }
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @PostMapping("qrcode")
     public ResponseEntity<?> getQRInvoice(@RequestBody QRInvoice qrInvoice) {
         String string = emailService.getQRInvoice(qrInvoice);
@@ -51,6 +52,7 @@ public class EmailController {
     }
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER')")
     @PostMapping("send/email/tourdata")
     public ResponseEntity<?> sendTourData(@RequestBody Client[] clients) {
         String string = emailService.sendTourData(clients);
@@ -60,6 +62,7 @@ public class EmailController {
     }
 
     @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER')")
     @PostMapping("send/retour/tourdata")
     public ResponseEntity<?> retourTourData(@RequestBody String json) {
         List<Client> list = emailService.retourTourData(json);

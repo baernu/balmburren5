@@ -38,7 +38,7 @@ public class ProductController {
         return ResponseEntity.created(uri).body(productService.saveProduct(product));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("product/{name}")
     ResponseEntity<Optional<Product>> getProduct(@PathVariable("name") String name) {
         return ResponseEntity.ok().body(getProduct1(name));}
@@ -51,7 +51,7 @@ public class ProductController {
 
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("product/")
     ResponseEntity<Optional<List<Product>>> getProducts() {
         return ResponseEntity.ok().body(productService.getProducts());}
@@ -63,7 +63,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.deleteProduct(product));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping ("product/exist/{name}")
     ResponseEntity<Boolean> existProduct(@PathVariable("name") String name) {
         boolean bool = productService.existProduct(name);
@@ -85,7 +85,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productDetails1);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("product/details/{id}")
     ResponseEntity<Optional<ProductDetails>> getProductDetails(@PathVariable("id") Long id) {
         Optional<ProductDetails> productDetails = productService.getProductDetails(id);
@@ -93,14 +93,14 @@ public class ProductController {
         return ResponseEntity.ok().body(productDetails);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("product/details/{category}")
     ResponseEntity<Optional<List<ProductDetails>>> getAllProductDetailsForProduct(@PathVariable("category") String category) {
         Optional<List<ProductDetails>> list = productService.getAllProductDetailsForCategory(category);
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("product/details/")
     ResponseEntity<Optional<List<ProductDetails>>> getAllProductDetails() {
         Optional<List<ProductDetails>> list = productService.getAllProductDetails();
@@ -126,7 +126,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.putProductBindInfos(productBindInfos));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("product/bind/infos/{product}/{productdetails}")
     ResponseEntity<Optional<ProductBindProductDetails>> getProductBindInfos(@PathVariable("product") String name, @PathVariable("productdetails") Long id) {
         return ResponseEntity.ok().body(getProductBindInfo(name, id, 1));}
@@ -137,7 +137,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.getAllProductDetailsisChecked(bool));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("product/bind/infos/exist/{product}/{productdetails}")
     ResponseEntity<Boolean> isProductBindInfos(@PathVariable("product") String name, @PathVariable("productdetails") Long id) {
         ProductBindProductDetails productBindInfos = null;
@@ -149,7 +149,7 @@ public class ProductController {
         return ResponseEntity.ok().body(bool);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("product/bind/infos/byid/{id}")
     ResponseEntity<Optional<ProductBindProductDetails>> getProductBindInfosById(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(productService.getProductBindInfosById(id));}
@@ -161,7 +161,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.deleteProductBindInfos(productBindProductDetails));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("product/bind/infos/{product}")
     ResponseEntity<Optional<List<ProductBindProductDetails>>> getAllProductBindInfosForProduct(@PathVariable("product") String name) {
         Optional<Product> product = productService.getProduct(name);
@@ -169,7 +169,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.getAllProductBindInfosForProduct(product.get()));}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("product/bind/infos/")
     ResponseEntity<Optional<List<ProductBindProductDetails>>> getAllProductBindInfos() {
         return ResponseEntity.ok().body(productService.getAllProductBindInfos());}
