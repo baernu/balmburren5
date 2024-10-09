@@ -100,4 +100,12 @@ public class EmailController {
         return ResponseEntity.ok().body(byteDTO);
     }
 
+    @CrossOrigin( allowCredentials = "true")
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @GetMapping("backup/import/migrate/")
+    public ResponseEntity<?> backupUImportMigrate() {
+        cronService.migrateDB();
+        return ResponseEntity.ok().body("Migrating DB.");
+    }
+
 }

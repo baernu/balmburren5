@@ -121,14 +121,18 @@ public class Cronjob implements CronService {
         writeSQLDataForFlyway(sql);
 
 
+//        flywayService.migrateDatabase();
+
+
+    }
+    @Transactional
+    public void migrateDB(){
         flywayService.migrateDatabase();
-
-
     }
 
     private void writeSQLDataForFlyway(String sqlString) {
         String dirPath = "src/main/resources/db/migration/data";
-        String fileName = "V100_INSERT_UPDATE.SQL";
+        String fileName = "V100.1__INSERT_UPDATE.SQL";
         Path path = Paths.get(dirPath);
         if (!Files.exists(path)) {
             try {

@@ -52,4 +52,8 @@ export class EmailService {
   public backupImport(byteDTO: ByteDTO):Observable<ByteDTO> {
     return this.http.patch<ByteDTO>(this.backupUrl + 'import/', byteDTO,{withCredentials: true});}
 
+  public backupImportMigrate():Observable<string> {
+    return this.http.get<string>(this.backupUrl + 'import/migrate/',{withCredentials: true});}
+
+
 }

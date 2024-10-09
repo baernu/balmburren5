@@ -28,6 +28,8 @@
         </div>
       </form>
     </div>
+    <div><p>Backup Migrate: Erst ca. 1 Minute warten nach dem File import, bevor den Button klicken!</p></div>
+    <div><button type="button" (click)='backupMigrate()' class="btn-light">Backup Migrate</button></div>
     <div *ngIf="error1" class="alert alert-danger">
       {{ error1 }}
     </div>

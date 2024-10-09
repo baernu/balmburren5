@@ -62,7 +62,8 @@ export class LoginComponent {
         await firstValueFrom(this.userService.setTokenCookie(this.token));
         let roles = await firstValueFrom(this.userService.getAllUserBindRolesMe());
         let admin = roles.find(e => e.role.name == "ADMIN");
-        if (admin) if (await firstValueFrom(this.userService.isAdmin(this.user.username))) {
+        let superadmin = roles.find(e => e.role.name == "SUPER_ADMIN");
+        if (admin || superadmin) if (await firstValueFrom(this.userService.isAdmin(this.user.username))) {
           await this.router.navigate(['/admin']);
           return;
         }

@@ -73,20 +73,7 @@ export class RegisterComponent {
           return;
         }
       }
-      // try {
-      //   this.userBindAddress.address = await firstValueFrom(this.userService.createAddress(this.userBindAddress.address));
-      //   this.userBindAddress.user = this.userBindPhone.user;
-      //   this.userBindAddress = await firstValueFrom(this.userService.createUserBindAddress(this.userBindAddress));
-      // }catch(error: any){
-      //   if(error.status != 200 || 201){
-      //     this.error = "Registrierung Adresse hat nicht geklappt!";
-      //     setTimeout( () => {
-      //       this.success = "";
-      //       this.error = "";
-      //     }, 2000);
-      //     return;
-      //   }
-      // }
+
       this.success = "Bitte schauen sie in den nächsten Minuten in Ihrem Email Postfach.";
       this.sendRegisterMessage();
     }
@@ -98,11 +85,6 @@ export class RegisterComponent {
 
   async sendRegisterMessage() {
     try{
-      // let emailData = new EmailDataDTO();;
-      // emailData.type = "normal";
-      // emailData.body = "Guten Tag\nSie haben sich neu bei Balmburren registriert. Bitte antworten Sie auf diese Mail und bestätigen kurz,\nbei Balmburren als Kunde * in online bestellen zu wollen.\nVielen Dank.";
-      // emailData.toEmail = this.userBindPhone.email;
-      // emailData.subject = "Registrierung Balmburren";
       await firstValueFrom(this.emailService.sendRegisterEmail(this.userBindPhone.email));
     }catch(error:any){
       if(error.status != 200) {

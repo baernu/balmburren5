@@ -6,7 +6,8 @@ import com.messerli.balmburren.util.QRInvoice;
 import java.util.List;
 
 public interface CronService {
-    public void writeBackupToFile();
-    public void sendBackup();
-    public void importDatabase(String bytearray);
+    void writeBackupToFile();
+    void sendBackup();
+    void importDatabase(String bytearray);
+    void migrateDB();
 }

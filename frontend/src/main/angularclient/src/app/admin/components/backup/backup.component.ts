@@ -104,4 +104,23 @@ export class BackupComponent {
     return base64String;
 
   }
+  async backupMigrate(){
+    try {
+      await firstValueFrom(this.emailService.backupImportMigrate());
+
+    } catch (error: any) {
+      if (error.status !== 200) {
+        this.error1 = "Backup Migrate konnte nicht geladen werden!!";
+        setTimeout(() => {
+          this.error1 = "";
+        }, 2000);
+        return;
+      }
+    }
+    this.success1 = "Backup Migrate wurde geladen.";
+    setTimeout(() => {
+      this.success1 = "";
+    }, 1000);
+  }
+
 }

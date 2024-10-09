@@ -153,8 +153,10 @@ public class UserServiceImpl implements UserService {
     public boolean isAdmin(String username) {
         Optional<User> optionalUser = findUser(username);
         List<UsersRole> roles= usersRoleRepo.findAllByUser(optionalUser.get());
-        roles = roles.stream().filter(urole -> urole.getRole().getName().name().equals(RoleEnum.ADMIN.name())).collect(Collectors.toSet()).stream().toList();
-        return !roles.isEmpty();
+        List<UsersRole> roles1 = roles.stream().filter(urole -> urole.getRole().getName().name().equals(RoleEnum.ADMIN.name())).collect(Collectors.toSet()).stream().toList();
+        List<UsersRole> rolesSuperAdmin = roles.stream().filter(urole -> urole.getRole().getName().name().equals(RoleEnum.SUPER_ADMIN.name())).collect(Collectors.toSet()).stream().toList();
+        return !roles1.isEmpty() || !rolesSuperAdmin.isEmpty();
+//        return !rolesSuperAdmin.isEmpty();
     }
 
     @Override
