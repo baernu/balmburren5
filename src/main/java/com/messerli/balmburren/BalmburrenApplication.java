@@ -3,7 +3,6 @@ package com.messerli.balmburren;
 import com.messerli.balmburren.dtos.RegisterUserDto;
 import com.messerli.balmburren.entities.*;
 
-import com.messerli.balmburren.repositories.ProductRepo;
 import com.messerli.balmburren.repositories.RoleRepository;
 import com.messerli.balmburren.repositories.UserRepository;
 import com.messerli.balmburren.repositories.UsersRoleRepo;
@@ -13,11 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
-import org.springframework.context.ApplicationListener;
+
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.event.ContextRefreshedEvent;
+
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -28,13 +25,10 @@ import java.util.*;
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableScheduling
-//@SpringBootApplication(exclude = {FlywayAutoConfiguration.class})
 public class BalmburrenApplication  {
 	@Autowired
 	private RoleRepository roleRepository;
 	@Autowired UserRepository userRepository;
-	@Autowired
-	private Flyway flyway;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BalmburrenApplication.class, args);
