@@ -16,6 +16,6 @@ export class FrontComponent {
     await this.router.navigate(['/login']);
   }
   async register() {
-    await this.router.navigate(['/register']);
+    await this.router.navigate(['/register_mail']);
   }
 }

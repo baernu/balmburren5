@@ -18,6 +18,7 @@ import {ProductsComponent} from "./links/products/products.component";
 import {DeliveryComponent} from "./links/delivery/delivery.component";
 import {ContactComponent} from "./links/contact/contact.component";
 import {ActualComponent} from "./links/actual/actual.component";
+import {RegisterSimpleComponent} from "./links/register-simple/register-simple.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'delivery', component: DeliveryComponent},
   { path: 'contact', component: ContactComponent},
   { path: 'actual', component: ActualComponent},
+  { path: 'register_mail', component: RegisterSimpleComponent},
   {path: 'admin', component: AdminDashboardComponent,
     canActivate: [AuthGuardGuard]},
   {path: 'basic_order', component: OrderComponent,

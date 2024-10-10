@@ -27,6 +27,7 @@ import { ProductsComponent } from './links/products/products.component';
 import { DeliveryComponent } from './links/delivery/delivery.component';
 import { ActualComponent } from './links/actual/actual.component';
 import { ContactComponent } from './links/contact/contact.component';
+import { RegisterSimpleComponent } from './links/register-simple/register-simple.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { ContactComponent } from './links/contact/contact.component';
     DeliveryComponent,
     ActualComponent,
     ContactComponent,
+    RegisterSimpleComponent,
 
   ],
     imports: [
