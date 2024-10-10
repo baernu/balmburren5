@@ -93,6 +93,9 @@ export class UserService {
   public updateUser(user: UserDTO):Observable<UserDTO> {
     return this.http.put<UserDTO>(this.adminUrl + "update/user", user, {withCredentials : true});}
 
+  public deleteUser(user: UserDTO):Observable<UserDTO> {
+    return this.http.patch<UserDTO>(this.adminUrl + "delete/user", user, {withCredentials : true});}
+
   public update1User(user: UserDTO):Observable<UserDTO> {
     return this.http.put<UserDTO>(this.adminUrl + "update1/user", user, {withCredentials : true});}
 

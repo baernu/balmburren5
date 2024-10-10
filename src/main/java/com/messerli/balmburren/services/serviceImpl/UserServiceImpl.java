@@ -142,6 +142,12 @@ public class UserServiceImpl implements UserService {
             return Optional.of(userRepository.save(user));
     }
 
+    @Override
+    public Optional<User> deleteUser(User user) {
+        userRepository.deleteById(user.getId());
+        return Optional.of(user);
+    }
+
     public Optional<User> newPassword(User user) {
         Optional<User> user1 = findUser(user.getUsername());
         user.setVersion(user1.get().getVersion());

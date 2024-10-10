@@ -13,7 +13,8 @@ export class UserFormComponent {
 
   user: UserDTO;
   showPassword: boolean = false;
-  error: any;
+  error: string = "";
+  success: string = "";
 
   constructor(
     private router: Router,
@@ -45,17 +46,24 @@ export class UserFormComponent {
     }
 
     if (!bool && this.user.password.length > 7) {
-      this.user = await firstValueFrom(this.userService.register(this.user));
-      await this.router.navigate(['admin']);
+      try{
+        this.user = await firstValueFrom(this.userService.register(this.user));
+      }catch(error: any){
+        if(error.status !== 200){
+          this.error = "Registrieren hat nicht geklappt!";
+          setTimeout( () => {
+            this.error = "";
+          }, 2000);
+          return;
+        }
+      }
+      this.success = "Registrierung hat geklappt.";
+      setTimeout( async () => {
+        this.success = "";
+        await this.router.navigate(['/admin_users']);
+      }, 2000);
       return;
     }
-
-
-    this.error ="Unspezifischer Fehler.";
-    setTimeout( () => {
-      this.error = "";
-    }, 2000);
-    await this.router.navigate(['admin_users_add']);
   }
 
   showHidePassword() {

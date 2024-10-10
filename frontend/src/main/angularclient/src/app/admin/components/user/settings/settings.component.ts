@@ -51,7 +51,7 @@ export class SettingsComponent {
     }catch(error: any) {
       if(error.status != 200) {
         this.error = "Update User hat nicht geklappt!";
-        setTimeout(async () => {
+        setTimeout( () => {
           this.error = "";
         }, 1000);
         return;
@@ -80,7 +80,7 @@ export class SettingsComponent {
     }catch(error: any){
       if(error.status != 200) {
         this.error = "Update Adresse/ Telefon hat nicht geklappt!";
-        setTimeout(async () => {
+        setTimeout( () => {
           this.error = "";
         }, 1000);
         return;

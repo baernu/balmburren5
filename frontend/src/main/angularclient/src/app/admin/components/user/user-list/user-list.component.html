@@ -48,8 +48,15 @@
         <td><div class="form-check">
           <input class="form-check-input" type="checkbox" value="{{user.superadminIsChecked}}" onclick="return false" [(ngModel)]="user.superadminIsChecked">
         </div></td>
+        <button type="button"  class="btn-light" (click)="deleteUser(user)">User löschen</button>
       </tr>
       </tbody>
     </table>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    <div *ngIf="success" class="alert alert-success">
+      {{ success }}
+    </div>
   </div>
 </div>

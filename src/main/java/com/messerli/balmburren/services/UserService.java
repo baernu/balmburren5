@@ -28,4 +28,6 @@ public interface UserService {
     boolean isUserKathy(String username);
 
     List<Role> getAllRoles();
+
+    Optional<User> deleteUser(User user);
 }

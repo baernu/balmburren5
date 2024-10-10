@@ -52,6 +52,12 @@ public class AdminController {
     public ResponseEntity<Optional<User>> updateUser(@RequestBody User user) {
         return ResponseEntity.ok().body(userService.updateUser(user));
     }
+    @CrossOrigin( allowCredentials = "true")
+    @PatchMapping("/delete/user")
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    public ResponseEntity<Optional<User>> deleteUser(@RequestBody User user) {
+        return ResponseEntity.ok().body(userService.deleteUser(user));
+    }
 
     @CrossOrigin( allowCredentials = "true")
     @PutMapping("/update1/user")

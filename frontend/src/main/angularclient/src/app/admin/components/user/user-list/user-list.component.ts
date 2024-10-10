@@ -15,9 +15,15 @@ export class UserListComponent implements OnInit {
 
   users: UserDTO[] | undefined;
   usersWithRole: UserWithRoleDTO[] = [];
+  error: string = "";
+  success: string = "";
+  counter: number = 0;
 
   constructor(private userService: UserService,
               private router: Router) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+      return false;
+    };
   }
 
   async ngOnInit(){
@@ -76,5 +82,35 @@ export class UserListComponent implements OnInit {
           param1: user.username
         }
       });
+  }
+
+  async deleteUser(user: UserDTO) {
+    this.counter++;
+    if (this.counter == 7){
+      try {
+        await firstValueFrom(this.userService.deleteUser(user));
+      }catch(error: any) {
+        if (error.status != 200) {
+          this.error = "Löschen User hat nicht geklappt! Bitte User in Einstellungen checken.";
+          setTimeout(() => {
+            this.error = "";
+          }, 1000);
+          this.counter = 0;
+          return;
+        }
+      }
+      this.success = "Löschen User hat geklappt";
+      setTimeout( async() => {
+        this.success = "";
+      }, 2000);
+      this.counter = 0;
+      await this.router.navigate(['/admin_users']);
+      return;
+    } else {
+      this.error = "Klicke noch " + (7 - this.counter) + " mal um zu löschen";
+      setTimeout(() => {
+        this.error = "";
+      }, 1000);
+    }
   }
 }
