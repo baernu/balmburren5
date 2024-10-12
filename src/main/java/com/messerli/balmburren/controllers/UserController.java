@@ -9,6 +9,7 @@ import com.messerli.balmburren.services.MyUserDetails;
 import com.messerli.balmburren.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -21,7 +22,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006"}, exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006","https://service.balmburren.net:8006","https://www.balmburren.net:4200"}
+        , exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
 @RequestMapping("/users/")
 @RestController
 public class UserController {
@@ -35,7 +37,6 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         MyUserDetails currentUser = (MyUserDetails) authentication.getPrincipal();
 
         return ResponseEntity.ok(currentUser);
@@ -45,6 +46,7 @@ public class UserController {
     @GetMapping("{username}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'USER')")
     public ResponseEntity<Optional<User>> findUser(@PathVariable("username") String username) {
+        if(!userService.hasUserPermission(username)) throw new AccessDeniedException("Not authorized!");
         Optional<User> optionalUser = userService.findUser(username);
         if (optionalUser.isEmpty()) throw new NoSuchElementFoundException("User not found");
         return ResponseEntity.ok(optionalUser);
@@ -57,6 +59,7 @@ public class UserController {
     ResponseEntity<Optional<User>> getUserById(@PathVariable("id") Long id) {
         Optional<User> user = userService.getUserById(id);
         if (user.isEmpty()) throw new NoSuchElementFoundException("User not found");
+        if(!userService.hasUserPermission(user.get().getUsername())) throw new AccessDeniedException("Not authorized!");
         return ResponseEntity.ok().body(user);}
     @CrossOrigin( allowCredentials = "true")
     @GetMapping

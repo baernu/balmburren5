@@ -21,7 +21,8 @@ export class TourServiceService {
   private readonly tourDateBindInfosUrl: string;
   private readonly workUrl: string;
   private readonly workPayment: string;
-  private readonly baseUrl: string = 'http://localhost:8006/api/';
+  private readonly baseUrl: string = 'https://service.balmburren.net:8006/api/';
+  // private readonly baseUrl: string = 'http://localhost:8006/api/';
   // private readonly baseUrl: string = 'api/';
   constructor(private http: HttpClient) {
     this.tourUrl = this.baseUrl +'tr/tour/';

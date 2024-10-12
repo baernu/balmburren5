@@ -42,14 +42,7 @@ public class AuthenticationService {
     }
     @Transactional
     public User signup(RegisterUserDto input) {
-//        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.USER);
-//
-//        if (optionalRole.isEmpty()) {
-//            return null;
-//        }
 
-//        Set<UsersRole> roles = new HashSet<>();
-//        roles.add(optionalRole.get());
         var user = new User();
         user.setFirstname(input.getFirstname());
         user.setLastname(input.getLastname());
@@ -58,10 +51,6 @@ public class AuthenticationService {
         user.setEnabled(true);
 
         user = userRepository.save(user);
-//        UsersRole usersRole = new UsersRole();
-//        usersRole.setRole(optionalRole.get());
-//        usersRole.setUser(user);
-//        usersRoleRepo.save(usersRole);
 
         return userRepository.save(user);
     }

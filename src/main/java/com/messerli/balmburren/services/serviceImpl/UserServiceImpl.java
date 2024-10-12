@@ -8,6 +8,8 @@ import com.messerli.balmburren.services.MyUserDetails;
 import com.messerli.balmburren.services.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -195,6 +197,29 @@ public class UserServiceImpl implements UserService {
         List<UsersRole> roles= usersRoleRepo.findAllByUser(optionalUser.get());
         roles = roles.stream().filter(role -> role.getRole().getName().name().equals(RoleEnum.USER_KATHY.name())).collect(Collectors.toSet()).stream().toList();
         return !roles.isEmpty();
+    }
+
+    @Override
+    public boolean hasUserPermission(String username) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails currentUser = (MyUserDetails) authentication.getPrincipal();
+        if(currentUser.getUsername().equals(username)) return true;
+        boolean isAdmin = isAdmin(username);
+        boolean isKathy = isKathy(username);
+        if (isAdmin || isKathy)return true;
+        return false;
+    }
+
+    @Override
+    public boolean hasUserPermissionWithDriver(String username) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails currentUser = (MyUserDetails) authentication.getPrincipal();
+        if(currentUser.getUsername().equals(username)) return true;
+        boolean isAdmin = isAdmin(username);
+        boolean isDriver = isDriver(username);
+        boolean isKathy = isKathy(username);
+        if (isAdmin || isKathy || isDriver)return true;
+        return false;
     }
 
     @Override

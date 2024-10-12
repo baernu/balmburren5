@@ -27,6 +27,10 @@ public interface UserService {
     boolean isKathy(String username);
     boolean isUserKathy(String username);
 
+    boolean hasUserPermission(String username);
+
+    boolean hasUserPermissionWithDriver(String username);
+
     List<Role> getAllRoles();
 
     Optional<User> deleteUser(User user);

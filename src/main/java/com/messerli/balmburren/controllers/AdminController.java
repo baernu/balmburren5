@@ -5,13 +5,15 @@ import com.messerli.balmburren.services.UserService;
 import com.messerli.balmburren.entities.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @Slf4j
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006"}, exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006","https://service.balmburren.net:8006","https://www.balmburren.net:4200"},
+        exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
 @RequestMapping("/admins")
 @RestController
 public class AdminController {
@@ -50,6 +52,7 @@ public class AdminController {
     @PutMapping("/update/user")
     @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','USER','KATHY','DRIVER')")
     public ResponseEntity<Optional<User>> updateUser(@RequestBody User user) {
+        if(!userService.hasUserPermission(user.getUsername())) throw new AccessDeniedException("Not authorized!");
         return ResponseEntity.ok().body(userService.updateUser(user));
     }
     @CrossOrigin( allowCredentials = "true")
@@ -63,6 +66,7 @@ public class AdminController {
     @PutMapping("/update1/user")
     @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','USER','KATHY','DRIVER')")
     public ResponseEntity<Optional<User>> update1User(@RequestBody User user) {
+        if(!userService.hasUserPermission(user.getUsername())) throw new AccessDeniedException("Not authorized!");
         return ResponseEntity.ok().body(userService.newPassword(user));
     }
 
@@ -77,6 +81,7 @@ public class AdminController {
     @PreAuthorize("hasAnyAuthority('USER','ADMIN','SUPER_ADMIN')")
     @GetMapping("/is_basic/{username}")
     public ResponseEntity<Boolean> isBasic(@PathVariable("username") String username) {
+        if(!userService.hasUserPermission(username)) throw new AccessDeniedException("Not authorized!");
         return ResponseEntity.ok().body(userService.isBasic(username));
     }
 
@@ -92,6 +97,7 @@ public class AdminController {
     @GetMapping("/is_driver/{username}")
     @PreAuthorize("hasAnyAuthority('DRIVER','ADMIN','SUPER_ADMIN')")
     public ResponseEntity<Boolean> isDriver(@PathVariable("username") String username) {
+        if(!userService.hasUserPermission(username)) throw new AccessDeniedException("Not authorized!");
         return ResponseEntity.ok().body(userService.isDriver(username));
     }
 

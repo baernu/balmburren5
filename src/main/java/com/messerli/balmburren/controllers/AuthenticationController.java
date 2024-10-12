@@ -23,7 +23,8 @@ import java.io.UnsupportedEncodingException;
 
 
 @Slf4j
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006"}, exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006","https://service.balmburren.net:8006","https://www.balmburren.net:4200"}
+        , exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
 @RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
@@ -68,7 +69,7 @@ public class AuthenticationController {
         Cookie cookie = new Cookie("jwt", tok);
         cookie.setMaxAge(60 * 60);
         ///////////////////////////////////////////////////
-        cookie.setSecure(false);
+        cookie.setSecure(true);
         ////////////////////////////////////////////////////7
         cookie.setHttpOnly(true);
         cookie.setPath("/");
@@ -85,7 +86,7 @@ public class AuthenticationController {
         Cookie cookie = new Cookie("jwt", null);
         cookie.setMaxAge(0);
         ///////////////////////////////////////////////////
-        cookie.setSecure(false);
+        cookie.setSecure(true);
         ///////////////////////////////////////////////////
         cookie.setHttpOnly(true);
         cookie.setPath("/");

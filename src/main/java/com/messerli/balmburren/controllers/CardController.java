@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006"}, exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006","https://service.balmburren.net:8006","https://www.balmburren.net:4200"}
+        , exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
 @RequestMapping("/cd/")
 @RestController
 public class CardController {

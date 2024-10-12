@@ -11,7 +11,8 @@ import {CardDTO} from "./cardDTO";
   providedIn: 'root'
 })
 export class ProductService {
-  private readonly baseUrl: string = 'http://localhost:8006/api/';
+  private readonly baseUrl: string = 'https://service.balmburren.net:8006/api/';
+  // private readonly baseUrl: string = 'http://localhost:8006/api/';
   // private readonly baseUrl: string = 'api/';
   private readonly productUrl: string;
   private readonly productDetailsUrl: string;

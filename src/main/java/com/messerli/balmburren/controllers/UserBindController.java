@@ -7,6 +7,7 @@ import com.messerli.balmburren.services.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006"}, exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006","https://service.balmburren.net:8006","https://www.balmburren.net:4200"}
+        , exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
 @RequestMapping("/bd/")
 @RestController
 public class UserBindController {
@@ -70,12 +72,14 @@ public class UserBindController {
     @PostMapping("person/bind/deliveraddress/")
     ResponseEntity<Optional<PersonBindDeliverAddress>> createPersonBindDeliverAddress(@RequestBody PersonBindDeliverAddress personBindDeliverAddress) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/person/bind/deliveraddress").toUriString());
+        if(!userService.hasUserPermission(personBindDeliverAddress.getUser().getUsername())) throw new AccessDeniedException("Not authorized!");
         return ResponseEntity.created(uri).body(userBindService.savePersonBindDeliverAddress(personBindDeliverAddress));}
 
     @CrossOrigin( allowCredentials = "true")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @PutMapping("person/bind/deliveraddress/")
     ResponseEntity<Optional<PersonBindDeliverAddress>> putPersonBindDeliverAddress(@RequestBody PersonBindDeliverAddress personBindDeliverAddress) {
+        if(!userService.hasUserPermission(personBindDeliverAddress.getUser().getUsername())) throw new AccessDeniedException("Not authorized!");
         Optional<PersonBindDeliverAddress> personBindDeliverAddress1 = userBindService.getPersonBindDeliverAddress(personBindDeliverAddress.getUser());
         if (personBindDeliverAddress1.isEmpty()) throw new NoSuchElementFoundException("PersonBindDeliverAddress not found");
         return ResponseEntity.ok().body(userBindService.putPersonBindDeliverAddress(personBindDeliverAddress));}
@@ -84,6 +88,7 @@ public class UserBindController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("person/bind/deliveraddress/{username}")
     ResponseEntity<Optional<PersonBindDeliverAddress>> getPersonBindDeliverAddress(@PathVariable("username") String username) {
+        if(!userService.hasUserPermission(username)) throw new AccessDeniedException("Not authorized!");
         Optional<PersonBindDeliverAddress> personBindDeliverAddress1 = userBindService.getPersonBindDeliverAddress(getPeople(username).get());
         if (personBindDeliverAddress1.isEmpty()) throw new NoSuchElementFoundException("PersonBindDeliverAddress not found");
         return ResponseEntity.ok().body(personBindDeliverAddress1);}
@@ -92,6 +97,7 @@ public class UserBindController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("person/bind/deliveraddress/exist/{username}")
     ResponseEntity<Boolean> existPersonBindDeliverAddress(@PathVariable("username") String username) {
+        if(!userService.hasUserPermission(username)) throw new AccessDeniedException("Not authorized!");
         boolean bool = userBindService.existPersonBindDeliverAddress(getPeople(username).get());
         return ResponseEntity.ok().body(bool);}
 
@@ -122,6 +128,7 @@ public class UserBindController {
     ResponseEntity<Optional<PersonBindInvoice>> getPersonBindInvoice(@PathVariable("dateFrom") Long dateFrom, @PathVariable("dateTo") Long dateTo,
                                                            @PathVariable("invoice") String invoice, @PathVariable("deliver") String deliver) {
         Optional<PersonBindInvoice> personBindInvoice1 = userBindService.getPersonBindInvoice(getDates(dateFrom), getDates(dateTo), getPeople(invoice).get(), getPeople(deliver).get());
+        if(!userService.hasUserPermission(personBindInvoice1.get().getPersonInvoice().getUsername())) throw new AccessDeniedException("Not authorized!");
         if (personBindInvoice1.isEmpty()) throw new NoSuchElementFoundException("PersonBindInvoice not found");
         return ResponseEntity.ok().body(personBindInvoice1);}
 
@@ -153,6 +160,7 @@ public class UserBindController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("person/bind/invoice/invoice/{username}")
     ResponseEntity<Optional<List<PersonBindInvoice>>> getAllPersonBindInvoiceForInvoice(@PathVariable("username") String username) {
+        if(!userService.hasUserPermission(username)) throw new AccessDeniedException("Not authorized!");
         return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoiceForInvoice(getPeople(username).get()));}
 
     @CrossOrigin( allowCredentials = "true")
@@ -180,6 +188,7 @@ public class UserBindController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER')")
     @PostMapping("driver/bind/invoice/")
     ResponseEntity<Optional<DriverBindInvoice>> createDriverBindInvoice(@RequestBody DriverBindInvoice driverBindInvoice) {
+        if(!userService.hasUserPermission(driverBindInvoice.getPersonInvoice().getUsername())) throw new AccessDeniedException("Not authorized!");
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/driver/bind/invoice").toUriString());
         return ResponseEntity.created(uri).body(userBindService.saveDriverBindInvoice(driverBindInvoice));}
 
@@ -187,6 +196,7 @@ public class UserBindController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER')")
     @PutMapping("driver/bind/invoice/")
     ResponseEntity<Optional<DriverBindInvoice>> putDriverBindInvoice(@RequestBody DriverBindInvoice driverBindInvoice) {
+        if(!userService.hasUserPermission(driverBindInvoice.getPersonInvoice().getUsername())) throw new AccessDeniedException("Not authorized!");
         return ResponseEntity.ok().body(userBindService.putDriverBindInvoice(driverBindInvoice));}
 
     @CrossOrigin( allowCredentials = "true")
@@ -195,6 +205,7 @@ public class UserBindController {
     ResponseEntity<Optional<DriverBindInvoice>> getDriverBindInvoice(@PathVariable("dateFrom") Long dateFrom, @PathVariable("dateTo") Long dateTo,
                                                                      @PathVariable("invoice") String invoice) {
         Optional<DriverBindInvoice> driverBindInvoice1 = userBindService.getDriverBindInvoice(getDates(dateFrom), getDates(dateTo), getPeople(invoice).get());
+        if(!userService.hasUserPermission(driverBindInvoice1.get().getPersonInvoice().getUsername())) throw new AccessDeniedException("Not authorized!");
         if (driverBindInvoice1.isEmpty()) throw new NoSuchElementFoundException("DriverBindInvoice not found");
         return ResponseEntity.ok().body(driverBindInvoice1);}
 
@@ -224,15 +235,17 @@ public class UserBindController {
 
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'USER','KATHY')")
     @GetMapping("person/bind/invoice/deliver/{username}")
     ResponseEntity<Optional<List<PersonBindInvoice>>> getAllPersonBindInvoiceForDeliver(@PathVariable("username") String username) {
+        if(!userService.hasUserPermission(username)) throw new AccessDeniedException("Not authorized!");
         return ResponseEntity.ok().body(userBindService.getAllPersonBindInvoiceForDeliver(getPeople(username).get()));}
 
     @CrossOrigin( allowCredentials = "true")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER')")
     @GetMapping("driver/bind/invoice/invoice/{username}")
     ResponseEntity<Optional<List<DriverBindInvoice>>> getAllDriverBindInvoiceForInvoice(@PathVariable("username") String username) {
+        if(!userService.hasUserPermission(username)) throw new AccessDeniedException("Not authorized!");
         return ResponseEntity.ok().body(userBindService.getAllDriverBindInvoiceForInvoice(getPeople(username).get()));}
 
     @CrossOrigin( allowCredentials = "true")
@@ -250,6 +263,7 @@ public class UserBindController {
     @CrossOrigin( allowCredentials = "true")
     @PostMapping("person/bind/phone/")
     ResponseEntity<Optional<PersonBindPhone>> createPersonBindPhone(@RequestBody PersonBindPhone personBindPhone) {
+        if(!userService.hasUserPermission(personBindPhone.getUser().getUsername())) throw new AccessDeniedException("Not authorized!");
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/person/bind/phone").toUriString());
         return ResponseEntity.created(uri).body(userBindService.savePersonBindPhone(personBindPhone));}
 
@@ -257,6 +271,7 @@ public class UserBindController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @PutMapping("person/bind/phone/")
     ResponseEntity<Optional<PersonBindPhone>> putPersonBindPhone(@RequestBody PersonBindPhone personBindPhone) {
+        if(!userService.hasUserPermission(personBindPhone.getUser().getUsername())) throw new AccessDeniedException("Not authorized!");
         Optional<PersonBindPhone> personBindPhone1 = userBindService.getPersonBindPhone(personBindPhone.getUser());
         if (personBindPhone1.isEmpty()) throw new NoSuchElementFoundException("PersonBindPhone not found");
         return ResponseEntity.ok().body(userBindService.putPersonBindPhone(personBindPhone));}
@@ -265,6 +280,7 @@ public class UserBindController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("person/bind/phone/{username}")
     ResponseEntity<Optional<PersonBindPhone>> getPersonBindPhone(@PathVariable("username") String username) {
+        if(!userService.hasUserPermission(username)) throw new AccessDeniedException("Not authorized!");
         Optional<PersonBindPhone> personBindPhone = userBindService.getPersonBindPhone(getPeople(username).get());
         if (personBindPhone.isEmpty()) throw new NoSuchElementFoundException("PersonBindPhone not found");
         return ResponseEntity.ok().body(personBindPhone);}
@@ -273,6 +289,7 @@ public class UserBindController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("person/bind/phone/exist/{username}")
     ResponseEntity<Boolean> existPersonBindPhone(@PathVariable("username") String username) {
+        if(!userService.hasUserPermission(username)) throw new AccessDeniedException("Not authorized!");
         boolean bool = userBindService.existPersonBindPhone(getPeople(username).get());
         return ResponseEntity.ok().body(bool);}
 
@@ -308,6 +325,7 @@ public class UserBindController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping("person/bind/tour/{username}/{tour}")
     ResponseEntity<Optional<PersonBindTour>> getPersonBindTour(@PathVariable("tour") String tour, @PathVariable("username") String username) {
+        if(!userService.hasUserPermission(username)) throw new AccessDeniedException("Not authorized!");
         Optional<PersonBindTour> personBindTour = userBindService.getPersonBindTour(getPeople(username).get(), getTour(tour).get());
         return ResponseEntity.ok().body(personBindTour);}
 
@@ -345,6 +363,7 @@ public class UserBindController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER', 'USER','KATHY')")
     @GetMapping ("person/bind/tour/exist/{username}/{tour}")
     ResponseEntity<Boolean> existTourForPerson(@PathVariable("username") String username, @PathVariable("tour") String tour) {
+        if(!userService.hasUserPermission(username)) throw new AccessDeniedException("Not authorized!");
         boolean bool = userBindService.existPersonAndTour(getPeople(username).get(), getTour(tour).get());
         return ResponseEntity.ok().body(bool);}
 
@@ -358,21 +377,21 @@ public class UserBindController {
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @GetMapping ("person/bind/role/{username}")
     ResponseEntity<List<UsersRole>>getAllPersonBindRoles(@PathVariable("username") String username) {
         List<UsersRole> list = userBindService.getAllUserBindRoles(getPeople(username).get());
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @PostMapping ("person/bind/role/")
     ResponseEntity<Optional<UsersRole>> savePersonBindRole(@RequestBody UsersRole usersRole) {
         Optional<UsersRole> usersRole1 = userBindService.savePersonBindRole(usersRole);
         return ResponseEntity.ok().body(usersRole1);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'DRIVER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
     @PatchMapping("person/bind/role/")
     ResponseEntity<Optional<UsersRole>> deletePersonBindRole(@RequestBody UsersRole usersRole) {
          userBindService.deletePersonBindRole(usersRole);
