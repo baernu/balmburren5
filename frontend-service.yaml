@@ -9,8 +9,8 @@ metadata:
   name: frontend
 spec:
   type: LoadBalancer #added
-#  ports:
-#    - name: "4200"
+
+
 #  type: NodePort
   ports:
 #    - nodePort: 30042

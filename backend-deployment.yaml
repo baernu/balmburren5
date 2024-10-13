@@ -54,9 +54,10 @@ spec:
               value: mysql.default.svc.cluster.local
 
             - name: MYSQL_PORT
-              value: "30033"
+              value: "3307"
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://192.168.58.2:30033/balmburren_db?serverTimezone=UTC&allowPublicKeyRetrieval=true
+              value: jdbc:mysql://mysqldb:3307/balmburren_db?serverTimezone=UTC&allowPublicKeyRetrieval=true
+#              value: jdbc:mysql://192.168.58.2:30033/balmburren_db?serverTimezone=UTC&allowPublicKeyRetrieval=true
 #            - name: SERVER_PORT
 #              value: "8006"
 #            - name: SERVER_SERVLET_CONTEXT_PATH
