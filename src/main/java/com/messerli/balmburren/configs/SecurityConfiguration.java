@@ -94,7 +94,7 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(List.of("http://localhost:8006", "http://localhost:4200",
-                "https://service.balmburren.net:8006","https://www.balmburren.net:4200"));
+                "https://service.balmburren.net:80","https://www.balmburren.net:4200"));
 
         configuration.setAllowedMethods(List.of("GET","POST", "PUT", "DELETE","PATCH"));
         configuration.setAllowedHeaders(List.of("Authorization","Content-Type", "Access-Control-Allow-Origin"));

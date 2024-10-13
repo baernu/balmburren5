@@ -46,9 +46,9 @@ export class UserService {
   private readonly addressUrl: string;
   private readonly userBindAddress: string;
   private readonly userBindRole: string;
-  private readonly baseUrl: string = 'http://localhost:8006/api/';
+  // private readonly baseUrl: string = 'http://localhost:8006/api/';
   // private readonly baseUrl: string = 'api/';
-  // private readonly baseUrl: string = 'https://service.balmburren.net:8006/api/';
+  private readonly baseUrl: string = 'https://service.balmburren.net:80/api/';
 
 
   constructor(private http: HttpClient) {
