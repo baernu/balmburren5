@@ -17,9 +17,9 @@ spec:
 #    - nodePort: 30042
 #    - name: "4200"
 #      port: 4200
-    - name: "80"
-      port: 80
-      targetPort: 8080
+    - name: "4200"
+      port: 4200
+      targetPort: 80
       protocol: TCP
   selector:
     io.kompose.service: frontend

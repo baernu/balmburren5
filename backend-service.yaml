@@ -6,9 +6,9 @@ metadata:
     kompose.version: 1.34.0 (cbf2835db)
   labels:
     io.kompose.service: backend
-  name: backend
+  name: backend-service
 spec:
-  type: LoadBalancer #added
+#  type: LoadBalancer #added
 #  ports:
 #    - name: "8081"
 #  type: NodePort
@@ -17,7 +17,7 @@ spec:
 #    - name: "8006"
 #      port: 8006
     - name: "8006"
-      port: 80
+      port: 8006
 #      targetPort: 8080
       targetPort: 8006
       protocol: TCP

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Slf4j
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006","https://service.balmburren.net:80","https://www.balmburren.net:4200"},
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8006","https://www.balmburren.net:4200"},
         exposedHeaders = {"Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"})
 @RequestMapping("/admins")
 @RestController

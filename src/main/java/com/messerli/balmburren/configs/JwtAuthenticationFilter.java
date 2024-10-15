@@ -67,40 +67,40 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
 
-        String requestUrl = request.getRequestURL().toString();
-
-        // Forward requests not already pointing to localhost:8006/api
-        if (requestUrl.contains("service.balmburren.net:80/api")) {
-            String forwardUrl = "http://localhost:8006" + request.getRequestURI();
-
-            // Use RestTemplate to forward the request internally to localhost
-            RestTemplate restTemplate = new RestTemplate();
-
-            try {
-                // Forward the HTTP request to localhost:8006/api
-                HttpHeaders headers = new HttpHeaders();
-                headers.set("Authorization", request.getHeader("Authorization")); // Pass the Authorization header
-                HttpEntity<String> entity = new HttpEntity<>(headers);
-
-                ResponseEntity<String> forwardResponse = restTemplate.exchange(
-                        forwardUrl,
-                        HttpMethod.valueOf(request.getMethod()),  // Match the request method
-                        entity,
-                        String.class
-                );
-
-                // Write the forwarded response back to the client
-//                response.setStatus(forwardResponse.getStatusCodeValue());
-                response.setStatus(forwardResponse.getStatusCode().value());
-                response.getWriter().write(Objects.requireNonNull(forwardResponse.getBody()));
-                return;
-
-            } catch (Exception e) {
-                log.error("Error forwarding request: " + e.getMessage());
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error forwarding request.");
-                return;
-            }
-        }
+//        String requestUrl = request.getRequestURL().toString();
+//
+//        // Forward requests not already pointing to localhost:8006/api
+//        if (requestUrl.contains("service.balmburren.net:80/api")) {
+//            String forwardUrl = "http://localhost:8006" + request.getRequestURI();
+//
+//            // Use RestTemplate to forward the request internally to localhost
+//            RestTemplate restTemplate = new RestTemplate();
+//
+//            try {
+//                // Forward the HTTP request to localhost:8006/api
+//                HttpHeaders headers = new HttpHeaders();
+//                headers.set("Authorization", request.getHeader("Authorization")); // Pass the Authorization header
+//                HttpEntity<String> entity = new HttpEntity<>(headers);
+//
+//                ResponseEntity<String> forwardResponse = restTemplate.exchange(
+//                        forwardUrl,
+//                        HttpMethod.valueOf(request.getMethod()),  // Match the request method
+//                        entity,
+//                        String.class
+//                );
+//
+//                // Write the forwarded response back to the client
+////                response.setStatus(forwardResponse.getStatusCodeValue());
+//                response.setStatus(forwardResponse.getStatusCode().value());
+//                response.getWriter().write(Objects.requireNonNull(forwardResponse.getBody()));
+//                return;
+//
+//            } catch (Exception e) {
+//                log.error("Error forwarding request: " + e.getMessage());
+//                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error forwarding request.");
+//                return;
+//            }
+//        }
 
 
         if (request.getCookies()!= null) {

@@ -10,9 +10,9 @@ import {ByteDTO} from "../../../../components/user/service/byteDTO";
   providedIn: 'root'
 })
 export class EmailService {
-  private readonly baseUrl: string = 'https://service.balmburren.net:80/api/';
+  // private readonly baseUrl: string = 'https://service.balmburren.net:80/api/';
   // private readonly baseUrl: string = 'http://localhost:8006/api/';
-  // private readonly baseUrl: string = 'api/';
+  private readonly baseUrl: string = 'api/';
   private readonly emailUrl: string;
   private readonly getQRCodeUrl: string;
   private readonly sendTourDataUrl: string;
