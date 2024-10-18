@@ -7,6 +7,7 @@ metadata:
   labels:
     io.kompose.service: backend
   name: backend-service
+  namespace: balmburren
 spec:
 #  type: LoadBalancer #added
 #  ports:

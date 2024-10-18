@@ -4,12 +4,16 @@ metadata:
   labels:
     io.kompose.service: mysql-pv-claim
   name: mysql-pv-claim
+  namespace: balmburren
+  annotations:
+    k8up.syn.tools/backup: "true"
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 20Gi
+      storage: 200Gi
   storageClassName: manual
+
 
 

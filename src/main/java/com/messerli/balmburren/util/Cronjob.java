@@ -23,6 +23,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 
 @Service
@@ -44,7 +46,7 @@ public class Cronjob implements CronService {
 
     private static byte[] byteArray;
     private static MysqlExportService mysqlExportService;
-    private static File file;
+    private static String zipFilePath;
     private static String filename;
 
 
@@ -62,44 +64,123 @@ public class Cronjob implements CronService {
 
     @Transactional
     public void writeBackupToFile() {
+//        // Database connection details
+//        String dbUser = "root";          // Your MySQL username
+//        String dbPassword = "secret";  // Your MySQL password
+//        String dbName = "balmburren_db";   // The database you want to dump
+//        String dumpFilePath = "/tmp/backup.sql";  // Temporary file for dump
+//        zipFilePath = "/backup.zip";       // Output ZIP file in root folder
+//        String podName = "mysqldb-5476f6c675-pl6nb";
+//        String namespace = "default";
+//
+//        // Path to kubeconfig file
+//        String kubeconfigPath = System.getProperty("user.home") + "/exoscale/balmburren-cluster.kubeconfig";
+//
+//        // Command to exec mysqldump within the pod using kubectl, namespace, and kubeconfig
+//
+//        String dumpCommand = String.format(
+//                "kubectl --kubeconfig=%s exec  %s -- mysqldump -u %s -p%s %s > %s",
+//                kubeconfigPath, podName,  dbUser, dbPassword, dbName, dumpFilePath
+//        );
+//        // mysqldump command
+////        String dumpCommand = "mysqldump -u " + dbUser + " -p" + dbPassword + " " + dbName + " > " + dumpFilePath;
+//
+//        // Execute the dump command
+//        try {
+//            Process process = Runtime.getRuntime().exec(new String[]{"sh", "-c", dumpCommand});
+//
+//            // Wait for the process to complete
+//            int exitCode = process.waitFor();
+//            if (exitCode == 0) {
+//                log.info("Database dump successful. File saved at " + dumpFilePath);
+//
+//                // Now zip the dump file
+//                zipFile(dumpFilePath, zipFilePath);
+//
+//                // Optionally, delete the original dump file after zipping
+//                File dumpFile = new File(dumpFilePath);
+//                if (dumpFile.delete()) {
+//                    log.info("Temporary dump file deleted.");
+//                } else {
+//                    log.info("Failed to delete temporary dump file.");
+//                }
+//
+//            } else {
+//                log.info("Database dump failed with exit code: " + exitCode);
+//            }
+//
+//        } catch (IOException | InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-        Properties properties = new Properties();
-        properties.setProperty(MysqlExportService.DB_NAME, "balmburren_db");
-        properties.setProperty(MysqlExportService.DB_USERNAME, "root");
-        properties.setProperty(MysqlExportService.DB_PASSWORD, "secret");
-        properties.setProperty(MysqlExportService.DB_HOST, "localhost");
-        properties.setProperty(MysqlExportService.DB_PORT, "3307");
-        properties.setProperty(MysqlExportService.JDBC_CONNECTION_STRING, "jdbc:mysql://localhost:3307/balmburren_db");
 
 
-        properties.setProperty(MysqlExportService.PRESERVE_GENERATED_ZIP, "true");
 
-        properties.setProperty(MysqlExportService.TEMP_DIR, new File("external").getPath());
-
-        try {
-            mysqlExportService = new MysqlExportService(properties);
-            mysqlExportService.export();
-            file = mysqlExportService.getGeneratedZipFile();
-
-            if (file == null) {
-                log.info("No SQL generated. Check your database connection or export service.");
-            } else {
-
-                log.info("Writing ByteArray for Backup...");
-                mysqlExportService.clearTempFiles();
-                log.info("Clearing TempFiles...");
-            }
-
-        } catch (Exception e) {
-            log.info("Error occurred during SQL export: " + e.getMessage());
+//        Properties properties = new Properties();
+//        properties.setProperty(MysqlExportService.DB_NAME, "balmburren_db");
+//        properties.setProperty(MysqlExportService.DB_USERNAME, "root");
+//        properties.setProperty(MysqlExportService.DB_PASSWORD, "secret");
+//        properties.setProperty(MysqlExportService.DB_HOST, "localhost");
+//        properties.setProperty(MysqlExportService.DB_PORT, "3307");
+//        properties.setProperty(MysqlExportService.JDBC_CONNECTION_STRING, "jdbc:mysql://localhost:3307/balmburren_db");
+//
+//
+//        properties.setProperty(MysqlExportService.PRESERVE_GENERATED_ZIP, "true");
+//
+//        properties.setProperty(MysqlExportService.TEMP_DIR, new File("external").getPath());
+//
+//        try {
+//            mysqlExportService = new MysqlExportService(properties);
+//            mysqlExportService.export();
+//            file = mysqlExportService.getGeneratedZipFile();
+//
+//            if (file == null) {
+//                log.info("No SQL generated. Check your database connection or export service.");
+//            } else {
+//
+//                log.info("Writing ByteArray for Backup...");
+//                mysqlExportService.clearTempFiles();
+//                log.info("Clearing TempFiles...");
+//            }
+//
+//        } catch (Exception e) {
+//            log.info("Error occurred during SQL export: " + e.getMessage());
         }
 
 
+
+
+
+
+
+    private static void zipFile(String sourceFilePath, String zipFilePath) {
+        try (
+                FileOutputStream fos = new FileOutputStream(zipFilePath);
+                ZipOutputStream zos = new ZipOutputStream(fos);
+                FileInputStream fis = new FileInputStream(sourceFilePath)
+        ) {
+            ZipEntry zipEntry = new ZipEntry("backup.sql");  // Name of file inside the zip
+            zos.putNextEntry(zipEntry);
+
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fis.read(buffer)) > 0) {
+                zos.write(buffer, 0, len);
+            }
+
+            zos.closeEntry();
+            log.info("ZIP file created at: " + zipFilePath);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
     @Transactional
     public void sendBackup(){
         try {
-            byteArray = Files.readAllBytes(file.toPath());
+            byteArray = Files.readAllBytes(Path.of(zipFilePath));
         } catch (IOException e) {
             log.info("ReadallBytes from File throw exceptioo");
             throw new RuntimeException(e);
@@ -151,62 +232,5 @@ public class Cronjob implements CronService {
             log.info("Error writing file: " + e.getMessage());
         }
     }
-
-
-    private void loadRoles() {
-        RoleEnum[] roleNames = new RoleEnum[] { RoleEnum.USER, RoleEnum.ADMIN, RoleEnum.SUPER_ADMIN, RoleEnum.DRIVER, RoleEnum.KATHY, RoleEnum.USER_KATHY };
-        Map<RoleEnum, String> roleDescriptionMap = Map.of(
-                RoleEnum.USER, "Default user role",
-                RoleEnum.DRIVER, "Driver role",
-                RoleEnum.KATHY, "Helper role",
-                RoleEnum.USER_KATHY, "User administrated by Kathy",
-                RoleEnum.ADMIN, "Administrator role",
-                RoleEnum.SUPER_ADMIN, "Super Administrator role"
-        );
-
-        Arrays.stream(roleNames).forEach((roleName) -> {
-            Optional<Role> optionalRole = roleRepository.findByName(roleName);
-
-            optionalRole.ifPresentOrElse(System.out::println, () -> {
-                Role roleToCreate = new Role();
-
-                roleToCreate.setName(roleName);
-                roleToCreate.setDescription(roleDescriptionMap.get(roleName));
-
-                roleRepository.save(roleToCreate);
-            });
-        });
-    }
-
-    private void createAdmin(){
-        RegisterUserDto userDto = new RegisterUserDto();
-        userDto.setFirstname("Normal").setLastname("Admin").setUsername("admin").setPassword("adminadmin");
-
-        var user = new User();
-        user.setFirstname(userDto.getFirstname());
-        user.setLastname(userDto.getLastname());
-        user.setUsername(userDto.getUsername());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setEnabled(true);
-        if(userRepository.existsByUsername(userDto.getUsername()))
-            return;
-        User user1 = userRepository.save(user);
-
-
-        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
-        Optional<Role> optionalRole1 = roleRepository.findByName(RoleEnum.USER);
-        if (optionalRole.isEmpty() || optionalRole1.isEmpty() || user1.getUsername().isEmpty()) {
-            return;
-        }
-
-        Optional<UsersRole> usersRole = Optional.of(new UsersRole());
-        usersRole.get().setUser(user1);
-        usersRole.get().setRole(optionalRole.get());
-        usersRoleRepo.save(usersRole.get());
-        userRepository.save(user1);
-    }
-
-
-
 
 }

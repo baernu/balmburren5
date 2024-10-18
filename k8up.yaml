@@ -1,0 +1,14 @@
+backend:
+  repoPasswordSecretRef:
+    name: backup-repo
+    namespace: balmburren
+    key: password
+  s3:
+    endpoint: https://sos-ch-dk-2.exo.io
+    bucket: backups-balmburren
+    accessKeyIDSecretRef:
+      name: backup-credentials
+      key: username.txt
+    secretAccessKeySecretRef:
+      name: backup-credentials
+      key: password.txt
