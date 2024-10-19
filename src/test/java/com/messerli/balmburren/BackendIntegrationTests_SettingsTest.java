@@ -10,7 +10,6 @@ import jakarta.transaction.Transactional;
 
 import com.messerli.balmburren.entities.Address;
 
-import org.flywaydb.core.Flyway;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

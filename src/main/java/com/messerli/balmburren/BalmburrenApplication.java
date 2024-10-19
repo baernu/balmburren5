@@ -7,7 +7,6 @@ import com.messerli.balmburren.repositories.RoleRepository;
 import com.messerli.balmburren.repositories.UserRepository;
 import com.messerli.balmburren.repositories.UsersRoleRepo;
 import lombok.extern.slf4j.Slf4j;
-import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -54,7 +53,7 @@ public class BalmburrenApplication  {
 			User user1 = userRepository.save(user);
 
 
-			Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
+			Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.SUPER_ADMIN);
 			Optional<Role> optionalRole1 = roleRepository.findByName(RoleEnum.USER);
 			if (optionalRole.isEmpty() || optionalRole1.isEmpty() || user1.getUsername().isEmpty()) {
 				return;

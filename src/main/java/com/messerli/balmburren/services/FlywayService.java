@@ -3,9 +3,9 @@ package com.messerli.balmburren.services;
 import jakarta.transaction.Transactional;
 
 public interface FlywayService {
-    @Transactional
-    void migrateDatabase();
-
-    @Transactional
-    void clearDatabase();
+//    @Transactional
+//    void migrateDatabase();
+//
+//    @Transactional
+//    void clearDatabase();
 }

@@ -15,17 +15,17 @@ export class EmailService {
   private readonly baseUrl: string = 'api/';
   private readonly emailUrl: string;
   private readonly getQRCodeUrl: string;
-  private readonly sendTourDataUrl: string;
-  private readonly retourTourDataUrl: string;
-  private readonly backupUrl: string;
+  // private readonly sendTourDataUrl: string;
+  // private readonly retourTourDataUrl: string;
+  // private readonly backupUrl: string;
 
 
   constructor(private http: HttpClient) {
     this.emailUrl = this.baseUrl + 'em/send/email/';
     this.getQRCodeUrl = this.baseUrl + 'em/qrcode';
-    this.sendTourDataUrl = this.baseUrl + 'em/send/email/tourdata';
-    this.retourTourDataUrl = this.baseUrl + 'em/send/retour/tourdata';
-    this.backupUrl = this.baseUrl + 'em/backup/';
+    // this.sendTourDataUrl = this.baseUrl + 'em/send/email/tourdata';
+    // this.retourTourDataUrl = this.baseUrl + 'em/send/retour/tourdata';
+    // this.backupUrl = this.baseUrl + 'em/backup/';
 
   }
 
@@ -38,23 +38,23 @@ export class EmailService {
   public createInvoiceQR(invoiceQR: InvoiceQRDTO):Observable<string> {
     return this.http.post<string>(this.getQRCodeUrl, invoiceQR,{withCredentials: true});}
 
-  public sendTourData(androidClients: AndroidClientDTO[]):Observable<string> {
-    return this.http.post<string>(this.sendTourDataUrl, androidClients,{withCredentials: true});}
+  // public sendTourData(androidClients: AndroidClientDTO[]):Observable<string> {
+  //   return this.http.post<string>(this.sendTourDataUrl, androidClients,{withCredentials: true});}
 
-  public retourTourData(json: string):Observable<AndroidClientDTO[]> {
-    return this.http.post<AndroidClientDTO[]>(this.retourTourDataUrl, json,{withCredentials: true});}
+  // public retourTourData(json: string):Observable<AndroidClientDTO[]> {
+  //   return this.http.post<AndroidClientDTO[]>(this.retourTourDataUrl, json,{withCredentials: true});}
 
-  public backupSend():Observable<string> {
-    return this.http.get<string>(this.backupUrl + 'send/',{withCredentials: true});}
+  // public backupSend():Observable<string> {
+  //   return this.http.get<string>(this.backupUrl + 'send/',{withCredentials: true});}
 
-  public backupWriteToFile():Observable<string> {
-    return this.http.get<string>(this.backupUrl + 'tofile/',{withCredentials: true});}
+  // public backupWriteToFile():Observable<string> {
+  //   return this.http.get<string>(this.backupUrl + 'tofile/',{withCredentials: true});}
 
-  public backupImport(byteDTO: ByteDTO):Observable<ByteDTO> {
-    return this.http.patch<ByteDTO>(this.backupUrl + 'import/', byteDTO,{withCredentials: true});}
+  // public backupImport(byteDTO: ByteDTO):Observable<ByteDTO> {
+  //   return this.http.patch<ByteDTO>(this.backupUrl + 'import/', byteDTO,{withCredentials: true});}
 
-  public backupImportMigrate():Observable<string> {
-    return this.http.get<string>(this.backupUrl + 'import/migrate/',{withCredentials: true});}
+  // public backupImportMigrate():Observable<string> {
+  //   return this.http.get<string>(this.backupUrl + 'import/migrate/',{withCredentials: true});}
 
 
 }

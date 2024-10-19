@@ -7,8 +7,8 @@ import com.messerli.balmburren.repositories.RoleRepository;
 import com.messerli.balmburren.repositories.UserRepository;
 import com.messerli.balmburren.repositories.UsersRoleRepo;
 import com.messerli.balmburren.services.CronService;
-import com.messerli.balmburren.services.FlywayService;
-import com.smattme.MysqlExportService;
+//import com.messerli.balmburren.services.FlywayService;
+//import com.smattme.MysqlExportService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,39 +31,39 @@ import java.util.zip.ZipOutputStream;
 @Slf4j
 public class Cronjob implements CronService {
 
-    @Autowired
-    private SendingEmail sendingEmail;
-    @Autowired
-    private FlywayService flywayService;
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private UsersRoleRepo usersRoleRepo;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    private static byte[] byteArray;
-    private static MysqlExportService mysqlExportService;
-    private static String zipFilePath;
-    private static String filename;
-
-
-    @Scheduled(cron = "0 40 23 * * *")
-    public void backupAutoWriteToFile() {
-        writeBackupToFile();
-        log.info("in the process of backupAutoWriteToFile");
-    }
-
-    @Scheduled(cron = "59 59 23 * * *")
-    public void backupAutoSend() {
-        sendBackup();
-        log.info("in the process of backupAutoSend");
-    }
-
-    @Transactional
-    public void writeBackupToFile() {
+//    @Autowired
+//    private SendingEmail sendingEmail;
+//    @Autowired
+//    private FlywayService flywayService;
+//    @Autowired
+//    private RoleRepository roleRepository;
+//    @Autowired
+//    private UserRepository userRepository;
+//    @Autowired
+//    private UsersRoleRepo usersRoleRepo;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
+//
+//    private static byte[] byteArray;
+//    private static MysqlExportService mysqlExportService;
+//    private static String zipFilePath;
+//    private static String filename;
+//
+//
+//    @Scheduled(cron = "0 40 23 * * *")
+//    public void backupAutoWriteToFile() {
+//        writeBackupToFile();
+//        log.info("in the process of backupAutoWriteToFile");
+//    }
+//
+//    @Scheduled(cron = "59 59 23 * * *")
+//    public void backupAutoSend() {
+//        sendBackup();
+//        log.info("in the process of backupAutoSend");
+//    }
+//
+//    @Transactional
+//    public void writeBackupToFile() {
 //        // Database connection details
 //        String dbUser = "root";          // Your MySQL username
 //        String dbPassword = "secret";  // Your MySQL password
@@ -146,91 +146,91 @@ public class Cronjob implements CronService {
 //
 //        } catch (Exception e) {
 //            log.info("Error occurred during SQL export: " + e.getMessage());
-        }
-
-
-
-
-
-
-
-    private static void zipFile(String sourceFilePath, String zipFilePath) {
-        try (
-                FileOutputStream fos = new FileOutputStream(zipFilePath);
-                ZipOutputStream zos = new ZipOutputStream(fos);
-                FileInputStream fis = new FileInputStream(sourceFilePath)
-        ) {
-            ZipEntry zipEntry = new ZipEntry("backup.sql");  // Name of file inside the zip
-            zos.putNextEntry(zipEntry);
-
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = fis.read(buffer)) > 0) {
-                zos.write(buffer, 0, len);
-            }
-
-            zos.closeEntry();
-            log.info("ZIP file created at: " + zipFilePath);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Transactional
-    public void sendBackup(){
-        try {
-            byteArray = Files.readAllBytes(Path.of(zipFilePath));
-        } catch (IOException e) {
-            log.info("ReadallBytes from File throw exceptioo");
-            throw new RuntimeException(e);
-        }
-        sendingEmail.send("attachment", "balmburren@gmail.com", "Backup", "Neues Backup ist bereit", byteArray, "", "backup.zip");
-
-    }
-    @Transactional
-    public void importDatabase(String bytearray ){
-
-        byte[] decodedBytes = Base64.getDecoder().decode(bytearray);
-
-        // Step 2: Convert byte[] to a String (assuming UTF-8 encoding)
-        String decodedString = new String(decodedBytes, StandardCharsets.UTF_8);
-
-
-
-        String sql;
-        sql = decodedString;
-        writeSQLDataForFlyway(sql);
-
-
+//        }
+//
+//
+//
+//
+//
+//
+//
+//    private static void zipFile(String sourceFilePath, String zipFilePath) {
+//        try (
+//                FileOutputStream fos = new FileOutputStream(zipFilePath);
+//                ZipOutputStream zos = new ZipOutputStream(fos);
+//                FileInputStream fis = new FileInputStream(sourceFilePath)
+//        ) {
+//            ZipEntry zipEntry = new ZipEntry("backup.sql");  // Name of file inside the zip
+//            zos.putNextEntry(zipEntry);
+//
+//            byte[] buffer = new byte[1024];
+//            int len;
+//            while ((len = fis.read(buffer)) > 0) {
+//                zos.write(buffer, 0, len);
+//            }
+//
+//            zos.closeEntry();
+//            log.info("ZIP file created at: " + zipFilePath);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Transactional
+//    public void sendBackup(){
+//        try {
+//            byteArray = Files.readAllBytes(Path.of(zipFilePath));
+//        } catch (IOException e) {
+//            log.info("ReadallBytes from File throw exceptioo");
+//            throw new RuntimeException(e);
+//        }
+//        sendingEmail.send("attachment", "balmburren@gmail.com", "Backup", "Neues Backup ist bereit", byteArray, "", "backup.zip");
+//
+//    }
+//    @Transactional
+//    public void importDatabase(String bytearray ){
+//
+//        byte[] decodedBytes = Base64.getDecoder().decode(bytearray);
+//
+//        // Step 2: Convert byte[] to a String (assuming UTF-8 encoding)
+//        String decodedString = new String(decodedBytes, StandardCharsets.UTF_8);
+//
+//
+//
+//        String sql;
+//        sql = decodedString;
+//        writeSQLDataForFlyway(sql);
+//
+//
+////        flywayService.migrateDatabase();
+//
+//
+//    }
+//    @Transactional
+//    public void migrateDB(){
 //        flywayService.migrateDatabase();
-
-
-    }
-    @Transactional
-    public void migrateDB(){
-        flywayService.migrateDatabase();
-    }
-
-    private void writeSQLDataForFlyway(String sqlString) {
-        String dirPath = "src/main/resources/db/migration/data";
-        String fileName = "V40__INSERT_BACKUP.SQL";
-        Path path = Paths.get(dirPath);
-        if (!Files.exists(path)) {
-            try {
-                Files.createDirectories(path);
-            } catch (IOException e) {
-                log.info("Failed to create directory: " + e.getMessage());
-                return;
-            }
-        }
-        String filePath = dirPath + "/" + fileName;
-        try (FileWriter writer = new FileWriter(new File(filePath), false)) {
-            writer.write(sqlString);
-            log.info("SQL file written to: " + filePath);
-        } catch (IOException e) {
-            log.info("Error writing file: " + e.getMessage());
-        }
-    }
+//    }
+//
+//    private void writeSQLDataForFlyway(String sqlString) {
+//        String dirPath = "src/main/resources/db/migration/data";
+//        String fileName = "V40__INSERT_BACKUP.SQL";
+//        Path path = Paths.get(dirPath);
+//        if (!Files.exists(path)) {
+//            try {
+//                Files.createDirectories(path);
+//            } catch (IOException e) {
+//                log.info("Failed to create directory: " + e.getMessage());
+//                return;
+//            }
+//        }
+//        String filePath = dirPath + "/" + fileName;
+//        try (FileWriter writer = new FileWriter(new File(filePath), false)) {
+//            writer.write(sqlString);
+//            log.info("SQL file written to: " + filePath);
+//        } catch (IOException e) {
+//            log.info("Error writing file: " + e.getMessage());
+//        }
+//    }
 
 }
