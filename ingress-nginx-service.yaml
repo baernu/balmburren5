@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    iservice.beta.kubernetes.io/exoscale-loadbalancer-service-instancepool-id: e397af1e-a4b8-46f2-8cec-7b56bb38154b
+    meta.helm.sh/release-name: ingress-nginx
+    meta.helm.sh/release-namespace: ingress-nginx
+    metallb.universe.tf/ip-allocated-from-pool: my-ip-pool
+    metallb.universe.tf/loadBalancerIPs: 194.182.166.224
+    service.beta.kubernetes.io/exoscale-loadbalancer-service-instancepool-id: e397af1e-a4b8-46f2-8cec-7b56bb38154b
+  creationTimestamp: "2024-10-19T10:01:35Z"
+  finalizers:
+  - service.kubernetes.io/load-balancer-cleanup
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/version: 1.11.3
+    helm.sh/chart: ingress-nginx-4.11.3
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+  resourceVersion: "205078425"
+  uid: 9b9c2345-2510-4caa-b17a-f45595e77aa4
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.103.216.10
+  clusterIPs:
+  - 10.103.216.10
+  externalTrafficPolicy: Cluster
+#  externalTrafficPolicy: Local
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - appProtocol: http
+    name: http
+    nodePort: 31339
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - appProtocol: https
+    name: https
+    nodePort: 31879
+    port: 443
+    protocol: TCP
+    targetPort: https
+  selector:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 194.182.166.224
+#      ipMode: VIP
