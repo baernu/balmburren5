@@ -10,9 +10,32 @@
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
-  <script src="https://cloud.ccm19.de/app.js?apiKey=9747aaedc0984c306e9d6d6abd9cbf0f652e1846dc0ac782&amp;domain=67079327a6e633a2240bc692" referrerpolicy="origin"></script>
+<!--  <script src="https://cloud.ccm19.de/app.js?apiKey=9747aaedc0984c306e9d6d6abd9cbf0f652e1846dc0ac782&amp;domain=67079327a6e633a2240bc692" referrerpolicy="origin"></script>-->
 </head>
 <body>
 <app-root></app-root>
+<!-- Cookie Banner -->
+  <div id="cookie-banner" style="display: none; background: #000; color: #fff; padding: 10px; position: fixed; bottom: 0; width: 100%; text-align: center;">
+    Diese Website verwendet Cookies, um sicherzustellen, dass Sie die beste Erfahrung auf unserer Website erhalten.
+    <button id="accept-cookies" style="background: #007bff; color: #fff; border: none; padding: 5px 10px; cursor: pointer;">
+      Akzeptieren
+    </button>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var cookieBanner = document.getElementById('cookie-banner');
+      var acceptButton = document.getElementById('accept-cookies');
+
+      // Check if cookies were already accepted
+      if (!localStorage.getItem('cookiesAccepted')) {
+        cookieBanner.style.display = 'block';
+      }
+
+      acceptButton.addEventListener('click', function() {
+        localStorage.setItem('cookiesAccepted', 'true');
+        cookieBanner.style.display = 'none';
+      });
+    });
+  </script>
 </body>
 </html>
