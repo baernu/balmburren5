@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mysql-restore-job
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+        - name: mysql-restore
+          image: mysql:8  # Use the version of MySQL you're using
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-env-secret
+                  key: MYSQLDB_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-env-secret
+                  key: MYSQLDB_ROOT_PASSWORD
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              gunzip < /restore/db-backup.sql.gz | mysql -h mysql-service -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE
+          volumeMounts:
+            - name: restore-storage
+              mountPath: /restore  # Mount path inside the container where the backup will be
+      restartPolicy: OnFailure
+      volumes:
+        - name: restore-storage
+          persistentVolumeClaim:
+            claimName: restored-backup-pvc

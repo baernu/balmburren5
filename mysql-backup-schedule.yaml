@@ -1,0 +1,23 @@
+apiVersion: k8up.io/v1
+kind: Schedule
+metadata:
+  name: mysql-backup-schedule
+  namespace: default
+spec:
+  backend:
+    repoPasswordSecretRef:
+      name: s3-backup-credentials  # The name of the secret containing S3 credentials
+      key: repoPassword            # Adjust this to match the key that stores the repository password, if needed.
+    s3:
+      endpoint: https://sos-ch-dk-2.exo.io  # Exoscale S3-compatible endpoint
+      bucket: your-exoscale-bucket           # Replace with your Exoscale bucket name
+      accessKeyIDSecretRef:
+        name: exoscale-credentials
+        key: EXOd5d233c3a68b6dbea981035d
+      secretAccessKeySecretRef:
+        name: exoscale-credentials
+        key: vHsHqZfQmKIlNwUqOb0Amydkhp1UYiTbI7URkc-Mm-I
+  backup:
+    schedule: "0 2 * * *"  # Daily at 2 AM
+    failedJobsHistoryLimit: 5  # Keep 5 failed jobs for troubleshooting.
+    successfulJobsHistoryLimit: 5  # Keep 5 successful jobs for history.

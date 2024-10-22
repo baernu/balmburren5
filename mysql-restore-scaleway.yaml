@@ -1,0 +1,21 @@
+apiVersion: k8up.io/v1
+kind: Restore
+metadata:
+  name: mysql-restore-scaleway
+  namespace: default
+spec:
+  backend:
+    s3:
+      endpoint: https://s3.fr-par.scw.cloud  # Scaleway S3-compatible endpoint
+      bucket: balmburren-bucket           # Replace with your Scaleway bucket name
+      accessKeyIDSecretRef:
+        name: scaleway-credentials
+        key: SCWWY1PJ5KT70EAQVX5D
+      secretAccessKeySecretRef:
+        name: scaleway-credentials
+        key: 9ef51130-124e-43a4-8dbb-ce96ac11c947
+    repoPasswordSecretRef:
+      name: backup-repo
+      key: password
+  snapshot: "path/to/your-backup/db-backup-2024-10-22.sql.gz"  # Specify the exact backup file path
+  keepJobs: 5  # Optional: Keeps the last 5 restore job records for analysis
