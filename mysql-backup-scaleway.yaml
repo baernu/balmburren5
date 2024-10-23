@@ -1,0 +1,27 @@
+apiVersion: k8up.io/v1
+#kind: Backup
+kind: Schedule
+metadata:
+  name: mysql-schedule-scaleway
+  namespace: default
+spec:
+  backend:
+    repoPasswordSecretRef:
+      name: s3-backup-credentials  # The name of the secret containing the Restic password
+      key: repoPassword            # Adjust this to match the key in the secret for the Restic password
+    s3:
+      accessKeyIDSecretRef:
+        name: scaleway-credentials
+        key: accessKeyId
+      secretAccessKeySecretRef:
+        name: scaleway-credentials
+        key: secretAccessKey
+      bucket: balmburren-bucket
+#      region: ch-dk-2  # Replace with your Exoscale region
+      endpoint: https://balmburren-bucket.s3.fr-par.scw.cloud
+  backup:
+    schedule: "*/2 * * * *"  # Run every 2 minutes
+#    schedule: "* 1 * * *"
+    failedJobsHistoryLimit: 5  # Keep 5 failed jobs for troubleshooting.
+    successfulJobsHistoryLimit: 5  # Keep 5 successful jobs for history.
+

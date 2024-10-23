@@ -1,0 +1,10 @@
+
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: s3-backup-credentials
+  namespace: default
+type: Opaque
+data:
+  repoPassword: cmVzdGljQGJhbG1idXJyZW4=  # Replace with the base64-encoded password

@@ -6,14 +6,14 @@ metadata:
 spec:
   backend:
     s3:
-      endpoint: https://s3.fr-par.scw.cloud  # Scaleway S3-compatible endpoint
+      endpoint: https://balmburren-bucket.s3.fr-par.scw.cloud  # Scaleway S3-compatible endpoint
       bucket: balmburren-bucket           # Replace with your Scaleway bucket name
       accessKeyIDSecretRef:
         name: scaleway-credentials
-        key: SCWWY1PJ5KT70EAQVX5D
+        key: accessKeyId
       secretAccessKeySecretRef:
         name: scaleway-credentials
-        key: 9ef51130-124e-43a4-8dbb-ce96ac11c947
+        key: secretAccessKey
     repoPasswordSecretRef:
       name: backup-repo
       key: password

@@ -1,0 +1,47 @@
+apiVersion: k8up.io/v1
+kind: PreBackupPod
+metadata:
+  name: k8up-mysqldump
+  namespace: default
+spec:
+  backupCommand: sh -c 'mysqldump -u $MYSQL_USER -p$MYSQL_PASSWORD -h $MYSQL_HOST --all-databases > /data/backup.sql'
+  pod:
+    spec:
+      containers:
+        - name: mysqldump
+          image: mysql:8  # Use the MySQL image version that matches your database version
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-env-secret
+                  key: MYSQLDB_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-env-secret
+                  key: MYSQLDB_ROOT_PASSWORD
+            - name: MYSQL_HOST
+              value: mysqldb  # Replace with the actual service name of your MySQL instance
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-env-secret
+                  key: MYSQLDB_DATABASE
+#          env:
+#            - name: MYSQL_USER
+#              value: root
+#            - name: MYSQL_PASSWORD
+#              value: topsecret
+#            - name: MYSQL_HOST
+#              value: mysqldb  # Replace with your actual MySQL service name
+          command:
+            - sleep
+            - infinity
+          volumeMounts:
+            - name: backup-storage
+              mountPath: /data
+      volumes:
+        - name: backup-storage
+          persistentVolumeClaim:
+            claimName: mysql-backup-pvc  # PVC to store the backup file
