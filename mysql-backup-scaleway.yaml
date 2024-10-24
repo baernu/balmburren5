@@ -1,5 +1,4 @@
 apiVersion: k8up.io/v1
-#kind: Backup
 kind: Schedule
 metadata:
   name: mysql-schedule-scaleway
@@ -7,21 +6,26 @@ metadata:
 spec:
   backend:
     repoPasswordSecretRef:
-      name: s3-backup-credentials  # The name of the secret containing the Restic password
-      key: repoPassword            # Adjust this to match the key in the secret for the Restic password
+      name: s3-backup-credentials  # Secret containing the Restic password
+      key: repoPassword
     s3:
+      endpoint: https://s3.fr-par.scw.cloud  # Scaleway S3-compatible endpoint
+      bucket: balmburren-bucket  # Replace with your actual Scaleway bucket name
       accessKeyIDSecretRef:
         name: scaleway-credentials
         key: accessKeyId
       secretAccessKeySecretRef:
         name: scaleway-credentials
         key: secretAccessKey
-      bucket: balmburren-bucket
-#      region: ch-dk-2  # Replace with your Exoscale region
-      endpoint: https://balmburren-bucket.s3.fr-par.scw.cloud
   backup:
-    schedule: "*/2 * * * *"  # Run every 2 minutes
-#    schedule: "* 1 * * *"
-    failedJobsHistoryLimit: 5  # Keep 5 failed jobs for troubleshooting.
-    successfulJobsHistoryLimit: 5  # Keep 5 successful jobs for history.
-
+    schedule: '* /3 * * *'  # Run every 3 hours
+#    schedule: '*/2 * * * *'  # Run every 2 minutes for testing purposes
+    failedJobsHistoryLimit: 5  # Keep records of the last 5 failed jobs
+    successfulJobsHistoryLimit: 14  # Keep records of the last 14 successful jobs
+  check:
+    schedule: '*/30 * * * *'  # Run a check every 5 minutes
+  prune:
+    schedule: '*/30 * * * *'  # Prune old backups every 10 minutes
+    retention:
+      keepLast: 5
+      keepDaily: 14

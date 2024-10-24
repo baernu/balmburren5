@@ -28,13 +28,6 @@ spec:
                 secretKeyRef:
                   name: mysql-env-secret
                   key: MYSQLDB_DATABASE
-#          env:
-#            - name: MYSQL_USER
-#              value: root
-#            - name: MYSQL_PASSWORD
-#              value: topsecret
-#            - name: MYSQL_HOST
-#              value: mysqldb  # Replace with your actual MySQL service name
           command:
             - sleep
             - infinity

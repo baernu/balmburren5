@@ -5,16 +5,18 @@ metadata:
   namespace: default
 spec:
   backend:
-#    repoPasswordSecretRef:
-#      name: backup-repo
-#      key: password
+    repoPasswordSecretRef:
+      name: s3-backup-credentials  # Secret containing the Restic password
+      key: repoPassword
     s3:
-      endpoint: https://balmburren-bucket.s3.fr-par.scw.cloud  # Scaleway S3-compatible endpoint
-      bucket: balmburren-bucket             # Replace with your actual Scaleway bucket name
+      endpoint: https://s3.fr-par.scw.cloud  # Scaleway S3-compatible endpoint
+      bucket: balmburren-bucket  # Replace with your actual Scaleway bucket name
       accessKeyIDSecretRef:
         name: scaleway-credentials
         key: accessKeyId
       secretAccessKeySecretRef:
         name: scaleway-credentials
         key: secretAccessKey
-  keepJobs: 5
+  failedJobsHistoryLimit: 5  # Keep records of the last 5 failed jobs
+  successfulJobsHistoryLimit: 14  # Keep records of the last 14 successful jobs
+
