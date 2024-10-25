@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: custom-restore-from-scaleway
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+        - name: restore-container
+          image: restic/restic:latest  # Use a Restic image that can connect to S3
+          command:
+            - sh
+            - -c
+            - |
+              echo "Starting data retrieval from Scaleway..."
+              restic restore latest --target /mnt/restore --password-file /etc/restic/repoPassword
+              echo "Data retrieval completed."
+          env:
+            - name: RESTIC_REPOSITORY
+              value: s3:https://s3.fr-par.scw.cloud/balmburren-bucket  # Scaleway bucket URL
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: scaleway-credentials
+                  key: accessKeyId
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: scaleway-credentials
+                  key: secretAccessKey
+          volumeMounts:
+            - name: restore-storage
+              mountPath: /mnt/restore  # Target directory for Restic to restore data
+            - name: restic-secrets
+              mountPath: /etc/restic
+              readOnly: true
+      volumes:
+        - name: restore-storage
+          persistentVolumeClaim:
+            claimName: mysql-restore-pvc
+        - name: restic-secrets
+          secret:
+            secretName: s3-backup-credentials
+      restartPolicy: OnFailure
+  backoffLimit: 4
