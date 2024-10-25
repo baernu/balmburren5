@@ -21,7 +21,7 @@ spec:
     schedule: '* /3 * * *'  # Run every 3 hours
 #    schedule: '*/2 * * * *'  # Run every 2 minutes for testing purposes
     failedJobsHistoryLimit: 5  # Keep records of the last 5 failed jobs
-    successfulJobsHistoryLimit: 14  # Keep records of the last 14 successful jobs
+    successfulJobsHistoryLimit: 5  # Keep records of the last 14 successful jobs
   check:
     schedule: '*/30 * * * *'  # Run a check every 5 minutes
   prune:

@@ -204,8 +204,8 @@ public class UserServiceImpl implements UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails currentUser = (MyUserDetails) authentication.getPrincipal();
         if(currentUser.getUsername().equals(username)) return true;
-        boolean isAdmin = isAdmin(username);
-        boolean isKathy = isKathy(username);
+        boolean isAdmin = isAdmin(currentUser.getUsername());
+        boolean isKathy = isKathy(currentUser.getUsername());
         if (isAdmin || isKathy)return true;
         return false;
     }
@@ -215,9 +215,9 @@ public class UserServiceImpl implements UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails currentUser = (MyUserDetails) authentication.getPrincipal();
         if(currentUser.getUsername().equals(username)) return true;
-        boolean isAdmin = isAdmin(username);
-        boolean isDriver = isDriver(username);
-        boolean isKathy = isKathy(username);
+        boolean isAdmin = isAdmin(currentUser.getUsername());
+        boolean isDriver = isDriver(currentUser.getUsername());
+        boolean isKathy = isKathy(currentUser.getUsername());
         if (isAdmin || isKathy || isDriver)return true;
         return false;
     }
