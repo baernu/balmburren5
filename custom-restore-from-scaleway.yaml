@@ -1,8 +1,55 @@
+#apiVersion: batch/v1
+#kind: Job
+#metadata:
+#  name: custom-restore-from-scaleway
+#  namespace: default
+#spec:
+#  template:
+#    spec:
+#      containers:
+#        - name: restore-container
+#          image: restic/restic:latest  # Use a Restic image that can connect to S3
+#          command:
+#            - sh
+#            - -c
+#            - |
+#              echo "Starting data retrieval from Scaleway..."
+#              restic restore latest --target /mnt/restore --password-file /etc/restic/repoPassword
+#              echo "Data retrieval completed."
+#          env:
+#            - name: RESTIC_REPOSITORY
+#              value: s3:https://s3.fr-par.scw.cloud/balmburren-bucket  # Scaleway bucket URL
+#            - name: AWS_ACCESS_KEY_ID
+#              valueFrom:
+#                secretKeyRef:
+#                  name: scaleway-credentials
+#                  key: accessKeyId
+#            - name: AWS_SECRET_ACCESS_KEY
+#              valueFrom:
+#                secretKeyRef:
+#                  name: scaleway-credentials
+#                  key: secretAccessKey
+#          volumeMounts:
+#            - name: restore-storage
+#              mountPath: /mnt/restore  # Target directory for Restic to restore data
+#            - name: restic-secrets
+#              mountPath: /etc/restic
+#              readOnly: true
+#      volumes:
+#        - name: restore-storage
+#          persistentVolumeClaim:
+#            claimName: mysql-restore-pvc
+#        - name: restic-secrets
+#          secret:
+#            secretName: s3-backup-credentials
+#      restartPolicy: OnFailure
+#  backoffLimit: 4
+
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: custom-restore-from-scaleway
-  namespace: default
+  namespace: balmburren
 spec:
   template:
     spec:
@@ -14,11 +61,28 @@ spec:
             - -c
             - |
               echo "Starting data retrieval from Scaleway..."
-              restic restore latest --target /mnt/restore --password-file /etc/restic/repoPassword
+              if [ -z "$SNAPSHOT_ID" ]; then
+                echo "Restoring the latest snapshot with backup.sql..."
+                restic restore latest -r "$RESTIC_REPOSITORY" --target /mnt/restore \
+                  --include /data/backup.sql
+              else
+                echo "Restoring snapshot with ID: $SNAPSHOT_ID..."
+                restic restore $SNAPSHOT_ID -r "$RESTIC_REPOSITORY" --target /mnt/restore \
+                  --include /data/backup.sql
+              fi
+              
+              echo "Files in /mnt/restore after restore:"
+              ls -l /mnt/restore
               echo "Data retrieval completed."
+
           env:
             - name: RESTIC_REPOSITORY
-              value: s3:https://s3.fr-par.scw.cloud/balmburren-bucket  # Scaleway bucket URL
+              value: s3:https://s3.fr-par.scw.cloud/balmburren-bucket  # Full Scaleway S3 bucket URL
+            - name: RESTIC_PASSWORD  # Directly pass the password via an env variable
+              valueFrom:
+                secretKeyRef:
+                  name: s3-backup-credentials
+                  key: repoPassword
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
@@ -29,6 +93,8 @@ spec:
                 secretKeyRef:
                   name: scaleway-credentials
                   key: secretAccessKey
+            - name: SNAPSHOT_ID
+              value: "a73f5ed6"  # Set this to the desired snapshot ID or leave empty to restore the latest snapshot
           volumeMounts:
             - name: restore-storage
               mountPath: /mnt/restore  # Target directory for Restic to restore data

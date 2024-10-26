@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: mysql-restore-from-pvc
-  namespace: default
+  namespace: balmburren
 spec:
   template:
     spec:
@@ -14,8 +14,16 @@ spec:
             - -c
             - |
               echo "Starting MySQL restore..."
-              mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE < /mnt/restore/backup.sql
-              echo "MySQL restore completed."
+              if [ -f /mnt/restore/data/backup.sql ]; then
+                mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE < /mnt/restore/data/backup.sql
+                echo "MySQL restore completed."
+              else
+                echo "backup.sql not found in /mnt/restore/data"
+              fi
+              
+
+#              mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE < /mnt/restore/backup.sql
+#              echo "MySQL restore completed."
           env:
             - name: MYSQL_USER
               valueFrom:

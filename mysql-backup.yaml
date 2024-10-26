@@ -2,7 +2,7 @@ apiVersion: k8up.io/v1
 kind: Backup
 metadata:
   name: mysql-backup-scaleway
-  namespace: default
+  namespace: balmburren
 spec:
   backend:
     repoPasswordSecretRef:

@@ -2,7 +2,7 @@ apiVersion: k8up.io/v1
 kind: Schedule
 metadata:
   name: mysql-schedule-scaleway
-  namespace: default
+  namespace: balmburren
 spec:
   backend:
     repoPasswordSecretRef:
@@ -18,10 +18,10 @@ spec:
         name: scaleway-credentials
         key: secretAccessKey
   backup:
-    schedule: '* /3 * * *'  # Run every 3 hours
+    schedule: '0 */3 * * *'  # Run every 3 hours
 #    schedule: '*/2 * * * *'  # Run every 2 minutes for testing purposes
-    failedJobsHistoryLimit: 5  # Keep records of the last 5 failed jobs
-    successfulJobsHistoryLimit: 5  # Keep records of the last 14 successful jobs
+    failedJobsHistoryLimit: 2 # Keep records of the last 5 failed jobs
+    successfulJobsHistoryLimit: 2  # Keep records of the last 14 successful jobs
   check:
     schedule: '*/30 * * * *'  # Run a check every 5 minutes
   prune:
@@ -29,3 +29,5 @@ spec:
     retention:
       keepLast: 5
       keepDaily: 14
+      keepMonthly: 12          # Retain one backup for each month, up to 12 months
+
