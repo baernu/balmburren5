@@ -1,3 +1,58 @@
+#apiVersion: batch/v1
+#kind: Job
+#metadata:
+#  name: mysql-restore-from-pvc
+#  namespace: balmburren
+#spec:
+#  template:
+#    spec:
+#      containers:
+#        - name: mysql-restore
+#          image: mysql:8  # Use the same version as your MySQL setup
+#          command:
+#            - sh
+#              - -c
+#              - |
+#              echo "Starting MySQL restore..."
+#              if [ -f "/mnt/restore/data/mysql-backup-pvc/backup.sql" ]; then
+#              mysql -u root -psecret  --port=3307 balmburren_db < /mnt/restore/data/mysql-backup-pvc/backup.sql
+#              else
+#              echo "backup.sql not found in /mnt/restore/data/mysql-backup-pvc"
+#              exit 1
+#              fi
+#              echo "Restore completed successfully."
+#
+#
+##              mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE < /mnt/restore/backup.sql
+##              echo "MySQL restore completed."
+#          env:
+#            - name: MYSQL_USER
+#              valueFrom:
+#                secretKeyRef:
+#                  name: mysql-env-secret
+#                  key: MYSQLDB_USER
+#            - name: MYSQL_PASSWORD
+#              valueFrom:
+#                secretKeyRef:
+#                  name: mysql-env-secret
+#                  key: MYSQLDB_ROOT_PASSWORD
+#            - name: MYSQL_HOST
+#              value: mysqldb  # Adjust to match your MySQL host service
+#            - name: MYSQL_DATABASE
+#              valueFrom:
+#                secretKeyRef:
+#                  name: mysql-env-secret
+#                  key: MYSQLDB_DATABASE
+#          volumeMounts:
+#            - name: restore-storage
+#              mountPath: /mnt/restore  # The location where the data is stored
+#      volumes:
+#        - name: restore-storage
+#          persistentVolumeClaim:
+#            claimName: mysql-restore-pvc  # Uses the same PVC as the restore pod
+#      restartPolicy: OnFailure
+#  backoffLimit: 4
+
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -8,46 +63,31 @@ spec:
     spec:
       containers:
         - name: mysql-restore
-          image: mysql:8  # Use the same version as your MySQL setup
+          image: mysql:8
           command:
             - sh
             - -c
             - |
               echo "Starting MySQL restore..."
-              if [ -f /mnt/restore/data/backup.sql ]; then
-                mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE < /mnt/restore/data/backup.sql
-                echo "MySQL restore completed."
+              if [ -f "/mnt/restore/data/mysql-backup-pvc/backup.sql" ]; then
+                mysql -h mysqldb -u root -psecret --port=3307 balmburren_db< /mnt/restore/data/mysql-backup-pvc/backup.sql
               else
-                echo "backup.sql not found in /mnt/restore/data"
+                echo "backup.sql not found in /mnt/restore/data/mysql-backup-pvc"
+                exit 1
               fi
-              
-
-#              mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE < /mnt/restore/backup.sql
-#              echo "MySQL restore completed."
+              echo "Restore completed successfully."
           env:
-            - name: MYSQL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-env-secret
-                  key: MYSQLDB_USER
-            - name: MYSQL_PASSWORD
+            - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mysql-env-secret
                   key: MYSQLDB_ROOT_PASSWORD
-            - name: MYSQL_HOST
-              value: mysqldb  # Adjust to match your MySQL host service
-            - name: MYSQL_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-env-secret
-                  key: MYSQLDB_DATABASE
           volumeMounts:
             - name: restore-storage
-              mountPath: /mnt/restore  # The location where the data is stored
+              mountPath: /mnt/restore
       volumes:
         - name: restore-storage
           persistentVolumeClaim:
-            claimName: mysql-restore-pvc  # Uses the same PVC as the restore pod
+            claimName: mysql-restore-pvc
       restartPolicy: OnFailure
   backoffLimit: 4
