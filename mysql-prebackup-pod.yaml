@@ -4,12 +4,16 @@ metadata:
   name: k8up-mysqldump
   namespace: balmburren
 spec:
-  backupCommand: sh -c 'mysqldump -u $MYSQL_USER -p$MYSQL_PASSWORD -h $MYSQL_HOST --all-databases > /data/backup.sql'
+#  backupCommand: sh -c 'mysqldump -u $MYSQL_USER -p$MYSQL_PASSWORD -h $MYSQL_HOST --all-databases > /data/backup.sql'
   pod:
     spec:
       containers:
         - name: mysqldump
           image: mysql:8  # Use the MySQL image version that matches your database version
+          command:
+            - sh
+            - -c
+            - "mysqldump -u $MYSQL_USER -p$MYSQL_PASSWORD -h $MYSQL_HOST balmburren_db > /data/backup.sql"
           env:
             - name: MYSQL_USER
               valueFrom:
@@ -28,9 +32,9 @@ spec:
                 secretKeyRef:
                   name: mysql-env-secret
                   key: MYSQLDB_DATABASE
-          command:
-            - sleep
-            - infinity
+#          command:
+#            - sleep
+#            - infinity
           volumeMounts:
             - name: backup-storage
               mountPath: /data
@@ -38,3 +42,4 @@ spec:
         - name: backup-storage
           persistentVolumeClaim:
             claimName: mysql-backup-pvc  # PVC to store the backup file
+
