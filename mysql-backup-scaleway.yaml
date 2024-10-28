@@ -18,8 +18,8 @@ spec:
         name: scaleway-credentials
         key: secretAccessKey
   backup:
-#    schedule: '0 */3 * * *'  # Run every 3 hours
-    schedule: '*/2 * * * *'  # Run every 2 minutes for testing purposes
+    schedule: '0 */3 * * *'  # Run every 3 hours
+#    schedule: '*/2 * * * *'  # Run every 2 minutes for testing purposes
     failedJobsHistoryLimit: 2 # Keep records of the last 5 failed jobs
     successfulJobsHistoryLimit: 2  # Keep records of the last 14 successful jobs
   check:
