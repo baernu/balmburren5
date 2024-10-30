@@ -47,7 +47,7 @@ spec:
                   name: scaleway-credentials
                   key: secretAccessKey
             - name: SNAPSHOT_ID
-              value: "5f995fb2"  # Set this to the desired snapshot ID or leave empty to restore the latest snapshot
+              value: "34ffa162"  # Set this to the desired snapshot ID or leave empty to restore the latest snapshot
           volumeMounts:
             - name: restore-storage
               mountPath: /mnt/restore  # Target directory for Restic to restore data

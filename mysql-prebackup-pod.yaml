@@ -4,17 +4,13 @@ metadata:
   name: k8up-mysqldump
   namespace: balmburren
 spec:
-#  backupCommand: sh -c "mysqldump -u $MYSQL_USER -p$MYSQL_PASSWORD -h $MYSQL_HOST --port=3307 balmburren_db > /data/backup.sql 2> /data/backup_error.log"
-  backupCommand: sh -c "mysqldump -u root -psecret -h mysqldb --port=3307 balmburren_db > /data/backup.sql 2> /data/backup_error.log"
+  backupCommand: sh -c "rm -rf /data/*  &&  mysqldump -u root -psecret -h mysqldb --port=3307 balmburren_db > /data/backup.sql 2> /data/backup_error.log"
   pod:
     spec:
       containers:
         - name: mysqldump
           image: mysql:8  # Use the MySQL image version that matches your database version
-#          command:
-#            - sh
-#            - -c
-#            - "mysqldump -u $MYSQL_USER -p$MYSQL_PASSWORD -h $MYSQL_HOST  --port=3307 balmburren_db > /data/backup.sql 2> /data/backup_error.log"
+
           env:
             - name: MYSQL_USER
               valueFrom:
