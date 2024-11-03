@@ -5,7 +5,7 @@ metadata:
   namespace: balmburren
 spec:
 #  schedule: "*/2 * * * *"  # Run every 30 minutes
-  schedule: "0 */3 * * *"  # Run every 3 hours
+  schedule: "0 4 * * *"  # Run daily at 4 AM
   jobTemplate:
     spec:
       template:
