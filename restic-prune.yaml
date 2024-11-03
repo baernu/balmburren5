@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: restic-prune
+  namespace: balmburren
+spec:
+#  schedule: "*/2 * * * *"  # Run every 30 minutes
+  schedule: "0 */3 * * *"  # Run every 3 hours
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: restic-prune
+              image: restic/restic
+              command:
+                - sh
+                - -c
+                - |
+                  restic -r s3:https://s3.fr-par.scw.cloud/balmburren-bucket forget \
+                    --keep-last 5 \
+                    --keep-daily 14 \
+                    --keep-monthly 12 \
+                    --prune
+              env:
+                - name: AWS_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: scaleway-credentials
+                      key: accessKeyId
+                - name: AWS_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: scaleway-credentials
+                      key: secretAccessKey
+                - name: RESTIC_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: s3-backup-credentials
+                      key: repoPassword
+          restartPolicy: OnFailure

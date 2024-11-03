@@ -14,10 +14,10 @@ spec:
             - -c
             - |
               echo "Starting MySQL restore..."
-              if [ -f "/mnt/restore/data/mysql-backup-pvc/backup.sql" ]; then
-                mysql -h mysqldb -u root -psecret --port=3307 balmburren_db< /mnt/restore/data/mysql-backup-pvc/backup.sql
+              if [ -f "/mnt/restore/data/backup.sql" ]; then
+                mysql -h mysqldb -u root -psecret --port=3307 balmburren_db< /mnt/restore/data/backup.sql
               else
-                echo "backup.sql not found in /mnt/restore/data/mysql-backup-pvc"
+                echo "backup.sql not found in /mnt/restore/data"
                 exit 1
               fi
               echo "Restore completed successfully."
