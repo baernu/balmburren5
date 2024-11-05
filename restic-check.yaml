@@ -4,7 +4,7 @@ metadata:
   name: restic-check
   namespace: balmburren
 spec:
-  schedule: "0 3 * * *"  # Run daily at 3 AM
+  schedule: "0 4 * * *"  # Run daily at 4 AM
   jobTemplate:
     spec:
       template:

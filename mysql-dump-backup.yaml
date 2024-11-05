@@ -4,7 +4,7 @@ metadata:
   name: mysql-dump-backup
   namespace: balmburren
 spec:
-  schedule: "0 */3 * * *"  # Run every 3 hours
+  schedule: "0 3 * * *"  # Run every day at 3 am
   jobTemplate:
     spec:
       template:

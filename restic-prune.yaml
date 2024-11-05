@@ -4,8 +4,8 @@ metadata:
   name: restic-prune
   namespace: balmburren
 spec:
-#  schedule: "*/2 * * * *"  # Run every 30 minutes
-  schedule: "0 4 * * *"  # Run daily at 4 AM
+  schedule: "*/2 * * * *"  # Run every 2 minutes
+#  schedule: "0 4 * * *"  # Run daily at 4 AM
   jobTemplate:
     spec:
       template:
@@ -18,8 +18,7 @@ spec:
                 - -c
                 - |
                   restic -r s3:https://s3.fr-par.scw.cloud/balmburren-bucket forget \
-                    --keep-last 5 \
-                    --keep-daily 14 \
+                    --keep-daily 1 \
                     --keep-monthly 12 \
                     --prune
               env:
