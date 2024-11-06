@@ -4,8 +4,8 @@ metadata:
   name: restic-prune
   namespace: balmburren
 spec:
-  schedule: "*/2 * * * *"  # Run every 2 minutes
-#  schedule: "0 4 * * *"  # Run daily at 4 AM
+#  schedule: "*/2 * * * *"  # Run every 2 minutes
+  schedule: "0 5 * * *"  # Run daily at 5 AM
   jobTemplate:
     spec:
       template:
