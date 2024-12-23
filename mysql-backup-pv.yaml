@@ -5,7 +5,7 @@ metadata:
   namespace: balmburren
 spec:
   capacity:
-    storage: 50Gi  # Adjust size as needed
+    storage: 200Gi  # Adjust size as needed
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain

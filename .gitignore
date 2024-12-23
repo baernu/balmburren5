@@ -37,6 +37,9 @@ src/main/resources/application.properties
 src/test/resources/application-test.properties
 file.txt
 balmburren.pdf
+scaleway_credentials.yaml
+s3-backup-credentials.yaml
+mysql-env-secret.yaml
 
 /src/main/resources/db/migration/data/V100_INSERT_UPDATE.SQL
 /src/main/resources/db/migration/data/V100.1__INSERT_UPDATE.SQL

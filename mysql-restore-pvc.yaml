@@ -8,5 +8,5 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 50Gi  # Adjust the storage size as needed
+      storage: 200Gi  # Adjust the storage size as needed
   storageClassName: manual
