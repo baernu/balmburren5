@@ -7,6 +7,7 @@ import {UserorderedKathyComponent} from "../components/user-settings/userordered
 import {UserorderKathyComponent} from "../components/user-settings/userorder-kathy/userorder-kathy.component";
 import {CardComponent} from "../components/card/card.component";
 import {CardOverviewComponent} from "../components/card-overview/card-overview.component";
+import {SearchUserComponent} from "../components/search-user/search-user.component";
 
 const routes: Routes = [
   {path: 'kathy', component: KathyComponent,
@@ -20,6 +21,8 @@ const routes: Routes = [
   {path: 'kathy_card', component: CardComponent,
     canActivate: [KathyGuard]},
   {path: 'kathy_card_overview', component: CardOverviewComponent,
+    canActivate: [KathyGuard]},
+  {path: 'kathy_search_user', component: SearchUserComponent,
     canActivate: [KathyGuard]},
 ];
 

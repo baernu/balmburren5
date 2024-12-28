@@ -30,6 +30,7 @@ import { ContactComponent } from './links/contact/contact.component';
 import { RegisterSimpleComponent } from './links/register-simple/register-simple.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

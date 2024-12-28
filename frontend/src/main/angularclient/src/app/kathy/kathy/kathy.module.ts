@@ -10,6 +10,7 @@ import {UserorderedKathyComponent} from "../components/user-settings/userordered
 import {UserorderKathyComponent} from "../components/user-settings/userorder-kathy/userorder-kathy.component";
 import {CardComponent} from "../components/card/card.component";
 import {CardOverviewComponent} from "../components/card-overview/card-overview.component";
+import {SearchUserComponent} from "../components/search-user/search-user.component";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {CardOverviewComponent} from "../components/card-overview/card-overview.c
     UserorderedKathyComponent,
     UserorderKathyComponent,
     CardComponent,
-    CardOverviewComponent
+    CardOverviewComponent,
+    SearchUserComponent
   ],
   exports: [
     HeaderComponent

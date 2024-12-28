@@ -1,0 +1,42 @@
+<app-kathy-header></app-kathy-header>
+<router-outlet></router-outlet>
+<div class="card">
+  <div class="card-body">
+    <div><h5>{{user.firstname}} {{user.lastname}}</h5></div>
+    <div><p>Um einen User zu suchen, dessen Username eingeben und Enter drücken.</p></div>
+    <table class="table table-bordered table-striped table-hover table-responsive table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Username</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><input type="text" [(ngModel)]="user.username" (change)="ngOnInit()"></td>
+      </tr>
+      </tbody>
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Username</th>
+        <th scope="col">Vorname</th>
+        <th scope="col">Nachname</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tbody>
+      <tr>
+        <td>{{ user.username }}</td>
+        <td (click)="userOrdered(user)" title="Zeigt die Lieferungen vom User an"><ins>{{user.firstname}}</ins></td>
+        <td (click)="userOrder(user)"  title="Zeigt die Bestellungen vom User an."><ins>{{user.lastname}}</ins></td>
+      </tr>
+      </tbody>
+    </table>
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    <div *ngIf="success" class="alert alert-success">
+      {{ success }}
+    </div>
+  </div>
+</div>
+
