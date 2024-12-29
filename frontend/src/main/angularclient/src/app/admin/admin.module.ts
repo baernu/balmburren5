@@ -25,6 +25,8 @@ import { InvoiceEmailPreviewComponent } from './components/invoice-admin/invoice
 import { DriverWorkComponent } from './components/driver/driver-work/driver-work.component';
 import { DriverOverviewComponent } from './components/driver/driver-overview/driver-overview.component';
 import { DriverComponent } from './components/driver/driver.component';
+import { SearchUserAdminComponent } from './components/user/search-user-admin/search-user-admin.component';
+import {KathyModule} from "../kathy/kathy/kathy.module";
 // import { BackupComponent } from './components/backup/backup.component';
 
 
@@ -53,15 +55,17 @@ import { DriverComponent } from './components/driver/driver.component';
     DriverWorkComponent,
     DriverOverviewComponent,
     DriverComponent,
+    SearchUserAdminComponent,
     // BackupComponent,
   ],
   exports: [
     HeaderComponent
   ],
-    imports: [
-        CommonModule,
-        AdminRoutingModule,
-        FormsModule,
-    ]
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    FormsModule,
+    KathyModule,
+  ]
 })
 export class AdminModule { }

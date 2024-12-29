@@ -47,7 +47,16 @@ export class UserorderKathyComponent {
   async ngOnInit(): Promise<void> {
     this.param1= this.route.snapshot.queryParamMap.get('param1');
     if (this.param1 != null) this.user = await firstValueFrom(this.userService.findUser(this.param1));
-
+    if (this.user.username != "") {
+      let bool = await firstValueFrom(this.userService.isUserKathy(this.user.username));
+      if (!bool){
+        this.error = "Keine Berechtigung für diesen User!";
+        setTimeout( () => {
+          this.error = "";
+        }, 2000);
+        return;
+      }
+    }
     let tours : TourDTO[] = [];
     this.tours = await firstValueFrom(this.tourService.getTours());
     for (const tour of this.tours) {
