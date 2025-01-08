@@ -109,7 +109,7 @@ export class UserTourComponent {
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => o1.productBindInfos.product.name.localeCompare(o2.productBindInfos.product.name));
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => o1.productBindInfos.productDetails.category.localeCompare(o2.productBindInfos.productDetails.category));
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => this.orderPositionOfOrder(o1, o2));
-      this.spinner = false;
+
     }
 
     let productBindProductInfos = await firstValueFrom(this.productService.getProductBindInfosisChecked(true));
@@ -129,7 +129,7 @@ export class UserTourComponent {
       }
     }
     await this.pushUserOrderTourAddress();
-
+    this.spinner = false;
   }
 
   orderPositionOfOrder(o1: OrderDTO, o2: OrderDTO) {
