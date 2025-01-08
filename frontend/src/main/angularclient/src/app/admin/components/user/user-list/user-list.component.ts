@@ -18,6 +18,7 @@ export class UserListComponent implements OnInit {
   error: string = "";
   success: string = "";
   counter: number = 0;
+  spinner: boolean = false;
 
   constructor(private userService: UserService,
               private router: Router) {
@@ -27,6 +28,7 @@ export class UserListComponent implements OnInit {
   }
 
   async ngOnInit(){
+    this.spinner = true;
     this.users = await firstValueFrom(this.userService.findAll());
     if(this.users) {
       this.users = this.users.sort((u1: UserDTO, u2: UserDTO) => {
@@ -55,6 +57,7 @@ export class UserListComponent implements OnInit {
         this.usersWithRole.push(userWithRole);
       }
     }
+    this.spinner = false;
   }
 
   userSettings(user: UserDTO) {

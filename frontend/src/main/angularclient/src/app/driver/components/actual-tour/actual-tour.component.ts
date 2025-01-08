@@ -38,6 +38,7 @@ export class ActualTourComponent {
   userBindAddress: UserBindDeliverAddressDTO[] = [];
   userOrderTourAddress: UserOrderTourAddressDTO[] = [];
   productBindInfoCounts: ProductBindInfoCountDTO[] = [];
+  spinner: boolean = false;
 
 
   constructor(
@@ -92,6 +93,7 @@ export class ActualTourComponent {
   }
 
   async goTo(tour: TourDTO) {
+    this.spinner = true;
     if (!this.compare(new Date(this.dates.date))) {
       this.error = "Datum liegt in der Vergangenheit: Kein Zugriff!"
       setTimeout(() => {
@@ -140,7 +142,7 @@ export class ActualTourComponent {
       }
     }
     await this.pushUserOrderTourAddress();
-
+    this.spinner = false;
   }
 
   orderPositionOfOrder(o1: OrderDTO, o2: OrderDTO) {

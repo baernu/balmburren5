@@ -11,6 +11,7 @@ import {UserorderKathyComponent} from "../components/user-settings/userorder-kat
 import {CardComponent} from "../components/card/card.component";
 import {CardOverviewComponent} from "../components/card-overview/card-overview.component";
 import {SearchUserComponent} from "../components/search-user/search-user.component";
+import {SpinnerComponent} from "../components/spinner/spinner.component";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {SearchUserComponent} from "../components/search-user/search-user.compone
     UserorderKathyComponent,
     CardComponent,
     CardOverviewComponent,
-    SearchUserComponent
+    SearchUserComponent,
+    SpinnerComponent,
   ],
   exports: [
     HeaderComponent
@@ -29,7 +31,7 @@ import {SearchUserComponent} from "../components/search-user/search-user.compone
   imports: [
     CommonModule,
     KathyRoutingModule,
-    FormsModule
+    FormsModule,
   ]
 })
 export class KathyModule { }

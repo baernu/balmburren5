@@ -21,6 +21,7 @@ export class InvoiceComponent {
   dateTo: DatesDTO = new DatesDTO();
   price: number = 0;
   categories: groupebyDTO[] = [];
+  spinner: boolean = false;
 
   constructor(
     private tourService: TourServiceService,
@@ -38,6 +39,7 @@ export class InvoiceComponent {
   }
 
   async apply() {
+    this.spinner = true;
     this.dateFrom.date = new Date(this.dateFrom.date).toISOString().split('T')[0];
     this.dateFrom = await firstValueFrom(this.tourService.createDates(this.dateFrom));
     this.dateTo.date = new Date(this.dateTo.date).toISOString().split('T')[0];
@@ -50,6 +52,7 @@ export class InvoiceComponent {
     this.orders.forEach(o => this.price += o.productBindInfos.productDetails.price * o.quantityDelivered);
 
     this.showGroup();
+    this.spinner = false;
   }
 
   showGroup() {

@@ -7,6 +7,7 @@ import {FormsModule} from "@angular/forms";
 import {ActualTourComponent} from "../components/actual-tour/actual-tour.component";
 import {DriverComponent} from "../components/driver/driver.component";
 import {AdminModule} from "../../admin/admin.module";
+import {SpinnerComponent} from "../components/spinner/spinner.component";
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import {AdminModule} from "../../admin/admin.module";
     HeaderComponent,
     ActualTourComponent,
     DriverComponent,
+    SpinnerComponent,
   ],
   exports: [
     HeaderComponent

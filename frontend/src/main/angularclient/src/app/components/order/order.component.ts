@@ -32,6 +32,7 @@ export class OrderComponent {
   success: string = "";
   error1: string = "";
   success1: string = "";
+  spinner: boolean = false;
 
   constructor(private userService: UserService,
               private router: Router,
@@ -44,6 +45,7 @@ export class OrderComponent {
   }
 
   async ngOnInit(): Promise<void> {
+    this.spinner = true;
     let user = await firstValueFrom(this.userService.currentUser());
     if(user)this.user = await firstValueFrom(this.userService.findUser(user.username));
     let tours : TourDTO[] = [];
@@ -67,6 +69,7 @@ export class OrderComponent {
         else  this.userProfileOrders1.push(await firstValueFrom(this.userService.createUserProfileOrder(userProfileOrder)));
       }
     }
+    this.spinner = false;
   }
 
   async getAllTourBindDates(tour: TourDTO) {
@@ -131,6 +134,7 @@ export class OrderComponent {
 
 
   async showList() {
+    this.spinner = true;
     let date = new Date();
     let dateNow = new DatesDTO()
     let dayPlus21 = new DatesDTO();
@@ -178,6 +182,7 @@ export class OrderComponent {
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.tour.number.localeCompare(t2.tour.number));
     this.orders.sort((t1: OrderDTO, t2: OrderDTO) => t1.date.date.localeCompare(t2.date.date));
     this.showGroup();
+    this.spinner = false;
   }
 
   async saveOrder(order:OrderDTO){

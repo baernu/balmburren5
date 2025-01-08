@@ -27,6 +27,8 @@ import { DriverOverviewComponent } from './components/driver/driver-overview/dri
 import { DriverComponent } from './components/driver/driver.component';
 import { SearchUserAdminComponent } from './components/user/search-user-admin/search-user-admin.component';
 import {KathyModule} from "../kathy/kathy/kathy.module";
+import { SpinnerComponent } from './components/spinner/spinner.component';
+
 // import { BackupComponent } from './components/backup/backup.component';
 
 
@@ -56,6 +58,7 @@ import {KathyModule} from "../kathy/kathy/kathy.module";
     DriverOverviewComponent,
     DriverComponent,
     SearchUserAdminComponent,
+    SpinnerComponent,
     // BackupComponent,
   ],
   exports: [

@@ -28,6 +28,7 @@ export class UserTourComponent {
   dates: DatesDTO = new DatesDTO();
   userBindTours: UserBindTourDTO[] = [];
   userBindTour: UserBindTourDTO = new UserBindTourDTO();
+  spinner: boolean = false;
 
 
   counter: number = 0;
@@ -90,6 +91,7 @@ export class UserTourComponent {
   async goTo(tour: TourDTO) {
     this.error = "";
     if ( tour) {
+      this.spinner = true;
       this.tour = tour;
       this.tour = await firstValueFrom(this.tourService.getTour(tour.number));
 
@@ -107,7 +109,7 @@ export class UserTourComponent {
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => o1.productBindInfos.product.name.localeCompare(o2.productBindInfos.product.name));
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => o1.productBindInfos.productDetails.category.localeCompare(o2.productBindInfos.productDetails.category));
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => this.orderPositionOfOrder(o1, o2));
-
+      this.spinner = false;
     }
 
     let productBindProductInfos = await firstValueFrom(this.productService.getProductBindInfosisChecked(true));
@@ -151,7 +153,6 @@ export class UserTourComponent {
 
 
   async updateAutomatedOrder(tour: TourDTO) {
-
     let date = new Date();
     let dateNow: DatesDTO = new DatesDTO();
     dateNow.date = new Date().toISOString().split('T')[0];

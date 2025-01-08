@@ -28,6 +28,7 @@ import { DeliveryComponent } from './links/delivery/delivery.component';
 import { ActualComponent } from './links/actual/actual.component';
 import { ContactComponent } from './links/contact/contact.component';
 import { RegisterSimpleComponent } from './links/register-simple/register-simple.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 
 
@@ -52,6 +53,7 @@ import { RegisterSimpleComponent } from './links/register-simple/register-simple
     ActualComponent,
     ContactComponent,
     RegisterSimpleComponent,
+    SpinnerComponent,
 
   ],
     imports: [
