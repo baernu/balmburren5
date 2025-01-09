@@ -79,8 +79,6 @@ const routes: Routes = [
     canActivate: [AuthGuardGuard]},
   {path: 'search_user_admin', component: SearchUserAdminComponent,
     canActivate: [AuthGuardGuard]},
-  // {path: 'backup', component: BackupComponent,
-  //   canActivate: [AuthGuardGuard]},
 
 ];
 

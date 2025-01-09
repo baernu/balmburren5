@@ -2,3 +2,7 @@ td:hover {background-color: #F5B02E;
   color:#fff}   /* Mouse over link */
 td:active {background: #6e6155;
   color: #fff;}  /* Selected link   */
+
+input[type="checkbox"].large-checkbox {
+  transform: scale(2.5); /* Scale the checkbox */
+}

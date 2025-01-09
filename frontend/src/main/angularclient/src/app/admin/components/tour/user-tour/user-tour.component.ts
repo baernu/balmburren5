@@ -14,6 +14,7 @@ import {UserProfileOrderDTO} from "../../../../components/user/service/userProfi
 import {groupebyDTO} from "../../../../components/user/service/groupbyDTO";
 import {UserOrderTourAddressDTO} from "../../../../components/user/service/userOrderTourAddressDTO";
 import {ProductBindInfoCountDTO} from "../../product/service/productBindInfoCountDTO";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-tour',
@@ -28,7 +29,6 @@ export class UserTourComponent {
   dates: DatesDTO = new DatesDTO();
   userBindTours: UserBindTourDTO[] = [];
   userBindTour: UserBindTourDTO = new UserBindTourDTO();
-  spinner: boolean = false;
 
 
   counter: number = 0;
@@ -38,12 +38,16 @@ export class UserTourComponent {
   userBindAddress: UserBindDeliverAddressDTO[] = [];
   userOrderTourAddress: UserOrderTourAddressDTO[] = [];
   productBindInfoCounts: ProductBindInfoCountDTO[] = [];
+  spinner: boolean = false;
 
 
   constructor(
-      private tourService: TourServiceService,
-      private userService: UserService,
-      private productService: ProductService) {
+    private tourService: TourServiceService,
+    private userService: UserService,
+    private productService: ProductService,
+    private router: Router) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+      return false;};
   }
 
   async ngOnInit(): Promise<void> {
@@ -67,7 +71,7 @@ export class UserTourComponent {
     for (const userOrderTourAddress of this.userOrderTourAddress) {
       let order = userOrderTourAddress.order;
       let order1: OrderDTO = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
-          order.productBindInfos.productDetails, order.date, order.tour));
+        order.productBindInfos.productDetails, order.date, order.tour));
       userOrderTourAddress.order.version = order1.version;
       try {
         await firstValueFrom(this.userService.putOrder(userOrderTourAddress.order));
@@ -77,7 +81,7 @@ export class UserTourComponent {
           this.error = "Order wurde nicht upgedated, Name: " + order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
           setTimeout(() => {
             this.error = "";
-          }, 1000);
+          }, 2000);
           return;
         }
       }
@@ -85,13 +89,12 @@ export class UserTourComponent {
     this.success = "Orders wurden gespeichert!";
     setTimeout(() => {
       this.success = "";
-      }, 1000);
+    }, 1000);
   }
 
   async goTo(tour: TourDTO) {
-    this.error = "";
-    if ( tour) {
-      this.spinner = true;
+    this.spinner = true;
+    if ( tour ) {
       this.tour = tour;
       this.tour = await firstValueFrom(this.tourService.getTour(tour.number));
 
@@ -111,6 +114,7 @@ export class UserTourComponent {
       this.orders.sort((o1: OrderDTO, o2: OrderDTO) => this.orderPositionOfOrder(o1, o2));
 
     }
+
 
     let productBindProductInfos = await firstValueFrom(this.productService.getProductBindInfosisChecked(true));
     for (const order of this.orders) {
@@ -153,6 +157,7 @@ export class UserTourComponent {
 
 
   async updateAutomatedOrder(tour: TourDTO) {
+
     let date = new Date();
     let dateNow: DatesDTO = new DatesDTO();
     dateNow.date = new Date().toISOString().split('T')[0];
@@ -164,8 +169,8 @@ export class UserTourComponent {
       for (const userBindTour of userBindTourDTOS) {
 
 
-       let productBindInfos = await firstValueFrom(this.productService.getAllProductBindInfos());
-       productBindInfos = this.checkIfProductBindInfosActive(productBindInfos);
+        let productBindInfos = await firstValueFrom(this.productService.getAllProductBindInfos());
+        productBindInfos = this.checkIfProductBindInfosActive(productBindInfos);
 
         for (const pBI of productBindInfos) {
           let userProfileOrder = new UserProfileOrderDTO();
@@ -186,14 +191,14 @@ export class UserTourComponent {
           order.productBindInfos = tDBI.productBindInfos;
           order.tour = tDBI.tour;
           if (await firstValueFrom(this.userService.existOrder(order.deliverPeople, order.productBindInfos.product,
-              order.productBindInfos.productDetails, order.date, order.tour))) {
+            order.productBindInfos.productDetails, order.date, order.tour))) {
             order = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
-                order.productBindInfos.productDetails, order.date, order.tour));
+              order.productBindInfos.productDetails, order.date, order.tour));
           } else
             order = await firstValueFrom(this.userService.createOrder(order));
           if (!order.isChecked) {
             let userProfileOrder: UserProfileOrderDTO = await firstValueFrom(this.userService.getUserProfileOrder(userBindTour.user,
-                tDBI.productBindInfos.product, tDBI.productBindInfos.productDetails, tDBI.tour));
+              tDBI.productBindInfos.product, tDBI.productBindInfos.productDetails, tDBI.tour));
             if (new Date(order.date.date).getDay() <= 3 && userProfileOrder) {
               order.quantityOrdered = userProfileOrder.firstWeekOrder;
             } else {
@@ -220,7 +225,7 @@ export class UserTourComponent {
   private async putOrder(order: OrderDTO) {
     order.isChecked = true;
     let order1: OrderDTO = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product,
-        order.productBindInfos.productDetails, order.date, order.tour));
+      order.productBindInfos.productDetails, order.date, order.tour));
     order.version = order1.version;
     await firstValueFrom(this.userService.putOrder(order));
   }
@@ -232,16 +237,18 @@ export class UserTourComponent {
       for (let userOrderTourAddress of this.userOrderTourAddress) {
         let order = userOrderTourAddress.order;
         order = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product, order.productBindInfos.productDetails,
-            order.date, order.tour));
+          order.date, order.tour));
         order.quantityDelivered = 0;
         try {
           userOrderTourAddress.order = await firstValueFrom(this.userService.putOrder(order));
         } catch (error:any) {
-          if (error.status !== 200) this.error = "Das Zurücksetzen hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
-          setTimeout(() => {
-            this.error = "";
-          }, 2000);
-          return;
+          if (error.status !== 200) {
+            this.error = "Das Zurücksetzen hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
+            setTimeout(() => {
+              this.error = "";
+            }, 1000);
+            return;
+          }
         }
         this.success = "Reset war erfolgreich!";
         setTimeout(() => {
@@ -250,8 +257,8 @@ export class UserTourComponent {
         this.apply();
       }
       this.counter = 0;
-    } else {
-      this.error = "Klicke noch " + (7 - this.counter) + " mal um zu löschen";
+    }else {
+      this.error = "Klicke noch " + (7-this.counter) + " mal um zu löschen";
       setTimeout(() => {
         this.error = "";
       }, 1000);
@@ -337,6 +344,7 @@ export class UserTourComponent {
       userOrderTourAddress.order.quantityDelivered = userOrderTourAddress.order.quantityOrdered;
       try {
         await firstValueFrom(this.userService.putOrder(userOrderTourAddress.order));
+
       } catch (error: any) {
         if (error.status !== 200) {
           this.error = "Order wurde nicht upgedated, Name: " + order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;

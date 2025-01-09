@@ -25,28 +25,34 @@
     <table class="table table-bordered table-striped table-hover table-responsive table-sm">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Pos</th>
         <th scope="col">Datum</th>
         <th scope="col">Produkt</th>
-        <th scope="col">Grösse</th>
         <th scope="col">Bestellt</th>
-        <th scope="col">Text</th>
         <th scope="col">Geliefert</th>
         <th scope="col">Adresse</th>
       </tr>
       </thead>
       <div *ngFor="let child of categories">
-        <span><input class="form-check-input" type="checkbox" name="{{child.category}}" #name="ngModel" ngModel (change)="save(child.products)" title="Alles geliefert"></span>
-        <span style="display:block; width:50px;"></span>
-        <span>{{child.category}}</span>
+        <div style="margin-left: 80px; margin-top: 100px;">
+            <span>{{child.category}}</span>
+          </div>
+          <div>
+            <input
+              class="large-checkbox"
+              type="checkbox"
+              name="{{child.category}}"
+              #name="ngModel"
+              ngModel
+              (change)="save(child.products)"
+              title="Alles geliefert"
+              style="margin-left: 200px; margin-top: 10px; margin-bottom: 50px">
+          </div>
+
         <tbody>
         <tr *ngFor="let userOrderTourAddress of child.products">
-          <td>{{ userOrderTourAddress.userbindtour.position}}</td>
           <td>{{ userOrderTourAddress.order.date.date |date}}</td>
           <td>{{ userOrderTourAddress.order.productBindInfos.product.name}}</td>
-          <td>{{ userOrderTourAddress.order.productBindInfos.productDetails.size}} {{ userOrderTourAddress.order.productBindInfos.productDetails.unit}}</td>
           <td [ngStyle]="{'color': 'brown'}"><b>{{userOrderTourAddress.order.quantityOrdered}}</b></td>
-          <td [ngStyle]="{'color': 'red'}"> {{userOrderTourAddress.order.text}}</td>
           <td><input input class="form-control input-sm" type="number"  min="0" [(ngModel)]="userOrderTourAddress.order.quantityDelivered"  (change)="save1(userOrderTourAddress)"></td>
           <td (click)="googleMaps(userOrderTourAddress)" title="Google Maps"><ins>{{userOrderTourAddress.address.street}} {{userOrderTourAddress.address.number}} {{userOrderTourAddress.address.plz}}</ins></td>
         </tr>
@@ -67,9 +73,7 @@
       <thead class="thead-dark">
       <tr>
         <th scope="col">Produkt</th>
-        <th scope="col">Kategorie</th>
-        <th scope="col">Preis</th>
-        <th scope="col">Beschreibung</th>
+        <th scope="col">Grösse</th>
         <th scope="col">Datum</th>
         <th scope="col">Anzahl</th>
       </tr>
@@ -77,9 +81,7 @@
       <tbody>
       <tr *ngFor="let productBindInfoCount of productBindInfoCounts">
         <td>{{ productBindInfoCount.productbindinfos.product.name}}</td>
-        <td>{{ productBindInfoCount.productbindinfos.productDetails.category}}</td>
-        <td>{{ productBindInfoCount.productbindinfos.productDetails.price}}</td>
-        <td>{{ productBindInfoCount.productbindinfos.productDetails.description}}</td>
+        <td>{{ productBindInfoCount.productbindinfos.productDetails.size}} {{ productBindInfoCount.productbindinfos.productDetails.unit}}</td>
         <td>{{ dates.date |date: 'fullDate'}}</td>
         <td [ngStyle]="{'color': 'brown'}"><b>{{ productBindInfoCount.counter}}</b></td>
       </tr>
@@ -87,7 +89,6 @@
     </table>
   </div>
 </div>
-
 
 
 
