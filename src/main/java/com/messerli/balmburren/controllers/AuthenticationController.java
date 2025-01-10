@@ -20,6 +20,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 
 @Slf4j
@@ -73,6 +76,14 @@ public class AuthenticationController {
         ////////////////////////////////////////////////////7
         cookie.setHttpOnly(true);
         cookie.setPath("/");
+
+        // Set explicit Expires header (for better compatibility)
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        String expires = sdf.format(new Date(System.currentTimeMillis() + (60 * 60 * 24 * 1000))); // 24 hours
+        response.addHeader("Set-Cookie", "jwt=" + tok + "; Path=/; HttpOnly; Secure; Max-Age=86400; Expires=" + expires);
+
+
         response.addCookie(cookie);
         CookieResponse cookieResponse = new CookieResponse("Cookie is set: " + "HTTP: ", 200);
 
