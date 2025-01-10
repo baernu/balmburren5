@@ -67,7 +67,7 @@ public class AuthenticationController {
         JSONObject jsonObj = new JSONObject(tok);
         tok = jsonObj.getString("token");
         Cookie cookie = new Cookie("jwt", tok);
-        cookie.setMaxAge(60 * 60);
+        cookie.setMaxAge(60 * 60 * 24);
         ///////////////////////////////////////////////////
         cookie.setSecure(true);
         ////////////////////////////////////////////////////7

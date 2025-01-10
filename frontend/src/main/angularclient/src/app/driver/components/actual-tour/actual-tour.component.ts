@@ -39,6 +39,7 @@ export class ActualTourComponent {
   userOrderTourAddress: UserOrderTourAddressDTO[] = [];
   productBindInfoCounts: ProductBindInfoCountDTO[] = [];
   spinner: boolean = false;
+  spinner2: boolean = false;
 
 
   constructor(
@@ -77,11 +78,11 @@ export class ActualTourComponent {
         await firstValueFrom(this.userService.putOrder(userOrderTourAddress.order));
 
       } catch (error: any) {
-        if (error.status !== 200) {
+        if (error.status !== 200 || 201) {
           this.error = "Order wurde nicht upgedated, Name: " + order.deliverPeople.firstname + ' ' + order.deliverPeople.lastname;
           setTimeout(() => {
             this.error = "";
-          }, 2000);
+          }, 500);
           return;
         }
       }
@@ -89,7 +90,7 @@ export class ActualTourComponent {
     this.success = "Orders wurden gespeichert!";
     setTimeout(() => {
       this.success = "";
-    }, 1000);
+    }, 500);
   }
 
   async goTo(tour: TourDTO) {
@@ -243,6 +244,7 @@ export class ActualTourComponent {
   async reset() {
     this.counter++;
     if (this.counter == 7){
+      this.spinner2 = true;
       for (let userOrderTourAddress of this.userOrderTourAddress) {
         let order = userOrderTourAddress.order;
         order = await firstValueFrom(this.userService.getOrder(order.deliverPeople, order.productBindInfos.product, order.productBindInfos.productDetails,
@@ -251,21 +253,22 @@ export class ActualTourComponent {
         try {
           userOrderTourAddress.order = await firstValueFrom(this.userService.putOrder(order));
         } catch (error:any) {
-          if (error.status !== 200) {
+          if (error.status !== 200 || 201) {
             this.error = "Das Zurücksetzen hat bei Ordered nicht geklappt, Username: " + order.deliverPeople.username;
             setTimeout(() => {
               this.error = "";
-            }, 1000);
+            }, 500);
             return;
           }
         }
         this.success = "Reset war erfolgreich!";
         setTimeout(() => {
           this.success = "";
-        }, 1000);
+        }, 500);
         this.apply();
       }
       this.counter = 0;
+      this.spinner2 = false;
     }else {
       this.error = "Klicke noch " + (7-this.counter) + " mal um zu löschen";
       setTimeout(() => {
