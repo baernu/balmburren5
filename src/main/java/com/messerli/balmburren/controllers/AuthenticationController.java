@@ -67,26 +67,84 @@ public class AuthenticationController {
     @CrossOrigin(allowCredentials = "true")
     @PostMapping("/set-cookie")
     public ResponseEntity<?> setCookie(HttpServletResponse response, @RequestBody String tok) throws UnsupportedEncodingException {
+//        JSONObject jsonObj = new JSONObject(tok);
+//        tok = jsonObj.getString("token");
+//        Cookie cookie = new Cookie("jwt", tok);
+//        cookie.setMaxAge(60 * 60 * 24);
+//        ///////////////////////////////////////////////////
+//        cookie.setSecure(true);
+//        ////////////////////////////////////////////////////7
+//        cookie.setHttpOnly(true);
+//        cookie.setPath("/");
+//
+//        // Set explicit Expires header (for better compatibility)
+//        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+//        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+//        String expires = sdf.format(new Date(System.currentTimeMillis() + (60 * 60 * 24 * 1000))); // 24 hours
+//        response.addHeader("Set-Cookie", "jwt=" + tok + "; Path=/; HttpOnly; Secure; Max-Age=86400; Expires=" + expires);
+//
+//
+//        response.addCookie(cookie);
+//        CookieResponse cookieResponse = new CookieResponse("Cookie is set: " + "HTTP: ", 200);
+//
+//        return ResponseEntity.ok(cookieResponse);
+
+//        JSONObject jsonObj = new JSONObject(tok);
+//        tok = jsonObj.getString("token");
+//
+//        // Create a cookie and set Max-Age
+//        Cookie cookie = new Cookie("jwt", tok);
+//        cookie.setMaxAge(60 * 60 * 24); // 24 hours in seconds
+//        cookie.setSecure(true); // Ensure the cookie is sent over HTTPS
+//        cookie.setHttpOnly(true); // Prevent client-side access
+//        cookie.setPath("/"); // Make it available across the entire domain
+//
+//        // Add cookie to response
+//        response.addCookie(cookie);
+//
+//        // Add explicit Expires header for better browser compatibility
+//        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+//        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+//        String expires = sdf.format(new Date(System.currentTimeMillis() + (60 * 60 * 24 * 1000))); // 24 hours
+//
+//        response.addHeader("Set-Cookie", String.format(
+//                "jwt=%s; Path=/; HttpOnly; Secure; Max-Age=86400; Expires=%s",
+//                tok, expires
+//        ));
+//
+//        // Create response object
+//        CookieResponse cookieResponse = new CookieResponse("Cookie is set: " + "HTTP: ", 200);
+//
+//        return ResponseEntity.ok(cookieResponse);
+
+        // Parse the token from the request body
         JSONObject jsonObj = new JSONObject(tok);
         tok = jsonObj.getString("token");
-        Cookie cookie = new Cookie("jwt", tok);
-        cookie.setMaxAge(60 * 60 * 24);
-        ///////////////////////////////////////////////////
-        cookie.setSecure(true);
-        ////////////////////////////////////////////////////7
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
 
-        // Set explicit Expires header (for better compatibility)
+        // Create a cookie with the appropriate attributes
+        Cookie cookie = new Cookie("jwt", tok);
+        cookie.setMaxAge(60 * 60 * 24); // 24 hours in seconds
+        cookie.setSecure(true); // Cookie sent only over HTTPS
+        cookie.setHttpOnly(true); // Prevent client-side scripts from accessing the cookie
+        cookie.setPath("/"); // Make the cookie available across the entire domain
+
+        // Add the cookie to the response
+        response.addCookie(cookie);
+
+        // OPTIONAL: Add explicit "Set-Cookie" header for compatibility with older browsers
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String expires = sdf.format(new Date(System.currentTimeMillis() + (60 * 60 * 24 * 1000))); // 24 hours
-        response.addHeader("Set-Cookie", "jwt=" + tok + "; Path=/; HttpOnly; Secure; Max-Age=86400; Expires=" + expires);
+        String expires = sdf.format(new Date(System.currentTimeMillis() + (60 * 60 * 24 * 1000))); // 24 hours in milliseconds
 
+        response.addHeader("Set-Cookie", String.format(
+                "jwt=%s; Path=/; HttpOnly; Secure; Max-Age=86400; Expires=%s",
+                tok, expires
+        ));
 
-        response.addCookie(cookie);
+        // Create response object
         CookieResponse cookieResponse = new CookieResponse("Cookie is set: " + "HTTP: ", 200);
 
+        // Return response
         return ResponseEntity.ok(cookieResponse);
     }
 
