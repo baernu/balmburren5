@@ -9,7 +9,7 @@ import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { RegisterComponent } from './components/register/register.component';
-import { CookieService } from 'ngx-cookie-service';
+// import { CookieService } from 'ngx-cookie-service';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { AdminDashboardComponent} from "./admin/components/admin-dashboard/admin-dashboard.component";
@@ -65,7 +65,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
         DriverModule,
         KathyModule,
     ],
-  providers: [UserService, CookieService,DatePipe, {provide: LocationStrategy, useClass: PathLocationStrategy} ],
+  providers: [UserService,DatePipe, {provide: LocationStrategy, useClass: PathLocationStrategy} ],
+  // providers: [UserService, CookieService,DatePipe, {provide: LocationStrategy, useClass: PathLocationStrategy} ],
   bootstrap: [AppComponent]
 })
 

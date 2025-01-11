@@ -76,12 +76,13 @@ public class AuthenticationController {
 //        ////////////////////////////////////////////////////7
 //        cookie.setHttpOnly(true);
 //        cookie.setPath("/");
+//        cookie.setDomain("balmburren.net");
 //
 //        // Set explicit Expires header (for better compatibility)
 //        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
 //        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 //        String expires = sdf.format(new Date(System.currentTimeMillis() + (60 * 60 * 24 * 1000))); // 24 hours
-//        response.addHeader("Set-Cookie", "jwt=" + tok + "; Path=/; HttpOnly; Secure; Max-Age=86400; Expires=" + expires);
+//        response.addHeader("Set-Cookie", "jwt=" + tok + "; Path=/; HttpOnly; Secure; Max-Age=86400;SameSite=Strict; Expires=" + expires);
 //
 //
 //        response.addCookie(cookie);
@@ -117,34 +118,43 @@ public class AuthenticationController {
 //
 //        return ResponseEntity.ok(cookieResponse);
 
-        // Parse the token from the request body
+//        JSONObject jsonObj = new JSONObject(tok);
+//        tok = jsonObj.getString("token");
+//
+//// Create a formatted Set-Cookie header manually
+//        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+//        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+//        String expires = sdf.format(new Date(System.currentTimeMillis() + (60 * 60 * 24 * 1000))); // 24 hours
+//
+//// Manually add the Set-Cookie header with SameSite=Strict
+//        response.addHeader("Set-Cookie", String.format(
+//                "jwt=%s; Path=/; HttpOnly; Secure; Max-Age=86400; Domain=balmburren.net; SameSite=Strict",
+//                tok
+//        ));
+//
+//// Create response object
+//        CookieResponse cookieResponse = new CookieResponse("Cookie is set: " + "HTTP: ", 200);
+//
+//// Return response
+//        return ResponseEntity.ok(cookieResponse);
+
         JSONObject jsonObj = new JSONObject(tok);
         tok = jsonObj.getString("token");
 
-        // Create a cookie with the appropriate attributes
-        Cookie cookie = new Cookie("jwt", tok);
-        cookie.setMaxAge(60 * 60 * 24); // 24 hours in seconds
-        cookie.setSecure(true); // Cookie sent only over HTTPS
-        cookie.setHttpOnly(true); // Prevent client-side scripts from accessing the cookie
-        cookie.setPath("/"); // Make the cookie available across the entire domain
-
-        // Add the cookie to the response
-        response.addCookie(cookie);
-
-        // OPTIONAL: Add explicit "Set-Cookie" header for compatibility with older browsers
+// Manually construct the Set-Cookie header with all required attributes
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String expires = sdf.format(new Date(System.currentTimeMillis() + (60 * 60 * 24 * 1000))); // 24 hours in milliseconds
+        String expires = sdf.format(new Date(System.currentTimeMillis() + (60 * 60 * 24 * 1000))); // 24 hours
 
         response.addHeader("Set-Cookie", String.format(
-                "jwt=%s; Path=/; HttpOnly; Secure; Max-Age=86400; Expires=%s",
+                "jwt=%s; Path=/; HttpOnly; Secure; Max-Age=86400; SameSite=Strict; Expires=%s; Domain=balmburren.net",
                 tok, expires
         ));
 
-        // Create response object
+// Create response object
         CookieResponse cookieResponse = new CookieResponse("Cookie is set: " + "HTTP: ", 200);
 
-        // Return response
+// Return response
         return ResponseEntity.ok(cookieResponse);
     }
 
