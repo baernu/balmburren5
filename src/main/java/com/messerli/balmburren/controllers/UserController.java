@@ -44,7 +44,7 @@ public class UserController {
 
     @CrossOrigin( allowCredentials = "true")
     @GetMapping("{username}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'USER','KATHY')")
     public ResponseEntity<Optional<User>> findUser(@PathVariable("username") String username) {
         if(!userService.hasUserPermission(username)) throw new AccessDeniedException("Not authorized!");
         Optional<User> optionalUser = userService.findUser(username);
@@ -63,9 +63,18 @@ public class UserController {
         return ResponseEntity.ok().body(user);}
     @CrossOrigin( allowCredentials = "true")
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','KATHY')")
     public ResponseEntity<List<User>> allUsers() {
         List <User> users = userService.allUsers();
+
+        return ResponseEntity.ok(users);
+    }
+
+    @CrossOrigin( allowCredentials = "true")
+    @GetMapping("kathy_users")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPER_ADMIN','KATHY')")
+    public ResponseEntity<List<User>> allKathyUsers() {
+        List <User> users = userService.allKathyUsers();
 
         return ResponseEntity.ok(users);
     }

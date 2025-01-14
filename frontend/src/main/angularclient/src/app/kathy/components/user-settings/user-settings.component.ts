@@ -26,7 +26,7 @@ export class UserSettingsComponent implements OnInit {
 
   async ngOnInit() {
     this.spinner = true;
-    this.users = await firstValueFrom(this.userService.findAll());
+    this.users = await firstValueFrom(this.userService.findAllKathyUsers());
     if (this.users) {
       this.users = this.users.sort((u1: UserDTO, u2: UserDTO) => {
         if (u1.lastname && u2.lastname) return u1.lastname.localeCompare(u2.lastname)

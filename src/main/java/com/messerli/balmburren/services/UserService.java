@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface UserService {
 
     List<User> allUsers();
+    List<User> allKathyUsers();
     boolean createAdministrator(String username);
 
     boolean existUser(String username);

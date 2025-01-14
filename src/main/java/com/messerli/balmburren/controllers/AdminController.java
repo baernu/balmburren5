@@ -86,7 +86,7 @@ public class AdminController {
     }
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('USER_KATHY','ADMIN','SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('KATHY','ADMIN','SUPER_ADMIN')")
     @GetMapping("/is_user_kathy/{username}")
     public ResponseEntity<Boolean> isUserKathy(@PathVariable("username") String username) {
         return ResponseEntity.ok().body(userService.isUserKathy(username));

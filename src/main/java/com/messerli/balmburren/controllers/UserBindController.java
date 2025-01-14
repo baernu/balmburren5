@@ -377,7 +377,7 @@ public class UserBindController {
         return ResponseEntity.ok().body(list);}
 
     @CrossOrigin( allowCredentials = "true")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPER_ADMIN', 'KATHY')")
     @GetMapping ("person/bind/role/{username}")
     ResponseEntity<List<UsersRole>>getAllPersonBindRoles(@PathVariable("username") String username) {
         List<UsersRole> list = userBindService.getAllUserBindRoles(getPeople(username).get());

@@ -42,6 +42,16 @@ public class UserServiceImpl implements UserService {
 
         return users;
     }
+
+    @Override
+    public List<User> allKathyUsers() {
+        List<User> users_kathy = allUsers();
+        return users_kathy.stream()
+                .filter(user -> isUserKathy(user.getUsername()))
+                .collect(Collectors.toList());
+
+    }
+
     @Transactional
     public boolean createAdministrator(String username) {
         Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);

@@ -107,6 +107,9 @@ export class UserService {
   public findAll(): Observable<UserDTO[]> {
     return this.http.get<UserDTO[]>(this.usersUrl,{withCredentials : true});}
 
+  public findAllKathyUsers(): Observable<UserDTO[]> {
+    return this.http.get<UserDTO[]>(this.usersUrl + 'kathy_users',{withCredentials : true});}
+
   public register(user: UserDTO): Observable<UserDTO>{
     return this.http.post<UserDTO>(this.authUrl + 'register', user, {withCredentials : true});}
 
